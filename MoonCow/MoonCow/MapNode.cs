@@ -8,5 +8,10 @@ namespace MoonCow
     class MapNode
     {
         // do a shit ton of stuff in here
+        
+        void MapNode()
+        {
+            // Set up node data
+        }
     }
 }
