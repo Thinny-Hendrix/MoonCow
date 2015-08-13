@@ -7,11 +7,14 @@ namespace MoonCow
 {
     class MapNode
     {
-        // do a shit ton of stuff in here
+        //See searchnode in tutorial
+        bool traversable;
         
-        void MapNode()
+        public MapNode()
         {
-            // Set up node data
+            // Gunna be some crazy shit up in here
         }
+
     }
 }
+  
