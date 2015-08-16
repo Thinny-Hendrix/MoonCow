@@ -30,9 +30,16 @@ namespace MoonCow
         /// <summary>
         /// Constructor for MapNode. Sets a lot of data based on the type of node it is.
         /// </summary>
-        public MapNode()
+        public MapNode(int type)
         {
-            // set data, do lots of other shit too
+            if(type == 0)
+            {
+                traversable = true;
+            }
+            else
+            {
+                traversable = false;
+            }
         }
     }
 }

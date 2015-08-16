@@ -1,11 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace MoonCow
 {
     /// <summary>
-    /// This is the main type for your game.
+    /// Holy shit this is gunna be hard.
     /// </summary>
     /// 
 
@@ -13,6 +16,9 @@ namespace MoonCow
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        int[,] layout;
+        Map map;
 
         public Game1()
         {
@@ -41,6 +47,31 @@ namespace MoonCow
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            layout = new int[,]
+            {
+                { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, }, 
+                { 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, },
+                { 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, }, 
+                { 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, }, 
+                { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, },
+                { 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, }, 
+                { 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, }, 
+                { 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, }, 
+                { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, }, 
+                { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, }, 
+            };
+
+            map = new Map(layout);
+
+            Pathfinder pathfinder = new Pathfinder(map);
+            
+            List<Vector2> path = pathfinder.findPath(new Point(0, 0), new Point(9, 9));
+
+            foreach (Vector2 point in path)
+            {
+                System.Diagnostics.Debug.WriteLine(point);
+            }
 
             // TODO: use this.Content to load your game content here
         }
