@@ -6,17 +6,16 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class Camera : Microsoft.Xna.Framework.GameComponent
+    public class Camera : Microsoft.Xna.Framework.GameComponent
     {
-        public Matrix viewMatrix { get; protected set; }
-        public Matrix projectionMatrix { get; protected set; }
+        public Matrix view { get; protected set; }
+        public Matrix projection { get; protected set; }
 
         public Camera(Game game, Vector3 pos, Vector3 target, Vector3 up) : base(game)
         {
-            viewMatrix = Matrix.CreateLookAt(pos, target, up);
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
-                (float)game.Window.ClientBounds.Width / (float)game.Window.ClientBounds.Height,
-                1, 100);
+            view = Matrix.CreateLookAt(pos, target, up);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
+                (float)game.Window.ClientBounds.Width / (float)game.Window.ClientBounds.Height, 1, 1000);
 
         }
 

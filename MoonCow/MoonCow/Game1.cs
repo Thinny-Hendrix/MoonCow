@@ -9,6 +9,7 @@ namespace MoonCow
 {
     /// <summary>
     /// Holy shit this is gunna be hard.
+    /// It'll be an adventure! A space adventure!
     /// </summary>
     /// 
 
@@ -19,6 +20,9 @@ namespace MoonCow
 
         int[,] layout;
         Map map;
+
+        public Camera camera;
+        ModelManager modelManager;
 
         public Game1()
         {
@@ -35,6 +39,14 @@ namespace MoonCow
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
+            modelManager = new ModelManager(this);
+
+
+            Components.Add(camera);
+            Components.Add(modelManager);
+
 
             base.Initialize();
         }
