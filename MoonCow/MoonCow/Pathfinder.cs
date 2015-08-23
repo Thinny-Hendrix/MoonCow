@@ -35,9 +35,9 @@ namespace MoonCow
             levelWidth = map.getWidth();
             levelHeight = map.getHeight();
             searchNodes = new MapNode[levelWidth, levelHeight];
-            for (int y = 0; y < levelWidth; y++)
+            for (int y = 0; y < levelHeight; y++)
             {
-                for (int x = 0; x < levelHeight; x++)
+                for (int x = 0; x < levelWidth; x++)
                 {
                     if (map.map[x,y].traversable == true)
                     {
@@ -48,9 +48,9 @@ namespace MoonCow
             }
 
             // Connect each mapNode in searchNode array to it's neightbors
-            for (int y = 0; y < levelWidth; y++)
+            for (int y = 0; y < levelHeight; y++)
             {
-                for (int x = 0; x < levelHeight; x++)
+                for (int x = 0; x < levelWidth; x++)
                 {
                     MapNode node = searchNodes[x, y];
                     if (node == null || node.traversable == false)  //Only do stuff to nodes that exist
@@ -106,9 +106,9 @@ namespace MoonCow
             openList.Clear();
             closedList.Clear();
 
-            for (int y = 0; y < levelWidth; y++)
+            for (int y = 0; y < levelHeight; y++)
             {
-                for (int x = 0; x < levelHeight; x++)
+                for (int x = 0; x < levelWidth; x++)
                 { 
                     if (searchNodes[x, y] == null)
                     {

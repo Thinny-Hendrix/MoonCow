@@ -50,7 +50,7 @@ namespace MoonCow
          * */
         
 
-        public TileModel(Model model, Vector3 pos, Vector3 rotation, Vector3 scale) : base(model, pos, rotation, scale)
+        public TileModel(Model model, Vector3 pos, float rotation, float scale) : base(model, pos, rotation, scale)
         {
             this.model = model;
             this.pos = pos;
@@ -73,7 +73,7 @@ namespace MoonCow
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.World = mesh.ParentBone.Transform * getWorld() * Matrix.CreateTranslation(pos);
+                    effect.World = mesh.ParentBone.Transform * Matrix.CreateScale(scale) * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(pos);
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
@@ -89,13 +89,8 @@ namespace MoonCow
                 }
                 mesh.Draw();
             }
+            //System.Diagnostics.Debug.WriteLine("Model Draw Called");
         }
-
-        protected override Matrix getWorld()
-        {
-            return Matrix.CreateScale(2000);
-        }
-
 
     }
 }

@@ -11,7 +11,7 @@ namespace MoonCow
         public MapNode[,] map;
         private Vector2 mapSize;
 
-        public Map(int[,] newMap)
+        public Map(Game1 game, int[,] newMap)
         {
             mapSize = new Vector2(newMap.GetLength(0), newMap.GetLength(1));
             map = new MapNode[(int)mapSize.X, (int)mapSize.Y];
@@ -24,8 +24,7 @@ namespace MoonCow
             {
                 for (int x = 0; x < mapSize.X; x++)
                 {
-                    map[x, y] = new MapNode(newMap[x, y]);
-                    map[x, y].position = new Vector2(x, y);
+                    map[x, y] = new MapNode(game, newMap[x, y], new Vector2(x,y));
                 }
             }
 

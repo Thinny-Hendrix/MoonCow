@@ -7,16 +7,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class BasicModel
+    public class BasicModel
     {
         public Vector3 pos;
-        public Vector3 rotation;
-        public Vector3 scale;
+        public float rotation;
+        public float scale;
         public Vector3 skew; //might not need this
 
         public Model model { get; protected set; }
 
-        public BasicModel(Model model, Vector3 pos, Vector3 rotation, Vector3 scale)
+        public BasicModel(Model model, Vector3 pos, float rotation, float scale)
         {
             this.model = model;
             this.pos = pos;
@@ -39,7 +39,7 @@ namespace MoonCow
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.World = mesh.ParentBone.Transform * getWorld()*Matrix.CreateTranslation(this.pos);
+                    effect.World = mesh.ParentBone.Transform * Matrix.CreateScale(scale) * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(pos);
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
@@ -48,12 +48,5 @@ namespace MoonCow
                 mesh.Draw();
             }
         }
-
-        protected virtual Matrix getWorld()
-        {
-            return Matrix.Identity;
-        }
-
-
     }
 }

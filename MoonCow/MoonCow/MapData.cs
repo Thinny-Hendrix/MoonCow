@@ -114,14 +114,14 @@ namespace MoonCow
 
         private int[,] convertTo2D(int width, int length, List<int> nodes)
         {
-            int[,] map = new int[length, width];
+            int[,] map = new int[width, length];
             int count = 0;
 
             for (int i = 0; i < length; i++)
             {
                 for (int q = 0; q < width; q++)
                 {
-                    map[i, q] = nodes[count];
+                    map[q, i] = nodes[count];
                     count++;
                 }
             }

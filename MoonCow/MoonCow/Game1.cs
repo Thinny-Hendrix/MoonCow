@@ -17,12 +17,11 @@ namespace MoonCow
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        int[,] layout;
         Map map;
 
         public Camera camera;
-        ModelManager modelManager;
+        public ModelManager modelManager;
+        private MapData layout;
 
         public Game1()
         {
@@ -43,10 +42,8 @@ namespace MoonCow
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
 
-
             Components.Add(camera);
             Components.Add(modelManager);
-
 
             base.Initialize();
         }
@@ -60,32 +57,23 @@ namespace MoonCow
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            layout = new int[,]
-            {
-                { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, }, 
-                { 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, },
-                { 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, }, 
-                { 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, }, 
-                { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, },
-                { 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, }, 
-                { 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, }, 
-                { 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, }, 
-                { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, }, 
-                { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, }, 
-            };
+            layout = new MapData(@"Content/MapXml/map1.xml");
 
-            map = new Map(layout);
+            map = new Map(this, layout.getNodes());
 
             Pathfinder pathfinder = new Pathfinder(map);
-            
-            List<Vector2> path = pathfinder.findPath(new Point(0, 0), new Point(9, 9));
+            List<Vector2> path = pathfinder.findPath(new Point(2, 0), new Point(5, 9));
 
             foreach (Vector2 point in path)
             {
                 System.Diagnostics.Debug.WriteLine(point);
             }
 
-            // TODO: use this.Content to load your game content here
+            /*
+            Pathfinder path = new Pathfinder(map);
+            System.Diagnostics.Debug.WriteLine(path.findPath(new Point(2,0), new Point(5, 9)));
+            */
+
         }
 
         /// <summary>
