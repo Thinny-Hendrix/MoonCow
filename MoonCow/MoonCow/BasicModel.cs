@@ -43,6 +43,7 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
+                    effect.Alpha = 1;
                     effect.EnableDefaultLighting();
                 }
                 mesh.Draw();

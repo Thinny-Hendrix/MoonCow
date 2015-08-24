@@ -39,11 +39,11 @@ namespace MoonCow
             {
                 case 1:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/straightProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/raildaetest"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     break;
                 case 2:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/straightProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/raildaetest"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     break;
                 case 3:
                     traversable = true;
@@ -271,20 +271,23 @@ namespace MoonCow
                     break;
                 case 59:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    //model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     break;
                 case 60:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    //model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     break;
                 default:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    //model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     break;
             }
 
             position = pos;
-            game.modelManager.add(model);
+            if (model != null)
+            {
+                game.modelManager.add(model);
+            }
         }
     }
 }

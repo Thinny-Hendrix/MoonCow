@@ -77,15 +77,18 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
+                    effect.Alpha = 1;
 
                     //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
                     //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(1, 1, 1); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
-                    effect.DirectionalLight0.Direction = Vector3.Left;
+                    
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.5f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                    effect.DirectionalLight0.Direction = new Vector3(0,-1,1);
                     effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = Vector3.One;
+                    effect.AmbientLightColor = new Vector3(0.3f,0.3f,0.3f);
                     effect.EmissiveColor = Vector3.One;
+                    
                 }
                 mesh.Draw();
             }
