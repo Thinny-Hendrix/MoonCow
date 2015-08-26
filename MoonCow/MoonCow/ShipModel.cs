@@ -50,6 +50,8 @@ namespace MoonCow
                     //effect.DirectionalLight0.SpecularColor = Vector3.One;
                     effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
                     effect.EmissiveColor = Vector3.One;
+                    effect.PreferPerPixelLighting = true;
+
                 }
                 mesh.Draw();
             }

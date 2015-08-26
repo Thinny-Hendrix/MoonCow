@@ -12,11 +12,11 @@ namespace MoonCow
         Ship ship;
         float range = 40;
 
-        public SpaceDust(Model model, Ship ship):base(model)
+        public SpaceDust(Model model, Ship ship, int yRange):base(model)
         {
             this.model = model;
             this.ship = ship;
-            scale = new Vector3(3,3,3);
+            scale = new Vector3(1,1,1);
             rot.X = (float)Utilities.random.NextDouble();
             rot.Y = (float)Utilities.random.NextDouble();
             rot.Z = (float)Utilities.random.NextDouble();
@@ -25,8 +25,14 @@ namespace MoonCow
             //pos.X = ship.pos.X + Utilities.random.NextDouble((float)0, range * 2) - range;
 
             pos.X = (ship.pos.X - range + ((float)Utilities.random.NextDouble() * range*2));
-            pos.Y = (ship.pos.Y - 10 + ((float)Utilities.random.NextDouble() * 20));
             pos.Z = (ship.pos.Z  - range + ((float)Utilities.random.NextDouble() * range*2));
+
+            if (yRange == 0)
+                pos.Y = (ship.pos.Y - 10 + ((float)Utilities.random.NextDouble() * 9.5f));
+            else
+                pos.Y = (ship.pos.Y + 10 - ((float)Utilities.random.NextDouble() * 7.5f));
+
+
 
             System.Diagnostics.Debug.WriteLine(pos);
 
@@ -78,11 +84,12 @@ namespace MoonCow
                     //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
 
+                    effect.DirectionalLight0.Direction = new Vector3(1, -1, 1);
                     effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.5f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
-                    effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
-                    //effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
-                    effect.EmissiveColor = Vector3.One;
+                    effect.DirectionalLight0.SpecularColor = Vector3.One;
+                    effect.AmbientLightColor = Vector3.One;
+                    effect.PreferPerPixelLighting = true;
+                    //effect.EmissiveColor = Vector3.One;
                 }
                 mesh.Draw();
             }
