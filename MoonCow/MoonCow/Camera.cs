@@ -14,32 +14,35 @@ namespace MoonCow
 
         // Camera vectors
         public Vector3 cameraPosition;
-        Vector3 cameraDirection;
+        Vector3 lookAt;
         Vector3 cameraUp;
 
-        float speed;
+        int xTurnValue;
+        int yTurnValue;
 
-        MouseState prevMouseState;
+        float height = 5;       //values can be changed to suit player proportions relative to environment
+        double gravity = 0.1;
+        double jumpSpeed = 2;
+        double verticalSpeed = 0;
+        double runSpeed = 0.4;
+        int turnRadius = 10; //this is the distance from the camera to the player (lookAt)
 
         public Camera(Game game, Vector3 pos, Vector3 target, Vector3 up)
             : base(game)
         {
             // Build camera view matrix
             cameraPosition = pos;
-            cameraDirection = target - pos;
-            cameraDirection.Normalize();
             cameraUp = up;
+            lookAt = target;
             CreateLookAt();
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, (float)Game.Window.ClientBounds.Width /
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.Pi/3, (float)Game.Window.ClientBounds.Width /
                 (float)Game.Window.ClientBounds.Height, 1, 3000);
-            speed = 3.0f;
         }
 
         public override void Initialize()
         {
-            // Set mouse position and do initial get state
+            // Set mouse position
             Mouse.SetPosition(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
-            prevMouseState = Mouse.GetState();
             base.Initialize();
         }
 
@@ -47,30 +50,64 @@ namespace MoonCow
         {
             // here for moving camera
             // Move forward/backward
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
             {
-                cameraPosition += cameraDirection * speed; // for flying cam
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                cameraPosition -= cameraDirection * speed; // for flying cam
-            }
-            // Move side to side
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                cameraPosition += Vector3.Cross(cameraUp, cameraDirection) * speed;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                cameraPosition -= Vector3.Cross(cameraUp, cameraDirection) * speed;
+                lookAt.X += (float)(System.Math.Sin(xTurnValue * MathHelper.Pi / 180)) * (float)-runSpeed;
+                lookAt.Z += (float)(System.Math.Cos(xTurnValue * MathHelper.Pi / 180)) * (float)-runSpeed;
             }
 
-            // Recreate the camera view matrix
+            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+            {
+                lookAt.X += (float)(System.Math.Sin((xTurnValue + 90) * MathHelper.Pi / 180)) * (float)-runSpeed;
+                lookAt.Z += (float)(System.Math.Cos((xTurnValue + 90) * MathHelper.Pi / 180)) * (float)-runSpeed;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
+            {
+                lookAt.X += (float)(System.Math.Sin((xTurnValue + 180) * MathHelper.Pi / 180)) * (float)-runSpeed;
+                lookAt.Z += (float)(System.Math.Cos((xTurnValue + 180) * MathHelper.Pi / 180)) * (float)-runSpeed;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
+            {
+                lookAt.X += (float)(System.Math.Sin((xTurnValue + 270) * MathHelper.Pi / 180)) * (float)-runSpeed;
+                lookAt.Z += (float)(System.Math.Cos((xTurnValue + 270) * MathHelper.Pi / 180)) * (float)-runSpeed;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space) && lookAt.Y == height)
+            {
+                verticalSpeed = jumpSpeed;
+            }
+
+            lookAt.Y += (float)verticalSpeed;
+            verticalSpeed -= gravity;
+            if (lookAt.Y <= height)
+            {
+                verticalSpeed = 0;
+                lookAt.Y = height;
+            }
+            try
+            {
+                xTurnValue += Game.Window.ClientBounds.Width / 2 - Mouse.GetState().X;
+                yTurnValue += Game.Window.ClientBounds.Height / 2 - Mouse.GetState().Y;
+                Mouse.SetPosition(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
+            }
+            catch (NullReferenceException) { }
+
+            if (yTurnValue > 90)
+                yTurnValue = 90;
+            if (yTurnValue < -90)
+                yTurnValue = -90;
+
+            ///######Cheap hack to make lookat the ship pos, overrides the rest of this function
+            lookAt = ((Game1)Game).ship.pos;
+
+
+            cameraPosition.X = lookAt.X + (float)(System.Math.Sin(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
+            cameraPosition.Y = lookAt.Y + (float)-(System.Math.Sin(yTurnValue * MathHelper.Pi / 180)) * turnRadius;
+            cameraPosition.Z = lookAt.Z + (float)(System.Math.Cos(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
+
             CreateLookAt();
-
-            // Yaw rotation
-            float yawAngle = (-MathHelper.PiOver4 / 150) * (Mouse.GetState().X - prevMouseState.X);
-            cameraDirection = Vector3.Transform(cameraDirection, Matrix.CreateFromAxisAngle(cameraUp, yawAngle));
 
 
             /*
@@ -89,20 +126,12 @@ namespace MoonCow
             }
             */
 
-            // Pitch rotation
-            float pitchAngle = (MathHelper.PiOver4 / 150) * (Mouse.GetState().Y - prevMouseState.Y);
-
-            cameraDirection = Vector3.Transform(cameraDirection, Matrix.CreateFromAxisAngle(Vector3.Cross(cameraUp, cameraDirection), pitchAngle));
-
-            // Reset prevMouseState
-            prevMouseState = Mouse.GetState();
-
             base.Update(gameTime);
         }
 
         private void CreateLookAt()
         {
-            view = Matrix.CreateLookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
+            view = Matrix.CreateLookAt(cameraPosition, lookAt, cameraUp);
         }
 
     }

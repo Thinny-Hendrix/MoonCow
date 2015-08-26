@@ -24,6 +24,8 @@ namespace MoonCow
 
         protected override void LoadContent()
         {
+            //models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/Ship/shipPewProto"), new Vector3(30, 0, 30), 0.0f, 1.0f));
+
             /*
             models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner1bigProto"), new Vector3(30, 0, 30), 0.0f, 1.0f));
             models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner1smallProto"), new Vector3(0, 0, 30), 0.0f, 1.0f));
@@ -46,6 +48,11 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
+            foreach (BasicModel model in models)
+            {
+                model.Update(gameTime);
+            } 
+            
             base.Update(gameTime);
             //System.Diagnostics.Debug.WriteLine(models.Count);
         }
@@ -64,6 +71,7 @@ namespace MoonCow
         {
             models.Add(model);
         }
+
 
     }
 }

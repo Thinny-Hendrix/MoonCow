@@ -10,21 +10,39 @@ namespace MoonCow
     public class BasicModel
     {
         public Vector3 pos;
-        public float rotation;
-        public float scale;
+        public Vector3 rot;
+        public Vector3 scale;
+        //public float rotation;
+        //public float scale;
         public Vector3 skew; //might not need this
 
         public Model model { get; protected set; }
 
-        public BasicModel(Model model, Vector3 pos, float rotation, float scale)
+
+        public BasicModel(Model model)
+        {
+            this.model = model;
+            this.pos = Vector3.Zero;
+            this.rot = Vector3.Zero;
+            this.scale = Vector3.One;
+        }
+        
+        public BasicModel(Model model, Vector3 pos, Vector3 rot, Vector3 scale)
         {
             this.model = model;
             this.pos = pos;
-            this.rotation = rotation;
+            this.rot = rot;
             this.scale = scale;
         }
+        public BasicModel(Model model, Vector3 pos, float rot, float scale)
+        {
+            this.model = model;
+            this.pos = pos;
+            this.rot.Y = rot;
+            this.scale = new Vector3(scale, scale, scale);
+        }
 
-        public virtual void Update()
+        public virtual void Update(GameTime gameTime)
         {
 
         }
@@ -39,7 +57,7 @@ namespace MoonCow
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.World = mesh.ParentBone.Transform * Matrix.CreateScale(scale) * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(pos);
+                    effect.World = mesh.ParentBone.Transform * GetWorld();
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
@@ -49,5 +67,11 @@ namespace MoonCow
                 mesh.Draw();
             }
         }
+
+        protected virtual Matrix GetWorld()
+        {
+            return Matrix.CreateScale(scale) * Matrix.CreateFromYawPitchRoll(rot.Y, rot.X, rot.Z) * Matrix.CreateTranslation(pos);
+        }
+
     }
 }

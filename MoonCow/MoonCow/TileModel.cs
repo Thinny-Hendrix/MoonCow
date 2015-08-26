@@ -54,14 +54,14 @@ namespace MoonCow
         {
             this.model = model;
             this.pos = pos;
-            this.rotation = rotation;
-            this.scale = scale;
+            this.rot = rot;
+            this.scale = new Vector3(scale, scale, scale);
 
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
-            base.Update();
+            base.Update(gameTime);
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -73,7 +73,7 @@ namespace MoonCow
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.World = mesh.ParentBone.Transform * Matrix.CreateScale(scale) * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(pos);
+                    effect.World = mesh.ParentBone.Transform * GetWorld();
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;

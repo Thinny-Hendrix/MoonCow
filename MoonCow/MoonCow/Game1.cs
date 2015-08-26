@@ -21,12 +21,18 @@ namespace MoonCow
 
         public Camera camera;
         public ModelManager modelManager;
+        public Ship ship;
         private MapData layout;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+
         }
 
         /// <summary>
@@ -41,9 +47,11 @@ namespace MoonCow
 
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
+            ship = new Ship(this);
 
             Components.Add(camera);
             Components.Add(modelManager);
+            Components.Add(ship);
 
             base.Initialize();
         }
