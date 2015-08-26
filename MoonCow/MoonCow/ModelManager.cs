@@ -24,26 +24,27 @@ namespace MoonCow
 
         protected override void LoadContent()
         {
-            //models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/Ship/shipBlock"), new Vector3(30, 0, 30), 0.0f, 1.0f));
-
-            /*
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner1bigProto"), new Vector3(30, 0, 30), 0.0f, 1.0f));
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner1smallProto"), new Vector3(0, 0, 30), 0.0f, 1.0f));
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner2smallProto"), new Vector3(-30, 0, 30), 0.0f, 1.0f));
-
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/cornerProto"), new Vector3(30,0,0), 0.0f, 1.0f));
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), Vector3.Zero, 0.0f, 1.0f)); //broke
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(-30,0,0), 0.0f, 1.0f)); //broke
             
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/dendProto"), new Vector3(30, 0, -30), 0.0f, 1.0f));
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/straight1Proto"), new Vector3(0, 0, -30), 0.0f, 1.0f));
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/straightProto"), new Vector3(-30, 0, -30), 0.0f, 1.0f));
+                //models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/Ship/shipBlock"), new Vector3(30, 0, 30), 0.0f, 1.0f));
 
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/tint3Proto"), new Vector3(30, 0, -60), 0.0f, 1.0f)); //bloke
-            models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/tint4Proto"), new Vector3(0, 0, -60), 0.0f, 1.0f)); //broke
-            */
+                /*
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner1bigProto"), new Vector3(30, 0, 30), 0.0f, 1.0f));
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner1smallProto"), new Vector3(0, 0, 30), 0.0f, 1.0f));
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner2smallProto"), new Vector3(-30, 0, 30), 0.0f, 1.0f));
 
-            base.LoadContent();
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/cornerProto"), new Vector3(30,0,0), 0.0f, 1.0f));
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), Vector3.Zero, 0.0f, 1.0f)); //broke
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(-30,0,0), 0.0f, 1.0f)); //broke
+            
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/dendProto"), new Vector3(30, 0, -30), 0.0f, 1.0f));
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/straight1Proto"), new Vector3(0, 0, -30), 0.0f, 1.0f));
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/straightProto"), new Vector3(-30, 0, -30), 0.0f, 1.0f));
+
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/tint3Proto"), new Vector3(30, 0, -60), 0.0f, 1.0f)); //bloke
+                models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/tint4Proto"), new Vector3(0, 0, -60), 0.0f, 1.0f)); //broke
+                */
+
+                base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
@@ -70,6 +71,14 @@ namespace MoonCow
         public void add(BasicModel model)
         {
             models.Add(model);
+        }
+
+        public void makeStarField()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                models.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Ship/shipBlock"), ((Game1)Game).ship));
+            }
         }
 
 

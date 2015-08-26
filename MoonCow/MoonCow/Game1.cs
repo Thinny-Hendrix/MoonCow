@@ -49,9 +49,13 @@ namespace MoonCow
             modelManager = new ModelManager(this);
             ship = new Ship(this);
 
+
             Components.Add(camera);
             Components.Add(modelManager);
             Components.Add(ship);
+
+            modelManager.makeStarField();
+
 
             base.Initialize();
         }

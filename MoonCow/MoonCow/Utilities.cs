@@ -11,6 +11,7 @@ namespace MoonCow
     {
         public static float deltaTime;
         public static bool paused = false;
+        public static Random random = new Random();
 
         public static void Update(GameTime gameTime)
         {
