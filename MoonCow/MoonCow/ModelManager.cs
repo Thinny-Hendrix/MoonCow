@@ -24,7 +24,7 @@ namespace MoonCow
 
         protected override void LoadContent()
         {
-            //models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/Ship/shipPewProto"), new Vector3(30, 0, 30), 0.0f, 1.0f));
+            //models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/Ship/shipBlock"), new Vector3(30, 0, 30), 0.0f, 1.0f));
 
             /*
             models.Add(new BasicModel(Game.Content.Load<Model>(@"Models/TempRails/corner1bigProto"), new Vector3(30, 0, 30), 0.0f, 1.0f));

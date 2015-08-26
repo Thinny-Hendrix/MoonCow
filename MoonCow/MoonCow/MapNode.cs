@@ -79,23 +79,23 @@ namespace MoonCow
                     break;
                 case 11:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt4Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt4Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 100);
                     break;
                 case 12:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt3Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt3Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 100);
                     break;
                 case 13:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt3Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt3Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 100);
                     break;
                 case 14:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt3Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt3Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 100);
                     break;
                 case 15:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt3Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/tInt3Proto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 100);
                     break;
                 case 16:
                     traversable = true;
@@ -115,7 +115,7 @@ namespace MoonCow
                     break;
                 case 20:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 100);
                     break;
                 case 21:
                     traversable = true;
@@ -123,7 +123,7 @@ namespace MoonCow
                     break;
                 case 22:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 100);
                     break;
                 case 23:
                     traversable = true;
@@ -131,7 +131,7 @@ namespace MoonCow
                     break;
                 case 24:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f); // Core!!
+                    //model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f); // Core!!
                     break;
                 case 25:
                     traversable = true;
@@ -239,35 +239,35 @@ namespace MoonCow
                     break;
                 case 51:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 100);
                     break;
                 case 52:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 100);
                     break;
                 case 53:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 100);
                     break;
                 case 54:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 100);
                     break;
                 case 55:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 100);
                     break;
                 case 56:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 100);
                     break;
                 case 57:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 100);
                     break;
                 case 58:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstFlipProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 100);
                     break;
                 case 59:
                     traversable = false;

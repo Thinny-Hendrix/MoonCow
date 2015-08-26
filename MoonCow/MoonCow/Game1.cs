@@ -103,6 +103,8 @@ namespace MoonCow
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            Utilities.Update(gameTime);
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -114,7 +116,7 @@ namespace MoonCow
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(new Color(0.2f,0.2f,0.2f));
 
             // TODO: Add your drawing code here
 

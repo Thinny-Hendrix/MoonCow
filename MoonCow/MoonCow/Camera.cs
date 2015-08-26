@@ -16,6 +16,8 @@ namespace MoonCow
         public Vector3 cameraPosition;
         Vector3 lookAt;
         Vector3 cameraUp;
+        Vector3 goalDirection;
+        Vector3 currentDirection;
 
         int xTurnValue;
         int yTurnValue;
@@ -26,6 +28,14 @@ namespace MoonCow
         double verticalSpeed = 0;
         double runSpeed = 0.4;
         int turnRadius = 10; //this is the distance from the camera to the player (lookAt)
+
+        //these are so the camera can change position when ship is boosting
+        float standardFov = MathHelper.Pi/3;
+        float boostFov = MathHelper.PiOver2;
+        float currentFov = MathHelper.Pi / 3;
+        float boostDist = 7;
+        float normDist = 15;
+        float currentDist = 15;
 
         public Camera(Game game, Vector3 pos, Vector3 target, Vector3 up)
             : base(game)
@@ -100,12 +110,60 @@ namespace MoonCow
                 yTurnValue = -90;
 
             ///######Cheap hack to make lookat the ship pos, overrides the rest of this function
+            ///
+            /// camera angle is 8 degrees, positions derived from tan(8) - eg 10tan(8) gives 1.4 height and a distance of 10 between camera and target
+            ///
+
+            goalDirection = ((Game1)Game).ship.direction;
+            currentDirection = Vector3.Lerp(currentDirection, goalDirection, Utilities.deltaTime*5);
+            currentDirection.Normalize();
+
+            if (((Game1)Game).ship.boosting)
+                currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 2);
+            else
+                currentDist = MathHelper.Lerp(currentDist, normDist, Utilities.deltaTime * 2);
+
+
             lookAt = ((Game1)Game).ship.pos;
 
+             //Trying to do a clever thing but it's not working
+            lookAt.X += currentDirection.X * (currentDist * ((float)11.0 / (float)15.0));
+            lookAt.Z += currentDirection.Z * (currentDist * ((float)11.0 / (float)15.0));
+            //lookAt.Y += 3;
 
-            cameraPosition.X = lookAt.X + (float)(System.Math.Sin(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
-            cameraPosition.Y = lookAt.Y + (float)-(System.Math.Sin(yTurnValue * MathHelper.Pi / 180)) * turnRadius;
-            cameraPosition.Z = lookAt.Z + (float)(System.Math.Cos(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
+            cameraPosition.X = lookAt.X - (currentDirection.X * currentDist);
+            cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(8)));
+            cameraPosition.Z = lookAt.Z - (currentDirection.Z * currentDist);
+             
+
+            System.Diagnostics.Debug.WriteLine((float)Math.Tan(8));
+
+            /*
+            lookAt.X += currentDirection.X * 11;
+            lookAt.Z += currentDirection.Z * 11;
+            //lookAt.Y += 3;
+
+            cameraPosition.X = lookAt.X - (currentDirection.X * 15);
+            cameraPosition.Y = lookAt.Y + (2.1f);
+            cameraPosition.Z = lookAt.Z - (currentDirection.Z * 15);*/
+
+            if (((Game1)Game).ship.boosting)
+                currentFov = MathHelper.Lerp(currentFov, boostFov, Utilities.deltaTime * 2);
+            else
+                currentFov = MathHelper.Lerp(currentFov, standardFov, Utilities.deltaTime * 2);
+
+            try
+            {
+                projection = Matrix.CreatePerspectiveFieldOfView(currentFov, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 1, 3000);
+            }
+            catch (NullReferenceException) { }
+
+
+
+
+            //cameraPosition.X = lookAt.X + (float)(System.Math.Sin(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
+            //cameraPosition.Y = lookAt.Y + (float)-(System.Math.Sin(yTurnValue * MathHelper.Pi / 180)) * turnRadius;
+            //cameraPosition.Z = lookAt.Z + (float)(System.Math.Cos(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
 
             CreateLookAt();
 
