@@ -37,6 +37,18 @@ namespace MoonCow
         float normDist = 15;
         float currentDist = 15;
 
+        //this is to control camera tilt
+        float tiltAngle;
+        Vector3 tiltUp = Vector3.Up; //the up vector the camera will use
+        bool tilting = false;
+        float tiltStrength;
+        float tiltTime;
+        Vector3 shakeOffset;
+        float shakeTime;
+        bool shaking;
+        float shakeStrength;
+        int shakeConstant;
+
         public Camera(Game game, Vector3 pos, Vector3 target, Vector3 up)
             : base(game)
         {
@@ -130,10 +142,13 @@ namespace MoonCow
             lookAt.X += currentDirection.X * (currentDist * ((float)11.0 / (float)15.0));
             lookAt.Z += currentDirection.Z * (currentDist * ((float)11.0 / (float)15.0));
             //lookAt.Y += 3;
+            lookAt += shakeOffset;
 
             cameraPosition.X = lookAt.X - (currentDirection.X * currentDist);
             cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(8)));
             cameraPosition.Z = lookAt.Z - (currentDirection.Z * currentDist);
+
+            cameraPosition += shakeOffset;
              
 
             System.Diagnostics.Debug.WriteLine((float)Math.Tan(8));
@@ -157,6 +172,14 @@ namespace MoonCow
                 projection = Matrix.CreatePerspectiveFieldOfView(currentFov, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 1, 3000);
             }
             catch (NullReferenceException) { }
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.O))
+                makeShake();
+
+
+            updateTilt();
+            updateYshake();
 
 
 
@@ -187,9 +210,78 @@ namespace MoonCow
             base.Update(gameTime);
         }
 
+        public void makeShake()
+        {
+            tiltStrength = MathHelper.PiOver4 / 6;
+            tiltTime = 0;
+            tilting = true;
+            shakeTime = 0;
+            shaking = true;
+            shakeStrength = 0.15f;
+
+            if (Utilities.random.Next(0, 10) < 5) //this just chooses the starting direction for the tilt angle so it's not the same every single time
+            {
+                shakeConstant = -1;
+            }
+            else
+                shakeConstant = 1;
+
+        }
+
+        private void updateYshake()
+        {
+            if (shaking)
+            {
+                shakeOffset.Y = shakeConstant * (float)Math.Sin(shakeTime) * shakeStrength * 1;
+                shakeStrength = MathHelper.Lerp(shakeStrength, 0, Utilities.deltaTime * 3f);
+                shakeTime += MathHelper.Pi * Utilities.deltaTime * 12;
+                if (shakeTime >= MathHelper.Pi * 15)
+                {
+                    shakeTime = 0;
+                    shakeOffset.Y = 0;
+                    shaking = false;
+                }
+            }
+        }
+
+        private void updateTilt()
+        {
+            if(tilting)
+            {
+                tiltTime += MathHelper.Pi * Utilities.deltaTime * 5;
+                if(tiltTime >= MathHelper.Pi*4)
+                {
+                    tiltTime = 0;
+                    tilting = false;
+                }
+
+                tiltAngle = shakeConstant * (float)Math.Sin(tiltTime) * tiltStrength;
+                tiltStrength = MathHelper.Lerp(tiltStrength, 0, Utilities.deltaTime * 2.5f); //decreases tiltStrength to 0 in ~20 frames
+
+
+                /*#### This is the part that needs fixing - currently the up vector tilts itself based on the world axes, 
+                 * so the strength of the tilt is relative to the angle of the ship (how close to pure x or z it's facing)
+                 * What it needs to do is rotate on the camera's 'roll'/Z axis - relative to the direction the camera is facing - my guess is you'll have to use currentDirection in some form, but what I've tried so far doesn't work
+                 * 
+                 * Note that tiltUp only updates when this function is being called, so be careful of the camera suddenly turning sideways or upside down when you rotate far enough in either direction (I've had that happen when doing stuff with currentDirection)
+                 * You'll have to press O every time you want this function to be called, there's no toggle so it'll reset every frame you have O held down but that's fine for this testing situation
+                 */
+                //tiltUp = currentDirection;
+                //tiltUp = Vector3.Cross(currentDirection, Vector3.Forward);
+
+                tiltUp.Z = (float)Math.Sin(tiltAngle);
+                tiltUp.X = (float)Math.Sin(tiltAngle);
+                //tiltUp.Y = (float)Math.Cos(tiltAngle);
+                tiltUp.Normalize();
+            }
+
+
+
+        }
+
         private void CreateLookAt()
         {
-            view = Matrix.CreateLookAt(cameraPosition, lookAt, cameraUp);
+            view = Matrix.CreateLookAt(cameraPosition, lookAt, tiltUp);
         }
 
     }

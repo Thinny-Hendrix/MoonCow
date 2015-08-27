@@ -275,7 +275,7 @@ namespace MoonCow
                     break;
                 case 60:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/Misc/octahedron"), new Vector3(pos.X * 30, 4.5f, pos.Y * 30), MathHelper.PiOver4, 300);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/BgTiles/node60"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0, 100);
                     break;
                 default:
                     traversable = false;

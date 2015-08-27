@@ -17,6 +17,8 @@ namespace MoonCow
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        RenderTarget2D renderTarget;
+        Texture2D gameDraw;
         Map map;
 
         public Camera camera;
@@ -55,6 +57,9 @@ namespace MoonCow
             Components.Add(ship);
 
             modelManager.makeStarField();
+
+            PresentationParameters pp = GraphicsDevice.PresentationParameters;
+            //renderTarget = new RenderTarget2D()
 
 
             base.Initialize();

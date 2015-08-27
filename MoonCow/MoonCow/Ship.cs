@@ -69,8 +69,8 @@ namespace MoonCow
             //if angle + rot less than 180, add angle else rot is 180
             //once hit 180, inuturn false
             //currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed / 2, Utilities.deltaTime * 5);
-            
-            uTurnYaw += MathHelper.Pi * Utilities.deltaTime / 20;
+
+            uTurnYaw += MathHelper.Pi * Utilities.deltaTime / (13);
             rot.Y += uTurnYaw;
 
             direction.X = -(float)Math.Sin(rot.Y);
@@ -161,7 +161,7 @@ namespace MoonCow
                         else
                         {
                             boosting = false;
-                            moveSpeed = MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 5);
+                            moveSpeed = MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 3);
                         }
                     }
                     else
@@ -169,7 +169,7 @@ namespace MoonCow
                         boosting = false;
                         if (moveSpeed != 0)
                         {
-                            moveSpeed = MathHelper.Lerp(moveSpeed, 0, Utilities.deltaTime * 3);
+                            moveSpeed = MathHelper.Lerp(moveSpeed, 0, Utilities.deltaTime * 1);
                         }
                     }
 
