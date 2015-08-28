@@ -54,6 +54,8 @@ namespace MoonCow
             maxTurnSpeed = MathHelper.PiOver4 / 30;
 
             shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
+            //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneakproto"), this);
+
             ((Game1)Game).modelManager.add(shipModel);
 
             weapons = new WeaponSystem(this);
