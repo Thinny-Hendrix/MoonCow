@@ -40,6 +40,7 @@ namespace MoonCow
         RollDir rollDir = RollDir.left;
 
         public ShipModel shipModel;
+        WeaponSystem weapons;
 
         public Ship(Game game) : base(game)
         {
@@ -54,6 +55,8 @@ namespace MoonCow
 
             shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             ((Game1)Game).modelManager.add(shipModel);
+
+            weapons = new WeaponSystem(this);
         }
 
         public override void Initialize()
@@ -225,8 +228,9 @@ namespace MoonCow
 
                     rot.Z += roll;
 
-                    
 
+                    if (!boosting)
+                        weapons.update();
 
                     if (Keyboard.GetState().IsKeyDown(Keys.S))
                     {
@@ -236,6 +240,8 @@ namespace MoonCow
                         //pos.Z -= direction.Z * moveSpeed;
 
                     }
+
+
 
                 }
 
