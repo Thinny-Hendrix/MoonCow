@@ -192,10 +192,13 @@ namespace MoonCow
                     //pos.Z += direction.Z * moveSpeed;
 
                     //## COLLISIONS WHOOO! ##
+                    // Move the bounding box to new pos
                     boundingBox.Update(pos, direction);
-                    nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f)); // updates the current node co-ordinates
+                    // Get current node co-ordinates
+                    nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
-                    foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes) // for each bounding box in current node
+                    //For the current node check if your X component will make you collide with wall
+                    foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
                     {
                         if(boundingBox.intersects(box))
                         {
@@ -205,6 +208,7 @@ namespace MoonCow
                         }
                     }
 
+                    // Now add the Z component of the movement
                     pos.Z += direction.Z * moveSpeed;
 
                     boundingBox.Update(pos, direction);
@@ -219,7 +223,6 @@ namespace MoonCow
                             //currently just undoes the frames movement before drawing. effectively stopping the ship
                         }
                     }
-
 
                     //## BARREL ROLL ##
                     if (Keyboard.GetState().IsKeyDown(Keys.Q) && rollCooldown >= 10)
