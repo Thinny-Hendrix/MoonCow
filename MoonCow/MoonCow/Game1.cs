@@ -19,8 +19,8 @@ namespace MoonCow
         SpriteBatch spriteBatch;
         RenderTarget2D renderTarget;
         Texture2D gameDraw;
-        Map map;
 
+        public Map map;
         public Camera camera;
         public ModelManager modelManager;
         public Ship ship;
@@ -85,11 +85,6 @@ namespace MoonCow
             {
                 System.Diagnostics.Debug.WriteLine(point);
             }
-
-            /*
-            Pathfinder path = new Pathfinder(map);
-            System.Diagnostics.Debug.WriteLine(path.findPath(new Point(2,0), new Point(5, 9)));
-            */
 
         }
 

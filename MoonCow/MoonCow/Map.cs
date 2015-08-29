@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class Map
+    public class Map
     {
         public MapNode[,] map;
         private Vector2 mapSize;

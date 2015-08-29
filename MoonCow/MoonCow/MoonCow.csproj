@@ -46,6 +46,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapNode.cs" />
+    <Compile Include="OOBB.cs" />
     <Compile Include="Pathfinder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />

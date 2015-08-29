@@ -31,9 +31,13 @@ namespace MoonCow
         bool inUTurn;
         float uTurnYaw;
 
+        Vector2 nodePos;
+
         bool rolling;
         float rollCooldown = 10;
         float tilt = 0;
+
+        OOBB boundingBox;
 
 
         enum RollDir { left, right };
@@ -52,6 +56,8 @@ namespace MoonCow
             direction = new Vector3(0, 0, -1);
             currentTurnSpeed = 0;
             maxTurnSpeed = MathHelper.PiOver4 / 30;
+
+            boundingBox = new OOBB(pos, direction, 1f, 1f); // Need to be changed to be actual ship dimentions
 
             shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneakproto"), this);
@@ -181,6 +187,23 @@ namespace MoonCow
                     pos.X += direction.X * moveSpeed;
                     pos.Z += direction.Z * moveSpeed;
 
+                    //## COLLISIONS WHOOO! ##
+                    boundingBox.Update(pos, direction);
+                    nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+                    //System.Diagnostics.Debug.WriteLine("" + nodePos);
+
+                    foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
+                    {
+                        //System.Diagnostics.Debug.WriteLine("" + nodePos + boundingBox.intersects(box));
+                        if(boundingBox.intersects(box))
+                        {
+                            //System.Diagnostics.Debug.WriteLine("" + nodePos + "Collisions");
+                            pos.X -= direction.X * moveSpeed;
+                            pos.Z -= direction.Z * moveSpeed;
+                            //currently just undoes the frames movement before drawing. effectively stopping the ship
+                        }
+                    }
+
                     //## BARREL ROLL ##
                     if (Keyboard.GetState().IsKeyDown(Keys.Q) && rollCooldown >= 10)
                     {
@@ -251,7 +274,7 @@ namespace MoonCow
             }
 
 
-            System.Diagnostics.Debug.WriteLine("Current angle is " + rot + ", direction is " + direction);
+            //System.Diagnostics.Debug.WriteLine("Current angle is " + rot + ", direction is " + direction);
 
         }
 

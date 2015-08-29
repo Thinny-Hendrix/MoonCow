@@ -151,7 +151,7 @@ namespace MoonCow
             cameraPosition += shakeOffset;
              
 
-            System.Diagnostics.Debug.WriteLine((float)Math.Tan(8));
+            //System.Diagnostics.Debug.WriteLine((float)Math.Tan(8));
 
             /*
             lookAt.X += currentDirection.X * 11;

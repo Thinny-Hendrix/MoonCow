@@ -11,7 +11,7 @@ namespace MoonCow
     /// A node in the map. This will be represented by a tile model in the 3D world.
     /// This node is used for many things, primarily pathfinding.
     /// </summary>
-    class MapNode
+    public class MapNode
     {
         public bool traversable;       //Can this node be walked through?
         public Vector2 position;       //X and Y co-ordinates in map
@@ -27,6 +27,8 @@ namespace MoonCow
         public float damage;           //How much damage this square can take from turrets
         public float playerDamage;     //How much damage the player can currently do to this node
 
+        public List<OOBB> collisionBoxes = new List<OOBB>();
+
         private TileModel model;
         
 
@@ -40,10 +42,14 @@ namespace MoonCow
                 case 1:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/raildaetest"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     break;
                 case 2:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/raildaetest"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
                     break;
                 case 3:
                     traversable = true;
