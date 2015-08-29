@@ -40,8 +40,11 @@ namespace MoonCow
             switch(type)
             {
                 case 1:
+                    // Is this node included in AI pathfinding?
                     traversable = true;
+                    // Set the model for this node
                     model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/raildaetest"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    // Using the constructor of the OOBB that just takes four corners create the bounding boxes for this node and store their positional data
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     break;

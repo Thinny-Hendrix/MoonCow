@@ -51,18 +51,19 @@ namespace MoonCow
             corners[2] = new Vector2(0 + (width / 2), 0 + (height / 2));
             corners[3] = new Vector2(0 - (width / 2), 0 + (height / 2));
 
-            // Set rotation - Not working
-            //float rotation = (float)Math.Atan2(direction.Z, direction.X);
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    corners[i] = new Vector2((float)(corners[i].X * Math.Cos(rotation) - corners[i].Y * Math.Sin(rotation)));
-            //}  
+            // Set rotation
+            float rotation = (float)Math.Atan2(direction.X, direction.Z);
+            for (int i = 0; i < 4; i++)
+            {
+                corners[i] = new Vector2((float)(corners[i].X * Math.Cos(rotation) - corners[i].Y * Math.Sin(rotation)));
+            }
 
             //Set position
-            corners[0] += new Vector2(pos.X - (width / 2), pos.Z - (height / 2));
-            corners[1] += new Vector2(pos.X + (width / 2), pos.Z - (height / 2));
-            corners[2] += new Vector2(pos.X + (width / 2), pos.Z + (height / 2));
-            corners[3] += new Vector2(pos.X - (width / 2), pos.Z + (height / 2));
+            for (int i = 0; i < 4; i++)
+            {
+                corners[i] += new Vector2(pos.X, pos.Z);
+                System.Diagnostics.Debug.WriteLine(corners[i]);
+            }
         }
 
         /// <summary>

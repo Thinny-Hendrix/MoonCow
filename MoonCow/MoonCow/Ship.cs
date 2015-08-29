@@ -48,7 +48,7 @@ namespace MoonCow
 
         public Ship(Game game) : base(game)
         {
-            pos = new Vector3(90, 4.5f, 90);
+            pos = new Vector3(120, 4.5f, 90);
             moveSpeed = 0;
             accel = 0.5f;
             maxSpeed = 0.2f;
@@ -57,7 +57,7 @@ namespace MoonCow
             currentTurnSpeed = 0;
             maxTurnSpeed = MathHelper.PiOver4 / 30;
 
-            boundingBox = new OOBB(pos, direction, 1f, 1f); // Need to be changed to be actual ship dimentions
+            boundingBox = new OOBB(pos, direction, 1.5f, 1.5f); // Need to be changed to be actual ship dimentions
 
             shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneakproto"), this);
@@ -184,25 +184,42 @@ namespace MoonCow
                         }
                     }
 
+                    // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
+                    // this measn the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
+                    // be within tolerable limits for CPU time. This will only need to be done with the player
+
                     pos.X += direction.X * moveSpeed;
-                    pos.Z += direction.Z * moveSpeed;
+                    //pos.Z += direction.Z * moveSpeed;
 
                     //## COLLISIONS WHOOO! ##
                     boundingBox.Update(pos, direction);
-                    nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-                    //System.Diagnostics.Debug.WriteLine("" + nodePos);
+                    nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f)); // updates the current node co-ordinates
 
-                    foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
+                    foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes) // for each bounding box in current node
                     {
-                        //System.Diagnostics.Debug.WriteLine("" + nodePos + boundingBox.intersects(box));
                         if(boundingBox.intersects(box))
                         {
-                            //System.Diagnostics.Debug.WriteLine("" + nodePos + "Collisions");
                             pos.X -= direction.X * moveSpeed;
+                            //pos.Z -= direction.Z * moveSpeed;
+                            //currently just undoes the frames movement before drawing. effectively stopping the ship
+                        }
+                    }
+
+                    pos.Z += direction.Z * moveSpeed;
+
+                    boundingBox.Update(pos, direction);
+                    nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+                    foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes) // for each bounding box in current node
+                    {
+                        if (boundingBox.intersects(box))
+                        {
+                            //pos.X -= direction.X * moveSpeed;
                             pos.Z -= direction.Z * moveSpeed;
                             //currently just undoes the frames movement before drawing. effectively stopping the ship
                         }
                     }
+
 
                     //## BARREL ROLL ##
                     if (Keyboard.GetState().IsKeyDown(Keys.Q) && rollCooldown >= 10)

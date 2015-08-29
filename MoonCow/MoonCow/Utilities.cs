@@ -17,6 +17,8 @@ namespace MoonCow
         {
             deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
 
+            //System.Diagnostics.Debug.WriteLine(deltaTime);
+
             if(Keyboard.GetState().IsKeyDown(Keys.P))
                 paused = !paused;
         } 
