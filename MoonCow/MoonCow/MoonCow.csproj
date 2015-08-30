@@ -56,6 +56,7 @@
     <Compile Include="ShipModel.cs" />
     <Compile Include="SkyboxModel.cs" />
     <Compile Include="SpaceDust.cs" />
+    <Compile Include="SpeedCylModel.cs" />
     <Compile Include="TileModel.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="WeaponSystem.cs" />
@@ -278,6 +279,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Misc\skybox_1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Models\Misc\speedCyl.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Misc\speedcylindert_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

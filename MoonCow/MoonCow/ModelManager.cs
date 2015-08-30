@@ -10,11 +10,23 @@ namespace MoonCow
     public class ModelManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
         List<BasicModel> models = new List<BasicModel>();
+        //List<SpeedCylModel> transModels = new List<Speed>(); //will need a separate list for transparent models
+        SpeedCylModel speedCyl;
+
+        DepthStencilState depthStencilState;
+        DepthStencilState dbNoWriteEnable;
+
 
         public ModelManager(Game game)
             : base(game)
         {
+            depthStencilState = new DepthStencilState();
+            depthStencilState.DepthBufferEnable = true;
+            depthStencilState.DepthBufferWriteEnable = true;
 
+            dbNoWriteEnable = new DepthStencilState();
+            depthStencilState.DepthBufferEnable = true;
+            dbNoWriteEnable.DepthBufferWriteEnable = false;
         }
 
         public override void Initialize()
@@ -49,28 +61,42 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
+           
             foreach (BasicModel model in models)
             {
                 model.Update(gameTime);
-            } 
-            
+            }
+
+            speedCyl.Update(gameTime);
+
             base.Update(gameTime);
+
             //System.Diagnostics.Debug.WriteLine(models.Count);
         }
 
         public override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.DepthStencilState = depthStencilState;
+
             foreach (BasicModel model in models)
             {
                 model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
             }
 
             base.Draw(gameTime);
+
+            GraphicsDevice.DepthStencilState = dbNoWriteEnable;
+            speedCyl.overrideDraw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
         }
 
         public void add(BasicModel model)
         {
             models.Add(model);
+        }
+
+        public void addTransparent(SpeedCylModel model)
+        {
+            speedCyl = model;
         }
 
         public void makeStarField()

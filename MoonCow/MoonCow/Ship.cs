@@ -50,6 +50,7 @@ namespace MoonCow
 
         ShipModel shipModel;
         SkyboxModel skyboxModel;
+        SpeedCylModel speedCyl;
         public WeaponSystem weapons;
         public MoneyManager moneyManager;
 
@@ -69,10 +70,11 @@ namespace MoonCow
             shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/sneakcube"), this);
             skyboxModel = new SkyboxModel(game.Content.Load<Model>(@"Models/Misc/skybox1"), this);
-
+            speedCyl = new SpeedCylModel(game.Content.Load<Model>(@"Models/Misc/speedCyl"), this, ((Game1)Game));
 
             ((Game1)Game).modelManager.add(shipModel);
             ((Game1)Game).modelManager.add(skyboxModel);
+            ((Game1)Game).modelManager.addTransparent(speedCyl);
 
 
             weapons = new WeaponSystem(this);

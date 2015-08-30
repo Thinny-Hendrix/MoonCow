@@ -1,0 +1,89 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace MoonCow
+{
+    public class SpeedCylModel : BasicModel
+    {
+        Vector3 direction;
+        Ship ship;
+        float offset;
+        Game game;
+        float time;
+        public SpeedCylModel(Model model, Ship ship, Game game):base(model)
+        {
+            this.model = model;
+            this.ship = ship;
+            this.game = game;
+            scale = new Vector3(100, 100, 100);
+            offset = -2;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            direction = ship.direction;
+            pos = ship.pos;
+            rot.Y = ship.rot.Y;
+
+            time += Utilities.deltaTime;
+            if (time > .06f)
+            {
+                rot.Z = (float)Utilities.random.NextDouble()*6;
+                time = 0;
+            }
+            if (ship.boosting)
+                offset = MathHelper.Lerp(offset, 0, Utilities.deltaTime*5);
+            else
+                offset = MathHelper.Lerp(offset, -20, Utilities.deltaTime * 3);
+        }
+
+        public override void Draw(GraphicsDevice device, Camera camera)
+        {
+
+        }
+
+        public void overrideDraw(GraphicsDevice device, Camera camera)
+        {
+
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(transforms);
+            game.GraphicsDevice.BlendState = BlendState.Additive;
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = mesh.ParentBone.Transform * GetWorld();
+                    effect.View = camera.view;
+                    effect.Projection = camera.projection;
+                    effect.TextureEnabled = true;
+                    effect.Alpha = 1;
+
+                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
+                    //effect.EnableDefaultLighting(); //did not work
+                    effect.LightingEnabled = true;
+
+                    //effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.5f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                    effect.DirectionalLight0.Direction = direction;
+                    //effect.DirectionalLight0.SpecularColor = Vector3.One;
+                    effect.AmbientLightColor = new Vector3(2f, 2f, 2f);
+                    //effect.EmissiveColor = Vector3.One;
+                    effect.PreferPerPixelLighting = true;
+
+                }
+                mesh.Draw();
+            }
+
+            game.GraphicsDevice.BlendState = BlendState.Opaque;
+
+        }
+
+        protected override Matrix GetWorld()
+        {
+            return Matrix.Identity * Matrix.CreateFromYawPitchRoll(rot.Y, rot.X, rot.Z) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(pos) * Matrix.CreateTranslation(direction * offset);
+        }
+    }
+}
