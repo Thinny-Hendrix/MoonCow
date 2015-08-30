@@ -10,7 +10,7 @@ namespace MoonCow
     class SpaceDust:BasicModel
     {
         Ship ship;
-        float range = 40;
+        float range = 50;
 
         public SpaceDust(Model model, Ship ship, int yRange):base(model)
         {
@@ -84,7 +84,7 @@ namespace MoonCow
                     //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
 
-                    effect.DirectionalLight0.Direction = new Vector3(1, -1, 1);
+                    effect.DirectionalLight0.Direction = ship.direction;
                     effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.5f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                     effect.DirectionalLight0.SpecularColor = Vector3.One;
                     effect.AmbientLightColor = Vector3.One;

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MoonCow
 {
-    class WeaponSystem
+    public class WeaponSystem
     {
         Ship ship;
         int currentWeapon; //1=lasers, 2=missiles, 3=bomb, 4=shockwave, 5=drill 

@@ -112,7 +112,7 @@ namespace MoonCow
             {
                 xTurnValue += Game.Window.ClientBounds.Width / 2 - Mouse.GetState().X;
                 yTurnValue += Game.Window.ClientBounds.Height / 2 - Mouse.GetState().Y;
-                Mouse.SetPosition(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
+                //Mouse.SetPosition(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             }
             catch (NullReferenceException) { }
 
@@ -169,7 +169,7 @@ namespace MoonCow
 
             try
             {
-                projection = Matrix.CreatePerspectiveFieldOfView(currentFov, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 1, 3000);
+                projection = Matrix.CreatePerspectiveFieldOfView(currentFov, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 0.1f, 3000);
             }
             catch (NullReferenceException) { }
 

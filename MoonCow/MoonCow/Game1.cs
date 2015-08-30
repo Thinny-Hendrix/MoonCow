@@ -15,9 +15,9 @@ namespace MoonCow
 
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        RenderTarget2D renderTarget;
+        public GraphicsDeviceManager graphics;
+        public SpriteBatch spriteBatch;
+        public RenderTarget2D renderTarget;
         Texture2D gameDraw;
 
         public Map map;
@@ -25,10 +25,12 @@ namespace MoonCow
         public ModelManager modelManager;
         public Ship ship;
         private MapData layout;
+        public Hud hud;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            //graphicsDevice = new GraphicsDevice();
             Content.RootDirectory = "Content";
 
             graphics.IsFullScreen = false;
@@ -47,14 +49,19 @@ namespace MoonCow
         {
             // TODO: Add your initialization logic here
 
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
             ship = new Ship(this);
+            hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Arial"), spriteBatch, GraphicsDevice);
 
 
             Components.Add(camera);
             Components.Add(modelManager);
             Components.Add(ship);
+            Components.Add(hud);
 
             modelManager.makeStarField();
 
@@ -71,8 +78,6 @@ namespace MoonCow
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             layout = new MapData(@"Content/MapXml/map1.xml");
 
@@ -112,6 +117,7 @@ namespace MoonCow
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+            //hud.update(gameTime, spriteBatch);
         }
 
         /// <summary>
@@ -125,6 +131,9 @@ namespace MoonCow
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+            //hud.Draw(gameTime);
         }
+
+        
     }
 }

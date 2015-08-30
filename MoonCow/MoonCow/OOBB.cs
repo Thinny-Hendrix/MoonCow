@@ -62,7 +62,7 @@ namespace MoonCow
             for (int i = 0; i < 4; i++)
             {
                 corners[i] += new Vector2(pos.X, pos.Z);
-                System.Diagnostics.Debug.WriteLine(corners[i]);
+                //System.Diagnostics.Debug.WriteLine(corners[i]);
             }
         }
 

@@ -75,12 +75,12 @@ namespace MoonCow
 
         public void makeStarField()
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 75; i++)
             {
                 models.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/octahedron"), ((Game1)Game).ship, 0));
             }
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 75; i++)
             {
                 models.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/octahedron"), ((Game1)Game).ship, 1));
             }

@@ -39,12 +39,19 @@ namespace MoonCow
 
         OOBB boundingBox;
 
+        //money and health
+        public float shieldVal;
+        public float shieldMax;
+        public float hpVal;
+        public float hpMax;
 
         enum RollDir { left, right };
         RollDir rollDir = RollDir.left;
 
-        public ShipModel shipModel;
-        WeaponSystem weapons;
+        ShipModel shipModel;
+        SkyboxModel skyboxModel;
+        public WeaponSystem weapons;
+        public MoneyManager moneyManager;
 
         public Ship(Game game) : base(game)
         {
@@ -60,16 +67,24 @@ namespace MoonCow
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f); // Need to be changed to be actual ship dimentions
 
             shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
-            //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneakproto"), this);
+            //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/sneakcube"), this);
+            skyboxModel = new SkyboxModel(game.Content.Load<Model>(@"Models/Misc/skybox1"), this);
+
 
             ((Game1)Game).modelManager.add(shipModel);
+            ((Game1)Game).modelManager.add(skyboxModel);
+
 
             weapons = new WeaponSystem(this);
+            moneyManager = new MoneyManager();
         }
 
         public override void Initialize()
         {
-            
+            shieldMax = 100;
+            shieldVal = 100;
+            hpVal = 100;
+            hpMax = 100;
 
             base.Initialize();
         }
@@ -293,7 +308,16 @@ namespace MoonCow
                 
             }
 
+            if(Keyboard.GetState().IsKeyDown(Keys.I))
+                moneyManager.addMoney(8);
+            if (Keyboard.GetState().IsKeyDown(Keys.U))
+                moneyManager.addMoney(1024);
+            if (Keyboard.GetState().IsKeyDown(Keys.J))
+                moneyManager.addMoney(-35);
+            if (Keyboard.GetState().IsKeyDown(Keys.K))
+                moneyManager.addMoney(-1329);
 
+            moneyManager.update();
             //System.Diagnostics.Debug.WriteLine("Current angle is " + rot + ", direction is " + direction);
 
         }
