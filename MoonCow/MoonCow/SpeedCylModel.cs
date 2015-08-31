@@ -14,13 +14,14 @@ namespace MoonCow
         float offset;
         Game game;
         float time;
+
         public SpeedCylModel(Model model, Ship ship, Game game):base(model)
         {
             this.model = model;
             this.ship = ship;
             this.game = game;
             scale = new Vector3(100, 100, 100);
-            offset = -2;
+            offset = -20;
         }
 
         public override void Update(GameTime gameTime)

@@ -15,6 +15,7 @@ namespace MoonCow
         public Vector3 rot;
         public Vector3 scale;
         public Vector3 direction;
+        Vector3 frameMovement;//values are added to this in update before doing one collision check
 
         public float moveSpeed;
         public float maxSpeed;
@@ -51,6 +52,8 @@ namespace MoonCow
         ShipModel shipModel;
         SkyboxModel skyboxModel;
         SpeedCylModel speedCyl;
+        RainbowTunnelModel rbowTun;
+
         public WeaponSystem weapons;
         public MoneyManager moneyManager;
 
@@ -71,9 +74,12 @@ namespace MoonCow
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/sneakcube"), this);
             skyboxModel = new SkyboxModel(game.Content.Load<Model>(@"Models/Misc/skybox1"), this);
             speedCyl = new SpeedCylModel(game.Content.Load<Model>(@"Models/Misc/speedCyl"), this, ((Game1)Game));
+            rbowTun = new RainbowTunnelModel(game.Content.Load<Model>(@"Models/Misc/Rbow/rbowTun"), this, ((Game1)Game));
+
 
             ((Game1)Game).modelManager.add(shipModel);
             ((Game1)Game).modelManager.add(skyboxModel);
+            ((Game1)Game).modelManager.add(rbowTun);
             ((Game1)Game).modelManager.addTransparent(speedCyl);
 
 

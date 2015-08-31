@@ -16,6 +16,8 @@ namespace MoonCow
         Vector3 direction;
         float speed;
         float life;
+        Game game;
+        public bool delete;
 
         public Projectile()
         {
@@ -24,7 +26,7 @@ namespace MoonCow
 
         public void update()
         {
-
+            pos += direction * speed * Utilities.deltaTime;
         }
 
     }
