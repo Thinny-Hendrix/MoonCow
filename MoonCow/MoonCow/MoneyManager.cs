@@ -70,6 +70,16 @@ namespace MoonCow
 
         }
 
+        public bool canPurchase(float amount)
+        {
+            if(balance >= amount)
+            {
+                addMoney(-amount);
+                return true;
+            }
+            return false;
+        }
+
 
 
     }

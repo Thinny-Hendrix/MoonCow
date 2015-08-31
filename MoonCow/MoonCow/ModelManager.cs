@@ -10,6 +10,9 @@ namespace MoonCow
     public class ModelManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
         List<BasicModel> models = new List<BasicModel>();
+        List<BasicModel> enemyModels = new List<BasicModel>();
+        List<BasicModel> effectModels = new List<BasicModel>();
+
         //List<SpeedCylModel> transModels = new List<Speed>(); //will need a separate list for transparent models
         SpeedCylModel speedCyl;
 
@@ -92,6 +95,11 @@ namespace MoonCow
         public void add(BasicModel model)
         {
             models.Add(model);
+        }
+
+        public void addEffect(BasicModel model)
+        {
+            effectModels.Add(model);
         }
 
         public void addTransparent(SpeedCylModel model)

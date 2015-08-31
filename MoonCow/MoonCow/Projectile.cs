@@ -16,12 +16,15 @@ namespace MoonCow
         Vector3 direction;
         float speed;
         float life;
-        Game game;
+        Game1 game;
         public bool delete;
 
-        public Projectile()
+        public Projectile(Vector3 direction, Game1 game)
         {
+            this.direction = direction;
+            this.game = game;
 
+            //this.game.modelManager.addEffect(new BasicModel(game.Content.Load<Model>(@"Models/Effects/tempbullet")));
         }
 
         public void update()

@@ -49,13 +49,24 @@ namespace MoonCow
         {
             direction = ship.direction;
             pos = ship.pos;
-            rot.Y = ship.rot.Y;
+
+            //direction 1
+            rot.Y = ship.rot.Y - MathHelper.Pi;
+
+            texPos3.Y += (int)(Utilities.deltaTime * 5000);
+            if (texPos3.Y > 2048)
+                texPos3.Y -= 2048;
+            texPos1.Y = texPos3.Y - 4096;
+            texPos2.Y = texPos3.Y - 2048;
+
+            //direction 2
+            /*rot.Y = ship.rot.Y;
 
             texPos3.Y -= (int)(Utilities.deltaTime * 4096);
             if (texPos3.Y < 2048)
                 texPos3.Y += 2048;
             texPos1.Y = texPos3.Y - 4096;
-            texPos2.Y = texPos3.Y - 2048;
+            texPos2.Y = texPos3.Y - 2048;*/
 
 
             rot.Z += Utilities.deltaTime * MathHelper.PiOver2;
@@ -69,7 +80,7 @@ namespace MoonCow
             sb.Begin();
             sb.Draw(rBow, texPos1, Color.White);
             sb.Draw(rBow, texPos2, Color.White);
-            //sb.Draw(rBow, texPos3, Color.White);
+            sb.Draw(rBow, texPos3, Color.White);
             sb.End();
 
             game.GraphicsDevice.SetRenderTarget(null);

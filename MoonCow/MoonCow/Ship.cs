@@ -15,7 +15,7 @@ namespace MoonCow
         public Vector3 rot;
         public Vector3 scale;
         public Vector3 direction;
-        Vector3 frameMovement;//values are added to this in update before doing one collision check
+        Vector3 frameDiff;//values are added to this in update before doing one collision check
 
         public float moveSpeed;
         public float maxSpeed;
@@ -83,7 +83,7 @@ namespace MoonCow
             ((Game1)Game).modelManager.addTransparent(speedCyl);
 
 
-            weapons = new WeaponSystem(this);
+            weapons = new WeaponSystem(this, game);
             moneyManager = new MoneyManager();
         }
 
@@ -95,6 +95,53 @@ namespace MoonCow
             hpMax = 100;
 
             base.Initialize();
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            frameDiff = Vector3.Zero;
+            if (!Utilities.paused)
+            {
+                if (inUTurn)
+                {
+                    uTurn();
+                }
+                else
+                {
+                    //## SHIP TURNING CODE ##
+                    updateTurn();
+
+                    //## SHIP MOVEMENT CODE ##
+                    updateSpeed();
+
+                    //## BARREL ROLL ##
+                    updateBarrelRoll();
+
+                    //########### Collision detection #########
+                    checkCollision();
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    {
+                        inUTurn = true;
+                        currentTurnSpeed = 0;
+                    }
+                }                
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.I))
+                moneyManager.addMoney(8);
+            if (Keyboard.GetState().IsKeyDown(Keys.U))
+                moneyManager.addMoney(1024);
+            if (Keyboard.GetState().IsKeyDown(Keys.J))
+                moneyManager.addMoney(-35);
+            if (Keyboard.GetState().IsKeyDown(Keys.K))
+                moneyManager.addMoney(-1329);
+
+            weapons.update();
+            moneyManager.update();
+            //System.Diagnostics.Debug.WriteLine("Current angle is " + rot + ", direction is " + direction);
+
         }
 
         void uTurn()
@@ -114,223 +161,193 @@ namespace MoonCow
 
 
             moveSpeed = MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 5);
-                      
 
-            pos.X += direction.X * moveSpeed;
-            pos.Z += direction.Z * moveSpeed;
-            
-            if (uTurnYaw > MathHelper.Pi/20)
+
+            //pos.X += direction.X * moveSpeed;
+            //pos.Z += direction.Z * moveSpeed;
+
+            frameDiff.X += direction.X * moveSpeed;
+            frameDiff.Z += direction.Z * moveSpeed;
+
+            if (uTurnYaw > MathHelper.Pi / 20)
             {
                 uTurnYaw = 0;
                 inUTurn = false;
             }
         }
 
-        public override void Update(GameTime gameTime)
+        void updateTurn()
         {
-            if (!Utilities.paused)
+            turning = false;
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                if (inUTurn)
+                turning = true;
+                if (boosting)
                 {
-                    uTurn();
+                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed / 2, Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, 10 * maxTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
                 }
                 else
                 {
-                    //## SHIP TURNING CODE ##
-                    turning = false;
-                    if (Keyboard.GetState().IsKeyDown(Keys.A))
-                    {
-                        turning = true;
-                        if (boosting)
-                        {
-                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed / 2, Utilities.deltaTime * 5);
-                            tilt = MathHelper.Lerp(tilt, 10 * maxTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
-                        }
-                        else
-                        {
-                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed, Utilities.deltaTime * 5);
-                            tilt = MathHelper.Lerp(tilt, 20 * maxTurnSpeed, Utilities.deltaTime * 2);
-                        }
-                    }
-                    if (Keyboard.GetState().IsKeyDown(Keys.D))
-                    {
-                        turning = true;
-                        if (boosting)
-                        {
-                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed / 2, Utilities.deltaTime * 5);
-                            tilt = MathHelper.Lerp(tilt, -10 * maxTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
-                        }
-                        else
-                        {
-                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed, Utilities.deltaTime * 5);
-                            tilt = MathHelper.Lerp(tilt, -20 * maxTurnSpeed, Utilities.deltaTime * 2);
-                        }
-
-                    }
-
-                    if (!turning)
-                    {
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, 0, Utilities.deltaTime * 5);
-                        tilt = MathHelper.Lerp(tilt, 0, Utilities.deltaTime * 2);
-
-                    }
-
-                    rot.Z = tilt;
-
-                    rot.Y += currentTurnSpeed;
-                    direction.X = -(float)Math.Sin(rot.Y);
-                    direction.Z = -(float)Math.Cos(rot.Y);
-                    direction.Normalize();
-
-
-
-                    //## SHIP MOVEMENT CODE ##
-                    if (Keyboard.GetState().IsKeyDown(Keys.W))
-                    {
-                        if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-                        {
-                            boosting = true;
-                            moveSpeed = MathHelper.Lerp(moveSpeed, boostSpeed, Utilities.deltaTime * 7);
-                        }
-                        else
-                        {
-                            boosting = false;
-                            moveSpeed = MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 3);
-                        }
-                    }
-                    else
-                    {
-                        boosting = false;
-                        if (moveSpeed != 0)
-                        {
-                            moveSpeed = MathHelper.Lerp(moveSpeed, 0, Utilities.deltaTime * 1);
-                        }
-                    }
-
-                    // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
-                    // this measn the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
-                    // be within tolerable limits for CPU time. This will only need to be done with the player
-
-                    pos.X += direction.X * moveSpeed;
-                    //pos.Z += direction.Z * moveSpeed;
-
-                    //## COLLISIONS WHOOO! ##
-                    // Move the bounding box to new pos
-                    boundingBox.Update(pos, direction);
-                    // Get current node co-ordinates
-                    nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-
-                    //For the current node check if your X component will make you collide with wall
-                    foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
-                    {
-                        if(boundingBox.intersects(box))
-                        {
-                            pos.X -= direction.X * moveSpeed;
-                            //pos.Z -= direction.Z * moveSpeed;
-                            //currently just undoes the frames movement before drawing. effectively stopping the ship
-                        }
-                    }
-
-                    // Now add the Z component of the movement
-                    pos.Z += direction.Z * moveSpeed;
-
-                    boundingBox.Update(pos, direction);
-                    nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-
-                    foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes) // for each bounding box in current node
-                    {
-                        if (boundingBox.intersects(box))
-                        {
-                            //pos.X -= direction.X * moveSpeed;
-                            pos.Z -= direction.Z * moveSpeed;
-                            //currently just undoes the frames movement before drawing. effectively stopping the ship
-                        }
-                    }
-
-                    //## BARREL ROLL ##
-                    if (Keyboard.GetState().IsKeyDown(Keys.Q) && rollCooldown >= 10)
-                    {
-                        rollCooldown = 0;
-                        rolling = true;
-                        rollDir = RollDir.left;
-                    }
-
-                    if (Keyboard.GetState().IsKeyDown(Keys.E) && rollCooldown >= 10)
-                    {
-                        rollCooldown = 0;
-                        rolling = true;
-                        rollDir = RollDir.right;
-                    }
-
-                    if(rolling) //todo - treat sideways movement like forwards with lerping
-                    {
-                        if (rollCooldown < 10)
-                            rollCooldown += 60 * Utilities.deltaTime;
-
-                        if(rollDir == RollDir.left)
-                        {
-                            roll += MathHelper.Pi * Utilities.deltaTime * 3;
-                            pos.X += Vector3.Cross(Vector3.Up, direction).X * 15 * Utilities.deltaTime;
-                            pos.Z += Vector3.Cross(Vector3.Up, direction).Z * 15 * Utilities.deltaTime;
-                            if (roll > MathHelper.Pi * 2)// && rollCooldown >= 10)
-                            {
-                                rollCooldown = 10;
-                                roll = 0;
-                                rolling = false;
-                            }
-                        }
-                        else
-                        {
-                            roll -= MathHelper.Pi * Utilities.deltaTime * 3;
-                            pos.X -= Vector3.Cross(Vector3.Up, direction).X * 15 * Utilities.deltaTime;
-                            pos.Z -= Vector3.Cross(Vector3.Up, direction).Z * 15 * Utilities.deltaTime;
-                            if (roll < -MathHelper.Pi * 2)// && rollCooldown >= 10)
-                            {
-                                rollCooldown = 10;
-                                roll = 0;
-                                rolling = false;
-                            }
-                        }
-
-                    }
-
-                    rot.Z += roll;
-
-
-                    if (!boosting)
-                        weapons.update();
-
-                    if (Keyboard.GetState().IsKeyDown(Keys.S))
-                    {
-                        inUTurn = true;
-                        currentTurnSpeed = 0;
-                        //pos.X -= direction.X * moveSpeed;
-                        //pos.Z -= direction.Z * moveSpeed;
-
-                    }
-
-
-
+                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed, Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, 20 * maxTurnSpeed, Utilities.deltaTime * 2);
+                }
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                turning = true;
+                if (boosting)
+                {
+                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed / 2, Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, -10 * maxTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
+                }
+                else
+                {
+                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed, Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, -20 * maxTurnSpeed, Utilities.deltaTime * 2);
                 }
 
-                
             }
 
-            if(Keyboard.GetState().IsKeyDown(Keys.I))
-                moneyManager.addMoney(8);
-            if (Keyboard.GetState().IsKeyDown(Keys.U))
-                moneyManager.addMoney(1024);
-            if (Keyboard.GetState().IsKeyDown(Keys.J))
-                moneyManager.addMoney(-35);
-            if (Keyboard.GetState().IsKeyDown(Keys.K))
-                moneyManager.addMoney(-1329);
+            if (!turning)
+            {
+                currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, 0, Utilities.deltaTime * 5);
+                tilt = MathHelper.Lerp(tilt, 0, Utilities.deltaTime * 2);
 
-            moneyManager.update();
-            //System.Diagnostics.Debug.WriteLine("Current angle is " + rot + ", direction is " + direction);
+            }
 
+            rot.Z = tilt;
+
+            rot.Y += currentTurnSpeed;
+            direction.X = -(float)Math.Sin(rot.Y);
+            direction.Z = -(float)Math.Cos(rot.Y);
+            direction.Normalize();
         }
 
+        void updateSpeed()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+                {
+                    boosting = true;
+                    moveSpeed = MathHelper.Lerp(moveSpeed, boostSpeed, Utilities.deltaTime * 7);
+                }
+                else
+                {
+                    boosting = false;
+                    moveSpeed = MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 3);
+                }
+            }
+            else
+            {
+                boosting = false;
+                if (moveSpeed != 0)
+                {
+                    moveSpeed = MathHelper.Lerp(moveSpeed, 0, Utilities.deltaTime * 1);
+                }
+            }
 
+            frameDiff.X += direction.X * moveSpeed;
+            frameDiff.Z += direction.Z * moveSpeed;
+        }
+
+        void updateBarrelRoll()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Q) && rollCooldown >= 10)
+            {
+                rollCooldown = 0;
+                rolling = true;
+                rollDir = RollDir.left;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.E) && rollCooldown >= 10)
+            {
+                rollCooldown = 0;
+                rolling = true;
+                rollDir = RollDir.right;
+            }
+
+            if (rolling) //todo - treat sideways movement like forwards with lerping
+            {
+                if (rollCooldown < 10)
+                    rollCooldown += 60 * Utilities.deltaTime;
+
+                if (rollDir == RollDir.left)
+                {
+                    roll += MathHelper.Pi * Utilities.deltaTime * 3;
+                    frameDiff.X += Vector3.Cross(Vector3.Up, direction).X * 15 * Utilities.deltaTime;
+                    frameDiff.Z += Vector3.Cross(Vector3.Up, direction).Z * 15 * Utilities.deltaTime;
+                    if (roll > MathHelper.Pi * 2)// && rollCooldown >= 10)
+                    {
+                        rollCooldown = 10;
+                        roll = 0;
+                        rolling = false;
+                    }
+                }
+                else
+                {
+                    roll -= MathHelper.Pi * Utilities.deltaTime * 3;
+                    frameDiff.X -= Vector3.Cross(Vector3.Up, direction).X * 15 * Utilities.deltaTime;
+                    frameDiff.Z -= Vector3.Cross(Vector3.Up, direction).Z * 15 * Utilities.deltaTime;
+                    if (roll < -MathHelper.Pi * 2)// && rollCooldown >= 10)
+                    {
+                        rollCooldown = 10;
+                        roll = 0;
+                        rolling = false;
+                    }
+                }
+
+            }
+
+            rot.Z += roll;
+        }
+
+        void checkCollision()
+        {
+            // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
+            // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
+            // be within tolerable limits for CPU time. This will only need to be done with the player
+
+            //pos.X += direction.X * moveSpeed;
+            pos.X += frameDiff.X;
+
+            //## COLLISIONS WHOOO! ##
+            // Move the bounding box to new pos
+            boundingBox.Update(pos, direction);
+            // Get current node co-ordinates
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+            //For the current node check if your X component will make you collide with wall
+            foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
+            {
+                if (boundingBox.intersects(box))
+                {
+                    //pos.X -= direction.X * moveSpeed;
+                    pos.X -= frameDiff.X;
+                    //pos.Z -= direction.Z * moveSpeed;
+                    //currently just undoes the frames movement before drawing. effectively stopping the ship
+                }
+            }
+
+            // Now add the Z component of the movement
+            //pos.Z += direction.Z * moveSpeed;
+            pos.Z += frameDiff.Z;
+
+            boundingBox.Update(pos, direction);
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+            foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes) // for each bounding box in current node
+            {
+                if (boundingBox.intersects(box))
+                {
+                    //pos.X -= direction.X * moveSpeed;
+                    //pos.Z -= direction.Z * moveSpeed;
+                    pos.Z -= frameDiff.Z;
+                    //currently just undoes the frames movement before drawing. effectively stopping the ship
+                }
+            }
+        }
 
     }
 }

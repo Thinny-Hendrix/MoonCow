@@ -131,7 +131,12 @@ namespace MoonCow
             currentDirection.Normalize();
 
             if (((Game1)Game).ship.boosting)
-                currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 2);
+            {
+                if(Keyboard.GetState().IsKeyDown(Keys.Space))
+                    currentDist = MathHelper.Lerp(currentDist, 4, Utilities.deltaTime * 2);
+                else
+                    currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 2);
+            }
             else
                 currentDist = MathHelper.Lerp(currentDist, normDist, Utilities.deltaTime * 2);
 

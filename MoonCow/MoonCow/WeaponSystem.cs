@@ -14,10 +14,12 @@ namespace MoonCow
         int laserPos; //0 = left, 1 = right
         float cooldown;
         bool hasDrill;
+        Game game;
+
         List<Projectile> projectiles = new List<Projectile>();
 
 
-        public WeaponSystem(Ship ship)
+        public WeaponSystem(Ship ship, Game game)
         {
             this.ship = ship;
             currentWeapon = 1;
@@ -47,6 +49,8 @@ namespace MoonCow
 
         public void fire()
         {
+            if(!ship.boosting && cooldown == 0)
+                projectiles.Add(new Projectile(ship.direction, (Game1)game));
 
         }
     
