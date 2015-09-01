@@ -93,8 +93,8 @@ namespace MoonCow
             wepPos = new Vector2(45, 45);
 
             monPos = new Vector2(1450, 45);
-            monTotPos = new Vector2(1550, 80);
-            monDifPos = new Vector2(1620, 160);
+            monTotPos = new Vector2(1715, 80);
+            monDifPos = new Vector2(1715, 160);
 
             statPos = new Vector2(45, 884);
             mapPos = new Vector2(1334, 752);
@@ -167,7 +167,7 @@ namespace MoonCow
             hpValue = ((Game1)Game).ship.hpVal + " HP";
 
 
-            moneyTot = "$" + Math.Floor(((Game1)Game).ship.moneyManager.displayNo);
+            moneyTot = "" + Math.Floor(((Game1)Game).ship.moneyManager.displayNo);
             float diff = ((Game1)Game).ship.moneyManager.difference;
             if(diff < 0)
                 moneyDif = "" + ((Game1)Game).ship.moneyManager.difference;
@@ -217,8 +217,8 @@ namespace MoonCow
 
         void drawMon()
         {
-            Vector2 totDim = font.MeasureString(moneyTot);
-            Vector2 diffDim = font.MeasureString(moneyDif);
+            float totDim = font.MeasureString(moneyTot).X;
+            float diffDim = font.MeasureString(moneyDif).X;
 
 
             graphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -226,13 +226,15 @@ namespace MoonCow
             spriteBatch.Draw(hudMonB, scaledRect(monPos, 425, 151), Color.White);
             spriteBatch.Draw(hudMonF, scaledRect(monPos, 425, 151), Color.White);
 
-            spriteBatch.DrawString(font, moneyTot, scaledCoords(monTotPos), Color.White);
+            spriteBatch.DrawString(font, moneyTot, scaledCoords(new Vector2(monTotPos.X - totDim * 2, monTotPos.Y)), Color.White);
             if (((Game1)Game).ship.moneyManager.changing)
             {
+                spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X - diffDim * 2+3, monDifPos.Y+3)), outline);
+
                 if (((Game1)Game).ship.moneyManager.difference < 0)
-                    spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X-diffDim.X*2, monDifPos.Y)), redBody);
+                    spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X-diffDim*2, monDifPos.Y)), redBody);
                 else
-                    spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X - diffDim.X*2, monDifPos.Y)), contSecondary);
+                    spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X - diffDim*2, monDifPos.Y)), contSecondary);
             }
 
 

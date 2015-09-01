@@ -68,6 +68,7 @@ namespace MoonCow
             {
                 projectiles.Remove(p);
             }
+            toDelete.Clear();
         }
 
 

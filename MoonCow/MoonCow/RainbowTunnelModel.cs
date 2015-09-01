@@ -75,15 +75,18 @@ namespace MoonCow
             else
                 offset = MathHelper.Lerp(offset, -20, Utilities.deltaTime * 3);
 
-            game.GraphicsDevice.SetRenderTarget(rTarg);
+            if (ship.finishingMove)
+            {
+                game.GraphicsDevice.SetRenderTarget(rTarg);
 
-            sb.Begin();
-            sb.Draw(rBow, texPos1, Color.White);
-            sb.Draw(rBow, texPos2, Color.White);
-            sb.Draw(rBow, texPos3, Color.White);
-            sb.End();
+                sb.Begin();
+                sb.Draw(rBow, texPos1, Color.White);
+                sb.Draw(rBow, texPos2, Color.White);
+                sb.Draw(rBow, texPos3, Color.White);
+                sb.End();
 
-            game.GraphicsDevice.SetRenderTarget(null);
+                game.GraphicsDevice.SetRenderTarget(null);
+            }
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
