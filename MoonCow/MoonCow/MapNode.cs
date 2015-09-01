@@ -28,7 +28,8 @@ namespace MoonCow
         public float playerDamage;     //How much damage the player can currently do to this node
 
         public List<OOBB> collisionBoxes = new List<OOBB>();
-
+        public CircleCollider coreCollider;
+        public int type;
         private TileModel model;
         
 
@@ -196,7 +197,7 @@ namespace MoonCow
                 case 24:
                     traversable = true;
                     game.modelManager.addAdditive(new CoreSphereModel(game.Content.Load<Model>(@"Models/Base/coreSphere"), new Vector3(pos.X * 30, 0, pos.Y * 30), game));
-                    //model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f); // Core!!
+                    coreCollider = new CircleCollider(pos, 7.38f);
                     break;
                 case 25:
                     traversable = true;
@@ -413,6 +414,7 @@ namespace MoonCow
             }
 
             position = pos;
+            this.type = type;
             if (model != null)
             {
                 game.modelManager.add(model);

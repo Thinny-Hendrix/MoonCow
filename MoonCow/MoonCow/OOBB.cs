@@ -8,7 +8,7 @@ namespace MoonCow
 {
     public class OOBB
     {
-        protected Vector2[] corners;
+        public Vector2[] corners;
         protected float size;
         protected float width;
         protected float height;
