@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class CircleCollider
+    public class CircleCollider
     {
         Vector2 centre;
         float radius;

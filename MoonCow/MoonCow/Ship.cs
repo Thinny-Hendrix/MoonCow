@@ -35,6 +35,8 @@ namespace MoonCow
         float uTurnYaw;
         float totaluTurn;
 
+        public bool finishingMove;
+
         Vector2 nodePos;
 
         float rollCooldown = 0;
@@ -132,6 +134,7 @@ namespace MoonCow
                 //## BARREL ROLL ##
                 updateBarrelRoll();
 
+                checkFinishingMove();
                 //########### Collision detection #########
                 checkCollision();
             }
@@ -360,6 +363,26 @@ namespace MoonCow
             frameDiff.X += Vector3.Cross(Vector3.Up, direction).X * sideSpeed * Utilities.deltaTime;
             frameDiff.Z += Vector3.Cross(Vector3.Up, direction).Z * sideSpeed * Utilities.deltaTime;
             rot.Z += roll;
+        }
+
+        void checkFinishingMove()
+        {
+            if(boosting && Keyboard.GetState().IsKeyDown(Keys.Space))//to change - if boosting, drill equipped and raycast detects enemy within range with low health
+            {
+                if(!finishingMove)
+                {
+                    ((Game1)Game).hud.flashTime = 0;
+                    finishingMove = true;
+                }
+            }
+            else
+            {
+                if (finishingMove)
+                {
+                    ((Game1)Game).hud.flashTime = 0;
+                    finishingMove = false;
+                }
+            }
         }
 
         void checkCollision()

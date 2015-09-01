@@ -92,7 +92,7 @@ namespace MoonCow
 
             game.GraphicsDevice.DepthStencilState = depthStencilState;
 
-            if (ship.boosting && Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (ship.finishingMove)
             {
                 
 

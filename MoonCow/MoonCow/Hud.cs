@@ -47,6 +47,9 @@ namespace MoonCow
         Texture2D hudMapF;
 
 
+        Texture2D whiteTex;
+        public float flashTime;
+
         Vector2 wepPos;
 
         Vector2 monPos;
@@ -59,7 +62,6 @@ namespace MoonCow
         Vector2 statPos;
         Vector2 mapPos;
 
-        float flashTime;
 
         /*
         Rectangle healthRect;
@@ -96,6 +98,10 @@ namespace MoonCow
 
             statPos = new Vector2(45, 884);
             mapPos = new Vector2(1334, 752);
+
+            whiteTex = new Texture2D(graphicsDevice, 1, 1);
+            whiteTex.SetData(new Color[] { Color.White });
+            flashTime = 10;
 
             weaponAmmo = "FIRING";
         }
@@ -167,6 +173,19 @@ namespace MoonCow
                 moneyDif = "" + ((Game1)Game).ship.moneyManager.difference;
             else
                 moneyDif = "+" + ((Game1)Game).ship.moneyManager.difference;
+
+
+            if (flashTime < 10)
+            {
+                flashTime += Utilities.deltaTime * 60;
+                if (flashTime > 10)
+                    flashTime = 10;
+            }
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Y))
+                flashTime = 0;
+
 
 
         }
@@ -242,6 +261,15 @@ namespace MoonCow
 
         public override void Draw(GameTime gameTime)
         {
+            if(flashTime < 10)
+            {
+                graphicsDevice.BlendState = BlendState.AlphaBlend;
+                spriteBatch.Begin();
+                spriteBatch.Draw(whiteTex, scaledRect(Vector2.Zero, 1920, 1080), Color.White*(1-flashTime/10.0f));//(1-(flashTime/10.0f))));
+                spriteBatch.End();
+            }
+
+
             drawHealth();
             drawWep();
             if(((Game1)Game).ship.moneyManager.display)
@@ -265,6 +293,8 @@ namespace MoonCow
             graphicsDevice.BlendState = BlendState.AlphaBlend;
             spriteBatch.Begin();
             spriteBatch.Draw(dummyTexture, backgroundRectangle, Color.White);
+            //spriteBatch.Draw(whiteTex, scaledRect(Vector2.Zero, 1920, 1080), Color.White);//(1-(flashTime/10.0f))));
+
             spriteBatch.DrawString(font, frameRate, position, contPrimary);
             spriteBatch.End();
 
