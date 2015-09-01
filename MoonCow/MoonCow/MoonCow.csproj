@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="BasicModel.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="CoreSphereModel.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="MapData.cs" />
     <Compile Include="ModelManager.cs" />
@@ -305,7 +306,17 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Content\Models\Base\coreSphere.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Base\electrosphere_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Base\electrosphere_1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Models\Effects\tempbullet.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

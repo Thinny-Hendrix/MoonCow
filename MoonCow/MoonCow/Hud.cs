@@ -201,8 +201,13 @@ namespace MoonCow
             spriteBatch.Draw(hudMonF, scaledRect(monPos, 425, 151), Color.White);
 
             spriteBatch.DrawString(font, moneyTot, scaledCoords(monTotPos), Color.White);
-            if(((Game1)Game).ship.moneyManager.changing)
-                spriteBatch.DrawString(font, moneyDif, scaledCoords(monDifPos), contSecondary);
+            if (((Game1)Game).ship.moneyManager.changing)
+            {
+                if (((Game1)Game).ship.moneyManager.difference < 0)
+                    spriteBatch.DrawString(font, moneyDif, scaledCoords(monDifPos), redBody);
+                else
+                    spriteBatch.DrawString(font, moneyDif, scaledCoords(monDifPos), contSecondary);
+            }
 
 
             spriteBatch.End();

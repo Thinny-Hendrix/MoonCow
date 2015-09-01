@@ -195,6 +195,7 @@ namespace MoonCow
                     break;
                 case 24:
                     traversable = true;
+                    game.modelManager.addAdditive(new CoreSphereModel(game.Content.Load<Model>(@"Models/Base/coreSphere"), new Vector3(pos.X * 30, 0, pos.Y * 30), game));
                     //model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f); // Core!!
                     break;
                 case 25:

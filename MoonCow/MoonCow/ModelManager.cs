@@ -12,6 +12,7 @@ namespace MoonCow
         List<BasicModel> models = new List<BasicModel>();
         List<BasicModel> enemyModels = new List<BasicModel>();
         List<BasicModel> effectModels = new List<BasicModel>();
+        List<BasicModel> additiveModels = new List<BasicModel>();
 
         //List<SpeedCylModel> transModels = new List<Speed>(); //will need a separate list for transparent models
         SpeedCylModel speedCyl;
@@ -66,9 +67,10 @@ namespace MoonCow
         {
            
             foreach (BasicModel model in models)
-            {
                 model.Update(gameTime);
-            }
+
+            foreach (BasicModel model in additiveModels)
+                model.Update(gameTime);
 
             speedCyl.Update(gameTime);
 
@@ -89,6 +91,8 @@ namespace MoonCow
             base.Draw(gameTime);
 
             GraphicsDevice.DepthStencilState = dbNoWriteEnable;
+            foreach(BasicModel model in additiveModels)
+                model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
             speedCyl.overrideDraw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
         }
 
@@ -100,6 +104,11 @@ namespace MoonCow
         public void addEffect(BasicModel model)
         {
             effectModels.Add(model);
+        }
+
+        public void addAdditive(BasicModel model)
+        {
+            additiveModels.Add(model);
         }
 
         public void addTransparent(SpeedCylModel model)

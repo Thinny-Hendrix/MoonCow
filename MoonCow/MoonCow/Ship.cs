@@ -159,8 +159,11 @@ namespace MoonCow
 
             direction.Normalize();
 
+            //pos.Y = 4.5f - (float)(Math.Cos((uTurnYaw)));
 
-            moveSpeed = MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 5);
+            //System.Diagnostics.Debug.WriteLine(uTurnYaw);
+
+            moveSpeed = maxSpeed*3;// MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 5);
 
 
             //pos.X += direction.X * moveSpeed;
@@ -171,6 +174,7 @@ namespace MoonCow
 
             if (uTurnYaw > MathHelper.Pi / 20)
             {
+                pos.Y = 4.5f;
                 uTurnYaw = 0;
                 inUTurn = false;
             }
