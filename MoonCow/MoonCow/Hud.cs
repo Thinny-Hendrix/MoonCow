@@ -58,6 +58,9 @@ namespace MoonCow
         Vector2 hpBarPos;
         Vector2 statPos;
         Vector2 mapPos;
+
+        float flashTime;
+
         /*
         Rectangle healthRect;
         Rectangle wepRect;
@@ -195,7 +198,11 @@ namespace MoonCow
 
         void drawMon()
         {
-            graphicsDevice.BlendState = BlendState.Additive;
+            Vector2 totDim = font.MeasureString(moneyTot);
+            Vector2 diffDim = font.MeasureString(moneyDif);
+
+
+            graphicsDevice.BlendState = BlendState.AlphaBlend;
             spriteBatch.Begin();
             spriteBatch.Draw(hudMonB, scaledRect(monPos, 425, 151), Color.White);
             spriteBatch.Draw(hudMonF, scaledRect(monPos, 425, 151), Color.White);
@@ -204,9 +211,9 @@ namespace MoonCow
             if (((Game1)Game).ship.moneyManager.changing)
             {
                 if (((Game1)Game).ship.moneyManager.difference < 0)
-                    spriteBatch.DrawString(font, moneyDif, scaledCoords(monDifPos), redBody);
+                    spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X-diffDim.X*2, monDifPos.Y)), redBody);
                 else
-                    spriteBatch.DrawString(font, moneyDif, scaledCoords(monDifPos), contSecondary);
+                    spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X - diffDim.X*2, monDifPos.Y)), contSecondary);
             }
 
 

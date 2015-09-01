@@ -55,7 +55,7 @@ namespace MoonCow
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
             ship = new Ship(this);
-            hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Arial"), spriteBatch, GraphicsDevice);
+            hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
 
 
             Components.Add(camera);

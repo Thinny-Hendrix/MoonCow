@@ -48,7 +48,8 @@ namespace MoonCow
          * 60+      -- [coming eventually]
          * 
          * */
-        
+
+        Texture2D tex;
 
         public TileModel(Model model, Vector3 pos, float rotation, float scale) : base(model, pos, rotation, scale)
         {
@@ -56,6 +57,10 @@ namespace MoonCow
             this.pos = pos;
             this.rot = rot;
             this.scale = new Vector3(scale, scale, scale);
+
+            //tex = new Texture2D(, 1, 1);
+            //tex = new Texture2D();
+            //dummyTexture.SetData(new Color[] { myTransparentColor });
 
         }
 
@@ -79,13 +84,12 @@ namespace MoonCow
                     effect.TextureEnabled = true;
                     effect.Alpha = 1;
 
-                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
                     //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
-                    //effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.5f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.3f, 0.3f, 0.3f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                     effect.DirectionalLight0.Direction = new Vector3(0,-1,1);
-                    //effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = new Vector3(2,2,2);
+                    effect.DirectionalLight0.SpecularColor = Vector3.One;
+                    effect.AmbientLightColor = new Vector3(0.2f,.2f,.2f);
                     effect.EmissiveColor = Vector3.One;
                     effect.PreferPerPixelLighting = true;
 

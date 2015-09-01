@@ -75,8 +75,8 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f); // Need to be changed to be actual ship dimentions
 
-            shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
-            //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/sneakcube"), this);
+            shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/PewProto/shipPewfbx"), this);
+            //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/guncube"), this);
             skyboxModel = new SkyboxModel(game.Content.Load<Model>(@"Models/Misc/skybox1"), this);
             speedCyl = new SpeedCylModel(game.Content.Load<Model>(@"Models/Misc/speedCyl"), this, ((Game1)Game));
             rbowTun = new RainbowTunnelModel(game.Content.Load<Model>(@"Models/Misc/Rbow/rbowTun"), this, ((Game1)Game));
@@ -168,7 +168,8 @@ namespace MoonCow
             direction.Normalize();
 
             pos.Y = 4.5f - (float)(Math.Cos((totaluTurn*2))-1)/4;
-            rot.X = -(float)(Math.Cos((totaluTurn * 2)) - 1);
+            rot.X = (float)(Math.Sin((totaluTurn * 2))/2);
+            rot.Z = tilt -(float)(Math.Cos((totaluTurn * 2)) - 1) / 2;
 
             //System.Diagnostics.Debug.WriteLine(uTurnYaw);
 

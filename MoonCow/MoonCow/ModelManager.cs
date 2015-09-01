@@ -72,6 +72,9 @@ namespace MoonCow
             foreach (BasicModel model in additiveModels)
                 model.Update(gameTime);
 
+            foreach (BasicModel model in effectModels)
+                model.Update(gameTime);
+
             foreach (BasicModel model in enemyModels)
                 model.Update(gameTime);
 
@@ -91,7 +94,7 @@ namespace MoonCow
                 model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
             }
 
-            foreach (BasicModel model in models)
+            foreach (BasicModel model in enemyModels)
                 model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
             
 
@@ -100,6 +103,11 @@ namespace MoonCow
             GraphicsDevice.DepthStencilState = dbNoWriteEnable;
             foreach(BasicModel model in additiveModels)
                 model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
+
+            foreach (BasicModel model in effectModels)
+                model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
+
+
             speedCyl.overrideDraw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
         }
 
@@ -111,6 +119,11 @@ namespace MoonCow
         public void addEffect(BasicModel model)
         {
             effectModels.Add(model);
+        }
+
+        public void removeEffect(BasicModel model)
+        {
+            effectModels.Remove(model);
         }
 
         public void addEnemy(BasicModel model)
