@@ -101,7 +101,7 @@ namespace MoonCow
 
             whiteTex = new Texture2D(graphicsDevice, 1, 1);
             whiteTex.SetData(new Color[] { Color.White });
-            flashTime = 10;
+            flashTime = 15;
 
             weaponAmmo = "FIRING";
         }
@@ -178,8 +178,8 @@ namespace MoonCow
             if (flashTime < 10)
             {
                 flashTime += Utilities.deltaTime * 60;
-                if (flashTime > 10)
-                    flashTime = 10;
+                if (flashTime > 15)
+                    flashTime = 15;
             }
 
 
@@ -265,7 +265,7 @@ namespace MoonCow
             {
                 graphicsDevice.BlendState = BlendState.AlphaBlend;
                 spriteBatch.Begin();
-                spriteBatch.Draw(whiteTex, scaledRect(Vector2.Zero, 1920, 1080), Color.White*(1-flashTime/10.0f));//(1-(flashTime/10.0f))));
+                spriteBatch.Draw(whiteTex, scaledRect(Vector2.Zero, 1920, 1080), Color.White*(1-flashTime/15.0f));
                 spriteBatch.End();
             }
 
