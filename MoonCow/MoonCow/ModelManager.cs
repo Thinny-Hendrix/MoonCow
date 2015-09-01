@@ -72,6 +72,9 @@ namespace MoonCow
             foreach (BasicModel model in additiveModels)
                 model.Update(gameTime);
 
+            foreach (BasicModel model in enemyModels)
+                model.Update(gameTime);
+
             speedCyl.Update(gameTime);
 
             base.Update(gameTime);
@@ -87,6 +90,10 @@ namespace MoonCow
             {
                 model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
             }
+
+            foreach (BasicModel model in models)
+                model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
+            
 
             base.Draw(gameTime);
 
@@ -104,6 +111,11 @@ namespace MoonCow
         public void addEffect(BasicModel model)
         {
             effectModels.Add(model);
+        }
+
+        public void addEnemy(BasicModel model)
+        {
+            enemyModels.Add(model);
         }
 
         public void addAdditive(BasicModel model)

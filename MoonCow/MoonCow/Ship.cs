@@ -21,6 +21,8 @@ namespace MoonCow
         public float maxSpeed;
         public float boostSpeed;
         public float accel;
+        float sideSpeed;
+        float targetRoll;
 
         public float currentTurnSpeed;
         public float maxTurnSpeed;
@@ -31,12 +33,14 @@ namespace MoonCow
         public bool boosting;
         bool inUTurn;
         float uTurnYaw;
+        float totaluTurn;
 
         Vector2 nodePos;
 
-        bool rolling;
-        float rollCooldown = 10;
+        float rollCooldown = 0;
         float tilt = 0;
+        enum RollState {not, rolling, recovering};
+        RollState rollState;
 
         OOBB boundingBox;
 
@@ -48,6 +52,7 @@ namespace MoonCow
 
         enum RollDir { left, right };
         RollDir rollDir = RollDir.left;
+        float rollRecoverTime = MathHelper.PiOver2;
 
         ShipModel shipModel;
         SkyboxModel skyboxModel;
@@ -84,6 +89,8 @@ namespace MoonCow
 
 
             weapons = new WeaponSystem(this, game);
+            game.Components.Add(weapons);
+
             moneyManager = new MoneyManager();
         }
 
@@ -115,18 +122,18 @@ namespace MoonCow
                     //## SHIP MOVEMENT CODE ##
                     updateSpeed();
 
-                    //## BARREL ROLL ##
-                    updateBarrelRoll();
-
-                    //########### Collision detection #########
-                    checkCollision();
-
                     if (Keyboard.GetState().IsKeyDown(Keys.S))
                     {
                         inUTurn = true;
                         currentTurnSpeed = 0;
                     }
-                }                
+                }
+
+                //## BARREL ROLL ##
+                updateBarrelRoll();
+
+                //########### Collision detection #########
+                checkCollision();
             }
 
             if(Keyboard.GetState().IsKeyDown(Keys.I))
@@ -138,7 +145,7 @@ namespace MoonCow
             if (Keyboard.GetState().IsKeyDown(Keys.K))
                 moneyManager.addMoney(-1329);
 
-            weapons.update();
+            //weapons.update();
             moneyManager.update();
             //System.Diagnostics.Debug.WriteLine("Current angle is " + rot + ", direction is " + direction);
 
@@ -153,17 +160,19 @@ namespace MoonCow
 
             uTurnYaw += MathHelper.Pi * Utilities.deltaTime / (13);
             rot.Y += uTurnYaw;
+            totaluTurn += uTurnYaw;
 
             direction.X = -(float)Math.Sin(rot.Y);
             direction.Z = -(float)Math.Cos(rot.Y);
 
             direction.Normalize();
 
-            //pos.Y = 4.5f - (float)(Math.Cos((uTurnYaw)));
+            pos.Y = 4.5f - (float)(Math.Cos((totaluTurn*2))-1)/4;
+            rot.X = -(float)(Math.Cos((totaluTurn * 2)) - 1);
 
             //System.Diagnostics.Debug.WriteLine(uTurnYaw);
 
-            moveSpeed = maxSpeed*3;// MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 5);
+            moveSpeed = maxSpeed;// MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 5);
 
 
             //pos.X += direction.X * moveSpeed;
@@ -172,8 +181,10 @@ namespace MoonCow
             frameDiff.X += direction.X * moveSpeed;
             frameDiff.Z += direction.Z * moveSpeed;
 
-            if (uTurnYaw > MathHelper.Pi / 20)
+            //if (uTurnYaw > MathHelper.Pi / 20)
+            if(totaluTurn > MathHelper.Pi)
             {
+                totaluTurn = 0;
                 pos.Y = 4.5f;
                 uTurnYaw = 0;
                 inUTurn = false;
@@ -258,52 +269,95 @@ namespace MoonCow
 
         void updateBarrelRoll()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Q) && rollCooldown >= 10)
+            if (Keyboard.GetState().IsKeyDown(Keys.Q) && rollCooldown <=0)
             {
-                rollCooldown = 0;
-                rolling = true;
+                rollCooldown = 30;
+                rollRecoverTime = MathHelper.PiOver2;
+
+                if (roll < 0 && rollState == RollState.rolling)
+                    targetRoll = 0;
+                else
+                    targetRoll = MathHelper.Pi * 2;
+
+                rollState = RollState.rolling;
                 rollDir = RollDir.left;
+                
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.E) && rollCooldown >= 10)
+            if (Keyboard.GetState().IsKeyDown(Keys.E) && rollCooldown <=0)
             {
-                rollCooldown = 0;
-                rolling = true;
+                rollCooldown = 30;
+                rollRecoverTime = MathHelper.PiOver2;
+
+                if (roll > 0 && rollState == RollState.rolling)
+                    targetRoll = 0;
+                else
+                    targetRoll = -MathHelper.Pi * 2;
+
+                rollState = RollState.rolling;
                 rollDir = RollDir.right;
+                
+
             }
 
-            if (rolling) //todo - treat sideways movement like forwards with lerping
+            if (rollState == RollState.rolling) //todo - treat sideways movement like forwards with lerping
             {
-                if (rollCooldown < 10)
-                    rollCooldown += 60 * Utilities.deltaTime;
+                if (rollCooldown > 0)
+                    rollCooldown -= 60 * Utilities.deltaTime;
 
                 if (rollDir == RollDir.left)
                 {
-                    roll += MathHelper.Pi * Utilities.deltaTime * 3;
-                    frameDiff.X += Vector3.Cross(Vector3.Up, direction).X * 15 * Utilities.deltaTime;
-                    frameDiff.Z += Vector3.Cross(Vector3.Up, direction).Z * 15 * Utilities.deltaTime;
-                    if (roll > MathHelper.Pi * 2)// && rollCooldown >= 10)
+                    sideSpeed = MathHelper.Lerp(sideSpeed, 15, Utilities.deltaTime*5);
+                    roll += MathHelper.Pi * Utilities.deltaTime * 4 * (sideSpeed/15);
+                    
+                    if (roll > targetRoll)// && rollCooldown >= 10)
                     {
-                        rollCooldown = 10;
+                        rollCooldown = 0;
                         roll = 0;
-                        rolling = false;
+                        rollState = RollState.recovering;
+
                     }
                 }
                 else
                 {
-                    roll -= MathHelper.Pi * Utilities.deltaTime * 3;
-                    frameDiff.X -= Vector3.Cross(Vector3.Up, direction).X * 15 * Utilities.deltaTime;
-                    frameDiff.Z -= Vector3.Cross(Vector3.Up, direction).Z * 15 * Utilities.deltaTime;
-                    if (roll < -MathHelper.Pi * 2)// && rollCooldown >= 10)
+                    sideSpeed = MathHelper.Lerp(sideSpeed, -15, Utilities.deltaTime * 5);
+                    roll += MathHelper.Pi * Utilities.deltaTime * 4 * (sideSpeed / 15);
+
+
+                    if (roll < targetRoll)// && rollCooldown >= 10)
                     {
-                        rollCooldown = 10;
+                        rollCooldown = 0;
                         roll = 0;
-                        rolling = false;
+                        rollState = RollState.recovering;
                     }
+                }
+            }
+            else
+            {
+                sideSpeed = MathHelper.Lerp(sideSpeed, 0, Utilities.deltaTime * 8);
+            }
+            if(rollState == RollState.recovering)
+            {
+                if(rollDir == RollDir.left)
+                    roll = (float)((Math.Cos(rollRecoverTime) - 1) * 0.5f) * -MathHelper.Pi * Utilities.deltaTime * 8;
+                if (rollDir == RollDir.right)
+                    roll = (float)((Math.Cos(rollRecoverTime) - 1) * 0.5f) * MathHelper.Pi * Utilities.deltaTime * 8;
+
+                //                    roll = (float)((Math.Cos(rollRecoverTime) - 1) * 0.5f) * MathHelper.PiOver4*0.65f;
+
+
+                rollRecoverTime += MathHelper.Pi * 3.5f * Utilities.deltaTime;
+                if(rollRecoverTime >= MathHelper.Pi*2)
+                {
+                    rollState = RollState.not;
+                    roll = 0;
+                    rollRecoverTime = MathHelper.PiOver2;
                 }
 
             }
 
+            frameDiff.X += Vector3.Cross(Vector3.Up, direction).X * sideSpeed * Utilities.deltaTime;
+            frameDiff.Z += Vector3.Cross(Vector3.Up, direction).Z * sideSpeed * Utilities.deltaTime;
             rot.Z += roll;
         }
 

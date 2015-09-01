@@ -24,7 +24,7 @@ namespace MoonCow
             this.direction = direction;
             this.game = game;
 
-            //this.game.modelManager.addEffect(new BasicModel(game.Content.Load<Model>(@"Models/Effects/tempbullet")));
+            game.modelManager.addEffect(new BasicModel(game.Content.Load<Model>(@"Models/Effects/tempbullet")));
         }
 
         public void update()

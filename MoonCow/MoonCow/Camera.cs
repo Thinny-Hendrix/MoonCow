@@ -146,7 +146,7 @@ namespace MoonCow
              //Trying to do a clever thing but it's not working
             lookAt.X += currentDirection.X * (currentDist * ((float)11.0 / (float)15.0));
             lookAt.Z += currentDirection.Z * (currentDist * ((float)11.0 / (float)15.0));
-            //lookAt.Y += 3;
+            lookAt.Y = 4.5f;
             lookAt += shakeOffset;
 
             cameraPosition.X = lookAt.X - (currentDirection.X * currentDist);

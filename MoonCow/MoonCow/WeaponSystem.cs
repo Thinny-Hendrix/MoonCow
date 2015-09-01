@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MoonCow
 {
-    public class WeaponSystem
+    public class WeaponSystem:GameComponent
     {
         Ship ship;
         int currentWeapon; //1=lasers, 2=missiles, 3=bomb, 4=shockwave, 5=drill 
@@ -19,14 +19,15 @@ namespace MoonCow
         List<Projectile> projectiles = new List<Projectile>();
 
 
-        public WeaponSystem(Ship ship, Game game)
+        public WeaponSystem(Ship ship, Game game):base(game)
         {
             this.ship = ship;
+            this.game = game;
             currentWeapon = 1;
             laserPos = 0;
         }
 
-        public void update()
+        public override void Update(GameTime gameTime)
         {
             if(Keyboard.GetState().IsKeyDown(Keys.Space) && cooldown == 0)
                 fire();
@@ -43,7 +44,9 @@ namespace MoonCow
                 currentWeapon = 5;
 
             foreach (Projectile p in projectiles)
+            {
                 p.update();
+            }
         }
 
 
