@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace MoonCow //poop
+namespace MoonCow
 {
     /// <summary>
     /// Holy shit this is gunna be hard.
