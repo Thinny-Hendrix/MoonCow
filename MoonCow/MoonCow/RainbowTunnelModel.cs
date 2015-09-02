@@ -22,6 +22,9 @@ namespace MoonCow
         Vector2 texPos3;
         SpriteBatch sb;
         DepthStencilState depthStencilState;
+        Model endGlow;
+        Vector3 endGlowPos;
+        Texture2D glow;
 
         public RainbowTunnelModel(Model model, Ship ship, Game game):base(model)
         {
@@ -37,6 +40,8 @@ namespace MoonCow
             //rBow = game.Content.Load<Texture2D>(@"Hud/hudMapF");
             //rBow = game.Content.Load<Texture2D>(@"Hud/rainbowTunnel");
             rBow = game.Content.Load<Texture2D>(@"Models/Misc/Rbow/rbowTunnelt");
+            glow = game.Content.Load<Texture2D>(@"Models/Effects/tex1");
+            endGlow = game.Content.Load<Model>(@"Models/Misc/square");
 
             depthStencilState = new DepthStencilState();
             depthStencilState.DepthBufferEnable = true;
@@ -49,6 +54,7 @@ namespace MoonCow
         {
             direction = ship.direction;
             pos = ship.pos;
+            endGlowPos = ship.pos + ship.direction * 20;
 
             //direction 1
             rot.Y = ship.rot.Y - MathHelper.Pi;
@@ -97,9 +103,6 @@ namespace MoonCow
 
             if (ship.finishingMove)
             {
-                
-
-
                 Matrix[] transforms = new Matrix[model.Bones.Count];
                 model.CopyAbsoluteBoneTransformsTo(transforms);
                 //game.GraphicsDevice.BlendState = BlendState.Additive;
@@ -112,6 +115,35 @@ namespace MoonCow
                         effect.Projection = camera.projection;
                         effect.TextureEnabled = true;
                         effect.Texture = (Texture2D)rTarg;
+                        effect.Alpha = 1;
+
+                        //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
+                        //effect.EnableDefaultLighting(); //did not work
+                        effect.LightingEnabled = true;
+
+                        //effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.5f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                        effect.DirectionalLight0.Direction = direction;
+                        //effect.DirectionalLight0.SpecularColor = Vector3.One;
+                        effect.AmbientLightColor = new Vector3(2f, 2f, 2f);
+                        //effect.EmissiveColor = Vector3.One;
+                        effect.PreferPerPixelLighting = true;
+
+                    }
+                    mesh.Draw();
+                }
+
+                transforms = new Matrix[endGlow.Bones.Count];
+                endGlow.CopyAbsoluteBoneTransformsTo(transforms);
+                game.GraphicsDevice.BlendState = BlendState.Additive;
+                foreach (ModelMesh mesh in endGlow.Meshes)
+                {
+                    foreach (BasicEffect effect in mesh.Effects)
+                    {
+                        effect.World = mesh.ParentBone.Transform * Matrix.CreateFromYawPitchRoll(rot.Y, rot.X, (float)Utilities.random.NextDouble()*MathHelper.Pi*2) * Matrix.CreateScale(0.5f) * Matrix.CreateTranslation(endGlowPos);
+                        effect.View = camera.view;
+                        effect.Projection = camera.projection;
+                        effect.TextureEnabled = true;
+                        effect.Texture = glow;
                         effect.Alpha = 1;
 
                         //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader

@@ -33,7 +33,7 @@ namespace MoonCow
             this.weapons = weapons;
 
             speed = 50;
-            life = 240;
+            life = 120;
             delete = false;
 
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
@@ -54,7 +54,7 @@ namespace MoonCow
             life -= Utilities.deltaTime * 60;
             if(life <=0)
             {
-
+                deleteProjectile();
             }
         }
 
@@ -79,6 +79,7 @@ namespace MoonCow
                     if (boundingBox.intersects(box))
                     {
                         pos.X -= frameDiff.X;
+                        game.ship.moneyManager.addGib(100, pos);
                         deleteProjectile();
                     }
                 }
@@ -101,6 +102,7 @@ namespace MoonCow
                     if (boundingBox.intersects(box))
                     {
                         deleteProjectile();
+                        game.ship.moneyManager.addGib(100, pos);
                         pos.Z -= frameDiff.Z;
                     }
                 }
@@ -113,7 +115,6 @@ namespace MoonCow
 
         void deleteProjectile()
         {
-            game.ship.moneyManager.addGib(100, pos);
             game.modelManager.removeEffect(model);
             weapons.toDelete.Add(this);
             delete = true;

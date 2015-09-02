@@ -135,7 +135,7 @@ namespace MoonCow
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
             game.GraphicsDevice.BlendState = BlendState.Additive;
-            game.GraphicsDevice.DepthStencilState = DepthStencilState.None;
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
                 foreach (ModelMesh mesh in model.Meshes)
                 {
                     foreach (BasicEffect effect in mesh.Effects)
