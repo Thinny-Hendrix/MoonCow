@@ -81,19 +81,19 @@ namespace MoonCow
         protected override void LoadContent()
         {
 
-            layout = new MapData(@"Content/MapXml/map1.xml");
+            layout = new MapData(@"Content/MapXml/map1-revis.xml");
 
             map = new Map(this, layout.getNodes());
 
-            Pathfinder pathfinder = new Pathfinder(map);
-            List<Vector2> path = pathfinder.findPath(new Point(2, 0), new Point(5, 9));
+            //Pathfinder pathfinder = new Pathfinder(map);
+            //List<Vector2> path = pathfinder.findPath(new Point(2, 0), new Point(5, 9));
 		
 	        enemyManager.addEnemy(new Enemy(this));
 
-            foreach (Vector2 point in path)
-            {
-                System.Diagnostics.Debug.WriteLine(point);
-            }
+            //foreach (Vector2 point in path)
+            //{
+             //   System.Diagnostics.Debug.WriteLine(point);
+            //}
 
         }
 
