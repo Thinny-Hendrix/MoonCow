@@ -55,7 +55,7 @@ namespace MoonCow
             float rotation = (float)Math.Atan2(direction.X, direction.Z);
             for (int i = 0; i < 4; i++)
             {
-                corners[i] = new Vector2((float)(corners[i].X * Math.Cos(rotation) - corners[i].Y * Math.Sin(rotation)));
+                corners[i] = new Vector2((float)(corners[i].X * Math.Cos(rotation) - corners[i].Y * Math.Sin(rotation)), (float)(corners[i].X * Math.Sin(rotation) + corners[i].Y * Math.Cos(rotation)));
             }
 
             //Set position
