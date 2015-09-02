@@ -30,7 +30,7 @@ namespace MoonCow
             currentWeapon = 1;
             laserPos = 0;
 
-            pew1 = Game.Content.Load<Texture2D>(@"Models/Misc/Rbow/rbowTunnelt");
+            pew1 = Game.Content.Load<Texture2D>(@"Models/Effects/tex1");
 
         }
 
