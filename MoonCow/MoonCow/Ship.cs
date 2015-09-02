@@ -66,7 +66,7 @@ namespace MoonCow
 
         public Ship(Game game) : base(game)
         {
-            pos = new Vector3(120, 4.5f, 90);
+            pos = new Vector3(90, 4.5f, 0);
             moveSpeed = 0;
             accel = 0.5f;
             maxSpeed = 0.2f;

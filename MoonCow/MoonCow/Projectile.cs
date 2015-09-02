@@ -38,7 +38,7 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
 
-            model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/tempbullet"), pos, this, game, tex);
+            model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffect"), pos, this, game, tex);
             game.modelManager.addEffect(model);
         }
 

@@ -17,7 +17,7 @@ namespace MoonCow
         Vector3 lookAt;
         Vector3 cameraUp;
         Vector3 goalDirection;
-        Vector3 currentDirection;
+        public Vector3 currentDirection;
 
         int xTurnValue;
         int yTurnValue;
@@ -39,7 +39,7 @@ namespace MoonCow
 
         //this is to control camera tilt
         float tiltAngle;
-        Vector3 tiltUp = Vector3.Up; //the up vector the camera will use
+        public Vector3 tiltUp = Vector3.Up; //the up vector the camera will use
         bool tilting = false;
         float tiltStrength;
         float tiltTime;

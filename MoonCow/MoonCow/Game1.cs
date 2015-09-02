@@ -22,6 +22,8 @@ namespace MoonCow
         public Map map;
         public Camera camera;
         public ModelManager modelManager;
+	    public EnemyManager enemyManager;
+        public AudioManager audioManager;
         public Ship ship;
         private MapData layout;
         public Hud hud;
@@ -53,12 +55,16 @@ namespace MoonCow
 
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
+	        enemyManager = new EnemyManager(this);
+            audioManager = new AudioManager(this);
             ship = new Ship(this);
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
 
 
             Components.Add(camera);
             Components.Add(modelManager);
+            Components.Add(audioManager);
+            Components.Add(enemyManager);
             Components.Add(ship);
             Components.Add(hud);
 
@@ -75,17 +81,19 @@ namespace MoonCow
         protected override void LoadContent()
         {
 
-            layout = new MapData(@"Content/MapXml/map1.xml");
+            layout = new MapData(@"Content/MapXml/map1-revis.xml");
 
             map = new Map(this, layout.getNodes());
 
-            Pathfinder pathfinder = new Pathfinder(map);
-            List<Vector2> path = pathfinder.findPath(new Point(2, 0), new Point(5, 9));
+            //Pathfinder pathfinder = new Pathfinder(map);
+            //List<Vector2> path = pathfinder.findPath(new Point(2, 0), new Point(5, 9));
+		
+	        enemyManager.addEnemy(new Enemy(this));
 
-            foreach (Vector2 point in path)
-            {
-                System.Diagnostics.Debug.WriteLine(point);
-            }
+            //foreach (Vector2 point in path)
+            //{
+             //   System.Diagnostics.Debug.WriteLine(point);
+            //}
 
         }
 

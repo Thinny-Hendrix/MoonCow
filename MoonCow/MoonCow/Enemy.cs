@@ -22,10 +22,10 @@ namespace MoonCow
         //All to do with turning;
         public float currentTurnSpeed;
         public float maxTurnSpeed;
-        float turnAmount = 0;
+        bool atCore = false;
         Vector3 nodeDirection = new Vector3(0, 0, 1);
         bool turnDirection = false; //false = left, true = right
-        char isFacing = 'S'; //N, S, E, W
+        char isFacing = 'S'; //North, South, East, West
         char wasFacing = 'S';
 
 
@@ -39,27 +39,27 @@ namespace MoonCow
 
         Vector2 prevPosition;
         Vector2 nextPosition;
-        Vector2 futurePosition;
+        //Vector2 futurePosition; - May need in future
 
         int pathPosition = 0;
 
         public EnemyModel enemyModel;
         //WeaponSystem weapons;
 
-        public Enemy(Game1 currentGame)
+        public Enemy(Game1 game)
         {
-            game = currentGame;
+            this.game = game;
             moveSpeed = 0;
-            maxSpeed = 0.08f;
+            maxSpeed = 0.11f;
             direction = new Vector3(0, 0, 1);
             rot = new Vector3(0, (float)Math.PI, 0);
             currentTurnSpeed = 0;
-            maxTurnSpeed = MathHelper.PiOver4 / 110;
+            maxTurnSpeed = MathHelper.PiOver4 / 90;
 
             enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             //enemyModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneakproto"), this);
 
-            game.modelManager.add(enemyModel);
+            game.modelManager.addEnemy(enemyModel);
 
             Random rnd = new Random();
             List<Vector2> spawns = game.map.getEnemySpawn();
@@ -94,14 +94,9 @@ namespace MoonCow
 
         public void Update(GameTime gameTime)
         {
-            //current plan is this - set the coordinate for the next node position, then face that direction
-            //travel to the 'next position' - once next position is reached, set the next position to be the next vector - repeat.
             nextPosition = path[pathPosition];
 
-            System.Diagnostics.Debug.WriteLine(pos.X + " in " + (makeCentreCoordinate(nextPosition.X) + 10) +  " or " + (makeCentreCoordinate(nextPosition.X) - 10));
-            System.Diagnostics.Debug.WriteLine(pos.Z + " in " + (makeCentreCoordinate(nextPosition.Y) + 10) + " or " + (makeCentreCoordinate(nextPosition.Y) - 10));
-
-            if ((pos.X < makeCentreCoordinate(nextPosition.X) + 15 && pos.X > makeCentreCoordinate(nextPosition.X) - 15) && (pos.Z < makeCentreCoordinate(nextPosition.Y) + 15 && pos.Z > makeCentreCoordinate(nextPosition.Y) - 15))
+            if ((pos.X < makeCentreCoordinate(nextPosition.X) + 13 && pos.X > makeCentreCoordinate(nextPosition.X) - 13) && (pos.Z < makeCentreCoordinate(nextPosition.Y) + 13 && pos.Z > makeCentreCoordinate(nextPosition.Y) - 13))
             {
                 System.Diagnostics.Debug.WriteLine("Next Direction!");
 
@@ -113,7 +108,7 @@ namespace MoonCow
                 }
                 else
                 {
-
+                    atCore = true;
                 }
             }
             else
@@ -159,7 +154,16 @@ namespace MoonCow
             }
 
             //Turning Code
-            if (!(direction.Z > (nodeDirection.Z - 0.001f) && direction.Z < (nodeDirection.Z + 0.001f)))
+            if ((wasFacing == 'N' || wasFacing == 'S') && (pos.X <= makeCentreCoordinate(nextPosition.X) + 13 && pos.X >= makeCentreCoordinate(nextPosition.X) + 7.5))
+                evenOut(false);
+            else if ((wasFacing == 'E' || wasFacing == 'W') && (pos.Z <= makeCentreCoordinate(nextPosition.Y) + 13 && pos.Z >= makeCentreCoordinate(nextPosition.Y) + 7.5))
+                evenOut(false);
+            else if ((wasFacing == 'N' || wasFacing == 'S') && (pos.X <= makeCentreCoordinate(nextPosition.X) - 7.5 && pos.X >= makeCentreCoordinate(nextPosition.X) - 13))
+                evenOut(true);
+            else if ((wasFacing == 'E' || wasFacing == 'W') && (pos.Z <= makeCentreCoordinate(nextPosition.Y) - 7.5 && pos.Z >= makeCentreCoordinate(nextPosition.Y) - 13))
+                evenOut(true);
+
+            if (!(direction.Z > (nodeDirection.Z - 0.005f) && direction.Z < (nodeDirection.Z + 0.005f)))
             {
                 currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed, Utilities.deltaTime * 10);
 
@@ -196,34 +200,64 @@ namespace MoonCow
                         break;
                 }
 
-                if (turnDirection)
-                    rot.Y -= currentTurnSpeed;
-                else
-                    rot.Y += currentTurnSpeed;
+                  if (turnDirection)
+                      rot.Y -= currentTurnSpeed;
+                  else
+                      rot.Y += currentTurnSpeed;
 
-                direction.X = -(float)Math.Sin(rot.Y);
-                direction.Z = -(float)Math.Cos(rot.Y);
-                direction.Normalize();
+                  direction.X = -(float)Math.Sin(rot.Y);
+                  direction.Z = -(float)Math.Cos(rot.Y);
+                  direction.Normalize();
             }
 
             System.Diagnostics.Debug.WriteLine(nodeDirection.X + ", " + nodeDirection.Z);
             System.Diagnostics.Debug.WriteLine(direction.X + ",, " + direction.Z);
 
             //Movement Code
-            moveSpeed = MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 3);
 
-            //pos = new Vector3(makeCentreCoordinate(nextPosition.X), 4.5f, makeCentreCoordinate(nextPosition.Y));
-            
-            //(if not at core)
+            if (!atCore)
+            {
+                moveSpeed = MathHelper.Lerp(moveSpeed, maxSpeed, Utilities.deltaTime * 3);
+            }
+            else
+            {
+                //need slowdown code
+                moveSpeed = 0;
+            }
             pos.X += direction.X * moveSpeed;
             pos.Z += direction.Z * moveSpeed;
-            //end if
+        }
+
+        private void evenOut(bool invert)
+        {
+            if (!atCore)
+            {
+                if (invert)
+                {
+                    if (turnDirection)
+                        rot.Y += currentTurnSpeed;
+                    else
+                        rot.Y -= currentTurnSpeed;
+                }
+                else
+                {
+                    if (turnDirection)
+                        rot.Y -= currentTurnSpeed;
+                    else
+                        rot.Y += currentTurnSpeed;
+                }
+
+                direction.X = -(float)Math.Sin(rot.Y);
+                direction.Z = -(float)Math.Cos(rot.Y);
+                direction.Normalize();
+            }
         }
 
         public void updatePath()
         {
             path = pathfinder.findPath(new Point((int)makePointCoordinate(nextPosition.X), (int)makePointCoordinate(nextPosition.Y)), coreLocation);
             pathPosition = 0;
+            atCore = false;
         }
     }
 }
