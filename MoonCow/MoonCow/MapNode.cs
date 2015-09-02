@@ -61,58 +61,72 @@ namespace MoonCow
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //Diagonals first one is broken
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector2(pos.X * 30, (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 12, (pos.Y * 30) + 1)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2(pos.X * 30, (pos.Y * 30) - 9), new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 12, (pos.Y * 30) + 1)));
+                    //Diagonals
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9)));
                     break;
                 case 4:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs more colliders for the two diagonals
+                    //Diagonals
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector2((pos.X * 30) - 2, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 9, (pos.Y * 30))));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3)));
                     break;
                 case 5:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs more colliders for the two diagonals
+                    //Diagonals
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) - 3, (pos.Y * 30) + 12), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 2)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12)));
                     break;
                 case 6:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs more colliders for the two diagonals
+                    //Diagonals
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 2, (pos.Y * 30) -13), new Vector2((pos.X * 30) + 12, (pos.Y * 30) - 3), new Vector2((pos.X * 30) + 9, (pos.Y * 30)), new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 12, (pos.Y * 30) + 3), new Vector2((pos.X * 30) + 2, (pos.Y * 30) + 13)));
                     break;
                 case 7:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs more colliders for the two diagonals
+                    //Diagonals
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9)));
                     break;
                 case 8:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs more colliders for the two diagonals
+                    //Diagonals
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector2((pos.X * 30) - 2, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 9, (pos.Y * 30))));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3)));
                     break;
                 case 9:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs more colliders for the two diagonals
+                    //Diagonals
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) - 3, (pos.Y * 30) + 12), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 2)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12)));
                     break;
                 case 10:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs more colliders for the two diagonals
+                    //Diagonals
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 2, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 12, (pos.Y * 30) - 3), new Vector2((pos.X * 30) + 9, (pos.Y * 30)), new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 12, (pos.Y * 30) + 3), new Vector2((pos.X * 30) + 2, (pos.Y * 30) + 13)));
                     break;
                 case 11:
                     traversable = true;
