@@ -14,6 +14,7 @@ namespace MoonCow
         Ship ship;
         Game1 game;
         MoneyManager moneyManager;
+        MoneyGibGlow glow;
         Vector3 initDirection;
         Vector3 currentDirection;
         Vector3 targetDirection;
@@ -34,6 +35,9 @@ namespace MoonCow
             this.ship = ship;
             this.game = game;
             scale = new Vector3(.03f, .03f, .03f);
+            glow = new MoneyGibGlow(game.Content.Load<Model>(@"Models/Misc/square"), this, game);
+            game.modelManager.addEffect(glow);
+
 
             initDirection.X = (float)Utilities.random.NextDouble()*2-1;
             initDirection.Y = (float)Utilities.random.NextDouble()*2-1;
@@ -155,6 +159,7 @@ namespace MoonCow
         {
             moneyManager.addMoney(value);
             moneyManager.toDelete.Add(this);
+            game.modelManager.removeEffect(glow);
             collected = true;
         }
     }

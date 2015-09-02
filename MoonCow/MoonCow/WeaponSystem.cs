@@ -62,7 +62,7 @@ namespace MoonCow
                 if (cooldown < 0)
                     cooldown = 0;
             }
-
+ 
             foreach (Projectile p in projectiles)
             {
                 p.update();
@@ -86,12 +86,12 @@ namespace MoonCow
                     case 1:
                         if (laserPos == 0)
                         {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X*0.25f,0, Vector3.Cross(Vector3.Up, ship.direction).Z), ship.direction, (Game1)game, pew1, pew2, pew3, this));
+                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, pew1, pew2, pew3, this));
                             laserPos = 1;
                         }
                         else
                         {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * -0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z), ship.direction, (Game1)game, pew1, pew2, pew3, this));
+                            projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, pew1, pew2, pew3, this));
                             laserPos = 0;
                         }
 

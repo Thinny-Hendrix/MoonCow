@@ -21,6 +21,7 @@ namespace MoonCow
         ModelBone tip;
         ModelBone tail;
 
+        RenderTarget2D tipTarg;
         RenderTarget2D trailTarg;
         RenderTarget2D endTarg;
         SpriteBatch sb;
@@ -48,6 +49,7 @@ namespace MoonCow
             tip = model.Bones["tip1"];
             tipMatrix = Matrix.Identity;
 
+            tipTarg = new RenderTarget2D(game.GraphicsDevice, 256, 256);
             trailTarg = new RenderTarget2D(game.GraphicsDevice, 256, 768);
             endTarg = new RenderTarget2D(game.GraphicsDevice, 256, 256);
             sb = new SpriteBatch(game.GraphicsDevice);
@@ -79,9 +81,30 @@ namespace MoonCow
             texPos3.Y = texPos1.Y + 512;
             texPos4.Y = texPos1.Y + 256;
 
+            game.GraphicsDevice.SetRenderTarget(tipTarg);
+
+            sb.Begin();
+            sb.Draw(tex, Vector2.Zero, Color.Green);
+            sb.End();
+
             game.GraphicsDevice.SetRenderTarget(trailTarg);
 
             sb.Begin();
+            sb.Draw(tex3, texPos1, Color.Green);
+            sb.Draw(tex3, texPos2, Color.Green);
+            sb.Draw(tex3, texPos3, Color.Green);
+            sb.Draw(tex3, texPos4, Color.Green);
+
+            sb.Draw(tex3, texPos1, Color.Green);
+            sb.Draw(tex3, texPos2, Color.Green);
+            sb.Draw(tex3, texPos3, Color.Green);
+            sb.Draw(tex3, texPos4, Color.Green);
+
+            sb.Draw(tex3, texPos1, Color.Green);
+            sb.Draw(tex3, texPos2, Color.Green);
+            sb.Draw(tex3, texPos3, Color.Green);
+            sb.Draw(tex3, texPos4, Color.Green);
+
             sb.Draw(tex3, texPos1, Color.Green);
             sb.Draw(tex3, texPos2, Color.Green);
             sb.Draw(tex3, texPos3, Color.Green);
@@ -92,6 +115,9 @@ namespace MoonCow
 
             sb.Begin();
             sb.Draw(tex2, new Rectangle(127,127,256,256),null, Color.CornflowerBlue,endRot,new Vector2(127,127),SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, Color.CornflowerBlue, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, Color.CornflowerBlue, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, Color.CornflowerBlue, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
             sb.End();
 
             game.GraphicsDevice.SetRenderTarget(null);
@@ -114,26 +140,31 @@ namespace MoonCow
                 {
                     foreach (BasicEffect effect in mesh.Effects)
                     {
-                        /*if (mesh.Name.StartsWith("tip"))
+                        if (mesh.Name.StartsWith("tip"))
                         {
-                            //effect.World = tipMatrix;
-                            effect.World = mesh.ParentBone.Transform * GetWorld();
+                            effect.World = Matrix.CreateScale(scale*2)*Matrix.CreateRotationY(MathHelper.PiOver2)*Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
+                            //effect.World = mesh.ParentBone.Transform * GetWorld();
                         }
-                        else*/
+                        else
                         {
                             effect.World = mesh.ParentBone.Transform * GetWorld();
-                            effect.View = camera.view;
-                            effect.Projection = camera.projection;
+                            //effect.World = Matrix.CreateScale(scale) * Matrix.CreateRotationY(MathHelper.PiOver2) * Matrix.CreateConstrainedBillboard(projectile.pos, game.camera.cameraPosition, Vector3.Cross(Vector3.Left, projectile.direction), null, null);
                         }
+
+                        effect.View = camera.view;
+                        effect.Projection = camera.projection;
 
                         
                         effect.TextureEnabled = true;
 
                         if (mesh.Name.StartsWith("tip"))
-                            effect.Texture = tex;
+                            if (mesh.Name.EndsWith("3") || mesh.Name.EndsWith("4"))
+                                effect.Texture = (Texture2D)tipTarg;
+                            else
+                                effect.Texture = tex;
                         else if (mesh.Name.StartsWith("end"))
                             effect.Texture = (Texture2D)endTarg;
-                        else
+                        else//tail
                             effect.Texture = (Texture2D)trailTarg;
 
 

@@ -13,7 +13,7 @@ namespace MoonCow
         public Vector3 pos;
         public Vector3 rot;
         public Vector3 scale;
-        Vector3 direction;
+        public Vector3 direction;
         float speed;
         float life;
         Game1 game;

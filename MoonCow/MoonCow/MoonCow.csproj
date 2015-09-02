@@ -53,6 +53,7 @@
     <Compile Include="Map.cs" />
     <Compile Include="MapNode.cs" />
     <Compile Include="MoneyGib.cs" />
+    <Compile Include="MoneyGibGlow.cs" />
     <Compile Include="MoneyManager.cs" />
     <Compile Include="OOBB.cs" />
     <Compile Include="Pathfinder.cs" />
@@ -627,6 +628,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Misc\spacerockpoly.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Misc\square.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
