@@ -299,6 +299,7 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/straight1"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    game.ship.setRespawn(new Vector3(pos.X * 30, 4.5f, pos.Y * 30));
                     break;
                 case 28:
                     traversable = true;
@@ -582,7 +583,7 @@ namespace MoonCow
                     break;
                 case 60:
                     traversable = false;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/BgTiles/node60"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0, 100);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/BgTiles/node60"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0, 1);
                     break;
                 default:
                     traversable = false;

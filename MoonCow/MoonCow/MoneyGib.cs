@@ -12,6 +12,7 @@ namespace MoonCow
         Model model;
         OOBB boundingBox;
         Ship ship;
+        Game1 game;
         MoneyManager moneyManager;
         Vector3 initDirection;
         Vector3 currentDirection;
@@ -24,14 +25,15 @@ namespace MoonCow
         float xAngle;
         bool collected;
 
-        public MoneyGib(float value, Model model, MoneyManager moneyManager, Ship ship, Vector3 pos) : base(model)
+        public MoneyGib(float value, Model model, MoneyManager moneyManager, Ship ship, Vector3 pos, Game1 game) : base(model)
         {
             this.value = value;
             this.model = model;
             this.pos = pos;
             this.moneyManager = moneyManager;
             this.ship = ship;
-            scale = new Vector3(1, 1, 1);
+            this.game = game;
+            scale = new Vector3(.03f, .03f, .03f);
 
             initDirection.X = (float)Utilities.random.NextDouble()*2-1;
             initDirection.Y = (float)Utilities.random.NextDouble()*2-1;
@@ -40,7 +42,9 @@ namespace MoonCow
 
             currentDirection = initDirection;
 
-            speed = 10;
+            rot = currentDirection;
+
+            speed = 20;
 
             boundingBox = new OOBB(pos, currentDirection, .1f, .1f);
             collected = false;
@@ -48,39 +52,61 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            //first shoot in direction, over time change to move towards ship pos
+            //first shoot in initDirection, over time change to move towards ship pos
 
-            //calculate target direction
-            //targetDirection.X = pos.X - ship.pos.X;
-            //targetDirection.Y = pos.Y - ship.pos.Y;
-            //targetDirection.Z = pos.Z - ship.pos.Z;
-            //targetDirection.Normalize();
+            //calculate 3D target direction normal
 
-            yAngle = (float)Math.Atan2(pos.X - ship.pos.X, pos.Z - ship.pos.Z);
-            xAngle = (float)Math.Atan2(pos.Y - ship.pos.Y, pos.Z - ship.pos.Z);
-            targetDirection.X = -(float)Math.Sin(yAngle);
-            targetDirection.Z = -(float)Math.Cos(yAngle);
-            targetDirection.Y = -(float)Math.Sin(xAngle);
-            targetDirection.Normalize();
+            if (!Utilities.paused)
+            {
+                yAngle = (float)Math.Atan2(pos.X - ship.pos.X, pos.Z - ship.pos.Z);
+                xAngle = (float)Math.Atan2(pos.Y - ship.pos.Y, pos.Z - ship.pos.Z);
+                targetDirection.X = -(float)Math.Sin(yAngle);
+                targetDirection.Z = -(float)Math.Cos(yAngle);
+                targetDirection.Y = -(float)Math.Sin(xAngle);
+                targetDirection.Normalize();
 
 
 
-            //currentDirection = targetDirection;
-            currentDirection = Vector3.Lerp(currentDirection, targetDirection, Utilities.deltaTime * 4);
-            //currentDirection.Normalize();
-            frameDiff += currentDirection * speed * Utilities.deltaTime;
-            //pos = Vector3.Lerp(pos, ship.pos, Utilities.deltaTime*3);
+                currentDirection = Vector3.Lerp(currentDirection, targetDirection, Utilities.deltaTime * 5);
+                frameDiff += currentDirection * speed * Utilities.deltaTime;
 
-            speed += Utilities.deltaTime*4;
-            checkCollision();
-            frameDiff = Vector3.Zero;
+                speed += Utilities.deltaTime * 6;
+                checkCollision();
+                frameDiff = Vector3.Zero;
 
-            base.Update(gameTime);
+                rot += (currentDirection * -0.1f);
+            }
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
         {
-            base.Draw(device, camera);
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(transforms);
+
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = mesh.ParentBone.Transform * GetWorld();
+                    effect.View = camera.view;
+                    effect.Projection = camera.projection;
+                    effect.TextureEnabled = true;
+                    effect.Alpha = 1;
+
+                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
+                    //effect.EnableDefaultLighting(); //did not work
+                    effect.LightingEnabled = true;
+
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.3f, 0.3f, 0.3f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                    effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
+                    effect.DirectionalLight0.SpecularColor = Vector3.One;
+                    effect.AmbientLightColor = Vector3.One;
+                    effect.EmissiveColor = new Vector3(0.3f, 0.3f, 0.3f);
+                    effect.PreferPerPixelLighting = true;
+
+                }
+                mesh.Draw();
+            }
         }
 
         void checkCollision()
@@ -131,7 +157,5 @@ namespace MoonCow
             moneyManager.toDelete.Add(this);
             collected = true;
         }
-
-
     }
 }

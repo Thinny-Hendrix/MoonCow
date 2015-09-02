@@ -32,7 +32,7 @@ namespace MoonCow
             displayTime = 0;
             this.game = game;
 
-            moneyGib1 = game.Content.Load<Model>(@"Models/Enemies/Cubes/gunCube");
+            moneyGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/gib1");
 
 
 
@@ -96,7 +96,7 @@ namespace MoonCow
 
         public void addGib(float amount, Vector3 position)
         {
-            MoneyGib g = new MoneyGib(amount, moneyGib1, this, ((Game1)Game).ship, position);
+            MoneyGib g = new MoneyGib(amount, moneyGib1, this, ((Game1)Game).ship, position, (Game1)game);
             //moneyGibs.Add(g);
             ((Game1)Game).modelManager.addObject(g);
         }

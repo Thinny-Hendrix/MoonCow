@@ -62,9 +62,8 @@ namespace MoonCow
 
             game.modelManager.addEnemy(enemyModel);
 
-            Random rnd = new Random();
             List<Vector2> spawns = game.map.getEnemySpawn();
-            int value = rnd.Next(spawns.Count);
+            int value = Utilities.random.Next(spawns.Count);
 
             //essentially, if there's more than 1 spawn point, pick a random spawn point to spawn at.
             Vector2 spawn = new Vector2(spawns[value].X, spawns[value].Y);
@@ -79,6 +78,8 @@ namespace MoonCow
             path = pathfinder.findPath(new Point((int)spawn.X, (int)spawn.Y), coreLocation);
 
             //System.Diagnostics.Debug.WriteLine(path);
+
+            boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
 
             //weapons = new WeaponSystem(this);
         }

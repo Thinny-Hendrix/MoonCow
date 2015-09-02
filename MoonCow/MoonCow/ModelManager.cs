@@ -165,12 +165,12 @@ namespace MoonCow
         {
             for (int i = 0; i < 75; i++)
             {
-                nodeModels.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/octahedron"), ((Game1)Game).ship, 0));
+                nodeModels.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/spacerockpoly"), ((Game1)Game).ship, 0));
             }
 
             for (int i = 0; i < 75; i++)
             {
-                nodeModels.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/octahedron"), ((Game1)Game).ship, 1));
+                nodeModels.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/spacerockpoly"), ((Game1)Game).ship, 1));
             }
         }
 

@@ -16,6 +16,8 @@ namespace MoonCow
         public Vector3 scale;
         public Vector3 direction;
         Vector3 frameDiff;//values are added to this in update before doing one collision check
+        public Vector3 respawnPoint;
+
 
         public float moveSpeed;
         public float maxSpeed;
@@ -100,6 +102,8 @@ namespace MoonCow
 
         public override void Initialize()
         {
+            pos = respawnPoint;
+
             shieldMax = 100;
             shieldVal = 100;
             hpVal = 100;
@@ -150,10 +154,21 @@ namespace MoonCow
             if (Keyboard.GetState().IsKeyDown(Keys.K))
                 moneyManager.addMoney(-1329);
 
+            //if (Keyboard.GetState().IsKeyDown(Keys.R))
+                //respawn();
+
+
             //weapons.update();
             //moneyManager.update();
             //System.Diagnostics.Debug.WriteLine("Current angle is " + rot + ", direction is " + direction);
 
+        }
+
+        void respawn()
+        {
+            pos = respawnPoint;
+            moveSpeed = 0;
+            direction = Vector3.Backward;
         }
 
         void uTurn()
@@ -431,6 +446,12 @@ namespace MoonCow
                     //currently just undoes the frames movement before drawing. effectively stopping the ship
                 }
             }
+        }
+
+        public void setRespawn(Vector3 respawn)
+        {
+            respawnPoint = respawn;
+            pos = respawnPoint;
         }
 
     }

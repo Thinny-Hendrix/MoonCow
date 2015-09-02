@@ -15,7 +15,7 @@ namespace MoonCow
         {
             this.model = model;
             this.ship = ship;
-            scale = new Vector3(4000, 5000, 4000);
+            scale = new Vector3(5000, 6000, 5000);
         }
 
         public override void Update(GameTime gameTime)

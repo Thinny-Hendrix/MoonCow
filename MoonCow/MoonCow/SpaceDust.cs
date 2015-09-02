@@ -11,12 +11,13 @@ namespace MoonCow
     {
         Ship ship;
         float range = 50;
+        Model glowModel;
 
         public SpaceDust(Model model, Ship ship, int yRange):base(model)
         {
             this.model = model;
             this.ship = ship;
-            scale = new Vector3(1,1,1);
+            scale = new Vector3(.015f,.015f,.015f);
             rot.X = (float)Utilities.random.NextDouble();
             rot.Y = (float)Utilities.random.NextDouble();
             rot.Z = (float)Utilities.random.NextDouble();
@@ -85,9 +86,9 @@ namespace MoonCow
                     effect.LightingEnabled = true;
 
                     effect.DirectionalLight0.Direction = ship.direction;
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.5f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.3f, 1f, 0.7f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                     effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = Vector3.One;
+                    effect.AmbientLightColor = new Vector3(.6f,.6f,.6f);
                     effect.PreferPerPixelLighting = true;
                     //effect.EmissiveColor = Vector3.One;
                 }
