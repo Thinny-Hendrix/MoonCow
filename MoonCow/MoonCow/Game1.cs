@@ -22,6 +22,7 @@ namespace MoonCow
         public Map map;
         public Camera camera;
         public ModelManager modelManager;
+	public EnemyManager enemyManager;
         public AudioManager audioManager;
         public Ship ship;
         private MapData layout;
@@ -54,6 +55,7 @@ namespace MoonCow
 
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
+	    enemyManager = new EnemyManager(this);
             audioManager = new AudioManager(this);
             ship = new Ship(this);
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
@@ -84,6 +86,8 @@ namespace MoonCow
 
             Pathfinder pathfinder = new Pathfinder(map);
             List<Vector2> path = pathfinder.findPath(new Point(2, 0), new Point(5, 9));
+		
+	    enemyManager.addEnemy(new Enemy(this));
 
             foreach (Vector2 point in path)
             {
@@ -114,6 +118,7 @@ namespace MoonCow
             Utilities.Update(gameTime);
 
             // TODO: Add your update logic here
+	    enemyManager.Update(gameTime);
 
             base.Update(gameTime);
             //hud.update(gameTime, spriteBatch);
