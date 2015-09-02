@@ -22,6 +22,7 @@ namespace MoonCow
         public Map map;
         public Camera camera;
         public ModelManager modelManager;
+        public AudioManager audioManager;
         public Ship ship;
         private MapData layout;
         public Hud hud;
@@ -53,12 +54,14 @@ namespace MoonCow
 
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
+            audioManager = new AudioManager(this);
             ship = new Ship(this);
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
 
 
             Components.Add(camera);
             Components.Add(modelManager);
+            Components.Add(audioManager);
             Components.Add(ship);
             Components.Add(hud);
 
