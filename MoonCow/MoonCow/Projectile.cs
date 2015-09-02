@@ -24,7 +24,7 @@ namespace MoonCow
         WeaponSystem weapons;
         ProjectileModel model;
 
-        public Projectile(Vector3 pos, Vector3 direction, Game1 game, Texture2D tex, WeaponSystem weapons)
+        public Projectile(Vector3 pos, Vector3 direction, Game1 game, Texture2D tex, Texture2D tex2, Texture2D tex3, WeaponSystem weapons)
         {
             this.direction = direction;
             this.game = game;
@@ -38,7 +38,7 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
 
-            model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffect"), pos, this, game, tex);
+            model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, game, tex, tex2, tex3);
             game.modelManager.addEffect(model);
         }
 
@@ -80,7 +80,6 @@ namespace MoonCow
                     {
                         pos.X -= frameDiff.X;
                         deleteProjectile();
-                        //currently just undoes the frames movement before drawing. effectively stopping the ship
                     }
                 }
             }
@@ -103,7 +102,6 @@ namespace MoonCow
                     {
                         deleteProjectile();
                         pos.Z -= frameDiff.Z;
-                        //currently just undoes the frames movement before drawing. effectively stopping the ship
                     }
                 }
             }
@@ -115,6 +113,7 @@ namespace MoonCow
 
         void deleteProjectile()
         {
+            game.ship.moneyManager.addGib(100, pos);
             game.modelManager.removeEffect(model);
             weapons.toDelete.Add(this);
             delete = true;

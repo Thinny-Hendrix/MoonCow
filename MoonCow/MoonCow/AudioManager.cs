@@ -22,7 +22,7 @@ namespace MoonCow
         public override void Initialize()
         {
             bgm.IsLooped = true;
-            bgm.Play();
+            //bgm.Play();
             bgm.Volume = 0.5f;
 
             base.Initialize();

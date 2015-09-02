@@ -21,17 +21,36 @@ namespace MoonCow
         ModelBone tip;
         ModelBone tail;
 
+        RenderTarget2D trailTarg;
+        RenderTarget2D endTarg;
+        SpriteBatch sb;
 
-        public ProjectileModel(Model model, Vector3 pos, Projectile projectile, Game1 game, Texture2D tex):base(model)
+        Vector2 texPos1;
+        Vector2 texPos2;
+        Vector2 texPos3;
+        Vector2 texPos4;
+
+        float endRot;
+
+
+        public ProjectileModel(Model model, Vector3 pos, Projectile projectile, Game1 game, Texture2D tex, Texture2D tex2, Texture2D tex3):base(model)
         {
             this.model = model;
             this.game = game;
             this.pos = pos;
             this.projectile = projectile;
             this.tex = tex;
+            this.tex2 = tex2;
+            this.tex3 = tex3;
+
+            texPos1 = new Vector2(0, 0);
 
             tip = model.Bones["tip1"];
             tipMatrix = Matrix.Identity;
+
+            trailTarg = new RenderTarget2D(game.GraphicsDevice, 256, 768);
+            endTarg = new RenderTarget2D(game.GraphicsDevice, 256, 256);
+            sb = new SpriteBatch(game.GraphicsDevice);
     
         }
 
@@ -39,15 +58,43 @@ namespace MoonCow
         {
             pos = projectile.pos;
             rot = projectile.rot;
-            rot.Y += MathHelper.Pi;
-            rot.Z -= MathHelper.PiOver2;
+            //rot.Y += MathHelper.Pi;
+            rot.Z += MathHelper.PiOver2;
             scale = new Vector3(.1f, .1f, .1f);
             //scale = new Vector3(1, 1, -1);
+
+            endRot += MathHelper.Pi*Utilities.deltaTime*8;
+            if(endRot > MathHelper.Pi*2)
+                endRot -= MathHelper.Pi*2;
 
             //rot.Y = -rot.Y + MathHelper.PiOver2;
             //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
 
             setMatrices();
+
+            texPos1.Y += (int)(Utilities.deltaTime * 1200);
+            if (texPos1.Y > 256)
+                texPos1.Y -= 256;
+            texPos2.Y = texPos1.Y - 256;
+            texPos3.Y = texPos1.Y + 512;
+            texPos4.Y = texPos1.Y + 256;
+
+            game.GraphicsDevice.SetRenderTarget(trailTarg);
+
+            sb.Begin();
+            sb.Draw(tex3, texPos1, Color.Green);
+            sb.Draw(tex3, texPos2, Color.Green);
+            sb.Draw(tex3, texPos3, Color.Green);
+            sb.Draw(tex3, texPos4, Color.Green);
+            sb.End();
+
+            game.GraphicsDevice.SetRenderTarget(endTarg);
+
+            sb.Begin();
+            sb.Draw(tex2, new Rectangle(127,127,256,256),null, Color.CornflowerBlue,endRot,new Vector2(127,127),SpriteEffects.None, 1);
+            sb.End();
+
+            game.GraphicsDevice.SetRenderTarget(null);
 
             /*
             tip.Transform = tipMatrix;
@@ -82,7 +129,14 @@ namespace MoonCow
                         
                         effect.TextureEnabled = true;
 
-                        effect.Texture = tex;
+                        if (mesh.Name.StartsWith("tip"))
+                            effect.Texture = tex;
+                        else if (mesh.Name.StartsWith("end"))
+                            effect.Texture = (Texture2D)endTarg;
+                        else
+                            effect.Texture = (Texture2D)trailTarg;
+
+
 
                         effect.Alpha = 1;
 

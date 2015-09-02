@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    public class MoneyManager
+    public class MoneyManager:Microsoft.Xna.Framework.GameComponent
     {
         float balance;
         float displayTime;
@@ -17,16 +18,31 @@ namespace MoonCow
         public bool changing;
         public bool display;
 
-        public MoneyManager()
+        public List<MoneyGib> moneyGibs = new List<MoneyGib>();
+        public List<MoneyGib> toDelete = new List<MoneyGib>();
+        Game game;
+        
+        Model moneyGib1;
+
+        public MoneyManager(Game game):base(game)
         {
             balance = 0;
             changing = false;
             display = true;
             displayTime = 0;
+            this.game = game;
+
+            moneyGib1 = game.Content.Load<Model>(@"Models/Enemies/Cubes/gunCube");
+
+
+
         }
 
-        public void update()
+        public override void Update(GameTime gameTime)
         {
+            cleanGibs();
+
+
             if (changing)
             {
                 displayNo = MathHelper.Lerp(displayNo, balance, Utilities.deltaTime*3);
@@ -57,9 +73,7 @@ namespace MoonCow
             }
             if (displayTime > 3)
                 display = false;
-
         }
-
         public void addMoney(float amount)
         {
             difference += amount;
@@ -80,7 +94,22 @@ namespace MoonCow
             return false;
         }
 
+        public void addGib(float amount, Vector3 position)
+        {
+            MoneyGib g = new MoneyGib(amount, moneyGib1, this, ((Game1)Game).ship, position);
+            //moneyGibs.Add(g);
+            ((Game1)Game).modelManager.addObject(g);
+        }
 
-
+        void cleanGibs()
+        {
+            foreach (MoneyGib g in toDelete)
+            {
+                ((Game1)Game).modelManager.removeObject(g);
+                //moneyGibs.Remove(g);
+            }
+            toDelete.Clear();
+        }
     }
 }
+

@@ -4,7 +4,7 @@
         <name>Map 1revis</name>
         <creator>Jase Heriot</creator>
         <width>13</width>
-        <length>16</length>
+        <length>18</length>
     </data>
     <tiles>
         <tile>60</tile> <!-- Row Start -->
@@ -110,7 +110,7 @@
         <tile>51</tile>
         <tile>42</tile>
         <tile>42</tile>
-        <tile>26</tile> <!-- Row End -->
+        <tile>38</tile> <!-- Row End -->
         <tile>39</tile> <!-- Row Start -->
         <tile>59</tile>
         <tile>59</tile>
@@ -202,6 +202,32 @@
         <tile>59</tile>
         <tile>59</tile>
         <tile>41</tile> <!-- Row End -->
+        <tile>39</tile><!-- Row Start -->
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>41</tile><!-- Row End -->
+        <tile>39</tile><!-- Row Start -->
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>59</tile>
+        <tile>41</tile><!-- Row End -->
         <tile>36</tile> <!-- Row Start -->
         <tile>40</tile>
         <tile>40</tile>

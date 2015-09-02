@@ -9,7 +9,8 @@ namespace MoonCow
 {
     public class ModelManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        List<BasicModel> models = new List<BasicModel>();
+        List<BasicModel> nodeModels = new List<BasicModel>();
+        List<BasicModel> objectModels = new List<BasicModel>();
         List<BasicModel> enemyModels = new List<BasicModel>();
         List<BasicModel> effectModels = new List<BasicModel>();
         List<BasicModel> additiveModels = new List<BasicModel>();
@@ -66,7 +67,10 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
            
-            foreach (BasicModel model in models)
+            foreach (BasicModel model in nodeModels)
+                model.Update(gameTime);
+
+            foreach (BasicModel model in objectModels)
                 model.Update(gameTime);
 
             foreach (BasicModel model in additiveModels)
@@ -89,10 +93,16 @@ namespace MoonCow
         {
             GraphicsDevice.DepthStencilState = depthStencilState;
 
-            foreach (BasicModel model in models)
+            if (!((Game1)Game).ship.finishingMove)
             {
-                model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
+                foreach (BasicModel model in nodeModels)
+                {
+                    model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
+                }
             }
+
+            foreach (BasicModel model in objectModels)
+                model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
 
             foreach (BasicModel model in enemyModels)
                 model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
@@ -113,7 +123,7 @@ namespace MoonCow
 
         public void add(BasicModel model)
         {
-            models.Add(model);
+            nodeModels.Add(model);
         }
 
         public void addEffect(BasicModel model)
@@ -124,6 +134,16 @@ namespace MoonCow
         public void removeEffect(BasicModel model)
         {
             effectModels.Remove(model);
+        }
+
+        public void addObject(BasicModel model)
+        {
+            objectModels.Add(model);
+        }
+
+        public void removeObject(BasicModel model)
+        {
+            objectModels.Remove(model);
         }
 
         public void addEnemy(BasicModel model)
@@ -145,12 +165,12 @@ namespace MoonCow
         {
             for (int i = 0; i < 75; i++)
             {
-                models.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/octahedron"), ((Game1)Game).ship, 0));
+                nodeModels.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/octahedron"), ((Game1)Game).ship, 0));
             }
 
             for (int i = 0; i < 75; i++)
             {
-                models.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/octahedron"), ((Game1)Game).ship, 1));
+                nodeModels.Add(new SpaceDust(Game.Content.Load<Model>(@"Models/Misc/octahedron"), ((Game1)Game).ship, 1));
             }
         }
 

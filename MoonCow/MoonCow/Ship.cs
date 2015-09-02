@@ -44,7 +44,7 @@ namespace MoonCow
         enum RollState {not, rolling, recovering};
         RollState rollState;
 
-        OOBB boundingBox;
+        public OOBB boundingBox;
 
         //money and health
         public float shieldVal;
@@ -84,16 +84,18 @@ namespace MoonCow
             rbowTun = new RainbowTunnelModel(game.Content.Load<Model>(@"Models/Misc/Rbow/rbowTun"), this, ((Game1)Game));
 
 
-            ((Game1)Game).modelManager.add(shipModel);
+            ((Game1)Game).modelManager.addObject(shipModel);
             ((Game1)Game).modelManager.add(skyboxModel);
-            ((Game1)Game).modelManager.add(rbowTun);
+            ((Game1)Game).modelManager.addObject(rbowTun);
             ((Game1)Game).modelManager.addTransparent(speedCyl);
 
 
             weapons = new WeaponSystem(this, game);
-            game.Components.Add(weapons);
+            moneyManager = new MoneyManager(game);
 
-            moneyManager = new MoneyManager();
+            game.Components.Add(weapons);
+            game.Components.Add(moneyManager);
+
         }
 
         public override void Initialize()
@@ -149,7 +151,7 @@ namespace MoonCow
                 moneyManager.addMoney(-1329);
 
             //weapons.update();
-            moneyManager.update();
+            //moneyManager.update();
             //System.Diagnostics.Debug.WriteLine("Current angle is " + rot + ", direction is " + direction);
 
         }

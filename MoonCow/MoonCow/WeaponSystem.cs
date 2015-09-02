@@ -18,6 +18,9 @@ namespace MoonCow
         Game game;
 
         Texture2D pew1;
+        Texture2D pew2;
+        Texture2D pew3;
+
 
         public List<Projectile> projectiles = new List<Projectile>();
         public List<Projectile> toDelete = new List<Projectile>();
@@ -31,6 +34,9 @@ namespace MoonCow
             laserPos = 0;
 
             pew1 = Game.Content.Load<Texture2D>(@"Models/Effects/tex1");
+            pew2 = Game.Content.Load<Texture2D>(@"Models/Effects/tex2");
+            pew3 = Game.Content.Load<Texture2D>(@"Models/Effects/tex3");
+
 
         }
 
@@ -57,8 +63,6 @@ namespace MoonCow
                     cooldown = 0;
             }
 
-            System.Console.WriteLine(cooldown);
-
             foreach (Projectile p in projectiles)
             {
                 p.update();
@@ -82,12 +86,12 @@ namespace MoonCow
                     case 1:
                         if (laserPos == 0)
                         {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X*0.25f,0, Vector3.Cross(Vector3.Up, ship.direction).Z), ship.direction, (Game1)game, pew1, this));
+                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X*0.25f,0, Vector3.Cross(Vector3.Up, ship.direction).Z), ship.direction, (Game1)game, pew1, pew2, pew3, this));
                             laserPos = 1;
                         }
                         else
                         {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * -0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z), ship.direction, (Game1)game, pew1, this));
+                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * -0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z), ship.direction, (Game1)game, pew1, pew2, pew3, this));
                             laserPos = 0;
                         }
 

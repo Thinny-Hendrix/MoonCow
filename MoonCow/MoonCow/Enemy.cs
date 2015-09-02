@@ -28,6 +28,7 @@ namespace MoonCow
         char isFacing = 'S'; //North, South, East, West
         char wasFacing = 'S';
 
+        public OOBB boundingBox;
 
         public Vector2 nodePos;
 
@@ -56,8 +57,8 @@ namespace MoonCow
             currentTurnSpeed = 0;
             maxTurnSpeed = MathHelper.PiOver4 / 90;
 
-            enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
-            //enemyModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneakproto"), this);
+            //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
+            enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Enemies/Swarmer/swarmerAlpha"), this);
 
             game.modelManager.addEnemy(enemyModel);
 
