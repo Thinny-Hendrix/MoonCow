@@ -9,19 +9,19 @@ namespace MoonCow
 {
     public class EnemyModel:BasicModel
     {
-        Enemy eship;
+        Enemy enemy;
 
         public EnemyModel(Model model, Enemy ship):base(model)
         {
             this.model = model;
-            this.eship = ship;
+            this.enemy = ship;
             scale = new Vector3(6, 6, 6);
         }
 
         public override void Update(GameTime gameTime)
         {
-            pos = eship.pos;
-            rot = eship.rot;
+            pos = enemy.pos;
+            rot = enemy.rot;
             //rot.Y = -rot.Y + MathHelper.PiOver2;
                 //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
         }

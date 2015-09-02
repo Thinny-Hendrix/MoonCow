@@ -23,6 +23,7 @@ namespace MoonCow
         {
             bgm.IsLooped = true;
             bgm.Play();
+            bgm.Volume = 0.5f;
 
             base.Initialize();
         }

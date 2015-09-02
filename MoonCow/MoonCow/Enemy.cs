@@ -46,9 +46,9 @@ namespace MoonCow
         public EnemyModel enemyModel;
         //WeaponSystem weapons;
 
-        public Enemy(Game1 currentGame)
+        public Enemy(Game1 game)
         {
-            game = currentGame;
+            this.game = game;
             moveSpeed = 0;
             maxSpeed = 0.11f;
             direction = new Vector3(0, 0, 1);
@@ -59,7 +59,7 @@ namespace MoonCow
             enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             //enemyModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneakproto"), this);
 
-            game.modelManager.add(enemyModel);
+            game.modelManager.addEnemy(enemyModel);
 
             Random rnd = new Random();
             List<Vector2> spawns = game.map.getEnemySpawn();
