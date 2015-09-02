@@ -10,6 +10,8 @@ namespace MoonCow
     {
         public MapNode[,] map;
         private Vector2 mapSize;
+        private List<Vector2> enemySpawn = new List<Vector2>();
+        private Vector2 coreLocation;
 
         public Map(Game1 game, int[,] newMap)
         {
@@ -25,6 +27,18 @@ namespace MoonCow
                 for (int x = 0; x < mapSize.X; x++)
                 {
                     map[x, y] = new MapNode(game, newMap[x, y], new Vector2(x,y));
+                    
+                    //add enemy spawn points to a list for easy access
+                    if(newMap[x,y] == 7 || newMap[x,y] == 8 ||
+                        newMap[x, y] == 9 || newMap[x, y] == 10)
+                    {
+                        enemySpawn.Add(new Vector2(x, y));
+                    }
+
+                    if (newMap[x, y] == 24)
+                    {
+                        coreLocation = new Vector2(x, y);
+                    }
                 }
             }
 
@@ -38,6 +52,16 @@ namespace MoonCow
         public int getHeight()
         {
             return (int)mapSize.Y;
+        }
+
+        public List<Vector2> getEnemySpawn()
+        {
+            return enemySpawn;
+        }
+
+        public Vector2 getCoreLocation()
+        {
+            return coreLocation;
         }
 
     }
