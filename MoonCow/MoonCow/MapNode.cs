@@ -9,7 +9,8 @@ namespace MoonCow
 {
     /// <summary>
     /// A node in the map. This will be represented by a tile model in the 3D world.
-    /// This node is used for many things, primarily pathfinding.
+    /// This class holds the model and collision data for each node
+    /// This class is also used as the search node during pathfinding
     /// </summary>
     public class MapNode
     {
@@ -27,10 +28,10 @@ namespace MoonCow
         public float damage;           //How much damage this square can take from turrets
         public float playerDamage;     //How much damage the player can currently do to this node
 
-        public List<OOBB> collisionBoxes = new List<OOBB>();
-        public CircleCollider coreCollider;
-        public int type;
-        private TileModel model;
+        public List<OOBB> collisionBoxes = new List<OOBB>();    //A list of all the collision boxes in this node
+        public CircleCollider coreCollider;                     //The collision for the core
+        public int type;               //What node type this node is
+        private TileModel model;       //The model for this node
         
 
         /// <summary>
@@ -60,7 +61,9 @@ namespace MoonCow
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs more colliders for the two diagonals
+                    //Diagonals first one is broken
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector2(pos.X * 30, (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 12, (pos.Y * 30) + 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2(pos.X * 30, (pos.Y * 30) - 9), new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 12, (pos.Y * 30) + 1)));
                     break;
                 case 4:
                     traversable = true;
@@ -114,69 +117,132 @@ namespace MoonCow
                 case 11:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt4"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 100);
-                    // Need at least 12 colliders for the rounded corner edges
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 12:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt3"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs another 6 colliders for the rounded corner bits
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
                     break;
                 case 13:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt3"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     // Needs another 6 colliders for the rounded corner bits
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
                     break;
                 case 14:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt3"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs another 6 colliders for the rounded corner bits
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 15:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt3"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    // Needs another 6 colliders for the rounded corner bits
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 16:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    // Needs one more collider for diagonal on corner
-                    // Needs another three for the little rounded inner corner bit
+                    //top left big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) - 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
                     break;
                 case 17:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs one more collider for diagonal on corner
-                    // Needs another three for the little rounded inner corner bit
+                    //bottom left big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 4, (pos.Y * 30) + 15)));
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
                     break;
                 case 18:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs one more collider for diagonal on corner
-                    // Needs another three for the little rounded inner corner bit
+                    //bottom right big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) + 4, (pos.Y * 30)+ 15)));
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
                     break;
                 case 19:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs one more collider for diagonal on corner
-                    // Needs another three for the little rounded inner corner bit
+                    //top right big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 20:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corst"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs 3 more colliders for the rounded corner bit
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
                     break;
                 case 21:
                     traversable = true;
@@ -187,7 +253,10 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corstFlip"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs three more for little rounded corner bit
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
                     break;
                 case 23:
                     traversable = true;
@@ -209,7 +278,8 @@ namespace MoonCow
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1big"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs one more for diagonal corner bit
+                    //bottom left big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 4, (pos.Y * 30) + 15)));
                     break;
                 case 27:
                     traversable = true;
@@ -221,73 +291,104 @@ namespace MoonCow
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1big"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs 1 more for diagonal corner bit
+                    //bottom right big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) + 4, (pos.Y * 30) + 15)));
                     break;
                 case 29:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1big"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    // Needs 1 more for diagonal corner bit
+                    //top left big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) - 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
                     break;
                 case 30:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1big"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs one more for diagonal part
+                    //top right big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1)));
                     break;
                 case 31:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner2small"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    // Needs three more for little rounded corner bits
-                    // Needs three more for little rounded corner bits
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 32:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner2small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    // Needs three more for little rounded corner bits
-                    // Needs three more for little rounded corner bits
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
                     break;
                 case 33:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner2small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    // Needs three more for little rounded corner bits
-                    // Needs three more for little rounded corner bits
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
                     break;
                 case 34:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner2small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    // Needs three more for little rounded corner bits
-                    // Needs three more for little rounded corner bits
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 35:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1big"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    // Needs one more for diagonal corner bit
+                    //top left big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) - 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
                     break;
                 case 36:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1big"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs one more for diagonal bit
+                    //bottom left big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 4, (pos.Y * 30) + 15)));
                     break;
                 case 37:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1big"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs one more for diagonal bit
+                    //bottom right big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) + 4, (pos.Y * 30) + 15)));
                     break;
                 case 38:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1big"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs one more for diagonal corner bit
+                    //top right big corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1)));
                     break;
                 case 39:
                     traversable = false;
@@ -312,92 +413,154 @@ namespace MoonCow
                 case 43:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner2small"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    // Needs three more for little rounded corner bits
-                    // Needs three more for little rounded corner bits
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 44:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner2small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    // Needs three more for little rounded corner bits
-                    // Needs three more for little rounded corner bits
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 45:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner2small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    // Needs three more for little rounded corner bits
-                    // Needs three more for little rounded corner bits
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
                     break;
                 case 46:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner2small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    // Needs three more for little rounded corner bits
-                    // Needs three more for little rounded corner bits
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
                     break;
                 case 47:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1small"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    // Needs three more for little rounded corner bits
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
                     break;
                 case 48:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    // Needs three more for little rounded corner bits
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 49:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    // Needs three more for little rounded corner bits
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
                     break;
                 case 50:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner1small"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    // Needs three more for little rounded corner bits
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
                     break;
                 case 51:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corst"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs 3 more for little rounded corner bits
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
                     break;
                 case 52:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corst"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs 3 more for little rounded corner bits
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
                     break;
                 case 53:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corst"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    // Needs 3 more for little rounded corner bit
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
                     break;
                 case 54:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corst"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs three more for little rounded corner bit
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 55:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corstFlip"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    // Needs three more for little rounded corner bit
+                    //top left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
                     break;
                 case 56:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corstFlip"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    //bottom left little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
                     break;
                 case 57:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corstFlip"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs three more for the little rounded corner bit
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
                     break;
                 case 58:
                     traversable = false;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corstFlip"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs three more for little rounded corner bits
+                    //top right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
                     break;
                 case 59:
                     traversable = false;
