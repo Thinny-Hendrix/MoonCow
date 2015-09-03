@@ -23,8 +23,8 @@ namespace MoonCow
         {
             this.game = game;
             sb = new SpriteBatch(game.GraphicsDevice);
-            player = new Texture2D(game.GraphicsDevice, 10, 10);
-            player.SetData(new Color[] { Color.Red, Color.Red, Color.Red, Color.Red });
+            player = game.Content.Load<Texture2D>(@"Hud/Minimap/shipsmall2");
+            enemy = game.Content.Load<Texture2D>(@"Hud/Minimap/enemy1");
 
         }
 
@@ -33,7 +33,13 @@ namespace MoonCow
             game.GraphicsDevice.SetRenderTarget(itemMap);
             sb.Begin();
             sb.Draw(map, Vector2.Zero, Color.White);
-            sb.Draw(player, new Vector2(game.ship.pos.X+15, game.ship.pos.Z+15), Color.White);
+            sb.Draw(player, new Rectangle((int)game.ship.pos.X+15, (int)game.ship.pos.Z+15, 20,20), null, Color.White, -game.ship.rot.Y, new Vector2(10,10), SpriteEffects.None, 1);
+
+            foreach (Enemy e in game.enemyManager.enemies)
+            {
+                sb.Draw(enemy, new Rectangle((int)e.pos.X+5, (int)e.pos.Z+5, 20, 20), Color.Red);
+            }
+
             sb.End();
             displayMap = (Texture2D)itemMap;
             game.GraphicsDevice.SetRenderTarget(null);
