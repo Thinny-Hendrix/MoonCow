@@ -195,6 +195,8 @@ namespace MoonCow
             pos.Y = 4.5f;
             uTurnYaw = 0;
             rot.X = 0;
+
+            game.camera.reset();
         }
 
         void uTurn()

@@ -9,6 +9,8 @@ namespace MoonCow
 {
     public class Camera : Microsoft.Xna.Framework.GameComponent
     {
+        Game1 game;
+        Ship ship;
         public Matrix view { get; protected set; }
         public Matrix projection { get; protected set; }
 
@@ -49,10 +51,12 @@ namespace MoonCow
         float shakeStrength;
         int shakeConstant;
 
-        public Camera(Game game, Vector3 pos, Vector3 target, Vector3 up)
+        public Camera(Game1 game, Vector3 pos, Vector3 target, Vector3 up)
             : base(game)
         {
             // Build camera view matrix
+            this.game = game;
+            ship = game.ship;
             cameraPosition = pos;
             cameraUp = up;
             lookAt = target;
@@ -72,6 +76,7 @@ namespace MoonCow
         {
             // here for moving camera
             // Move forward/backward
+            /*
             if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
             {
                 lookAt.X += (float)(System.Math.Sin(xTurnValue * MathHelper.Pi / 180)) * (float)-runSpeed;
@@ -119,20 +124,20 @@ namespace MoonCow
             if (yTurnValue > 90)
                 yTurnValue = 90;
             if (yTurnValue < -90)
-                yTurnValue = -90;
+                yTurnValue = -90;*/
 
-            ///######Cheap hack to make lookat the ship pos, overrides the rest of this function
+            ///###### Real camera code #####
             ///
             /// camera angle is 8 degrees, positions derived from tan(8) - eg 10tan(8) gives 1.4 height and a distance of 10 between camera and target
             ///
 
-            goalDirection = ((Game1)Game).ship.direction;
+            goalDirection = ship.direction;
             currentDirection = Vector3.Lerp(currentDirection, goalDirection, Utilities.deltaTime*5);
             currentDirection.Normalize();
 
-            if (((Game1)Game).ship.boosting)
+            if (ship.boosting)
             {
-                if(((Game1)Game).ship.finishingMove)
+                if(ship.finishingMove)
                     currentDist = MathHelper.Lerp(currentDist, 4, Utilities.deltaTime * 2);
                 else
                     currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 2);
@@ -141,9 +146,8 @@ namespace MoonCow
                 currentDist = MathHelper.Lerp(currentDist, normDist, Utilities.deltaTime * 2);
 
 
-            lookAt = ((Game1)Game).ship.pos;
+            lookAt = ship.pos;
 
-             //Trying to do a clever thing but it's not working
             lookAt.X += currentDirection.X * (currentDist * ((float)11.0 / (float)15.0));
             lookAt.Z += currentDirection.Z * (currentDist * ((float)11.0 / (float)15.0));
             lookAt.Y = 4.5f;
@@ -167,7 +171,7 @@ namespace MoonCow
             cameraPosition.Y = lookAt.Y + (2.1f);
             cameraPosition.Z = lookAt.Z - (currentDirection.Z * 15);*/
 
-            if (((Game1)Game).ship.boosting)
+            if (ship.boosting)
                 currentFov = MathHelper.Lerp(currentFov, boostFov, Utilities.deltaTime * 2);
             else
                 currentFov = MathHelper.Lerp(currentFov, standardFov, Utilities.deltaTime * 2);
@@ -282,6 +286,11 @@ namespace MoonCow
 
 
 
+        }
+
+        public void reset()
+        {
+            currentDirection = ship.direction;
         }
 
         private void CreateLookAt()

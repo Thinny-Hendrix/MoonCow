@@ -56,9 +56,9 @@ namespace MoonCow
             TextureManager.initialize(this);
 
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
-            camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
             ship = new Ship(this);
+            camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
 
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
