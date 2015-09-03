@@ -11,8 +11,9 @@ namespace MoonCow
     //lots of images, references ship for health/money/weapons, minimap is going to be interesting
     public class Hud : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        public Minimap minimap;
         SpriteFont font;
-        Game game;
+        Game1 game;
         SpriteBatch spriteBatch;
         GraphicsDevice graphicsDevice;
         Vector2 position;
@@ -70,12 +71,13 @@ namespace MoonCow
         Rectangle monRect;
         Rectangle mapRect;*/
 
-        public Hud(Game game, SpriteFont font, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice) : base(game)
+        public Hud(Game1 game, SpriteFont font, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice) : base(game)
         {
             this.game = game;
             this.font = font;
             this.spriteBatch = spriteBatch;
             this.graphicsDevice = graphicsDevice;
+            minimap = new Minimap(game);
 
             position = new Vector2(0, 0);
             //money = "900 dollarydoos";
@@ -186,7 +188,7 @@ namespace MoonCow
             if (Keyboard.GetState().IsKeyDown(Keys.Y))
                 flashTime = 0;
 
-
+            minimap.update();
 
         }
 
@@ -256,6 +258,7 @@ namespace MoonCow
             graphicsDevice.BlendState = BlendState.Additive;
             spriteBatch.Begin();
             spriteBatch.Draw(hudMapB, scaledRect(mapPos, 541, 283), Color.White);
+            spriteBatch.Draw(minimap.displayMap, scaledRect(new Vector2(1572,760),minimap.map.Bounds.Width/2, minimap.map.Bounds.Height/2), Color.White);
             spriteBatch.Draw(hudMapF, scaledRect(mapPos, 541, 283), Color.White);
 
             spriteBatch.End();

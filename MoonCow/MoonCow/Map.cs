@@ -42,6 +42,8 @@ namespace MoonCow
                 }
             }
 
+            game.hud.minimap.drawMap(map);
+
         }
 
         public int getWidth()
