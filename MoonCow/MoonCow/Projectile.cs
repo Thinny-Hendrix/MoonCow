@@ -44,8 +44,10 @@ namespace MoonCow
 
             if(type == 1)
                 model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, Color.Green, Color.CornflowerBlue, game);
-            else
+            else if(type == 0)
                 model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, Color.Orange, Color.Purple, game);
+            else
+                model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, new Color(255,0,255), Color.Green, game);
 
             game.modelManager.addEffect(model);
         }
@@ -57,7 +59,8 @@ namespace MoonCow
             if (!delete)
             {
                 frameDiff += direction * speed * Utilities.deltaTime;
-                checkCollision();
+                if(type != 2)
+                    checkCollision();
             }
             life -= Utilities.deltaTime * 60;
             if(life <=0)

@@ -112,6 +112,17 @@ namespace MoonCow
                         break;
 
                     case 3:
+                        if (laserPos == 0)
+                        {
+                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 2));
+                            laserPos = 1;
+                        }
+                        else
+                        {
+                            projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 2));
+                            laserPos = 0;
+                        }
+                        cooldown = 15;
                         break;
 
                     case 4:

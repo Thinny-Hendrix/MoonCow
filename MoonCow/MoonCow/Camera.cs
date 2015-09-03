@@ -291,6 +291,7 @@ namespace MoonCow
         public void reset()
         {
             currentDirection = ship.direction;
+            currentFov = standardFov;
         }
 
         private void CreateLookAt()

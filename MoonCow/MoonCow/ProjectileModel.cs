@@ -45,18 +45,18 @@ namespace MoonCow
             this.projectile = projectile;
             this.c1 = c1;
             this.c2 = c2;
-            tex = TextureManager.particle1;
-            tex2 = TextureManager.particle2;
-            tex3 = TextureManager.particle3;
+            tex = TextureManager.particle1small;
+            tex2 = TextureManager.particle2small;
+            tex3 = TextureManager.particle3small;
 
             texPos1 = new Vector2(0, 0);
 
             tip = model.Bones["tip1"];
             tipMatrix = Matrix.Identity;
 
-            tipTarg = new RenderTarget2D(game.GraphicsDevice, 256, 256);
-            trailTarg = new RenderTarget2D(game.GraphicsDevice, 256, 768);
-            endTarg = new RenderTarget2D(game.GraphicsDevice, 256, 256);
+            tipTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
+            trailTarg = new RenderTarget2D(game.GraphicsDevice, 64, 172);
+            endTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
             sb = new SpriteBatch(game.GraphicsDevice);
     
         }
@@ -79,12 +79,12 @@ namespace MoonCow
 
             setMatrices();
 
-            texPos1.Y += (int)(Utilities.deltaTime * 1200);
-            if (texPos1.Y > 256)
-                texPos1.Y -= 256;
-            texPos2.Y = texPos1.Y - 256;
-            texPos3.Y = texPos1.Y + 512;
-            texPos4.Y = texPos1.Y + 256;
+            texPos1.Y += (int)(Utilities.deltaTime * 300);
+            if (texPos1.Y > 64)
+                texPos1.Y -= 64;
+            texPos2.Y = texPos1.Y - 64;
+            texPos3.Y = texPos1.Y + 128;
+            texPos4.Y = texPos1.Y + 64;
 
             game.GraphicsDevice.SetRenderTarget(tipTarg);
 
@@ -109,15 +109,16 @@ namespace MoonCow
             sb.Draw(tex3, texPos2, c1);
             sb.Draw(tex3, texPos3, c1);
             sb.Draw(tex3, texPos4, c1);
+
             sb.End();
 
             game.GraphicsDevice.SetRenderTarget(endTarg);
 
             sb.Begin();
-            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, c2, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
-            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, c2, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
-            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, c2, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
-            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, c2, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(32, 32, 64, 64), null, c2, endRot, new Vector2(32, 32), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(32, 32, 64, 64), null, c2, endRot, new Vector2(32, 32), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(32, 32, 64, 64), null, c2, endRot, new Vector2(32, 32), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(32, 32, 64, 64), null, c2, endRot, new Vector2(32, 32), SpriteEffects.None, 1);
             sb.End();
 
             game.GraphicsDevice.SetRenderTarget(null);
