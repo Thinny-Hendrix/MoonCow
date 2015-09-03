@@ -10,6 +10,8 @@ namespace MoonCow
 {
     public class Ship : Microsoft.Xna.Framework.GameComponent
     {
+        Game1 game;
+
         public Matrix transform;
         public Vector3 pos;
         public Vector3 rot;
@@ -48,6 +50,8 @@ namespace MoonCow
 
         public OOBB boundingBox;
 
+        bool justHitWall = false;
+
         //money and health
         public float shieldVal;
         public float shieldMax;
@@ -69,6 +73,8 @@ namespace MoonCow
 
         public Ship(Game game) : base(game)
         {
+            this.game = (Game1)game;
+
             pos = new Vector3(90, 4.5f, 0);
             moveSpeed = 0;
             accel = 0.5f;
@@ -419,6 +425,7 @@ namespace MoonCow
             // Get current node co-ordinates
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
+            bool wallCheck = false;
             //For the current node check if your X component will make you collide with wall
             foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
             {
@@ -428,6 +435,11 @@ namespace MoonCow
                     pos.X -= frameDiff.X;
                     //pos.Z -= direction.Z * moveSpeed;
                     //currently just undoes the frames movement before drawing. effectively stopping the ship
+                    if (!justHitWall)           //plays the wallHit noise only if a collision is occurring
+                        game.audioManager.wallHit();
+                    justHitWall = true;
+                    wallCheck = true;
+                    game.audioManager.wallScrape();
                 }
             }
 
@@ -446,7 +458,18 @@ namespace MoonCow
                     //pos.Z -= direction.Z * moveSpeed;
                     pos.Z -= frameDiff.Z;
                     //currently just undoes the frames movement before drawing. effectively stopping the ship
+                    if (!justHitWall)           //plays the wallHit noise only if a collision is occurring
+                        game.audioManager.wallHit();
+                    justHitWall = true;
+                    wallCheck = true;
+                    game.audioManager.wallScrape();
                 }
+            }
+
+            if (!wallCheck)     //stops the scraping noise as soon as the ship is no longer moving against a wall
+            {
+                justHitWall = false;
+                game.audioManager.wallScrapeStop();
             }
         }
 

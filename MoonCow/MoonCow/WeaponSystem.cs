@@ -15,7 +15,7 @@ namespace MoonCow
         int laserPos; //0 = left, 1 = right
         float cooldown;
         bool hasDrill;
-        Game game;
+        Game1 game;
 
         Texture2D pew1;
         Texture2D pew2;
@@ -29,7 +29,7 @@ namespace MoonCow
         public WeaponSystem(Ship ship, Game game):base(game)
         {
             this.ship = ship;
-            this.game = game;
+            this.game = (Game1)game;
             currentWeapon = 1;
             laserPos = 0;
 
@@ -42,7 +42,7 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if(Keyboard.GetState().IsKeyDown(Keys.Space) && cooldown == 0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && cooldown == 0)
                 fire();
 
             if (Keyboard.GetState().IsKeyDown(Keys.D1))
@@ -94,6 +94,7 @@ namespace MoonCow
                             projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 1));
                             laserPos = 0;
                         }
+                        game.audioManager.shootLaser();
                         cooldown = 15;
                         break;
                     case 2:
@@ -108,7 +109,6 @@ namespace MoonCow
                             laserPos = 0;
                         }
                         cooldown = 15;
-                        break;
                         break;
 
                     case 3:
