@@ -47,6 +47,7 @@
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
     <Compile Include="Hud.cs" />
+    <Compile Include="ImpactParticleModel.cs" />
     <Compile Include="MapData.cs" />
     <Compile Include="Minimap.cs" />
     <Compile Include="ModelManager.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="SkyboxModel.cs" />
     <Compile Include="SpaceDust.cs" />
     <Compile Include="SpeedCylModel.cs" />
+    <Compile Include="TextureManager.cs" />
     <Compile Include="TileModel.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="WeaponSystem.cs" />

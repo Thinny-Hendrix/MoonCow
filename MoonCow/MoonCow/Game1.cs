@@ -52,12 +52,20 @@ namespace MoonCow
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            TextureManager.initialize(this);
+
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             modelManager = new ModelManager(this);
+            ship = new Ship(this);
+
+
+            layout = new MapData(@"Content/MapXml/map1-revis.xml");
+            map = new Map(this, layout.getNodes());
+
 	        enemyManager = new EnemyManager(this);
             audioManager = new AudioManager(this);
-            ship = new Ship(this);
 
             Components.Add(camera);
             Components.Add(modelManager);
@@ -79,14 +87,12 @@ namespace MoonCow
         protected override void LoadContent()
         {
 
-            layout = new MapData(@"Content/MapXml/map1-revis.xml");
-
-            map = new Map(this, layout.getNodes());
+            
 
             //Pathfinder pathfinder = new Pathfinder(map);
             //List<Vector2> path = pathfinder.findPath(new Point(2, 0), new Point(5, 9));
 		
-	        enemyManager.addEnemy(new Enemy(this));
+	        //enemyManager.addEnemy(new Enemy(this));
 
             //foreach (Vector2 point in path)
             //{

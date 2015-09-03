@@ -18,6 +18,7 @@ namespace MoonCow
 
         public float moveSpeed;
         public float maxSpeed;
+        float time;
 
         //All to do with turning;
         public float currentTurnSpeed;
@@ -82,7 +83,7 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
 
-            health = 10;
+            health = 15;
 
             //weapons = new WeaponSystem(this);
         }
@@ -233,6 +234,11 @@ namespace MoonCow
             pos.Z += direction.Z * moveSpeed;
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
             boundingBox.Update(pos, direction);
+
+            pos.Y = 4.5f + (float)Math.Sin(time)*0.2f;
+            time += Utilities.deltaTime * MathHelper.Pi*2.4f;
+            if (time > MathHelper.Pi * 2)
+                time -= MathHelper.Pi * 2;
 
             if(health <= 0)
             {

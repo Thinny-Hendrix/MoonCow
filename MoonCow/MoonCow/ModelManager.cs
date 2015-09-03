@@ -15,6 +15,9 @@ namespace MoonCow
         List<BasicModel> effectModels = new List<BasicModel>();
         List<BasicModel> additiveModels = new List<BasicModel>();
 
+        List<BasicModel> toDeleteEffect = new List<BasicModel>();
+
+
         //List<SpeedCylModel> transModels = new List<Speed>(); //will need a separate list for transparent models
         SpeedCylModel speedCyl;
 
@@ -78,6 +81,10 @@ namespace MoonCow
 
             foreach (BasicModel model in effectModels)
                 model.Update(gameTime);
+
+            foreach (BasicModel m in toDeleteEffect)
+                effectModels.Remove(m);
+
 
             foreach (BasicModel model in enemyModels)
                 model.Update(gameTime);
@@ -164,6 +171,11 @@ namespace MoonCow
         public void addTransparent(SpeedCylModel model)
         {
             speedCyl = model;
+        }
+
+        public void toDeleteModel(BasicModel model)
+        {
+            toDeleteEffect.Add(model);
         }
 
         public void makeStarField()

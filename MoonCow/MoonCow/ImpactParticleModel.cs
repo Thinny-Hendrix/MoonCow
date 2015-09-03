@@ -7,55 +7,38 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    public class BasicModel
+    class ImpactParticleModel:BasicModel
     {
-        public Vector3 pos;
-        public Vector3 rot;
-        public Vector3 scale;
-        //public float rotation;
-        //public float scale;
-        public Vector3 skew; //might not need this
-
-        public Model model { get; protected set; }
-
-        public BasicModel()
+        Texture2D tex;
+        Game1 game;
+        float fScale;
+        public ImpactParticleModel(Game1 game, Vector3 pos):base()
         {
-            this.pos = Vector3.Zero;
-            this.rot = Vector3.Zero;
-            this.scale = Vector3.One;
-        }
-        public BasicModel(Model model)
-        {
-            this.model = model;
-            this.pos = Vector3.Zero;
-            this.rot = Vector3.Zero;
-            this.scale = Vector3.One;
-        }
-        
-        public BasicModel(Model model, Vector3 pos, Vector3 rot, Vector3 scale)
-        {
-            this.model = model;
+            this.game = game;
             this.pos = pos;
-            this.rot = rot;
-            this.scale = scale;
-        }
-        public BasicModel(Model model, Vector3 pos, float rot, float scale)
-        {
-            this.model = model;
-            this.pos = pos;
-            this.rot.Y = rot;
-            this.scale = new Vector3(scale, scale, scale);
+            fScale = 0.25f;
+
+            rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
+            tex = TextureManager.whiteBurst;
+            model = game.Content.Load<Model>(@"Models/Misc/square");
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
+            fScale -= Utilities.deltaTime*2.5f;
+
+            if (fScale < 0)
+                game.modelManager.toDeleteModel(this);
 
         }
 
-        public virtual void Draw(GraphicsDevice device, Camera camera)
+        public override void Draw(GraphicsDevice device, Camera camera)
         {
+            game.GraphicsDevice.BlendState = BlendState.Additive;
+
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
 
             foreach (ModelMesh mesh in model.Meshes)
             {
@@ -65,6 +48,7 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
+                    effect.Texture = tex;
                     effect.Alpha = 1;
 
                     //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
@@ -74,8 +58,8 @@ namespace MoonCow
                     effect.DirectionalLight0.DiffuseColor = new Vector3(0.3f, 0.3f, 0.3f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                     effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
                     effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
-                    effect.EmissiveColor = new Vector3(0.3f,0.3f,0.3f);
+                    effect.AmbientLightColor = Vector3.One;
+                    effect.EmissiveColor = new Vector3(0.3f, 0.3f, 0.3f);
                     effect.PreferPerPixelLighting = true;
 
                 }
@@ -83,10 +67,9 @@ namespace MoonCow
             }
         }
 
-        protected virtual Matrix GetWorld()
+        protected override Matrix GetWorld()
         {
-            return Matrix.CreateScale(scale) * Matrix.CreateFromYawPitchRoll(rot.Y, rot.X, rot.Z) * Matrix.CreateTranslation(pos);
+            return Matrix.CreateScale(fScale) * Matrix.CreateRotationZ(rot.Z) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
         }
-
     }
 }

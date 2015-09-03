@@ -125,6 +125,7 @@ namespace MoonCow
                         if(boundingBox.intersects(enemy.boundingBox))
                         {
                             enemy.health -= damage;
+                            game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             deleteProjectile();
                         }
                     }

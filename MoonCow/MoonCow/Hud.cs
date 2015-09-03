@@ -52,6 +52,7 @@ namespace MoonCow
         public float flashTime;
 
         Vector2 wepPos;
+        Vector2 wepAmmoPos;
 
         Vector2 monPos;
         Vector2 monTotPos;
@@ -60,7 +61,11 @@ namespace MoonCow
         Vector2 healthPos;
         Vector2 shieldBarPos;
         Vector2 hpBarPos;
+
         Vector2 statPos;
+        Vector2 statNamePos;
+        Vector2 statTimePos;
+
         Vector2 mapPos;
 
 
@@ -93,12 +98,13 @@ namespace MoonCow
             hpBarPos = new Vector2(900, 95);
 
             wepPos = new Vector2(45, 45);
-
+            wepAmmoPos = new Vector2(240, 80);
             monPos = new Vector2(1450, 45);
             monTotPos = new Vector2(1715, 80);
             monDifPos = new Vector2(1715, 160);
 
             statPos = new Vector2(45, 884);
+            statTimePos = new Vector2(150, 950);
             mapPos = new Vector2(1334, 752);
 
             whiteTex = new Texture2D(graphicsDevice, 1, 1);
@@ -168,6 +174,11 @@ namespace MoonCow
             shieldValue = "SHIELDS AT " + ((Game1)Game).ship.shieldVal + "%";
             hpValue = ((Game1)Game).ship.hpVal + " HP";
 
+            if (game.enemyManager.spawnState == MoonCow.EnemyManager.SpawnState.deploying)
+            gameState = "deploying\nenemies";
+            else
+                gameState = "Press R\nfor enemies";
+
 
             moneyTot = "" + Math.Floor(((Game1)Game).ship.moneyManager.displayNo);
             float diff = ((Game1)Game).ship.moneyManager.difference;
@@ -213,7 +224,7 @@ namespace MoonCow
             spriteBatch.Draw(hudWepF, scaledRect(wepPos, 425, 151), Color.White);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                spriteBatch.DrawString(font, weaponAmmo, wepPos, Color.White);
+                spriteBatch.DrawString(font, weaponAmmo, scaledCoords(wepAmmoPos), Color.White);
             spriteBatch.End();
         }
 
@@ -249,7 +260,7 @@ namespace MoonCow
             spriteBatch.Begin();
             spriteBatch.Draw(hudStatB, scaledRect(statPos, 425, 151), Color.White);
             spriteBatch.Draw(hudStatF, scaledRect(statPos, 425, 151), Color.White);
-
+            spriteBatch.DrawString(font, gameState, scaledCoords(statTimePos), Color.White);
             spriteBatch.End();
         }
 
