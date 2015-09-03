@@ -29,6 +29,7 @@ namespace MoonCow
         char wasFacing = 'S';
 
         public OOBB boundingBox;
+        public int health;
 
         public Vector2 nodePos;
 
@@ -81,6 +82,8 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
 
+            health = 10;
+
             //weapons = new WeaponSystem(this);
         }
 
@@ -100,7 +103,7 @@ namespace MoonCow
 
             if ((pos.X < makeCentreCoordinate(nextPosition.X) + 13 && pos.X > makeCentreCoordinate(nextPosition.X) - 13) && (pos.Z < makeCentreCoordinate(nextPosition.Y) + 13 && pos.Z > makeCentreCoordinate(nextPosition.Y) - 13))
             {
-                System.Diagnostics.Debug.WriteLine("Next Direction!");
+                //System.Diagnostics.Debug.WriteLine("Next Direction!");
 
                 if ((path.Count - 1) > pathPosition)
                 {
@@ -117,7 +120,7 @@ namespace MoonCow
             {
                 if (nextPosition.X > prevPosition.X)
                 {
-                    System.Diagnostics.Debug.WriteLine("Face East");
+                    //System.Diagnostics.Debug.WriteLine("Face East");
 
                     nodeDirection.X = -(float)Math.Sin(0);
                     nodeDirection.Z = -(float)Math.Cos(-1.8);
@@ -126,7 +129,7 @@ namespace MoonCow
                 }
                 else if (nextPosition.X < prevPosition.X)
                 {
-                    System.Diagnostics.Debug.WriteLine("Face West");
+                    //System.Diagnostics.Debug.WriteLine("Face West");
 
                     nodeDirection.X = -(float)Math.Sin(0);
                     nodeDirection.Z = -(float)Math.Cos(1.8);
@@ -135,7 +138,7 @@ namespace MoonCow
                 }
                 else if (nextPosition.Y > prevPosition.Y)
                 {
-                    System.Diagnostics.Debug.WriteLine("Face South");
+                    //System.Diagnostics.Debug.WriteLine("Face South");
 
                     nodeDirection.X = -(float)Math.Sin(0);
                     nodeDirection.Z = -(float)Math.Cos(Math.PI);
@@ -144,7 +147,7 @@ namespace MoonCow
                 }
                 else if (nextPosition.Y < prevPosition.Y)
                 {
-                    System.Diagnostics.Debug.WriteLine("Face North");
+                    //System.Diagnostics.Debug.WriteLine("Face North");
 
                     nodeDirection.X = -(float)Math.Sin(0);
                     nodeDirection.Z = -(float)Math.Cos(0);
@@ -212,8 +215,8 @@ namespace MoonCow
                   direction.Normalize();
             }
 
-            System.Diagnostics.Debug.WriteLine(nodeDirection.X + ", " + nodeDirection.Z);
-            System.Diagnostics.Debug.WriteLine(direction.X + ",, " + direction.Z);
+            //System.Diagnostics.Debug.WriteLine(nodeDirection.X + ", " + nodeDirection.Z);
+            //System.Diagnostics.Debug.WriteLine(direction.X + ",, " + direction.Z);
 
             //Movement Code
 
@@ -228,6 +231,22 @@ namespace MoonCow
             }
             pos.X += direction.X * moveSpeed;
             pos.Z += direction.Z * moveSpeed;
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+            boundingBox.Update(pos, direction);
+
+            if(health <= 0)
+            {
+                death();
+            }
+        }
+
+        private void death()
+        {
+            game.ship.moneyManager.addGib(100, pos);
+            game.ship.moneyManager.addGib(100, pos);
+            game.ship.moneyManager.addGib(100, pos);
+            game.modelManager.removeEnemy(enemyModel);
+            game.enemyManager.toDelete.Add(this);
         }
 
         private void evenOut(bool invert)

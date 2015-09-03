@@ -9,7 +9,8 @@ namespace MoonCow
 {
     public class EnemyManager : Microsoft.Xna.Framework.GameComponent
     {
-        List<Enemy> enemies = new List<Enemy>();
+        public List<Enemy> enemies = new List<Enemy>();
+        public List<Enemy> toDelete = new List<Enemy>();
 
         public EnemyManager(Game game)
             : base(game)
@@ -28,6 +29,11 @@ namespace MoonCow
             {
                 enemy.Update(gameTime);
             }
+
+            foreach (Enemy enemy in toDelete)
+            {
+                enemies.Remove(enemy);
+            }
         }
 
         public void addEnemy(Enemy newEnemy)
@@ -35,9 +41,9 @@ namespace MoonCow
             enemies.Add(newEnemy);
         }
 
-        public void removeEnemy()
+        public void removeEnemy(Enemy enemy)
         {
-            //Don't actually know how to work this one
+            enemies.Remove(enemy);
         }
     }
 }

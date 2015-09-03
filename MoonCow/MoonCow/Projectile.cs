@@ -23,6 +23,7 @@ namespace MoonCow
         Vector2 nodePos;
         WeaponSystem weapons;
         ProjectileModel model;
+        int damage;
 
         public Projectile(Vector3 pos, Vector3 direction, Game1 game, Texture2D tex, Texture2D tex2, Texture2D tex3, WeaponSystem weapons)
         {
@@ -35,6 +36,7 @@ namespace MoonCow
             speed = 50;
             life = 120;
             delete = false;
+            damage = 5;
 
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
 
@@ -56,6 +58,7 @@ namespace MoonCow
             {
                 deleteProjectile();
             }
+            boundingBox.Update(pos, direction);
         }
 
         void checkCollision()
@@ -79,7 +82,7 @@ namespace MoonCow
                     if (boundingBox.intersects(box))
                     {
                         pos.X -= frameDiff.X;
-                        game.ship.moneyManager.addGib(100, pos);
+                        //game.ship.moneyManager.addGib(100, pos);
                         deleteProjectile();
                     }
                 }
@@ -102,8 +105,28 @@ namespace MoonCow
                     if (boundingBox.intersects(box))
                     {
                         deleteProjectile();
-                        game.ship.moneyManager.addGib(100, pos);
+                        //game.ship.moneyManager.addGib(100, pos);
                         pos.Z -= frameDiff.Z;
+                    }
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                deleteProjectile();
+            }
+
+            try 
+            {
+                foreach (Enemy enemy in game.enemyManager.enemies)
+                {
+                    if(nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
+                    {
+                        //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
+                        if(boundingBox.intersects(enemy.boundingBox))
+                        {
+                            enemy.health -= damage;
+                            deleteProjectile();
+                        }
                     }
                 }
             }

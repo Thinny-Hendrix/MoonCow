@@ -151,6 +151,11 @@ namespace MoonCow
             enemyModels.Add(model);
         }
 
+        public void removeEnemy(BasicModel model)
+        {
+            enemyModels.Remove(model);
+        }
+
         public void addAdditive(BasicModel model)
         {
             additiveModels.Add(model);
