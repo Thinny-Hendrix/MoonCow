@@ -22,5 +22,10 @@ namespace MoonCow
             if(Keyboard.GetState().IsKeyDown(Keys.P))
                 paused = !paused;
         } 
+
+        public static float nextFloat()
+        {
+            return (float)random.NextDouble();
+        }
     }
 }

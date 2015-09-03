@@ -63,6 +63,7 @@ namespace MoonCow
         SpeedCylModel speedCyl;
         RainbowTunnelModel rbowTun;
 
+        public ShipParticleSystem particles;
         public WeaponSystem weapons;
         public MoneyManager moneyManager;
 
@@ -85,18 +86,19 @@ namespace MoonCow
             speedCyl = new SpeedCylModel(game.Content.Load<Model>(@"Models/Misc/speedCyl"), this, ((Game1)Game));
             rbowTun = new RainbowTunnelModel(game.Content.Load<Model>(@"Models/Misc/Rbow/rbowTun"), this, ((Game1)Game));
 
-
             ((Game1)Game).modelManager.addObject(shipModel);
             ((Game1)Game).modelManager.add(skyboxModel);
             ((Game1)Game).modelManager.addObject(rbowTun);
             ((Game1)Game).modelManager.addTransparent(speedCyl);
 
-
             weapons = new WeaponSystem(this, game);
             moneyManager = new MoneyManager(game);
+            particles = new ShipParticleSystem((Game1)game, this);
+
 
             game.Components.Add(weapons);
             game.Components.Add(moneyManager);
+            game.Components.Add(particles);
 
         }
 

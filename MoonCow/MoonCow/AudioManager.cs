@@ -12,11 +12,15 @@ namespace MoonCow
     {
         SoundEffect bgmSpacePanic_base;
         SoundEffectInstance bgm;
+        Ship ship;
+        Game1 game;
 
-        public AudioManager(Game game) : base(game)
+        public AudioManager(Game1 game) : base(game)
         {
             bgmSpacePanic_base = game.Content.Load<SoundEffect>(@"Audio/BGM/Space Panic (base)");
             bgm = bgmSpacePanic_base.CreateInstance();
+            this.game = game;
+            ship = game.ship;
         }
 
         public override void Initialize()

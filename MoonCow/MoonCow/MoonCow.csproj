@@ -54,6 +54,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapNode.cs" />
+    <Compile Include="MoneyCollectParticle.cs" />
     <Compile Include="MoneyGib.cs" />
     <Compile Include="MoneyGibGlow.cs" />
     <Compile Include="MoneyManager.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="RainbowTunnelModel.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="ShipModel.cs" />
+    <Compile Include="ShipParticleSystem.cs" />
     <Compile Include="SkyboxModel.cs" />
     <Compile Include="SpaceDust.cs" />
     <Compile Include="SpeedCylModel.cs" />
@@ -224,6 +226,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\burstWhite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\spark1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\tex1.png">

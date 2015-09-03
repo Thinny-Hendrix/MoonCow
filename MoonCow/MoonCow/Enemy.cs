@@ -248,9 +248,9 @@ namespace MoonCow
 
         private void death()
         {
-            game.ship.moneyManager.addGib(100, pos);
-            game.ship.moneyManager.addGib(100, pos);
-            game.ship.moneyManager.addGib(100, pos);
+            for (int i = 0; i < 5; i++)
+                game.ship.moneyManager.addGib(5, pos);
+
             game.modelManager.removeEnemy(enemyModel);
             game.enemyManager.toDelete.Add(this);
         }

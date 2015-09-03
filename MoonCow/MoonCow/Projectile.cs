@@ -24,14 +24,16 @@ namespace MoonCow
         WeaponSystem weapons;
         ProjectileModel model;
         int damage;
+        int type;//for level ups
 
-        public Projectile(Vector3 pos, Vector3 direction, Game1 game, Texture2D tex, Texture2D tex2, Texture2D tex3, WeaponSystem weapons)
+        public Projectile(Vector3 pos, Vector3 direction, Game1 game, WeaponSystem weapons, int type)
         {
             this.direction = direction;
             this.game = game;
             this.pos = pos;
             this.rot.Y = (float)Math.Atan2(direction.X, direction.Z);
             this.weapons = weapons;
+            this.type = type;
 
             speed = 50;
             life = 120;
@@ -40,7 +42,11 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
 
-            model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, game, tex, tex2, tex3);
+            if(type == 1)
+                model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, Color.Green, Color.CornflowerBlue, game);
+            else
+                model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, Color.Orange, Color.Purple, game);
+
             game.modelManager.addEffect(model);
         }
 
@@ -67,6 +73,7 @@ namespace MoonCow
             // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
             // be within tolerable limits for CPU time. This will only need to be done with the player
             pos.X += frameDiff.X;
+            bool collided = false;
 
             //## COLLISIONS WHOOO! ##
             // Move the bounding box to new pos
@@ -82,8 +89,7 @@ namespace MoonCow
                     if (boundingBox.intersects(box))
                     {
                         pos.X -= frameDiff.X;
-                        //game.ship.moneyManager.addGib(100, pos);
-                        deleteProjectile();
+                        collided = true;
                     }
                 }
             }
@@ -104,8 +110,7 @@ namespace MoonCow
                 {
                     if (boundingBox.intersects(box))
                     {
-                        deleteProjectile();
-                        //game.ship.moneyManager.addGib(100, pos);
+                        collided = true;
                         pos.Z -= frameDiff.Z;
                     }
                 }
@@ -126,13 +131,20 @@ namespace MoonCow
                         {
                             enemy.health -= damage;
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                            deleteProjectile();
+                            collided = true;
                         }
                     }
                 }
             }
             catch (IndexOutOfRangeException)
             {
+                deleteProjectile();
+            }
+
+            if (collided)
+            {
+                if(type != 1)
+                    game.ship.moneyManager.addGib(73, pos);
                 deleteProjectile();
             }
         }

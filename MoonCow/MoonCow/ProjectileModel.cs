@@ -31,18 +31,23 @@ namespace MoonCow
         Vector2 texPos3;
         Vector2 texPos4;
 
+        Color c1;
+        Color c2;
+
         float endRot;
 
 
-        public ProjectileModel(Model model, Vector3 pos, Projectile projectile, Game1 game, Texture2D tex, Texture2D tex2, Texture2D tex3):base(model)
+        public ProjectileModel(Model model, Vector3 pos, Projectile projectile, Color c1, Color c2, Game1 game):base(model)
         {
             this.model = model;
             this.game = game;
             this.pos = pos;
             this.projectile = projectile;
-            this.tex = tex;
-            this.tex2 = tex2;
-            this.tex3 = tex3;
+            this.c1 = c1;
+            this.c2 = c2;
+            tex = TextureManager.particle1;
+            tex2 = TextureManager.particle2;
+            tex3 = TextureManager.particle3;
 
             texPos1 = new Vector2(0, 0);
 
@@ -84,40 +89,35 @@ namespace MoonCow
             game.GraphicsDevice.SetRenderTarget(tipTarg);
 
             sb.Begin();
-            sb.Draw(tex, Vector2.Zero, Color.Green);
+            sb.Draw(tex, Vector2.Zero, c1);
             sb.End();
 
             game.GraphicsDevice.SetRenderTarget(trailTarg);
 
             sb.Begin();
-            sb.Draw(tex3, texPos1, Color.Green);
-            sb.Draw(tex3, texPos2, Color.Green);
-            sb.Draw(tex3, texPos3, Color.Green);
-            sb.Draw(tex3, texPos4, Color.Green);
+            sb.Draw(tex3, texPos1, c1);
+            sb.Draw(tex3, texPos2, c1);
+            sb.Draw(tex3, texPos3, c1);
+            sb.Draw(tex3, texPos4, c1);
 
-            sb.Draw(tex3, texPos1, Color.Green);
-            sb.Draw(tex3, texPos2, Color.Green);
-            sb.Draw(tex3, texPos3, Color.Green);
-            sb.Draw(tex3, texPos4, Color.Green);
+            sb.Draw(tex3, texPos1, c1);
+            sb.Draw(tex3, texPos2, c1);
+            sb.Draw(tex3, texPos3, c1);
+            sb.Draw(tex3, texPos4, c1);
 
-            sb.Draw(tex3, texPos1, Color.Green);
-            sb.Draw(tex3, texPos2, Color.Green);
-            sb.Draw(tex3, texPos3, Color.Green);
-            sb.Draw(tex3, texPos4, Color.Green);
-
-            sb.Draw(tex3, texPos1, Color.Green);
-            sb.Draw(tex3, texPos2, Color.Green);
-            sb.Draw(tex3, texPos3, Color.Green);
-            sb.Draw(tex3, texPos4, Color.Green);
+            sb.Draw(tex3, texPos1, c1);
+            sb.Draw(tex3, texPos2, c1);
+            sb.Draw(tex3, texPos3, c1);
+            sb.Draw(tex3, texPos4, c1);
             sb.End();
 
             game.GraphicsDevice.SetRenderTarget(endTarg);
 
             sb.Begin();
-            sb.Draw(tex2, new Rectangle(127,127,256,256),null, Color.CornflowerBlue,endRot,new Vector2(127,127),SpriteEffects.None, 1);
-            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, Color.CornflowerBlue, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
-            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, Color.CornflowerBlue, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
-            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, Color.CornflowerBlue, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, c2, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, c2, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, c2, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
+            sb.Draw(tex2, new Rectangle(127, 127, 256, 256), null, c2, endRot, new Vector2(127, 127), SpriteEffects.None, 1);
             sb.End();
 
             game.GraphicsDevice.SetRenderTarget(null);

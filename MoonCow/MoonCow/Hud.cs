@@ -17,6 +17,8 @@ namespace MoonCow
         SpriteBatch spriteBatch;
         GraphicsDevice graphicsDevice;
         Vector2 position;
+        bool toggleMap;
+        bool bigMap;
 
         String moneyTot;
         String moneyDif;
@@ -168,6 +170,16 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
+            if(!toggleMap && Keyboard.GetState().IsKeyDown(Keys.M))
+            {
+                toggleMap = true;
+                bigMap = !bigMap;
+            }
+            if(toggleMap && Keyboard.GetState().IsKeyUp(Keys.M))
+            {
+                toggleMap = false;
+            }
+
             float fps = 1.0f / Utilities.deltaTime;
             frameRate = fps + " FPS";
 
@@ -269,7 +281,11 @@ namespace MoonCow
             graphicsDevice.BlendState = BlendState.Additive;
             spriteBatch.Begin();
             spriteBatch.Draw(hudMapB, scaledRect(mapPos, 541, 283), Color.White);
-            spriteBatch.Draw(minimap.displayMap, scaledRect(new Vector2(1572,760),minimap.map.Bounds.Width/2, minimap.map.Bounds.Height/2), Color.White);
+            if(bigMap)
+                spriteBatch.Draw(minimap.displayMap, scaledRect(new Vector2(860, 200), minimap.map.Bounds.Width, minimap.map.Bounds.Height), Color.White*0.8f);
+
+            else
+                spriteBatch.Draw(minimap.displayMap, scaledRect(new Vector2(1572, 760), minimap.map.Bounds.Width / 2, minimap.map.Bounds.Height / 2), Color.White);
             spriteBatch.Draw(hudMapF, scaledRect(mapPos, 541, 283), Color.White);
 
             spriteBatch.End();
