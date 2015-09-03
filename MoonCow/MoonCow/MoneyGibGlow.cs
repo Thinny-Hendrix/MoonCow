@@ -20,8 +20,8 @@ namespace MoonCow
             this.model = model;
             this.gib = gib;
             this.game = game;
-            scale = new Vector3(.06f, .06f, .06f);
-            tex = game.Content.Load<Texture2D>(@"Models/Effects/tex1");
+            scale = new Vector3(.05f, .05f, .05f);
+            tex = TextureManager.particle1;
             sb = new SpriteBatch(game.GraphicsDevice);
             rTarg = new RenderTarget2D(game.GraphicsDevice, 256, 256);
         }

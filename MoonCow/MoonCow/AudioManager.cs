@@ -43,9 +43,11 @@ namespace MoonCow
 
         public override void Initialize()
         {
+
+            SoundEffect.MasterVolume = 0;
             bgm.IsLooped = true;
             bgm.Volume = 0.1f;
-            //bgm.Play();
+            bgm.Play();
 
             sfxiWallHit.Volume = 0.02f;
             sfxiWallScrape.Volume = 0.02f;

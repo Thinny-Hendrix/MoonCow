@@ -10,6 +10,7 @@ namespace MoonCow
     public class EnemyModel:BasicModel
     {
         Enemy enemy;
+        //AnimationPlayer animPlayer;
 
         public EnemyModel(Model model, Enemy ship):base(model)
         {

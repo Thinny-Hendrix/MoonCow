@@ -183,8 +183,8 @@ namespace MoonCow
             float fps = 1.0f / Utilities.deltaTime;
             frameRate = fps + " FPS";
 
-            shieldValue = "SHIELDS AT " + ((Game1)Game).ship.shieldVal + "%";
-            hpValue = ((Game1)Game).ship.hpVal + " HP";
+            shieldValue = "SHIELDS AT " + ((Game1)Game).ship.shipHealth.shieldVal + "%";
+            hpValue = ((Game1)Game).ship.shipHealth.hpVal + " HP";
 
             if (game.enemyManager.spawnState == MoonCow.EnemyManager.SpawnState.deploying)
             gameState = "deploying\nenemies";

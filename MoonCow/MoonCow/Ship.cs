@@ -52,11 +52,7 @@ namespace MoonCow
 
         bool justHitWall = false;
 
-        //money and health
-        public float shieldVal;
-        public float shieldMax;
-        public float hpVal;
-        public float hpMax;
+        
 
         enum RollDir { left, right };
         RollDir rollDir = RollDir.left;
@@ -70,6 +66,7 @@ namespace MoonCow
         public ShipParticleSystem particles;
         public WeaponSystem weapons;
         public MoneyManager moneyManager;
+        public ShipHealthSystem shipHealth;
 
         public Ship(Game game) : base(game)
         {
@@ -97,25 +94,21 @@ namespace MoonCow
             ((Game1)Game).modelManager.addObject(rbowTun);
             ((Game1)Game).modelManager.addTransparent(speedCyl);
 
-            weapons = new WeaponSystem(this, game);
-            moneyManager = new MoneyManager(game);
-            particles = new ShipParticleSystem((Game1)game, this);
-
+            weapons = new WeaponSystem(this, this.game);
+            moneyManager = new MoneyManager(this.game);
+            particles = new ShipParticleSystem(this.game, this);
+            shipHealth = new ShipHealthSystem(this.game, this);
 
             game.Components.Add(weapons);
             game.Components.Add(moneyManager);
             game.Components.Add(particles);
+            game.Components.Add(shipHealth);
 
         }
 
         public override void Initialize()
         {
             pos = respawnPoint;
-
-            shieldMax = 100;
-            shieldVal = 100;
-            hpVal = 100;
-            hpMax = 100;
 
             base.Initialize();
         }
@@ -162,8 +155,11 @@ namespace MoonCow
             if (Keyboard.GetState().IsKeyDown(Keys.K))
                 moneyManager.addMoney(-1329);
 
-            //if (Keyboard.GetState().IsKeyDown(Keys.R))
-                //respawn();
+            if (Keyboard.GetState().IsKeyDown(Keys.L))
+                shipHealth.onHit(3);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.T))
+                respawn();
 
 
             //weapons.update();
@@ -175,8 +171,30 @@ namespace MoonCow
         void respawn()
         {
             pos = respawnPoint;
+
+            //stop moving
             moveSpeed = 0;
-            direction = Vector3.Backward;
+            sideSpeed = 0;
+
+            //face the right direction
+            direction = Vector3.Forward;
+            rot.Y = 0;
+
+            //reset turning
+            currentTurnSpeed = 0;
+            tilt = 0;
+
+            //reset barrel roll
+            rollState = RollState.not;
+            rollCooldown = 0;
+            roll = 0;
+
+            //reset uturn
+            inUTurn = false;
+            totaluTurn = 0;
+            pos.Y = 4.5f;
+            uTurnYaw = 0;
+            rot.X = 0;
         }
 
         void uTurn()
@@ -213,6 +231,7 @@ namespace MoonCow
             //if (uTurnYaw > MathHelper.Pi / 20)
             if(totaluTurn > MathHelper.Pi)
             {
+                rot.X = 0;
                 totaluTurn = 0;
                 pos.Y = 4.5f;
                 uTurnYaw = 0;
@@ -425,7 +444,7 @@ namespace MoonCow
             // Get current node co-ordinates
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
-            bool wallCheck = false;
+            bool colCheck = false;
             //For the current node check if your X component will make you collide with wall
             foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
             {
@@ -435,11 +454,8 @@ namespace MoonCow
                     pos.X -= frameDiff.X;
                     //pos.Z -= direction.Z * moveSpeed;
                     //currently just undoes the frames movement before drawing. effectively stopping the ship
-                    if (!justHitWall)           //plays the wallHit noise only if a collision is occurring
-                        game.audioManager.wallHit();
-                    justHitWall = true;
-                    wallCheck = true;
-                    game.audioManager.wallScrape();
+                    
+                    colCheck = true;
                 }
             }
 
@@ -458,15 +474,24 @@ namespace MoonCow
                     //pos.Z -= direction.Z * moveSpeed;
                     pos.Z -= frameDiff.Z;
                     //currently just undoes the frames movement before drawing. effectively stopping the ship
-                    if (!justHitWall)           //plays the wallHit noise only if a collision is occurring
-                        game.audioManager.wallHit();
-                    justHitWall = true;
-                    wallCheck = true;
-                    game.audioManager.wallScrape();
+                    
+                    colCheck = true;
                 }
             }
 
-            if (!wallCheck)     //stops the scraping noise as soon as the ship is no longer moving against a wall
+            if(colCheck)
+            {
+                if (!justHitWall)           //plays the wallHit noise only if a collision is occurring
+                {
+                    justHitWall = true;
+                    game.audioManager.wallHit();
+                }
+                if(moveSpeed > 0.1f)
+                {
+                    game.audioManager.wallScrape();
+                }
+            }
+            else     //stops the scraping noise as soon as the ship is no longer moving against a wall
             {
                 justHitWall = false;
                 game.audioManager.wallScrapeStop();
@@ -477,6 +502,11 @@ namespace MoonCow
         {
             respawnPoint = respawn;
             pos = respawnPoint;
+        }
+
+        public void onDeath()
+        {
+            respawn();
         }
 
     }
