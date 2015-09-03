@@ -10,10 +10,7 @@ namespace MoonCow
     public class EnemyManager : Microsoft.Xna.Framework.GameComponent
     {
         public List<Enemy> enemies = new List<Enemy>();
-<<<<<<< HEAD
         public List<Enemy> toDelete = new List<Enemy>();
-=======
->>>>>>> origin/master
 
         public EnemyManager(Game game)
             : base(game)
