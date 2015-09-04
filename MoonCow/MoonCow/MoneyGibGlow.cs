@@ -21,9 +21,10 @@ namespace MoonCow
             this.gib = gib;
             this.game = game;
             scale = new Vector3(.05f, .05f, .05f);
-            tex = TextureManager.particle1;
+            tex = TextureManager.gibGlow;
             sb = new SpriteBatch(game.GraphicsDevice);
-            rTarg = new RenderTarget2D(game.GraphicsDevice, 256, 256);
+            rTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
+            rot.Z = Utilities.nextFloat() * MathHelper.PiOver2;
         }
 
         public override void Update(GameTime gameTime)
@@ -76,7 +77,7 @@ namespace MoonCow
 
         protected override Matrix GetWorld()
         {
-            return Matrix.CreateScale(scale) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
+            return Matrix.CreateScale(scale) * Matrix.CreateRotationZ(rot.Z) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
         }
     }
 }

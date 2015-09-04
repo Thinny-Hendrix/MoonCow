@@ -48,6 +48,7 @@
     <Compile Include="EnemyModel.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="ImpactParticleModel.cs" />
+    <Compile Include="LaserHitEffect.cs" />
     <Compile Include="MapData.cs" />
     <Compile Include="Minimap.cs" />
     <Compile Include="ModelManager.cs" />
@@ -241,6 +242,12 @@
     <Content Include="Content\Models\Effects\burstWhite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Models\Effects\gibglow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\smoke1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Models\Effects\spark1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -250,10 +257,16 @@
     <Content Include="Content\Models\Effects\tex1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Models\Effects\tex2-64-2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Models\Effects\tex2-64.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\tex2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\tex3-64-2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\tex3-64.png">

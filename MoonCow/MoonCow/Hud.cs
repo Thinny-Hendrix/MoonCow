@@ -183,8 +183,8 @@ namespace MoonCow
             float fps = 1.0f / Utilities.deltaTime;
             frameRate = fps + " FPS";
 
-            shieldValue = "SHIELDS AT " + ((Game1)Game).ship.shipHealth.shieldVal + "%";
-            hpValue = ((Game1)Game).ship.shipHealth.hpVal + " HP";
+            shieldValue = "SHIELDS AT " + (int)game.ship.shipHealth.shieldVal + "%";
+            hpValue = game.ship.shipHealth.hpVal + " HP";
 
             if (game.enemyManager.spawnState == MoonCow.EnemyManager.SpawnState.deploying)
             gameState = "deploying\nenemies";
@@ -192,12 +192,12 @@ namespace MoonCow
                 gameState = "Press R\nfor enemies";
 
 
-            moneyTot = "" + Math.Floor(((Game1)Game).ship.moneyManager.displayNo);
-            float diff = ((Game1)Game).ship.moneyManager.difference;
+            moneyTot = "" + Math.Floor(game.ship.moneyManager.displayNo);
+            float diff = game.ship.moneyManager.difference;
             if(diff < 0)
-                moneyDif = "" + ((Game1)Game).ship.moneyManager.difference;
+                moneyDif = "" + game.ship.moneyManager.difference;
             else
-                moneyDif = "+" + ((Game1)Game).ship.moneyManager.difference;
+                moneyDif = "+" + game.ship.moneyManager.difference;
 
 
             if (flashTime < 10)

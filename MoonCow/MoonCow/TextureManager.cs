@@ -18,6 +18,7 @@ namespace MoonCow
         public static Texture2D particle3small;
 
         public static Texture2D whiteBurst;
+        public static Texture2D gibGlow;
         public static Texture2D spark1;
 
         public static Model square;
@@ -33,6 +34,7 @@ namespace MoonCow
             particle2small = game.Content.Load<Texture2D>(@"Models/Effects/tex2-64");
             particle3small = game.Content.Load<Texture2D>(@"Models/Effects/tex3-64");
 
+            gibGlow = game.Content.Load<Texture2D>(@"Models/Effects/gibglow");
             whiteBurst = game.Content.Load<Texture2D>(@"Models/Effects/burstWhite");
             spark1 = game.Content.Load<Texture2D>(@"Models/Effects/spark1");
 

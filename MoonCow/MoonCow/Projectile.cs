@@ -146,6 +146,11 @@ namespace MoonCow
 
             if (collided)
             {
+                if(type == 1)
+                    game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Green));
+                else
+                    game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Orange));
+
                 if(type != 1)
                     game.ship.moneyManager.addGib(73, pos);
                 deleteProjectile();
