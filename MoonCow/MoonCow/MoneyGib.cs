@@ -48,7 +48,7 @@ namespace MoonCow
 
             rot = currentDirection;
 
-            speed = 20;
+            speed = Utilities.nextFloat()*5+17;
 
             boundingBox = new OOBB(pos, currentDirection, .1f, .1f);
             collected = false;
