@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -70,6 +71,7 @@
     <Compile Include="ShipHealthSystem.cs" />
     <Compile Include="ShipModel.cs" />
     <Compile Include="ShipParticleSystem.cs" />
+    <Compile Include="ShipThrustParticle.cs" />
     <Compile Include="SkyboxModel.cs" />
     <Compile Include="SpaceDust.cs" />
     <Compile Include="SpeedCylModel.cs" />

@@ -35,7 +35,7 @@ namespace MoonCow
 
         bool turning;
         public bool boosting;
-        bool inUTurn;
+        public bool inUTurn;
         float uTurnYaw;
         float totaluTurn;
 

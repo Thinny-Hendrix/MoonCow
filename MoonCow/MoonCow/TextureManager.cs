@@ -21,6 +21,8 @@ namespace MoonCow
         public static Texture2D gibGlow;
         public static Texture2D spark1;
 
+        public static Texture2D smoke1;
+
         public static Model square;
 
 
@@ -37,6 +39,8 @@ namespace MoonCow
             gibGlow = game.Content.Load<Texture2D>(@"Models/Effects/gibglow");
             whiteBurst = game.Content.Load<Texture2D>(@"Models/Effects/burstWhite");
             spark1 = game.Content.Load<Texture2D>(@"Models/Effects/spark1");
+            smoke1 = game.Content.Load<Texture2D>(@"Models/Effects/smoke1");
+
 
             square = game.Content.Load<Model>(@"Models/Misc/square");
 
