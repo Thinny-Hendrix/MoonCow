@@ -19,6 +19,7 @@ namespace MoonCow
         Vector3 currentDirection;
         Vector3 targetDirection;
         Vector3 frameDiff;
+        float changeDirectionSpeed;
         float speed;
         float speedMax;
         float value;
@@ -49,6 +50,7 @@ namespace MoonCow
             rot = currentDirection;
 
             speed = Utilities.nextFloat()*5+17;
+            changeDirectionSpeed = Utilities.nextFloat() + 4.5f;
 
             boundingBox = new OOBB(pos, currentDirection, .1f, .1f);
             collected = false;
@@ -71,7 +73,7 @@ namespace MoonCow
 
 
 
-                currentDirection = Vector3.Lerp(currentDirection, targetDirection, Utilities.deltaTime * 5);
+                currentDirection = Vector3.Lerp(currentDirection, targetDirection, Utilities.deltaTime * changeDirectionSpeed);
                 frameDiff += currentDirection * speed * Utilities.deltaTime;
 
                 speed += Utilities.deltaTime * 6;

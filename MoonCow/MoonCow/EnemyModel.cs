@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace MoonCow
 {
@@ -49,12 +50,12 @@ namespace MoonCow
                     //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
 
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.3f, 0.3f, 0.3f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                     effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
                     //effect.DirectionalLight0.SpecularColor = Vector3.One;
                     effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
                     effect.SpecularColor = Vector3.One;
-                    effect.EmissiveColor = new Vector3(.3f, .3f, .3f);
+                    effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
                     effect.PreferPerPixelLighting = true;
 
                 }

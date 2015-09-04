@@ -30,7 +30,7 @@ namespace MoonCow
             this.model = TextureManager.square;
             this.game = game;
             this.ship = ship;
-            this.col = col;
+            this.col = Color.Plum;
             pos = ship.pos;
             scalef = Utilities.nextFloat()/100 + 0.005f;
             zRot = Utilities.nextFloat() * MathHelper.PiOver2;
