@@ -22,16 +22,22 @@ namespace MoonCow
         float alpha;
         Color col;
         int type;
-
+        float time;
+        Vector3 rotAxis;
         Vector3 direction;
 
         public ShipThrustParticle(Game1 game, Ship ship, ShipParticleSystem particles, int type):base()
         {
-            this.model = TextureManager.square;
+            if(type != 4)
+                this.model = TextureManager.square;
+            else
+                this.model = TextureManager.flameSquare;
+
             this.game = game;
             this.ship = ship;
             this.particles = particles;
             this.type = type;
+            time = 0;
 
             switch(type)
             { 
@@ -43,6 +49,7 @@ namespace MoonCow
                     distance = -0.35f;
                     break;
 
+                case -1:
                 case 1:
                     tex = TextureManager.particle1small;
                     sb = new SpriteBatch(game.GraphicsDevice);
@@ -69,6 +76,33 @@ namespace MoonCow
                         col = Color.Cyan;
                     pos = ship.pos+ship.direction*distance;
                     break;
+                case 4:
+                    tex = TextureManager.boostFlame;
+                    rTarg = new RenderTarget2D(game.GraphicsDevice, 64, 128);
+                    sb = new SpriteBatch(game.GraphicsDevice);
+                    alpha = 1;
+                    fScale = 0;
+                    distance = -0.35f;
+                    time = 0;
+                    rot = new Vector3(-.3f, MathHelper.Pi, Utilities.nextFloat()*MathHelper.Pi*2);
+
+                    rotAxis.X = (float)Math.Sin(rot.Y);
+                    rotAxis.Z = (float)Math.Cos(rot.Y);
+                    rotAxis.Y = (float)Math.Sin(rot.X);
+                    rotAxis.Normalize();
+                    break;
+                case 5:
+                    fScale = 0;
+                    distance = -0.35f;
+                    pos = ship.pos + ship.direction * distance;
+                    rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
+                    tex = TextureManager.particle3small;
+                    model = TextureManager.square;
+                    col = Color.Cyan;
+                    sb = new SpriteBatch(game.GraphicsDevice);
+                    rTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
+                    alpha = 1;
+                    break;
             }
         }
 
@@ -79,6 +113,24 @@ namespace MoonCow
 
             switch(type)
             { 
+                case -1:
+                    distance -= Utilities.deltaTime * 2;
+                    pos = ship.pos + direction * distance;
+                    fScale -= Utilities.deltaTime * 0.1f;
+                    if (fScale < 0.15f)
+                        alpha -= Utilities.deltaTime * 3;
+
+                    game.GraphicsDevice.SetRenderTarget(rTarg);
+                    sb.Begin();
+                    sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
+                    sb.End();
+                    game.GraphicsDevice.SetRenderTarget(null);
+
+                    if (fScale <= 0)
+                    {
+                        particles.thrustToDelete.Add(this);
+                    }
+                    break;
                 case 0:
                     pos = ship.pos+direction*distance;
                     rot.Z = Utilities.nextFloat();
@@ -102,6 +154,33 @@ namespace MoonCow
                     }
                     break;
                 case 2:
+                    distance -= Utilities.deltaTime * 1.5f;
+                    pos = ship.pos + direction * distance;
+
+
+                    fScale = (float)(Math.Cos(time) + 1) * 0.01f;
+
+                    time += Utilities.deltaTime * MathHelper.Pi * 2.5f;
+
+                    fScale += Utilities.deltaTime * 0.06f;
+                    if (time > MathHelper.Pi*0.5f)
+                        alpha -= Utilities.deltaTime * 4;
+
+                    col = Color.Lerp(col, Color.Red, Utilities.deltaTime * 8);
+                   
+
+
+                    game.GraphicsDevice.SetRenderTarget(rTarg);
+                    sb.Begin();
+                    sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
+                    sb.End();
+                    game.GraphicsDevice.SetRenderTarget(null);
+
+                    if (time > MathHelper.Pi*1)
+                    {
+                        particles.thrustToDelete.Add(this);
+                    }
+                    break;
                 case 3:
                     distance -= Utilities.deltaTime * 2;
                     pos = ship.pos + direction * distance;
@@ -109,10 +188,7 @@ namespace MoonCow
                     if (fScale < 0.15f)
                         alpha -= Utilities.deltaTime * 3;
 
-                    if(type == 2)
-                        col = Color.Lerp(col, Color.Red, Utilities.deltaTime * 8);
-                    else
-                        col = Color.Lerp(col, Color.Blue, Utilities.deltaTime * 8);
+                    col = Color.Lerp(col, Color.Blue, Utilities.deltaTime * 8);
 
 
                     game.GraphicsDevice.SetRenderTarget(rTarg);
@@ -125,6 +201,43 @@ namespace MoonCow
                     {
                         particles.thrustToDelete.Add(this);
                     }
+                    break;
+                case 4:
+                    pos = ship.pos+direction*distance;
+                    game.GraphicsDevice.SetRenderTarget(rTarg);
+                    sb.Begin();
+                    sb.Draw(tex, new Rectangle(0, 0, 64, 128), Color.White * alpha);
+                    sb.End();
+                    game.GraphicsDevice.SetRenderTarget(null);
+
+                    fScale = ((float)Math.Cos(time) + 1) * .03f;
+
+                    time  += Utilities.deltaTime*MathHelper.Pi*6;
+                    if(time > MathHelper.Pi)
+                    {
+                        particles.thrustToDelete.Add(this);
+                    }
+                    break;
+                case 5:
+                    pos = ship.pos + ship.direction * distance;
+                    fScale += Utilities.deltaTime*0.4f;
+
+                    //if (fScale > 0.05f)
+                    alpha -= Utilities.deltaTime*3;
+
+                    game.GraphicsDevice.SetRenderTarget(rTarg);
+
+                    col = Color.Lerp(col, Color.Blue, Utilities.deltaTime * 8);
+
+                    sb.Begin();
+                    sb.Draw(tex, Vector2.Zero, col*alpha);
+                    sb.End();
+                    game.GraphicsDevice.SetRenderTarget(null);
+
+
+
+                    if (fScale > 0.06f)
+                        game.modelManager.toDeleteModel(this);
                     break;
                 default:
                     break;
@@ -178,7 +291,11 @@ namespace MoonCow
 
         protected override Matrix GetWorld()
         {
-            return Matrix.CreateScale(fScale) * Matrix.CreateRotationZ(rot.Z) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
+            if (type != 4)
+                return Matrix.CreateScale(fScale) * Matrix.CreateRotationZ(rot.Z) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
+            else
+                return Matrix.CreateScale(fScale) * Matrix.CreateRotationY(rot.Y) * Matrix.CreateRotationZ(rot.Z) *  Matrix.CreateConstrainedBillboard(pos, game.camera.cameraPosition, Vector3.Up, null, null);
+
         }
     }
 }

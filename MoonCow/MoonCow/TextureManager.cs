@@ -22,8 +22,13 @@ namespace MoonCow
         public static Texture2D spark1;
 
         public static Texture2D smoke1;
+        public static Texture2D boostFlame;
+        public static Texture2D shotBlip;
+        public static Texture2D smallDot;
+
 
         public static Model square;
+        public static Model flameSquare;
 
 
         public static void initialize(Game game)
@@ -40,9 +45,14 @@ namespace MoonCow
             whiteBurst = game.Content.Load<Texture2D>(@"Models/Effects/burstWhite");
             spark1 = game.Content.Load<Texture2D>(@"Models/Effects/spark1");
             smoke1 = game.Content.Load<Texture2D>(@"Models/Effects/smoke1");
+            boostFlame = game.Content.Load<Texture2D>(@"Models/Effects/boostFlame");
+            smallDot = game.Content.Load<Texture2D>(@"Models/Effects/smallDot");
+            shotBlip = game.Content.Load<Texture2D>(@"Models/Effects/shotBlip");
 
 
             square = game.Content.Load<Model>(@"Models/Misc/square");
+            flameSquare = game.Content.Load<Model>(@"Models/Effects/flameSquare");
+
 
         }
 

@@ -20,6 +20,7 @@ namespace MoonCow
 
         float thrustGenTime;
         int thrustParticle;
+        bool currentlyBoosting;
 
 
         public ShipParticleSystem(Game1 game, Ship ship):base(game)
@@ -29,10 +30,22 @@ namespace MoonCow
 
             addThrustParticle(0);
             thrustGenTime = 0;
+            currentlyBoosting = false;
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (ship.boosting)
+            {
+                if (!currentlyBoosting)
+                {
+                    currentlyBoosting = true;
+                    addThrustParticle(5);
+                }
+            }
+            else
+                currentlyBoosting = false;
+
             bool newThrustParticle = Keyboard.GetState().IsKeyDown(Keys.W) || ship.inUTurn;
             if (newThrustParticle)
             {
@@ -41,13 +54,26 @@ namespace MoonCow
                 {
                     if (thrustParticle == 0)
                     {
-                        addThrustParticle(1);
+                        if(currentlyBoosting)
+                        {
+                            addThrustParticle(-1);
+                            addThrustParticle(4);
+                            addThrustParticle(4);
+                        }
+                        else
+                            addThrustParticle(1);
+
                         thrustParticle = 1;
                     }
                     else
                     {
-                        if (ship.boosting)
+                        if (currentlyBoosting)
+                        {
+                            addThrustParticle(4);
+                            addThrustParticle(4);
                             addThrustParticle(3);
+
+                        }
                         else
                             addThrustParticle(2);
                         thrustParticle = 0;
@@ -69,7 +95,7 @@ namespace MoonCow
                 game.modelManager.removeEffect(m);
                 source.Remove(m);
             }
-            moneyToDelete.Clear();
+            toDelete.Clear();
         }
 
         void addThrustParticle(int type)

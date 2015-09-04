@@ -64,7 +64,7 @@ namespace MoonCow
 
             life += Utilities.deltaTime*MathHelper.Pi*11;
 
-            if (life > MathHelper.Pi * 10)
+            if (life > MathHelper.Pi * 8)
             {
                 if (life > MathHelper.Pi * 14)
                     alpha = (float)((Math.Cos(life)) + 1) / 2;
