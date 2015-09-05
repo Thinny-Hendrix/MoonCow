@@ -109,6 +109,7 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     stationModel = new TileModel(game.Content.Load<Model>(@"Models/StationTiles/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
+                    game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30, 4.5f, pos.Y * 30+10), new Vector3(0,MathHelper.Pi,0),game));
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
@@ -120,6 +121,8 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     stationModel = new TileModel(game.Content.Load<Model>(@"Models/StationTiles/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30+10, 4.5f, pos.Y * 30), new Vector3(0, MathHelper.Pi*1.5f, 0), game));
+
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
@@ -131,6 +134,8 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     stationModel = new TileModel(game.Content.Load<Model>(@"Models/StationTiles/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.Pi, 1.0f);
+                    game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30, 4.5f, pos.Y * 30-10), new Vector3(0, 0, 0), game));
+
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
@@ -140,8 +145,10 @@ namespace MoonCow
                     break;
                 case 10:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     stationModel = new TileModel(game.Content.Load<Model>(@"Models/StationTiles/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2*3, 1.0f);
+                    game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30-10, 4.5f, pos.Y * 30), new Vector3(0, 0, 0), game));
+
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
