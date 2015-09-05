@@ -295,6 +295,8 @@ namespace MoonCow
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
                 {
+                    if (!boosting)
+                        game.hud.startBoost();
                     boosting = true;
                     moveSpeed = MathHelper.Lerp(moveSpeed, boostSpeed, Utilities.deltaTime * 7);
                 }

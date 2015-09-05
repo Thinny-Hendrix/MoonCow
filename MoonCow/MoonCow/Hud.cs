@@ -19,6 +19,9 @@ namespace MoonCow
         Vector2 position;
         bool toggleMap;
         bool bigMap;
+        bool startingBoost;
+        float boostDrawScale;
+        float boostDrawAlpha;
 
         String moneyTot;
         String moneyDif;
@@ -297,6 +300,22 @@ namespace MoonCow
 
             spriteBatch.Begin();
             spriteBatch.Draw((Texture2D)game.worldRender, Vector2.Zero, Color.White);
+
+            if(startingBoost)
+            {
+                float w = Game.GraphicsDevice.Viewport.Width;
+                float h = Game.GraphicsDevice.Viewport.Height;
+
+                spriteBatch.Draw((Texture2D)game.worldRender, 
+                    new Rectangle((int)w/2, (int)(h*0.5f), (int)(w * boostDrawScale), (int)(h * boostDrawScale)), 
+                    null, Color.White*boostDrawAlpha, 0, new Vector2(w/2, h*0.5f), SpriteEffects.None, 0);
+                boostDrawAlpha -= Utilities.deltaTime;
+                boostDrawScale += Utilities.deltaTime/3;
+                if (boostDrawAlpha < 0)
+                    startingBoost = false;
+
+            }
+
             spriteBatch.End();
 
             if(flashTime < 10)
@@ -340,6 +359,13 @@ namespace MoonCow
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             base.Draw(gameTime);
+        }
+
+        public void startBoost()
+        {
+            startingBoost = true;
+            boostDrawScale = 1.05f;
+            boostDrawAlpha = .5f;
         }
 
 

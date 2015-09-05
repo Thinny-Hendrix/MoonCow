@@ -30,6 +30,9 @@ namespace MoonCow
         private MapData layout;
         public Hud hud;
 
+        BloomComponent bloom;
+        int bloomSettingsIndex = 0;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -76,12 +79,17 @@ namespace MoonCow
 
 	        enemyManager = new EnemyManager(this);
             audioManager = new AudioManager(this);
+            //bloom = new BloomComponent(this);
+
 
             Components.Add(camera);
             Components.Add(modelManager);
             Components.Add(audioManager);
             Components.Add(enemyManager);
             Components.Add(ship);
+
+            //make sure the post process effects go second last, and the hud is absolute last
+            //Components.Add(bloom);
             Components.Add(hud);
 
             modelManager.makeStarField();
