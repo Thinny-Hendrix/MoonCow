@@ -17,6 +17,11 @@ namespace MoonCow
             radius = r;
         }
 
+        public void Update(Vector3 point)
+        {
+            centre = new Vector2(point.X, point.Z);
+        }
+
         public bool checkPoint(Vector2 point)
         {
             // maths here

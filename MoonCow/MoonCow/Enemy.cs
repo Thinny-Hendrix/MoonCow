@@ -30,6 +30,7 @@ namespace MoonCow
         char wasFacing = 'S';
 
         public OOBB boundingBox;
+        public CircleCollider agroSphere;
         public int health;
 
         public Vector2 nodePos;
@@ -82,6 +83,7 @@ namespace MoonCow
             //System.Diagnostics.Debug.WriteLine(path);
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
+            agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 4f);
 
             health = 15;
 
@@ -101,6 +103,14 @@ namespace MoonCow
         public void Update(GameTime gameTime)
         {
             nextPosition = path[pathPosition];
+
+            //Agro stuff and attacks
+            agroSphere.Update(pos);
+            if(agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))
+            {
+                //Agro mode active, begin doing collision checks on player and chase
+                //System.Diagnostics.Debug.WriteLine("Enemy now aggressive");
+            }
 
             if ((pos.X < makeCentreCoordinate(nextPosition.X) + 13 && pos.X > makeCentreCoordinate(nextPosition.X) - 13) && (pos.Z < makeCentreCoordinate(nextPosition.Y) + 13 && pos.Z > makeCentreCoordinate(nextPosition.Y) - 13))
             {
