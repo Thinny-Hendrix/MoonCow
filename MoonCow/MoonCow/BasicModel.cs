@@ -12,9 +12,7 @@ namespace MoonCow
         public Vector3 pos;
         public Vector3 rot;
         public Vector3 scale;
-        //public float rotation;
-        //public float scale;
-        public Vector3 skew; //might not need this
+        //public Vector3 skew; //might not need this
 
         public Model model { get; protected set; }
 

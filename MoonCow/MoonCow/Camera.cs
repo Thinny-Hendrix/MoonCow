@@ -138,7 +138,7 @@ namespace MoonCow
             if (ship.boosting)
             {
                 if(ship.finishingMove)
-                    currentDist = MathHelper.Lerp(currentDist, 4, Utilities.deltaTime * 2);
+                    currentDist = MathHelper.Lerp(currentDist, 3, Utilities.deltaTime * 2);
                 else
                     currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 2);
             }
@@ -150,11 +150,18 @@ namespace MoonCow
 
             lookAt.X += currentDirection.X * (currentDist * ((float)11.0 / (float)15.0));
             lookAt.Z += currentDirection.Z * (currentDist * ((float)11.0 / (float)15.0));
-            lookAt.Y = 4.5f;
+            if (ship.finishingMove)
+                lookAt.Y = 4.8f;
+            else
+                lookAt.Y = 4.5f;
             lookAt += shakeOffset;
 
             cameraPosition.X = lookAt.X - (currentDirection.X * currentDist);
-            cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(8)));
+            if(ship.finishingMove)
+                cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(7)));
+            else
+                cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(8)));
+
             cameraPosition.Z = lookAt.Z - (currentDirection.Z * currentDist);
 
             cameraPosition += shakeOffset;

@@ -293,6 +293,12 @@ namespace MoonCow
 
         public override void Draw(GameTime gameTime)
         {
+            game.GraphicsDevice.SetRenderTarget(null);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw((Texture2D)game.worldRender, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
             if(flashTime < 10)
             {
                 graphicsDevice.BlendState = BlendState.AlphaBlend;

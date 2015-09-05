@@ -41,6 +41,8 @@ namespace MoonCow
                 {
                     currentlyBoosting = true;
                     addThrustParticle(5);
+                    addThrustParticle(4);
+                    addThrustParticle(4);
                 }
             }
             else

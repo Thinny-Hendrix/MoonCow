@@ -18,6 +18,8 @@ namespace MoonCow
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         Texture2D gameDraw;
+        public RenderTarget2D worldRender;
+        DepthStencilState depthState;
 
         public Map map;
         public Camera camera;
@@ -52,6 +54,14 @@ namespace MoonCow
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            //worldRender = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            //depthState = new DepthStencilState();
+            //depthState.DepthBufferEnable = true;
+            //depthState.DepthBufferWriteEnable = true;
+            //worldRender.GraphicsDevice.DepthStencilState = depthState;
+
+            PresentationParameters pp = GraphicsDevice.PresentationParameters;
+            worldRender = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
 
             TextureManager.initialize(this);
 
@@ -135,6 +145,10 @@ namespace MoonCow
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(new Color(0.2f,0.2f,0.2f));
+
+            worldRender.GraphicsDevice.Clear(Color.Black);
+
+            GraphicsDevice.SetRenderTarget(worldRender);
 
             // TODO: Add your drawing code here
 

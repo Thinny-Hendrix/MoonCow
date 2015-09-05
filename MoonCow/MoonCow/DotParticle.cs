@@ -7,29 +7,47 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class ImpactParticleModel:BasicModel
+    class DotParticle:BasicModel
     {
+        Vector3 direction;
+        float distance;
+        float fScale;
         Texture2D tex;
         Game1 game;
-        float fScale;
-        public ImpactParticleModel(Game1 game, Vector3 pos):base()
+
+        float speed;
+
+        public DotParticle(Game1 game, Vector3 pos):base()
         {
             this.game = game;
             this.pos = pos;
-            fScale = 0.25f;
-
-            rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
-            tex = TextureManager.whiteBurst;
             model = TextureManager.square;
+            tex = TextureManager.smallDot;
+            direction.X = Utilities.nextFloat() * 2 - 1;
+            direction.Y = Utilities.nextFloat() * 2 - 1;
+            direction.Z = Utilities.nextFloat() * 2 - 1;
+            direction.Normalize();
+            speed = 10 + Utilities.nextFloat() * 15;
+
+            fScale = 0.003f + Utilities.nextFloat()*0.004f;
         }
 
         public override void Update(GameTime gameTime)
         {
-            fScale -= Utilities.deltaTime*2.5f;
+            pos += direction * speed * Utilities.deltaTime;
+            if (speed != 0)
+            {
+                speed -= Utilities.deltaTime * 50;
+                if (speed < 0)
+                    speed = 0;
+            }
+            if(speed < 10f)
+            {
+                fScale *= 0.9f;
+            }
 
-            if (fScale < 0)
+            if (fScale < 0.0005f)
                 game.modelManager.toDeleteModel(this);
-
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -50,12 +68,6 @@ namespace MoonCow
                     effect.TextureEnabled = true;
                     effect.Texture = tex;
                     effect.Alpha = 1;
-
-                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
-                    //effect.EnableDefaultLighting(); //did not work
-                    effect.LightingEnabled = true;
-
-
                 }
                 mesh.Draw();
             }
@@ -63,7 +75,8 @@ namespace MoonCow
 
         protected override Matrix GetWorld()
         {
-            return Matrix.CreateScale(fScale) * Matrix.CreateRotationZ(rot.Z) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
+            return Matrix.CreateScale(fScale) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
         }
+
     }
 }

@@ -146,6 +146,8 @@ namespace MoonCow
 
             if (collided)
             {
+                for (int i = 0; i < 10; i++)
+                    game.modelManager.addEffect(new DotParticle(game, pos));
                 if(type == 1)
                     game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Green));
                 else
