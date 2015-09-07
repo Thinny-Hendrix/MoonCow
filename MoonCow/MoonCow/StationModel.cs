@@ -49,6 +49,13 @@ namespace MoonCow
          * */
 
         Texture2D tex;
+        float cogRot;
+
+        ModelBone cog1;
+        Vector3 cog1trans;
+        ModelBone cog2;
+        Vector3 cog2trans;
+        
 
         public StationModel(Model model, Vector3 pos, float rotation, float scale) : base(model, pos, rotation, scale)
         {
@@ -59,11 +66,34 @@ namespace MoonCow
 
             tex = TextureManager.station1;
 
+            try
+            {
+                cog1 = this.model.Bones["cog1"];
+                cog1trans = cog1.Transform.Translation;
+            }
+            catch (KeyNotFoundException) { }
+            try
+            {
+                cog2 = this.model.Bones["cog2"];
+                cog2trans = cog2.Transform.Translation;
+            }
+            catch (KeyNotFoundException) 
+            {
+                try
+                {
+                    cog1 = this.model.Bones["cog"];
+                    cog1trans = cog1.Transform.Translation;
+                }
+                catch (KeyNotFoundException) { }
+            }
+
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            cogRot += Utilities.deltaTime * MathHelper.PiOver4/2;
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -77,7 +107,15 @@ namespace MoonCow
                 {
                     foreach (BasicEffect effect in mesh.Effects)
                     {
-                        effect.World = mesh.ParentBone.Transform * GetWorld();
+                        if(mesh.Name.Contains("cog2"))
+                            effect.World = Matrix.CreateRotationZ(cogRot) * GetWorld();
+                        else if (mesh.Name.Contains("cog1"))
+                            effect.World = Matrix.CreateRotationZ(-cogRot) * Matrix.CreateTranslation(cog1trans) * GetWorld();
+                        else
+                            effect.World = mesh.ParentBone.Transform * GetWorld();
+
+                        
+
                         effect.View = camera.view;
                         effect.Projection = camera.projection;
                         effect.TextureEnabled = true;
@@ -90,7 +128,7 @@ namespace MoonCow
                         effect.DirectionalLight0.Direction = Vector3.Normalize(new Vector3(1, -0.2f, 1));
                         effect.DirectionalLight0.SpecularColor = Vector3.One;
                         effect.AmbientLightColor = new Vector3(0.4f, .4f, .4f);
-                        effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
+                        effect.EmissiveColor = new Vector3(.2f, .2f, .2f);
                         effect.PreferPerPixelLighting = true;
 
 

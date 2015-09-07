@@ -143,6 +143,12 @@ namespace MoonCow
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+
+            Utilities.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+            float test = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+
+            System.Diagnostics.Debug.WriteLine(test);
+
             //hud.update(gameTime, spriteBatch);
         }
 
