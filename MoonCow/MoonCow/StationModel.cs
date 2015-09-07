@@ -108,7 +108,7 @@ namespace MoonCow
                     foreach (BasicEffect effect in mesh.Effects)
                     {
                         if(mesh.Name.Contains("cog2"))
-                            effect.World = Matrix.CreateRotationZ(cogRot) * GetWorld();
+                            effect.World = Matrix.CreateRotationZ(cogRot) * Matrix.CreateTranslation(cog2trans) * GetWorld();
                         else if (mesh.Name.Contains("cog1"))
                             effect.World = Matrix.CreateRotationZ(-cogRot) * Matrix.CreateTranslation(cog1trans) * GetWorld();
                         else
