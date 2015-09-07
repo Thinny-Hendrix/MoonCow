@@ -14,12 +14,14 @@ namespace MoonCow
         SoundEffect sfxWallHit;
         SoundEffect sfxWallScrape;
         SoundEffect sfxShootLaser;
+        SoundEffect sfxShootLaser2;
         SoundEffect sfxSpaceEngine;
 
         SoundEffectInstance bgm;
         SoundEffectInstance sfxiWallHit;
         SoundEffectInstance sfxiWallScrape;
         SoundEffectInstance sfxiShootLaser;
+        SoundEffectInstance sfxiShootLaser2;
         SoundEffectInstance sfxiSpaceEngine;
 
         Ship ship;
@@ -32,19 +34,21 @@ namespace MoonCow
             sfxWallHit = game.Content.Load<SoundEffect>(@"Audio/SFX/Metallic Wall Hit");
             sfxWallScrape = game.Content.Load<SoundEffect>(@"Audio/SFX/Metallic Wall Scrape");
             sfxShootLaser = game.Content.Load<SoundEffect>(@"Audio/SFX/Shoot Laser");
+            sfxShootLaser2 = game.Content.Load<SoundEffect>(@"Audio/SFX/Shoot Laser");
             sfxSpaceEngine = game.Content.Load<SoundEffect>(@"Audio/SFX/Space Engine");
 
             bgm = bgmSpacePanic_base.CreateInstance();
             sfxiWallHit = sfxWallHit.CreateInstance();
             sfxiWallScrape = sfxWallScrape.CreateInstance();
             sfxiShootLaser = sfxShootLaser.CreateInstance();
+            sfxiShootLaser2 = sfxShootLaser2.CreateInstance();
             sfxiSpaceEngine = sfxSpaceEngine.CreateInstance();
         }
 
         public override void Initialize()
         {
 
-            SoundEffect.MasterVolume = 0;
+            SoundEffect.MasterVolume = 1;
             bgm.IsLooped = true;
             bgm.Volume = 0.1f;
             bgm.Play();
@@ -52,6 +56,7 @@ namespace MoonCow
             sfxiWallHit.Volume = 0.02f;
             sfxiWallScrape.Volume = 0.02f;
             sfxiShootLaser.Volume = 0.008f;
+            sfxiShootLaser2.Volume = 0.008f;
 
             sfxiSpaceEngine.IsLooped = true;
             sfxiSpaceEngine.Volume = 0.01f;
@@ -76,6 +81,12 @@ namespace MoonCow
         {
             sfxiShootLaser.Stop();
             sfxiShootLaser.Play();
+        }
+
+        public void shootLaser2()
+        {
+            sfxiShootLaser2.Stop();
+            sfxiShootLaser2.Play();
         }
 
         public void wallHit()
