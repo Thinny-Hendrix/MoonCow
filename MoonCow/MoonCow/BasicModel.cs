@@ -81,6 +81,9 @@ namespace MoonCow
             }
         }
 
+        public virtual void DrawAlt(GraphicsDevice device, Camera camera)
+        { }
+
         protected virtual Matrix GetWorld()
         {
             return Matrix.CreateScale(scale) * Matrix.CreateFromYawPitchRoll(rot.Y, rot.X, rot.Z) * Matrix.CreateTranslation(pos);
