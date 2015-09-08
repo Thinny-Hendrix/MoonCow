@@ -47,7 +47,7 @@ namespace MoonCow
                     traversable = true;
                     // Set the model for this node
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/straight"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/straightRound"), new Vector3(pos.X * 30, -3f, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/straightRound2"), new Vector3(pos.X * 30, -3f, pos.Y * 30), MathHelper.PiOver2, 1.0f);
 
                     // Using the constructor of the OOBB that just takes four corners create the bounding boxes for this node and store their positional data
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
@@ -56,7 +56,7 @@ namespace MoonCow
                 case 2:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/straight"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/straightRound"), new Vector3(pos.X * 30, -3f, pos.Y * 30), 0, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/straightRound2"), new Vector3(pos.X * 30, -3f, pos.Y * 30), 0, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
@@ -64,7 +64,7 @@ namespace MoonCow
                 case 3:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
@@ -75,7 +75,7 @@ namespace MoonCow
                 case 4:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
@@ -86,7 +86,7 @@ namespace MoonCow
                 case 5:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
@@ -97,7 +97,7 @@ namespace MoonCow
                 case 6:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
@@ -108,7 +108,7 @@ namespace MoonCow
                 case 7:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
                     game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30, 4.5f, pos.Y * 30+10), new Vector3(0,MathHelper.Pi,0),game));
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
@@ -120,7 +120,7 @@ namespace MoonCow
                 case 8:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30+10, 4.5f, pos.Y * 30), new Vector3(0, MathHelper.Pi*1.5f, 0), game));
 
 
@@ -133,7 +133,7 @@ namespace MoonCow
                 case 9:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
                     game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30, 4.5f, pos.Y * 30-10), new Vector3(0, 0, 0), game));
 
 
@@ -146,7 +146,7 @@ namespace MoonCow
                 case 10:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/dend"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/dendRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30-10, 4.5f, pos.Y * 30), new Vector3(0, 0, 0), game));
 
 
@@ -181,7 +181,7 @@ namespace MoonCow
                 case 12:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt3"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/tint3Round"), new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/tint3Round2"), new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     //top right little corner
@@ -196,7 +196,7 @@ namespace MoonCow
                 case 13:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt3"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/tint3Round"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/tint3Round2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     // Needs another 6 colliders for the rounded corner bits
@@ -212,7 +212,7 @@ namespace MoonCow
                 case 14:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt3"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/tint3Round"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/tint3Round2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
                     //top left little corner
@@ -227,7 +227,7 @@ namespace MoonCow
                 case 15:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/tInt3"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/tint3Round"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/tint3Round2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     //bottom right little corner
@@ -242,7 +242,7 @@ namespace MoonCow
                 case 16:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/cornerRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/cornerRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
@@ -256,7 +256,7 @@ namespace MoonCow
                 case 17:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/cornerRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/cornerRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
@@ -270,7 +270,7 @@ namespace MoonCow
                 case 18:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/cornerRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/cornerRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
@@ -284,7 +284,7 @@ namespace MoonCow
                 case 19:
                     traversable = true;
                     model = new TileModel(game.Content.Load<Model>(@"Models/Rails/corner"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/cornerRound"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/cornerRound2"), new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));

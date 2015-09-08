@@ -148,6 +148,7 @@ namespace MoonCow
             float test = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
 
             System.Diagnostics.Debug.WriteLine(test);
+            TextureManager.Update(this);
 
             //hud.update(gameTime, spriteBatch);
         }

@@ -121,6 +121,14 @@ namespace MoonCow
             foreach(BasicModel model in additiveModels)
                 model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
 
+            if (!((Game1)Game).ship.finishingMove)
+            {
+                foreach (BasicModel model in nodeModels)
+                {
+                    model.DrawAlt(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
+                }
+            }
+
             foreach (BasicModel model in effectModels)
                 model.Draw(((Game1)Game).GraphicsDevice, ((Game1)Game).camera);
 

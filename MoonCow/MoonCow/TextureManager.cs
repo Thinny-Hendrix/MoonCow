@@ -34,9 +34,19 @@ namespace MoonCow
         public static Model square;
         public static Model flameSquare;
 
+        public static RenderTarget2D baseWindow;
+        public static Texture2D windowLines;
+        public static SpriteBatch spriteBatch;
+
+        public static Texture2D pureWhite;
 
         public static void initialize(Game game)
         {
+            pureWhite = new Texture2D(game.GraphicsDevice, 1, 1);
+            pureWhite.SetData(new Color[] { Color.White });
+            baseWindow = new RenderTarget2D(game.GraphicsDevice, 384, 640);
+            spriteBatch = new SpriteBatch(game.GraphicsDevice);
+
             particle1 = game.Content.Load<Texture2D>(@"Models/Effects/tex1");
             particle2 = game.Content.Load<Texture2D>(@"Models/Effects/tex2");
             particle3 = game.Content.Load<Texture2D>(@"Models/Effects/tex3");
@@ -55,8 +65,25 @@ namespace MoonCow
 
             station1 = game.Content.Load<Texture2D>(@"Models/StationTiles/station2t");
 
+            windowLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/screenlines");
+
+
             square = game.Content.Load<Model>(@"Models/Misc/square");
             flameSquare = game.Content.Load<Model>(@"Models/Effects/flameSquare");
+
+
+        }
+
+        public static void Update(Game game)
+        {
+            game.GraphicsDevice.SetRenderTarget(baseWindow);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(pureWhite, new Rectangle(0, 0, 384, 640), Color.Aqua * 0.2f);
+            spriteBatch.Draw(windowLines, Vector2.Zero, Color.Green);
+            spriteBatch.End();
+
+            game.GraphicsDevice.SetRenderTarget(null);
 
 
         }
