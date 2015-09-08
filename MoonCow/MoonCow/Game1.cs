@@ -144,10 +144,6 @@ namespace MoonCow
 
             base.Update(gameTime);
 
-            Utilities.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-            float test = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-
-            System.Diagnostics.Debug.WriteLine(test);
             TextureManager.Update(this);
 
             //hud.update(gameTime, spriteBatch);
@@ -159,6 +155,7 @@ namespace MoonCow
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            Utilities.frameCount++;
             GraphicsDevice.Clear(new Color(0.2f,0.2f,0.2f));
 
             worldRender.GraphicsDevice.Clear(Color.Black);
