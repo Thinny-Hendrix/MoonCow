@@ -34,19 +34,29 @@ namespace MoonCow
         public static Model square;
         public static Model flameSquare;
 
+        //station window
         public static RenderTarget2D baseWindow;
         public static Texture2D windowLines;
+        public static Texture2D warnLines;
+        public static Texture2D warnSign2;
         public static SpriteBatch spriteBatch;
+        static Vector2 linespos;
+        static Color windowIdle1;
 
         public static Texture2D pureWhite;
 
         public static void initialize(Game game)
         {
+            //station window
             pureWhite = new Texture2D(game.GraphicsDevice, 1, 1);
             pureWhite.SetData(new Color[] { Color.White });
             baseWindow = new RenderTarget2D(game.GraphicsDevice, 384, 640);
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
+            linespos = new Vector2(0, -16);
+            windowIdle1 = new Color(0, 200, 255);
 
+
+            //loading textures
             particle1 = game.Content.Load<Texture2D>(@"Models/Effects/tex1");
             particle2 = game.Content.Load<Texture2D>(@"Models/Effects/tex2");
             particle3 = game.Content.Load<Texture2D>(@"Models/Effects/tex3");
@@ -66,6 +76,10 @@ namespace MoonCow
             station1 = game.Content.Load<Texture2D>(@"Models/StationTiles/station2t");
 
             windowLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/screenlines");
+            warnLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnLines");
+            warnSign2 = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnSign");
+
+
 
 
             square = game.Content.Load<Model>(@"Models/Misc/square");
@@ -74,13 +88,28 @@ namespace MoonCow
 
         }
 
-        public static void Update(Game game)
+        public static void Update(Game1 game)
         {
+            linespos.Y -= Utilities.deltaTime * 32;
+            if (linespos.Y < -32)
+                linespos.Y += 16;
             game.GraphicsDevice.SetRenderTarget(baseWindow);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(pureWhite, new Rectangle(0, 0, 384, 640), Color.Aqua * 0.2f);
-            spriteBatch.Draw(windowLines, Vector2.Zero, Color.Green);
+            if (game.enemyManager.enemies.Count() != 0)
+            {
+                spriteBatch.Draw(pureWhite, new Rectangle(0, 0, 384, 640), Color.Red * 0.6f);
+                spriteBatch.Draw(windowLines, linespos, Color.Red*0.5f);
+                spriteBatch.Draw(warnLines, Vector2.Zero, Color.Red);
+                spriteBatch.Draw(warnSign2, Vector2.Zero, Color.White);
+                spriteBatch.Draw(warnSign2, Vector2.Zero, Color.White);
+
+            }
+            else
+            {
+                spriteBatch.Draw(pureWhite, new Rectangle(0, 0, 384, 640), Color.Aqua * 0.4f);
+                spriteBatch.Draw(windowLines, linespos, windowIdle1);
+            }
             spriteBatch.End();
 
             game.GraphicsDevice.SetRenderTarget(null);

@@ -106,6 +106,7 @@ namespace MoonCow
             
 
             game.GraphicsDevice.DepthStencilState = depthStencilState;
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
                
 
 

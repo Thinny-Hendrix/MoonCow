@@ -173,6 +173,7 @@ namespace MoonCow
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
             device.BlendState = BlendState.Additive;
+            device.DepthStencilState = DepthStencilState.DepthRead;
 
             foreach (ModelMesh mesh in model.Meshes)
             {
