@@ -76,6 +76,7 @@ namespace MoonCow
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
             map = new Map(this, layout.getNodes());
+            Pathfinder pathfinder = new Pathfinder(map); // Created and discarded, used to initialise node neighbors for spatial paritioning
 
 	        enemyManager = new EnemyManager(this);
             audioManager = new AudioManager(this);
@@ -104,19 +105,7 @@ namespace MoonCow
         /// </summary>
         protected override void LoadContent()
         {
-
-            
-
-            //Pathfinder pathfinder = new Pathfinder(map);
-            //List<Vector2> path = pathfinder.findPath(new Point(2, 0), new Point(5, 9));
-		
-	        //enemyManager.addEnemy(new Enemy(this));
-
-            //foreach (Vector2 point in path)
-            //{
-             //   System.Diagnostics.Debug.WriteLine(point);
-            //}
-
+            //When our main menu is in place it will be loaded here. All actual game assets will be loaded in functions called in the menu (pick level etc etc)
         }
 
         /// <summary>

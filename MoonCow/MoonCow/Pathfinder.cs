@@ -53,32 +53,32 @@ namespace MoonCow
                 for (int x = 0; x < levelWidth; x++)
                 {
                     MapNode node = searchNodes[x, y];
-                    if (node == null || node.traversable == false)  //Only do stuff to nodes that exist
+                    if (node == null)  //Only do stuff to nodes that exist - redundant as grid should be full, but good to check
                     {
                         continue;
                     }
 
                     // An array of all of the possible neighbors
-                    Point[] neighbors = new Point[]
+                    Vector2[] neighbors = new Vector2[]
                     {
-                        new Point (x, y - 1), // The node above the current node
-                        new Point (x, y + 1), // The node below the current node.
-                        new Point (x - 1, y), // The node left of the current node.
-                        new Point (x + 1, y), // The node right of the current node
+                        new Vector2 (x, y - 1), // The node above the current node
+                        new Vector2 (x, y + 1), // The node below the current node.
+                        new Vector2 (x - 1, y), // The node left of the current node.
+                        new Vector2 (x + 1, y), // The node right of the current node
                     };
 
                     // We loop through each of the possible neighbors
                     for (int i = 0; i < neighbors.Length; i++)
                     {
-                        Point position = neighbors[i];
+                        Vector2 position = neighbors[i];
                         // Ensure this neighbour is part of the level.
                         if (position.X < 0 || position.X > levelWidth - 1 || position.Y < 0 || position.Y > levelHeight - 1)
                         {
                             continue;
                         }
 
-                        MapNode neighbor = searchNodes[position.X, position.Y];
-                        if (neighbor == null || neighbor.traversable == false)
+                        MapNode neighbor = searchNodes[(int)position.X, (int)position.Y];
+                        if (neighbor == null)   // again redundant, due to spatial partitioning we want even non traversable AI nodes to keep track of neighbors
                         {
                             continue;
                         }
@@ -181,23 +181,14 @@ namespace MoonCow
                 return new List<Vector2>();
             }
 
-            /////////////////////////////////////////////////////////////////////
-            // Step 1 : Clear the Open and Closed Lists and reset each node’s F 
-            //          and G values in case they are still set from the last 
-            //          time we tried to find a path. 
-            /////////////////////////////////////////////////////////////////////
+            // Step 1 : Clear the Open and Closed Lists and reset each node’s F and G values 
             resetSearchNodes();
 
             // Store references to the start and end nodes for convenience.
             MapNode startNode = searchNodes[startPoint.X, startPoint.Y];
             MapNode endNode = searchNodes[endPoint.X, endPoint.Y];
 
-            /////////////////////////////////////////////////////////////////////
-            // Step 2 : Set the start node’s G value to 0 and its F value to the 
-            //          estimated distance between the start node and goal node 
-            //          (this is where our H function comes in) and add it to the 
-            //          Open List. 
-            /////////////////////////////////////////////////////////////////////
+            // Step 2 : Set the start node’s G value to 0 and its F value to the estimated distance between the start and end, also add to open list
             startNode.inOpenList = true;
 
             startNode.distanceToGoal = heuristic(startPoint, endPoint);
@@ -205,85 +196,57 @@ namespace MoonCow
 
             openList.Add(startNode);
 
-            /////////////////////////////////////////////////////////////////////
             // Setp 3 : While there are still nodes to look at in the Open list : 
-            /////////////////////////////////////////////////////////////////////
             while (openList.Count > 0)
             {
-                /////////////////////////////////////////////////////////////////
-                // a) : Loop through the Open List and find the node that 
-                //      has the smallest F value.
-                /////////////////////////////////////////////////////////////////
+                // a) : Loop through the Open List and find the node that has the smallest F value.
                 MapNode currentNode = findBestNode();
 
-                /////////////////////////////////////////////////////////////////
-                // b) : If the Open List empty or no node can be found, 
-                //      no path can be found so the algorithm terminates.
-                /////////////////////////////////////////////////////////////////
+                // b) : If the Open List empty or no node can be found, no path can be found so the algorithm terminates.
                 if (currentNode == null)
                 {
                     break;
                 }
 
-                /////////////////////////////////////////////////////////////////
-                // c) : If the Active Node is the goal node, we will 
-                //      find and return the final path.
-                /////////////////////////////////////////////////////////////////
+                // c) : If the Active Node is the goal node, we will find and return the final path.
                 if (currentNode == endNode)
                 {
                     // Trace our path back to the start.
                     return findFinalPath(startNode, endNode);
                 }
 
-                /////////////////////////////////////////////////////////////////
                 // d) : Else, for each of the Active Node’s neighbours :
-                /////////////////////////////////////////////////////////////////
                 for (int i = 0; i < currentNode.neighbors.Length; i++)
                 {
                     MapNode neighbor = currentNode.neighbors[i];
 
-                    //////////////////////////////////////////////////
-                    // i) : Make sure that the neighbouring node can 
-                    //      be walked across. 
-                    //////////////////////////////////////////////////
+                    // i) : Make sure that the neighbouring node can be walked across. 
                     if (neighbor == null || neighbor.traversable == false)
                     {
                         continue;
                     }
 
-                    //////////////////////////////////////////////////
                     // ii) Calculate a new G value for the neighbouring node.
-                    //////////////////////////////////////////////////
                     float distanceTraveled = currentNode.distanceSoFar + 1;
 
                     // An estimate of the distance from this node to the end node.
                     Point nPos = new Point((int)neighbor.position.X, (int)neighbor.position.Y);
                     float hValue = heuristic(nPos, endPoint);
 
-                    //////////////////////////////////////////////////
-                    // iii) If the neighbouring node is not in either the Open 
-                    //      List or the Closed List : 
-                    //////////////////////////////////////////////////
+                    // iii) If the neighbouring node is not in either the Open List or the Closed List : 
                     if (neighbor.inOpenList == false && neighbor.inClosedList == false)
                     {
-                        // (1) Set the neighbouring node’s G value to the G value 
-                        //     we just calculated.
+                        // (1) Set the neighbouring node’s G value to the G value we just calculated.
                         neighbor.distanceSoFar = distanceTraveled;
-                        // (2) Set the neighbouring node’s F value to the new G value + 
-                        //     the estimated distance between the neighbouring node and
-                        //     goal node.
+                        // (2) Set the neighbouring node’s F value to the new G value + the estimated distance between the neighbouring node and goal node.
                         neighbor.distanceToGoal = distanceTraveled + hValue;
-                        // (3) Set the neighbouring node’s Parent property to point at the Active 
-                        //     Node.
+                        // (3) Set the neighbouring node’s Parent property to point at the Active Node.
                         neighbor.parent = currentNode;
                         // (4) Add the neighbouring node to the Open List.
                         neighbor.inOpenList = true;
                         openList.Add(neighbor);
                     }
-                    //////////////////////////////////////////////////
-                    // iv) Else if the neighbouring node is in either the Open 
-                    //     List or the Closed List :
-                    //////////////////////////////////////////////////
+                    // iv) Else if the neighbouring node is in either the Open List or the Closed List :
                     else if (neighbor.inOpenList || neighbor.inClosedList)
                     {
                         // (1) If our new G value is less than the neighbouring 
@@ -300,11 +263,7 @@ namespace MoonCow
                         }
                     }
                 }
-
-                /////////////////////////////////////////////////////////////////
-                // e) Remove the Active Node from the Open List and add it to the 
-                //    Closed List
-                /////////////////////////////////////////////////////////////////
+                //Remove the Active Node from the Open List and add it to the Closed List
                 openList.Remove(currentNode);
                 currentNode.inClosedList = true;
             }

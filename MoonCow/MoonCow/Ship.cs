@@ -125,7 +125,7 @@ namespace MoonCow
                 }
                 else
                 {
-                    //## SHIP TURNING CODE ##
+                    //## SHIP TURNING CODE ## - Need to add some collision detection in here so you can't turn yourself into a wall and get stuck
                     updateTurn();
 
                     //## SHIP MOVEMENT CODE ##
@@ -142,8 +142,9 @@ namespace MoonCow
                 updateBarrelRoll();
 
                 checkFinishingMove();
-                //########### Collision detection #########
-                checkCollision();
+
+                //########### Collision detection and final movement application #########
+                updateMovement();
             }
 
             if(Keyboard.GetState().IsKeyDown(Keys.I))
@@ -433,72 +434,80 @@ namespace MoonCow
             }
         }
 
-        void checkCollision()
+        void updateMovement()
         {
-            // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
-            // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
-            // be within tolerable limits for CPU time. This will only need to be done with the player
-
-            //pos.X += direction.X * moveSpeed;
-            pos.X += frameDiff.X;
-
-            //## COLLISIONS WHOOO! ##
-            // Move the bounding box to new pos
-            boundingBox.Update(pos, direction);
-            // Get current node co-ordinates
-            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-
-            bool colCheck = false;
-            //For the current node check if your X component will make you collide with wall
-            foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
+            bool collision = false; // Used for determining if sound needs playing, holds true if collision in either X or Z component of movement
+            pos.X += frameDiff.X;   // Update the ship movment with X component of direction * speed
+            if (checkCollision())   // See if that caused a collision
             {
-                if (boundingBox.intersects(box))
-                {
-                    //pos.X -= direction.X * moveSpeed;
-                    pos.X -= frameDiff.X;
-                    //pos.Z -= direction.Z * moveSpeed;
-                    //currently just undoes the frames movement before drawing. effectively stopping the ship
-                    
-                    colCheck = true;
-                }
+                pos.X -= frameDiff.X;   // Undo movment if so
+                collision = true;       // Also play the sound
             }
-
-            // Now add the Z component of the movement
-            //pos.Z += direction.Z * moveSpeed;
-            pos.Z += frameDiff.Z;
-
-            boundingBox.Update(pos, direction);
-            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-
-            foreach (OOBB box in ((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes) // for each bounding box in current node
+            pos.Z += frameDiff.Z;   // Now update the Z component
+            if (checkCollision())   // See if that caused collision
             {
-                if (boundingBox.intersects(box))
-                {
-                    //pos.X -= direction.X * moveSpeed;
-                    //pos.Z -= direction.Z * moveSpeed;
-                    pos.Z -= frameDiff.Z;
-                    //currently just undoes the frames movement before drawing. effectively stopping the ship
-                    
-                    colCheck = true;
-                }
+                pos.Z -= frameDiff.Z;   // Undo movement if so
+                collision = true;       // Also play the sound
             }
-
-            if(colCheck)
+            if (collision)  // If sound needs playing
             {
-                if (!justHitWall)           //plays the wallHit noise only if a collision is occurring
-                {
-                    justHitWall = true;
-                    game.audioManager.wallHit();
-                }
-                if(moveSpeed > 0.1f)
-                {
-                    game.audioManager.wallScrape();
-                }
+                collisionSound();   // Play sound
             }
-            else     //stops the scraping noise as soon as the ship is no longer moving against a wall
+            else    // Otherwise do not play sound and stop if already playing sound
             {
                 justHitWall = false;
                 game.audioManager.wallScrapeStop();
+            }
+        }
+
+        bool checkCollision()
+        {
+            //## COLLISIONS WHOOO! ##
+
+            // Move the bounding box to new pos
+            boundingBox.Update(pos, direction);
+
+            // Get current node co-ordinates
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+            // Make a list containing current node and all neighbor nodes
+            List<MapNode> currentNodes = new List<MapNode>();
+            currentNodes.Add(((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y]);
+            for (int i = 0; i < 4; i++)
+            {
+                if(((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i] != null)
+                {
+                    currentNodes.Add(((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i]);
+                }
+            }
+
+            // Set current collision state to false
+            bool collision = false;
+
+            //For the current node check if your X component will make you collide with wall
+            foreach (MapNode node in currentNodes)
+            {
+                foreach (OOBB box in node.collisionBoxes)
+                {
+                    if (boundingBox.intersects(box))
+                    {
+                        collision = true;
+                    }
+                }
+            }
+            return collision;
+        }
+
+        void collisionSound()
+        {
+            if (!justHitWall)  //plays the wallHit noise only if a collision is occurring
+            {
+                justHitWall = true;
+                game.audioManager.wallHit();
+            }
+            if (moveSpeed > 0.1f)
+            {
+                game.audioManager.wallScrape();
             }
         }
 
