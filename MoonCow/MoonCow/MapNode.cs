@@ -642,6 +642,7 @@ namespace MoonCow
 
             position = pos;
             this.type = type;
+            neighbors = new MapNode[4];
             if (model != null)
             {
                 game.modelManager.add(model);

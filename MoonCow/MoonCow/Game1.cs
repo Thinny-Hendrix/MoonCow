@@ -76,7 +76,6 @@ namespace MoonCow
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
             map = new Map(this, layout.getNodes());
-            Pathfinder pathfinder = new Pathfinder(map); // Created and discarded, used to initialise node neighbors for spatial paritioning
 
 	        enemyManager = new EnemyManager(this);
             audioManager = new AudioManager(this);

@@ -39,52 +39,9 @@ namespace MoonCow
             {
                 for (int x = 0; x < levelWidth; x++)
                 {
-                    if (map.map[x,y].traversable == true)
+                    if (map.map[x, y].traversable == true)
                     {
                         searchNodes[x, y] = map.map[x, y];
-                        searchNodes[x, y].neighbors = new MapNode[4];
-                    }
-                }
-            }
-
-            // Connect each mapNode in searchNode array to it's neightbors
-            for (int y = 0; y < levelHeight; y++)
-            {
-                for (int x = 0; x < levelWidth; x++)
-                {
-                    MapNode node = searchNodes[x, y];
-                    if (node == null)  //Only do stuff to nodes that exist - redundant as grid should be full, but good to check
-                    {
-                        continue;
-                    }
-
-                    // An array of all of the possible neighbors
-                    Vector2[] neighbors = new Vector2[]
-                    {
-                        new Vector2 (x, y - 1), // The node above the current node
-                        new Vector2 (x, y + 1), // The node below the current node.
-                        new Vector2 (x - 1, y), // The node left of the current node.
-                        new Vector2 (x + 1, y), // The node right of the current node
-                    };
-
-                    // We loop through each of the possible neighbors
-                    for (int i = 0; i < neighbors.Length; i++)
-                    {
-                        Vector2 position = neighbors[i];
-                        // Ensure this neighbour is part of the level.
-                        if (position.X < 0 || position.X > levelWidth - 1 || position.Y < 0 || position.Y > levelHeight - 1)
-                        {
-                            continue;
-                        }
-
-                        MapNode neighbor = searchNodes[(int)position.X, (int)position.Y];
-                        if (neighbor == null)   // again redundant, due to spatial partitioning we want even non traversable AI nodes to keep track of neighbors
-                        {
-                            continue;
-                        }
-
-                        // Store a reference to the neighbor.
-                        node.neighbors[i] = neighbor;
                     }
                 }
             }
