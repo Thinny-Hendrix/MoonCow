@@ -50,6 +50,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
+    <Compile Include="Heavy.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="ImpactParticleModel.cs" />
     <Compile Include="LaserHitEffect.cs" />
@@ -80,6 +81,8 @@
     <Compile Include="SpawnVortex.cs" />
     <Compile Include="SpeedCylModel.cs" />
     <Compile Include="StationModel.cs" />
+    <Compile Include="Swarmer.cs" />
+    <Compile Include="Tester.cs" />
     <Compile Include="TextureManager.cs" />
     <Compile Include="TileModel.cs" />
     <Compile Include="Utilities.cs" />

@@ -48,7 +48,7 @@ namespace MoonCow
                     if (inWave < waveMax)
                     {
                         inWave++;
-                        addEnemy(new Enemy(game));
+                        addEnemy(new Swarmer(game));
                     }
 
                     if(inWave == waveMax)
