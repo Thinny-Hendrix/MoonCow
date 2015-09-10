@@ -33,6 +33,7 @@ namespace MoonCow
 
         public float roll;
 
+        public bool moving;
         bool turning;
         public bool boosting;
         public bool inUTurn;
@@ -131,7 +132,12 @@ namespace MoonCow
                     //## SHIP MOVEMENT CODE ##
                     updateSpeed();
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    if (boosting)
+                        GamePad.SetVibration(PlayerIndex.One, 1, 1);
+                    else
+                        GamePad.SetVibration(PlayerIndex.One, 0, 0);
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.S) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < -0.3f)
                     {
                         inUTurn = true;
                         currentTurnSpeed = 0;
@@ -245,7 +251,7 @@ namespace MoonCow
         void updateTurn()
         {
             turning = false;
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < -0.3f)
             {
                 turning = true;
                 if (boosting)
@@ -259,7 +265,7 @@ namespace MoonCow
                     tilt = MathHelper.Lerp(tilt, 20 * maxTurnSpeed, Utilities.deltaTime * 2);
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (Keyboard.GetState().IsKeyDown(Keys.D) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0.3f)
             {
                 turning = true;
                 if (boosting)
@@ -292,9 +298,10 @@ namespace MoonCow
 
         void updateSpeed()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.1f)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+                moving = true;
+                if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3f)
                 {
                     if (!boosting)
                         game.hud.startBoost();
@@ -309,6 +316,7 @@ namespace MoonCow
             }
             else
             {
+                moving = false;
                 boosting = false;
                 if (moveSpeed != 0)
                 {
@@ -322,7 +330,7 @@ namespace MoonCow
 
         void updateBarrelRoll()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Q) && rollCooldown <=0)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Q) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < -0.3f) && rollCooldown <= 0)
             {
                 rollCooldown = 30;
                 rollRecoverTime = MathHelper.PiOver2;
@@ -337,7 +345,7 @@ namespace MoonCow
                 
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.E) && rollCooldown <=0)
+            if ((Keyboard.GetState().IsKeyDown(Keys.E) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.3f) && rollCooldown <= 0)
             {
                 rollCooldown = 30;
                 rollRecoverTime = MathHelper.PiOver2;
@@ -416,7 +424,7 @@ namespace MoonCow
 
         void checkFinishingMove()
         {
-            if(boosting && Keyboard.GetState().IsKeyDown(Keys.Space))//to change - if boosting, drill equipped and raycast detects enemy within range with low health
+            if(boosting && (Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Triggers.Left > 0.2f))//to change - if boosting, drill equipped and raycast detects enemy within range with low health
             {
                 if(!finishingMove)
                 {

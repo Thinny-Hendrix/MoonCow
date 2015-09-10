@@ -48,7 +48,7 @@ namespace MoonCow
             else
                 currentlyBoosting = false;
 
-            bool newThrustParticle = Keyboard.GetState().IsKeyDown(Keys.W) || ship.inUTurn;
+            bool newThrustParticle = ship.moving || ship.inUTurn;
             if (newThrustParticle)
             {
                 thrustGenTime += Utilities.deltaTime * 60;

@@ -352,6 +352,10 @@ namespace MoonCow
             spriteBatch.Draw(dummyTexture, backgroundRectangle, Color.White);
             //spriteBatch.Draw(whiteTex, scaledRect(Vector2.Zero, 1920, 1080), Color.White);//(1-(flashTime/10.0f))));
 
+            spriteBatch.DrawString(font, "" + GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X, new Vector2(300, 300), contPrimary);
+            spriteBatch.DrawString(font, "" + GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y, new Vector2(300, 200), contPrimary);
+
+
             spriteBatch.DrawString(font, frameRate, position, contPrimary);
             spriteBatch.End();
 

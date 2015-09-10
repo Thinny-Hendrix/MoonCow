@@ -42,7 +42,7 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && cooldown == 0)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed) && cooldown == 0)
                 fire();
 
             if (Keyboard.GetState().IsKeyDown(Keys.D1))

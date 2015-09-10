@@ -140,7 +140,7 @@ namespace MoonCow
                 if(ship.finishingMove)
                     currentDist = MathHelper.Lerp(currentDist, 3, Utilities.deltaTime * 2);
                 else
-                    currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 2);
+                    currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 4);
             }
             else
                 currentDist = MathHelper.Lerp(currentDist, normDist, Utilities.deltaTime * 2);
