@@ -173,17 +173,20 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if(!toggleMap && Keyboard.GetState().IsKeyDown(Keys.M))
+            if(!toggleMap && (Keyboard.GetState().IsKeyDown(Keys.M) ^ 
+                GamePad.GetState(PlayerIndex.One).Buttons.RightStick == ButtonState.Pressed))
             {
                 toggleMap = true;
                 bigMap = !bigMap;
             }
-            if(toggleMap && Keyboard.GetState().IsKeyUp(Keys.M))
+            if(toggleMap && (Keyboard.GetState().IsKeyUp(Keys.M) ^
+                GamePad.GetState(PlayerIndex.One).Buttons.RightStick == ButtonState.Released))
+
             {
                 toggleMap = false;
             }
 
-            float fps = 1.0f / Utilities.deltaTime;
+            float fps = 1.0f / Utilities.frameRate;
             frameRate = fps + " FPS";
 
             shieldValue = "SHIELDS AT " + (int)game.ship.shipHealth.shieldVal + "%";

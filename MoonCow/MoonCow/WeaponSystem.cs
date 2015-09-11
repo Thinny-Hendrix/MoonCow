@@ -45,6 +45,14 @@ namespace MoonCow
             if ((Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed) && cooldown == 0)
                 fire();
 
+            if(GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
+            {
+                if (currentWeapon != 5)
+                    currentWeapon++;
+                else
+                    currentWeapon = 1;
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.D1))
                 currentWeapon = 1;
             if (Keyboard.GetState().IsKeyDown(Keys.D2))

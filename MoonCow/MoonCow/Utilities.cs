@@ -13,6 +13,7 @@ namespace MoonCow
         public static int frameCount = 0;
         public static int fps;
         public static float deltaTime;
+        public static float frameRate;
         public static bool paused = false;
         public static Random random = new Random();
 
@@ -27,13 +28,15 @@ namespace MoonCow
                 frameCount = 0;
             }
 
+            deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+
             if (fps <= 0)
             {
-                deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+                frameRate = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
             }
             else
             {
-                deltaTime = 1.0f / (float)fps;
+                frameRate = 1.0f / (float)fps;
             }
 
             //System.Diagnostics.Debug.WriteLine("FPS = " + fps);

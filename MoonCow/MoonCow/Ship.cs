@@ -137,7 +137,9 @@ namespace MoonCow
                     else
                         GamePad.SetVibration(PlayerIndex.One, 0, 0);
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.S) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < -0.3f)
+                    if (Keyboard.GetState().IsKeyDown(Keys.S) || 
+                        GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < -0.3f ||
+                        GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < -0.3f)
                     {
                         inUTurn = true;
                         currentTurnSpeed = 0;

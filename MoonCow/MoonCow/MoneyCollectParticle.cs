@@ -48,7 +48,7 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            distance += speed *Utilities.deltaTime;
+            distance += speed * Utilities.deltaTime;
             if (speed > 0)
             {
                 speed *= Utilities.deltaTime * 60*0.9f;

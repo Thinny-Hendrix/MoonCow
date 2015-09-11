@@ -35,7 +35,7 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if(spawnState == SpawnState.idle && Keyboard.GetState().IsKeyDown(Keys.R))
+            if(spawnState == SpawnState.idle && (Keyboard.GetState().IsKeyDown(Keys.R)||GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed))
             {
                 spawnState = SpawnState.deploying;
             }
