@@ -18,6 +18,7 @@ namespace MoonCow
 
         //rails
         public static Model railStraight;
+        public static Model railStraight1;
         public static Model railCorner;
         public static Model railTInt3;
         public static Model railTInt4;
@@ -27,6 +28,12 @@ namespace MoonCow
         public static Model railCorst;
         public static Model railCorstFlip;
         public static Model railDend;
+
+        //Core
+        public static Model core;
+
+        //Empty Nodes
+        public static Model node60;
 
 
 
@@ -43,6 +50,7 @@ namespace MoonCow
 
             //rails
             railStraight = game.Content.Load<Model>(@"Models/Rails/straight");
+            railStraight1 = game.Content.Load<Model>(@"Models/Rails/straight1");
             railCorner = game.Content.Load<Model>(@"Models/Rails/corner");
             railTInt3 = game.Content.Load<Model>(@"Models/Rails/tInt3");
             railTInt4 = game.Content.Load<Model>(@"Models/Rails/tInt4");
@@ -53,8 +61,11 @@ namespace MoonCow
             railCorstFlip = game.Content.Load<Model>(@"Models/Rails/corstflip");
             railDend = game.Content.Load<Model>(@"Models/Rails/dend");
 
+            //Core
+            core = game.Content.Load<Model>(@"Models/Base/coreSphere");
 
-
+            //Empty Nodes
+            node60 = game.Content.Load<Model>(@"Models/BgTiles/node60");
 
         }
     }
