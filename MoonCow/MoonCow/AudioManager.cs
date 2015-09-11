@@ -47,19 +47,17 @@ namespace MoonCow
 
         public override void Initialize()
         {
-
-            SoundEffect.MasterVolume = 1;
             bgm.IsLooped = true;
-            bgm.Volume = 0.1f;
+            bgm.Volume = 0.4f;
             bgm.Play();
 
-            sfxiWallHit.Volume = 0.02f;
-            sfxiWallScrape.Volume = 0.02f;
-            sfxiShootLaser.Volume = 0.008f;
-            sfxiShootLaser2.Volume = 0.008f;
+            sfxiWallHit.Volume = 0.08f;
+            sfxiWallScrape.Volume = 0.08f;
+            sfxiShootLaser.Volume = 0.04f;
+            sfxiShootLaser2.Volume = 0.04f;
 
             sfxiSpaceEngine.IsLooped = true;
-            sfxiSpaceEngine.Volume = 0.01f;
+            sfxiSpaceEngine.Volume = 0.02f;
             sfxiSpaceEngine.Play();
 
             base.Initialize();
