@@ -11,13 +11,19 @@ namespace MoonCow
     //lots of images, references ship for health/money/weapons, minimap is going to be interesting
     public class Hud : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        float viewportW;
+        float viewportH;
         public Minimap minimap;
         SpriteFont font;
         Game1 game;
-        SpriteBatch spriteBatch;
-        GraphicsDevice graphicsDevice;
+        public SpriteBatch spriteBatch;
+        public GraphicsDevice graphicsDevice;
+        public HudAttackDisplayer hudAttackDisplayer;
+
+
         Vector2 position;
-        bool toggleMap;
+        bool rStickToggle;
+        bool mToggle;
         bool bigMap;
         bool startingBoost;
         float boostDrawScale;
@@ -34,12 +40,12 @@ namespace MoonCow
         String roundStart;
         String message;
 
-        Color contPrimary;
-        Color contSecondary;
-        Color outline;
-        Color fill;
-        Color redBody;
-        Color blueBody;
+        public Color contPrimary;
+        public Color contSecondary;
+        public Color outline;
+        public Color fill;
+        public Color redBody;
+        public Color blueBody;
 
         Texture2D hudHealthB;
         Texture2D hudHealthF;
@@ -88,6 +94,11 @@ namespace MoonCow
             this.spriteBatch = spriteBatch;
             this.graphicsDevice = graphicsDevice;
             minimap = new Minimap(game);
+
+            viewportW = game.GraphicsDevice.Viewport.Width;
+            viewportH = game.GraphicsDevice.Viewport.Height;
+
+            hudAttackDisplayer = new HudAttackDisplayer(game, this);
 
             position = new Vector2(0, 0);
             //money = "900 dollarydoos";
@@ -147,6 +158,18 @@ namespace MoonCow
             return returnVect;
         }
 
+        public Vector2 scaledCoords(float x, float y)
+        {
+            Vector2 returnVect;
+            int w = Game.GraphicsDevice.Viewport.Width;
+            int h = Game.GraphicsDevice.Viewport.Height;
+
+            returnVect.X = (x / 1920.0f) * w;
+            returnVect.Y = (y / 1080.0f) * h;
+
+            return returnVect;
+        }
+
         protected override void LoadContent()
         {
             //load texture files
@@ -173,18 +196,24 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if(!toggleMap && (Keyboard.GetState().IsKeyDown(Keys.M) ^ 
-                GamePad.GetState(PlayerIndex.One).Buttons.RightStick == ButtonState.Pressed))
+            if(!mToggle && Keyboard.GetState().IsKeyDown(Keys.M))
             {
-                toggleMap = true;
+                mToggle = true;
                 bigMap = !bigMap;
             }
-            if(toggleMap && (Keyboard.GetState().IsKeyUp(Keys.M) ^
-                GamePad.GetState(PlayerIndex.One).Buttons.RightStick == ButtonState.Released))
-
+            if(!rStickToggle && 
+                GamePad.GetState(PlayerIndex.One).Buttons.RightStick == ButtonState.Pressed)
             {
-                toggleMap = false;
+                rStickToggle = true;
+                bigMap = !bigMap;
             }
+
+            if(mToggle && (Keyboard.GetState().IsKeyUp(Keys.M)))
+                mToggle = false;
+
+            if (rStickToggle && GamePad.GetState(PlayerIndex.One).Buttons.RightStick == ButtonState.Released)
+                rStickToggle = false;
+
 
             float fps = 1.0f / Utilities.frameRate;
             frameRate = fps + " FPS";
@@ -218,6 +247,7 @@ namespace MoonCow
                 flashTime = 0;
 
             minimap.update();
+            hudAttackDisplayer.Update();
 
         }
 
@@ -286,13 +316,15 @@ namespace MoonCow
         {
             graphicsDevice.BlendState = BlendState.Additive;
             spriteBatch.Begin();
-            spriteBatch.Draw(hudMapB, scaledRect(mapPos, 541, 283), Color.White);
-            if(bigMap)
-                spriteBatch.Draw(minimap.displayMap, scaledRect(new Vector2(860, 200), minimap.map.Bounds.Width, minimap.map.Bounds.Height), Color.White*0.8f);
-
+            if (bigMap)
+                spriteBatch.Draw(minimap.displayMap, scaledRect(new Vector2(960,540), minimap.map.Bounds.Width, minimap.map.Bounds.Height), 
+                    null, Color.White * 0.8f, 0, new Vector2(minimap.map.Bounds.Width/2,minimap.map.Bounds.Height/2), SpriteEffects.None, 0);
             else
+            {
+                spriteBatch.Draw(hudMapB, scaledRect(mapPos, 541, 283), Color.White);
                 spriteBatch.Draw(minimap.displayMap, scaledRect(new Vector2(1572, 760), minimap.map.Bounds.Width / 2, minimap.map.Bounds.Height / 2), Color.White);
-            spriteBatch.Draw(hudMapF, scaledRect(mapPos, 541, 283), Color.White);
+                spriteBatch.Draw(hudMapF, scaledRect(mapPos, 541, 283), Color.White);
+            }
 
             spriteBatch.End();
         }
@@ -337,6 +369,8 @@ namespace MoonCow
             drawStat();
             drawMap();
 
+            hudAttackDisplayer.Draw();
+
             Color myTransparentColor = new Color(0, 0, 0, 127);
 
             Vector2 stringDimensions = font.MeasureString(frameRate);
@@ -355,8 +389,8 @@ namespace MoonCow
             spriteBatch.Draw(dummyTexture, backgroundRectangle, Color.White);
             //spriteBatch.Draw(whiteTex, scaledRect(Vector2.Zero, 1920, 1080), Color.White);//(1-(flashTime/10.0f))));
 
-            spriteBatch.DrawString(font, "" + GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X, new Vector2(300, 300), contPrimary);
-            spriteBatch.DrawString(font, "" + GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y, new Vector2(300, 200), contPrimary);
+            //spriteBatch.DrawString(font, "" + GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X, new Vector2(300, 300), contPrimary);
+            //spriteBatch.DrawString(font, "" + GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y, new Vector2(300, 200), contPrimary);
 
 
             spriteBatch.DrawString(font, frameRate, position, contPrimary);

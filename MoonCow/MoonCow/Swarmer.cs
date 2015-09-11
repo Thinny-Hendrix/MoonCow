@@ -21,7 +21,7 @@ namespace MoonCow
         {
             this.game = game;
             moveSpeed = 0;
-            maxSpeed = 12 + Utilities.nextFloat() * 2;
+            maxSpeed = 8 + Utilities.nextFloat();
             direction = new Vector3(0, (float)Math.PI, 0);
             rot = direction;
             currentTurnSpeed = 0;

@@ -18,6 +18,7 @@ namespace MoonCow
         int waveMax;
         public enum SpawnState { idle, deploying}
         public SpawnState spawnState;
+        bool endMessageTriggered;
 
         public EnemyManager(Game1 game) : base(game)
         {
@@ -25,6 +26,7 @@ namespace MoonCow
             countdown = 0;
             spawnState = SpawnState.idle;
             waveMax = 10;
+            endMessageTriggered = true;
         }
 
         public override void Initialize()
@@ -35,16 +37,27 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if(spawnState == SpawnState.idle && (Keyboard.GetState().IsKeyDown(Keys.R)||GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed))
+            if(spawnState == SpawnState.idle)
             {
-                spawnState = SpawnState.deploying;
+                if (!endMessageTriggered && enemies.Count() == 0)
+                {
+                    game.hud.hudAttackDisplayer.endAttackMessage();
+                    endMessageTriggered = true;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.R) || GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
+                {
+                    if(enemies.Count() == 0)
+                        game.hud.hudAttackDisplayer.startAttackMessage(1);
+                    spawnState = SpawnState.deploying;
+                    endMessageTriggered = false;
+                }
             }
             if (spawnState == SpawnState.deploying)
             {
                 countdown -= Utilities.deltaTime;
                 if (countdown <= 0)
                 {
-                    countdown = 2;
+                    countdown = 1;
                     if (inWave < waveMax)
                     {
                         inWave++;

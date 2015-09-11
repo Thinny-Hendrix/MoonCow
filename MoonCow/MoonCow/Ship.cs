@@ -142,6 +142,7 @@ namespace MoonCow
                         GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < -0.3f)
                     {
                         inUTurn = true;
+                        boosting = false;
                         currentTurnSpeed = 0;
                     }
                 }
@@ -253,32 +254,62 @@ namespace MoonCow
         void updateTurn()
         {
             turning = false;
-            if (Keyboard.GetState().IsKeyDown(Keys.A) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < -0.3f)
+            bool keys = false;
+            float stickX = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X;
+            //cap the threshhold
+            if (stickX > 0.7f)
+                stickX = 0.7f;
+            if (stickX < -0.7f)
+                stickX = -0.7f;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.D))
+                keys = true;
+            if (Keyboard.GetState().IsKeyDown(Keys.A) || stickX < -0.3f)
             {
                 turning = true;
                 if (boosting)
                 {
-                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed / 2, Utilities.deltaTime * 5);
-                    tilt = MathHelper.Lerp(tilt, 10 * maxTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
+                    if(keys)
+                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed / 2, Utilities.deltaTime * 5);
+                    else
+                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
+                                                    MathHelper.Lerp(0, maxTurnSpeed/2, -(stickX + 0.3f) * (1 / 0.4f)),
+                                                    Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, 10 * currentTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
                 }
                 else
                 {
-                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed, Utilities.deltaTime * 5);
-                    tilt = MathHelper.Lerp(tilt, 20 * maxTurnSpeed, Utilities.deltaTime * 2);
+                    if(keys)
+                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed, Utilities.deltaTime * 5);
+                    else
+                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, 
+                            MathHelper.Lerp(0, maxTurnSpeed, -(stickX + 0.3f) * (1 / 0.4f)), 
+                            Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, 20 * currentTurnSpeed, Utilities.deltaTime * 2);
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0.3f)
+            if (Keyboard.GetState().IsKeyDown(Keys.D) || stickX > 0.3f)
             {
                 turning = true;
                 if (boosting)
                 {
-                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed / 2, Utilities.deltaTime * 5);
-                    tilt = MathHelper.Lerp(tilt, -10 * maxTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
+                    if(keys)
+                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed / 2, Utilities.deltaTime * 5);
+                    else
+                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
+                            MathHelper.Lerp(0, -maxTurnSpeed/2, (stickX - 0.3f) * (1 / 0.4f)),
+                            Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, 10 * currentTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
                 }
                 else
                 {
-                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed, Utilities.deltaTime * 5);
-                    tilt = MathHelper.Lerp(tilt, -20 * maxTurnSpeed, Utilities.deltaTime * 2);
+                    if(keys)
+                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed, Utilities.deltaTime * 5);
+                    else
+                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
+                            MathHelper.Lerp(0, -maxTurnSpeed, (stickX - 0.3f) * (1 / 0.4f)),
+                            Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, 20 * currentTurnSpeed, Utilities.deltaTime * 2);
                 }
 
             }
@@ -426,7 +457,7 @@ namespace MoonCow
 
         void checkFinishingMove()
         {
-            if(boosting && (Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Triggers.Left > 0.2f))//to change - if boosting, drill equipped and raycast detects enemy within range with low health
+            if(boosting && (Keyboard.GetState().IsKeyDown(Keys.F) || GamePad.GetState(PlayerIndex.One).Triggers.Left > 0.2f))//to change - if boosting, drill equipped and raycast detects enemy within range with low health
             {
                 if(!finishingMove)
                 {

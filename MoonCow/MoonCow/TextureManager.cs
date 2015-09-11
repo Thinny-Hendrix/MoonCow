@@ -73,7 +73,7 @@ namespace MoonCow
             smallDot = game.Content.Load<Texture2D>(@"Models/Effects/smallDot");
             shotBlip = game.Content.Load<Texture2D>(@"Models/Effects/shotBlip");
 
-            station1 = game.Content.Load<Texture2D>(@"Models/StationTiles/station2t");
+            station1 = game.Content.Load<Texture2D>(@"Models/StationTiles/station4");
 
             windowLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/screenlines");
             warnLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnLines");
