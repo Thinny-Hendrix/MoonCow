@@ -46,8 +46,8 @@ namespace MoonCow
                     // Is this node included in AI pathfinding?
                     traversable = true;
                     // Set the model for this node
-                    model = new TileModel(game.Content.Load<Model>(@"Models/Rails/straight"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/straightRound2"), new Vector3(pos.X * 30, -3f, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    model = new TileModel(ModelLibrary.railStraight, new Vector3(pos.X * 30, 0, pos.Y * 30), 0, 1.0f);
+                    stationModel = new StationModel(ModelLibrary.stationStraight, new Vector3(pos.X * 30, -3f, pos.Y * 30), MathHelper.PiOver2, 1.0f);
 
                     // Using the constructor of the OOBB that just takes four corners create the bounding boxes for this node and store their positional data
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
@@ -55,8 +55,8 @@ namespace MoonCow
                     break;
                 case 2:
                     traversable = true;
-                    model = new TileModel(game.Content.Load<Model>(@"Models/Rails/straight"), new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    stationModel = new StationModel(game.Content.Load<Model>(@"Models/StationTiles/straightRound2"), new Vector3(pos.X * 30, -3f, pos.Y * 30), 0, 1.0f);
+                    model = new TileModel(ModelLibrary.railStraight, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    stationModel = new StationModel(ModelLibrary.stationStraight, new Vector3(pos.X * 30, -3f, pos.Y * 30), 0, 1.0f);
 
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));

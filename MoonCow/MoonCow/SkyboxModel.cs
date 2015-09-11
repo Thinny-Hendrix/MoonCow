@@ -15,7 +15,7 @@ namespace MoonCow
         {
             this.model = model;
             this.ship = ship;
-            scale = new Vector3(5000, 6000, 5000);
+            scale = new Vector3(50, 60, 50);
         }
 
         public override void Update(GameTime gameTime)
@@ -44,9 +44,9 @@ namespace MoonCow
                     effect.LightingEnabled = true;
 
                     //effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.5f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
-                    effect.DirectionalLight0.Direction = ship.direction;
+                    //effect.DirectionalLight0.Direction = ship.direction;
                     //effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = new Vector3(2,2,2);
+                    effect.AmbientLightColor = new Vector3(1,1,1);
                     //effect.EmissiveColor = Vector3.One;
                     effect.PreferPerPixelLighting = true;
 

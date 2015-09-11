@@ -67,6 +67,7 @@ namespace MoonCow
             worldRender = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
 
             TextureManager.initialize(this);
+            ModelLibrary.initialize(this);
 
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
             modelManager = new ModelManager(this);
@@ -114,6 +115,7 @@ namespace MoonCow
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            Content.Unload();
         }
 
         /// <summary>

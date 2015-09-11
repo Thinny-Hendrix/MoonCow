@@ -56,6 +56,7 @@
     <Compile Include="LaserHitEffect.cs" />
     <Compile Include="MapData.cs" />
     <Compile Include="Minimap.cs" />
+    <Compile Include="ModelLibrary.cs" />
     <Compile Include="ModelManager.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Map.cs" />
@@ -901,6 +902,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\StationTiles\tint3Round2.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Misc\Skybox\skybox.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Misc\Skybox\skybox_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

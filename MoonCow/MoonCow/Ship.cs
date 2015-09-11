@@ -86,7 +86,7 @@ namespace MoonCow
 
             shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/PewProto/shipPewfbx"), this);
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/guncube"), this);
-            skyboxModel = new SkyboxModel(game.Content.Load<Model>(@"Models/Misc/skybox1"), this);
+            skyboxModel = new SkyboxModel(game.Content.Load<Model>(@"Models/Misc/Skybox/skybox"), this);
             speedCyl = new SpeedCylModel(game.Content.Load<Model>(@"Models/Misc/speedCyl"), this, ((Game1)Game));
             rbowTun = new RainbowTunnelModel(game.Content.Load<Model>(@"Models/Misc/Rbow/rbowTun"), this, ((Game1)Game));
 
