@@ -49,7 +49,11 @@ namespace MoonCow
 
 
             if (fScale > 0.3f)
+            {
+                sb.Dispose();
+                rt.Dispose();
                 game.modelManager.toDeleteModel(this);
+            }
 
         }
 

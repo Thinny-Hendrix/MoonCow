@@ -197,6 +197,13 @@ namespace MoonCow
             //System.Diagnostics.Debug.WriteLine("tipmatrix is " + tipMatrix);
         }
         
+        public void Dispose()
+        {
+            sb.Dispose();
+            tipTarg.Dispose();
+            trailTarg.Dispose();
+            endTarg.Dispose();
+        }
 
     }
 }

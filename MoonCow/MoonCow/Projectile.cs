@@ -164,6 +164,7 @@ namespace MoonCow
             game.modelManager.removeEffect(model);
             weapons.toDelete.Add(this);
             delete = true;
+            model.Dispose();
         }
 
     }

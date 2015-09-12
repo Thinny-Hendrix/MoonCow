@@ -72,18 +72,19 @@ namespace MoonCow
                     alpha = (float)((Math.Cos(life)) + 1) *0.6f+0.4f;
 
             }
-
-            if(life > MathHelper.Pi*15)
-            {
-                ship.particles.moneyToDelete.Add(this);
-            }
-
             
             game.GraphicsDevice.SetRenderTarget(rTarg);
             sb.Begin();
             sb.Draw(tex, new Rectangle(0,0,64,64), col*alpha);
             sb.End();
             game.GraphicsDevice.SetRenderTarget(null);
+
+            if (life > MathHelper.Pi * 15)
+            {
+                ship.particles.moneyToDelete.Add(this);
+                sb.Dispose();
+                rTarg.Dispose();
+            }
 
         }
 

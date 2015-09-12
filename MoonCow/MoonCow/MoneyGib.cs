@@ -162,6 +162,7 @@ namespace MoonCow
             moneyManager.addMoney(value);
             moneyManager.toDelete.Add(this);
             game.modelManager.removeEffect(glow);
+            glow.Dispose();
             ship.particles.addMoneyParticle(Color.Red);
             collected = true;
         }

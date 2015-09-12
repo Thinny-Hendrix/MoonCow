@@ -237,7 +237,18 @@ namespace MoonCow
 
 
                     if (fScale > 0.06f)
+                    {
                         game.modelManager.toDeleteModel(this);
+                        try
+                        {
+                            sb.Dispose();
+                            rTarg.Dispose();
+                        }
+                        catch(NullReferenceException)
+                        {
+                            //Just in case?
+                        }
+                    }
                     break;
                 default:
                     break;
