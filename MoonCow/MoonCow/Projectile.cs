@@ -43,11 +43,11 @@ namespace MoonCow
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
 
             if(type == 1)
-                model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, Color.Green, Color.CornflowerBlue, game);
+                model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Green, Color.CornflowerBlue, game);
             else if(type == 0)
-                model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, Color.Orange, Color.Purple, game);
+                model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Orange, Color.Purple, game);
             else
-                model = new ProjectileModel(game.Content.Load<Model>(@"Models/Effects/shotEffectNew"), pos, this, new Color(255,0,255), Color.Green, game);
+                model = new ProjectileModel(ModelLibrary.projectile, pos, this, new Color(255,0,255), Color.Green, game);
 
             game.modelManager.addEffect(model);
         }
@@ -153,8 +153,11 @@ namespace MoonCow
                 else
                     game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Orange));
 
-                if(type != 1)
+                if (type != 1)
+                {
+                    game.modelManager.addEffect(new BombExplosion(pos, game));
                     game.ship.moneyManager.addGib(73, pos);
+                }
                 deleteProjectile();
             }
         }

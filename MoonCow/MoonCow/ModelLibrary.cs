@@ -29,12 +29,22 @@ namespace MoonCow
         public static Model railCorstFlip;
         public static Model railDend;
 
-        //Core
+        //Base models
         public static Model core;
 
-        //Empty Nodes
+        //Deco Nodes
         public static Model node60;
 
+        //Weapons
+        public static Model projectile;
+        public static Model bombRipples;
+        public static Model bombRings;
+
+        //Enemies
+        public static Model swarmer;
+
+
+        //Ships
 
 
 
@@ -61,11 +71,20 @@ namespace MoonCow
             railCorstFlip = game.Content.Load<Model>(@"Models/Rails/corstflip");
             railDend = game.Content.Load<Model>(@"Models/Rails/dend");
 
-            //Core
+            //Base models
             core = game.Content.Load<Model>(@"Models/Base/coreSphere");
 
-            //Empty Nodes
+            //Deco Nodes
             node60 = game.Content.Load<Model>(@"Models/BgTiles/node60");
+
+            //Weapons
+            projectile = game.Content.Load<Model>(@"Models/Weapons/shotEffectNew");
+            bombRipples = game.Content.Load<Model>(@"Models/Weapons/bombImplode");
+            bombRings = game.Content.Load<Model>(@"Models/Weapons/bombSploRings");
+
+
+            //Enemies
+            swarmer = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swarmerAlpha");
 
         }
     }

@@ -244,11 +244,16 @@ namespace MoonCow
 
 
             if (Keyboard.GetState().IsKeyDown(Keys.Y))
-                flashTime = 0;
+                makeFlash();
 
             minimap.update();
             hudAttackDisplayer.Update();
 
+        }
+
+        public void makeFlash()
+        {
+            flashTime = 0;
         }
 
         void drawHealth()

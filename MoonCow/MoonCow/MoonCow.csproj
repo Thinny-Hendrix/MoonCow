@@ -43,6 +43,7 @@
     <Compile Include="BasicModel.cs" />
     <Compile Include="BloomComponent.cs" />
     <Compile Include="BloomSettings.cs" />
+    <Compile Include="BombExplosion.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CircleCollider.cs" />
     <Compile Include="CoreSphereModel.cs" />
@@ -378,6 +379,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\StationTiles\Window\windowWarnSign.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\bombRipple.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\sploblip.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\sploring.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
@@ -829,7 +839,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Models\Effects\shotEffectNew.xnb">
+    <Content Include="Content\Models\Weapons\shotEffectNew.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\BgTiles\node60.xnb">
@@ -951,6 +961,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Misc\Skybox\skybox_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\bombImplode.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\bombSploRings.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
