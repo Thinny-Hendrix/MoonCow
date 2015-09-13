@@ -23,6 +23,7 @@ namespace MoonCow
         Vector2 texPos5;
         SpriteBatch sb;
         DepthStencilState depthStencilState;
+        float yRot;
 
         public CoreSphereModel(Model model, Vector3 pos, Game game):base(model)
         {
@@ -51,6 +52,10 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             //game.GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+
+            yRot += Utilities.deltaTime * MathHelper.PiOver2/4;
+            if (yRot > MathHelper.Pi * 2)
+                yRot -= MathHelper.Pi * 2;
 
             //direction 1
             texPos3.Y += (int)(Utilities.deltaTime * 200);
@@ -117,15 +122,20 @@ namespace MoonCow
                 {
                     foreach (BasicEffect effect in mesh.Effects)
                     {
-                        effect.World = mesh.ParentBone.Transform * GetWorld();
                         effect.View = camera.view;
                         effect.Projection = camera.projection;
                         effect.TextureEnabled = true;
 
-                        if(mesh.Name.Equals("inSphere"))
+                        if (mesh.Name.Equals("inSphere"))
+                        {
+                            effect.World = Matrix.CreateRotationY(yRot) * mesh.ParentBone.Transform * GetWorld();
                             effect.Texture = (Texture2D)rTarg2;
+                        }
                         else
+                        {
+                            effect.World = Matrix.CreateRotationY(-yRot) * mesh.ParentBone.Transform * GetWorld();
                             effect.Texture = (Texture2D)rTarg;
+                        }
 
                         effect.Alpha = 1;
 

@@ -16,10 +16,11 @@ namespace MoonCow
         public Minimap minimap;
         SpriteFont font;
         Game1 game;
+        Ship ship;
         public SpriteBatch spriteBatch;
         public GraphicsDevice graphicsDevice;
         public HudAttackDisplayer hudAttackDisplayer;
-
+        QuickSelect quickSelect;
 
         Vector2 position;
         bool rStickToggle;
@@ -90,6 +91,7 @@ namespace MoonCow
         public Hud(Game1 game, SpriteFont font, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice) : base(game)
         {
             this.game = game;
+            ship = game.ship;
             this.font = font;
             this.spriteBatch = spriteBatch;
             this.graphicsDevice = graphicsDevice;
@@ -99,6 +101,7 @@ namespace MoonCow
             viewportH = game.GraphicsDevice.Viewport.Height;
 
             hudAttackDisplayer = new HudAttackDisplayer(game, this);
+            quickSelect = new QuickSelect(this, game);
 
             position = new Vector2(0, 0);
             //money = "900 dollarydoos";
@@ -248,6 +251,7 @@ namespace MoonCow
 
             minimap.update();
             hudAttackDisplayer.Update();
+            quickSelect.Update();
 
         }
 
@@ -275,6 +279,8 @@ namespace MoonCow
             spriteBatch.Begin();
             spriteBatch.Draw(hudWepB, scaledRect(wepPos, 425, 151), Color.White);
             spriteBatch.Draw(hudWepF, scaledRect(wepPos, 425, 151), Color.White);
+            spriteBatch.Draw(ship.weapons.activeWeapon.icon, scaledRect(new Vector2(140, 115), 90, 90),
+                    null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 spriteBatch.DrawString(font, weaponAmmo, scaledCoords(wepAmmoPos), Color.White);
@@ -373,6 +379,8 @@ namespace MoonCow
                 drawMon();
             drawStat();
             drawMap();
+
+            quickSelect.Draw(spriteBatch);
 
             hudAttackDisplayer.Draw();
 

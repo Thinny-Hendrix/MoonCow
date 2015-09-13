@@ -69,9 +69,10 @@ namespace MoonCow
             TextureManager.initialize(this);
             ModelLibrary.initialize(this);
 
-            hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
             modelManager = new ModelManager(this);
             ship = new Ship(this);
+            hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera900"), spriteBatch, GraphicsDevice);
+
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
 
 
@@ -82,12 +83,11 @@ namespace MoonCow
             audioManager = new AudioManager(this);
             //bloom = new BloomComponent(this);
 
-
+            Components.Add(ship);
             Components.Add(camera);
             Components.Add(modelManager);
             Components.Add(audioManager);
             Components.Add(enemyManager);
-            Components.Add(ship);
 
             //make sure the post process effects go second last, and the hud is absolute last
             //Components.Add(bloom);

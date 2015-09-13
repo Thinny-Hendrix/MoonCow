@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class WeaponBomb:Weapon
+    class WeaponDrill:Weapon
     {
         float softCooldown;
         float softCoolmax;
-        public WeaponBomb(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
+        public WeaponDrill(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
-            icon = TextureManager.icoBomb;
-            name = "Exobomb";
+            icon = TextureManager.icoDrill;
+            name = "Omega Drill";
 
             coolMax = 90;
             softCoolmax = 60;

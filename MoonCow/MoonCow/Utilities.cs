@@ -15,6 +15,7 @@ namespace MoonCow
         public static float deltaTime;
         public static float frameRate;
         public static bool paused = false;
+        public static bool softPaused = false;
         public static Random random = new Random();
 
         public static void Update(GameTime gameTime)
@@ -42,8 +43,6 @@ namespace MoonCow
             //System.Diagnostics.Debug.WriteLine("FPS = " + fps);
             //System.Diagnostics.Debug.WriteLine("DeltaTime = " + deltaTime);
 
-            if(Keyboard.GetState().IsKeyDown(Keys.P))
-                paused = !paused;
         } 
 
         public static float nextFloat()

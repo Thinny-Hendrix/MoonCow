@@ -87,7 +87,8 @@ namespace MoonCow
         {
             base.Update(gameTime);
 
-            cogRot += Utilities.deltaTime * MathHelper.PiOver4/2;
+            if (!Utilities.paused && !Utilities.softPaused)
+                cogRot += Utilities.deltaTime * MathHelper.PiOver4/2;
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)

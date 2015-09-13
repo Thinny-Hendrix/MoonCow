@@ -118,7 +118,7 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             frameDiff = Vector3.Zero;
-            if (!Utilities.paused)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
                 if (inUTurn)
                 {

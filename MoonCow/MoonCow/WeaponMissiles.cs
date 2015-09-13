@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class WeaponLaser:Weapon
+    class WeaponMissiles:Weapon
     {
         int laserPos;
-        public WeaponLaser(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
+        public WeaponMissiles(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
-            icon = TextureManager.icoPew;
-            name = "Laser Cutters";
+            icon = TextureManager.icoMiss;
+            name = "Homing Spears";
 
             coolMax = 15;
             laserPos = 0;

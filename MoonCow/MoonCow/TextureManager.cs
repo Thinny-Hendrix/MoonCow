@@ -48,6 +48,14 @@ namespace MoonCow
         public static Texture2D bombBlip;
         public static Texture2D bombRipple;
 
+        //weapon icons
+        public static Texture2D icoPew;
+        public static Texture2D icoBomb;
+        public static Texture2D icoMiss;
+        public static Texture2D icoWave;
+        public static Texture2D icoDrill;
+
+
         public static Texture2D pureWhite;
 
         public static void initialize(Game game)
@@ -90,6 +98,13 @@ namespace MoonCow
             bombBlip = game.Content.Load<Texture2D>(@"Models/Weapons/sploblip");
             bombRipple = game.Content.Load<Texture2D>(@"Models/Weapons/bombRipple");
 
+            //weapon icons
+            icoPew = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoPew");
+            icoBomb = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoBomb");
+            icoMiss = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoMiss");
+            icoWave = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoWave");
+            icoDrill = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoDrill");
+
 
 
 
@@ -101,29 +116,32 @@ namespace MoonCow
 
         public static void Update(Game1 game)
         {
-            linespos.Y -= Utilities.deltaTime * 32;
-            if (linespos.Y < -32)
-                linespos.Y += 16;
-            game.GraphicsDevice.SetRenderTarget(baseWindow);
-
-            spriteBatch.Begin();
-            if (game.enemyManager.enemies.Count() != 0)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                spriteBatch.Draw(pureWhite, new Rectangle(0, 0, 384, 640), Color.Red * 0.6f);
-                spriteBatch.Draw(windowLines, linespos, Color.Red*0.5f);
-                spriteBatch.Draw(warnLines, Vector2.Zero, Color.Red);
-                spriteBatch.Draw(warnSign2, Vector2.Zero, Color.White);
-                spriteBatch.Draw(warnSign2, Vector2.Zero, Color.White);
+                linespos.Y -= Utilities.deltaTime * 32;
+                if (linespos.Y < -32)
+                    linespos.Y += 16;
+                game.GraphicsDevice.SetRenderTarget(baseWindow);
 
-            }
-            else
-            {
-                spriteBatch.Draw(pureWhite, new Rectangle(0, 0, 384, 640), Color.Aqua * 0.4f);
-                spriteBatch.Draw(windowLines, linespos, windowIdle1);
-            }
-            spriteBatch.End();
+                spriteBatch.Begin();
+                if (game.enemyManager.enemies.Count() != 0)
+                {
+                    spriteBatch.Draw(pureWhite, new Rectangle(0, 0, 384, 640), Color.Red * 0.6f);
+                    spriteBatch.Draw(windowLines, linespos, Color.Red * 0.5f);
+                    spriteBatch.Draw(warnLines, Vector2.Zero, Color.Red);
+                    spriteBatch.Draw(warnSign2, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(warnSign2, Vector2.Zero, Color.White);
 
-            game.GraphicsDevice.SetRenderTarget(null);
+                }
+                else
+                {
+                    spriteBatch.Draw(pureWhite, new Rectangle(0, 0, 384, 640), Color.Aqua * 0.4f);
+                    spriteBatch.Draw(windowLines, linespos, windowIdle1);
+                }
+                spriteBatch.End();
+
+                game.GraphicsDevice.SetRenderTarget(null);
+            }
 
 
         }

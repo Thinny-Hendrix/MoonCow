@@ -131,99 +131,102 @@ namespace MoonCow
             /// camera angle is 8 degrees, positions derived from tan(8) - eg 10tan(8) gives 1.4 height and a distance of 10 between camera and target
             ///
 
-            goalDirection = ship.direction;
-            currentDirection = Vector3.Lerp(currentDirection, goalDirection, Utilities.deltaTime*5);
-            currentDirection.Normalize();
-
-            if (ship.boosting)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                if(ship.finishingMove)
-                    currentDist = MathHelper.Lerp(currentDist, 3, Utilities.deltaTime * 2);
+                goalDirection = ship.direction;
+                currentDirection = Vector3.Lerp(currentDirection, goalDirection, Utilities.deltaTime * 5);
+                currentDirection.Normalize();
+
+                if (ship.boosting)
+                {
+                    if (ship.finishingMove)
+                        currentDist = MathHelper.Lerp(currentDist, 3, Utilities.deltaTime * 2);
+                    else
+                        currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 4);
+                }
                 else
-                    currentDist = MathHelper.Lerp(currentDist, boostDist, Utilities.deltaTime * 4);
+                    currentDist = MathHelper.Lerp(currentDist, normDist, Utilities.deltaTime * 2);
+
+
+                lookAt = ship.pos;
+
+                lookAt.X += currentDirection.X * (currentDist * ((float)11.0 / (float)15.0));
+                lookAt.Z += currentDirection.Z * (currentDist * ((float)11.0 / (float)15.0));
+                if (ship.finishingMove)
+                    lookAt.Y = 4.8f;
+                else
+                    lookAt.Y = 4.5f;
+                lookAt += shakeOffset;
+
+                cameraPosition.X = lookAt.X - (currentDirection.X * currentDist);
+                if (ship.finishingMove)
+                    cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(7)));
+                else
+                    cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(8)));
+
+                cameraPosition.Z = lookAt.Z - (currentDirection.Z * currentDist);
+
+                cameraPosition += shakeOffset;
+
+
+                //System.Diagnostics.Debug.WriteLine((float)Math.Tan(8));
+
+                /*
+                lookAt.X += currentDirection.X * 11;
+                lookAt.Z += currentDirection.Z * 11;
+                //lookAt.Y += 3;
+
+                cameraPosition.X = lookAt.X - (currentDirection.X * 15);
+                cameraPosition.Y = lookAt.Y + (2.1f);
+                cameraPosition.Z = lookAt.Z - (currentDirection.Z * 15);*/
+
+                if (ship.boosting)
+                    currentFov = MathHelper.Lerp(currentFov, boostFov, Utilities.deltaTime * 2);
+                else
+                    currentFov = MathHelper.Lerp(currentFov, standardFov, Utilities.deltaTime * 2);
+
+                try
+                {
+                    projection = Matrix.CreatePerspectiveFieldOfView(currentFov, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 0.1f, 3000);
+                }
+                catch (NullReferenceException) { }
+
+
+                if (Keyboard.GetState().IsKeyDown(Keys.O))
+                    makeShake();
+
+
+                updateTilt();
+                updateYshake();
+
+
+
+
+                //cameraPosition.X = lookAt.X + (float)(System.Math.Sin(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
+                //cameraPosition.Y = lookAt.Y + (float)-(System.Math.Sin(yTurnValue * MathHelper.Pi / 180)) * turnRadius;
+                //cameraPosition.Z = lookAt.Z + (float)(System.Math.Cos(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
+
+                CreateLookAt();
+
+
+                /*
+                // Roll rotation
+                if (Mouse.GetState(  ).LeftButton == ButtonState.Pressed)
+                {
+                    cameraUp = Vector3.Transform(cameraUp,
+                         Matrix.CreateFromAxisAngle(cameraDirection,
+                         MathHelper.PiOver4 / 45));
+                }
+                if (Mouse.GetState(  ).RightButton == ButtonState.Pressed)
+                {
+                    cameraUp = Vector3.Transform(cameraUp,
+                        Matrix.CreateFromAxisAngle(cameraDirection,
+                        -MathHelper.PiOver4 / 45));
+                }
+                */
+
+                base.Update(gameTime);
             }
-            else
-                currentDist = MathHelper.Lerp(currentDist, normDist, Utilities.deltaTime * 2);
-
-
-            lookAt = ship.pos;
-
-            lookAt.X += currentDirection.X * (currentDist * ((float)11.0 / (float)15.0));
-            lookAt.Z += currentDirection.Z * (currentDist * ((float)11.0 / (float)15.0));
-            if (ship.finishingMove)
-                lookAt.Y = 4.8f;
-            else
-                lookAt.Y = 4.5f;
-            lookAt += shakeOffset;
-
-            cameraPosition.X = lookAt.X - (currentDirection.X * currentDist);
-            if(ship.finishingMove)
-                cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(7)));
-            else
-                cameraPosition.Y = lookAt.Y + (currentDist * (float)Math.Tan(MathHelper.ToRadians(8)));
-
-            cameraPosition.Z = lookAt.Z - (currentDirection.Z * currentDist);
-
-            cameraPosition += shakeOffset;
-             
-
-            //System.Diagnostics.Debug.WriteLine((float)Math.Tan(8));
-
-            /*
-            lookAt.X += currentDirection.X * 11;
-            lookAt.Z += currentDirection.Z * 11;
-            //lookAt.Y += 3;
-
-            cameraPosition.X = lookAt.X - (currentDirection.X * 15);
-            cameraPosition.Y = lookAt.Y + (2.1f);
-            cameraPosition.Z = lookAt.Z - (currentDirection.Z * 15);*/
-
-            if (ship.boosting)
-                currentFov = MathHelper.Lerp(currentFov, boostFov, Utilities.deltaTime * 2);
-            else
-                currentFov = MathHelper.Lerp(currentFov, standardFov, Utilities.deltaTime * 2);
-
-            try
-            {
-                projection = Matrix.CreatePerspectiveFieldOfView(currentFov, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 0.1f, 3000);
-            }
-            catch (NullReferenceException) { }
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.O))
-                makeShake();
-
-
-            updateTilt();
-            updateYshake();
-
-
-
-
-            //cameraPosition.X = lookAt.X + (float)(System.Math.Sin(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
-            //cameraPosition.Y = lookAt.Y + (float)-(System.Math.Sin(yTurnValue * MathHelper.Pi / 180)) * turnRadius;
-            //cameraPosition.Z = lookAt.Z + (float)(System.Math.Cos(xTurnValue * MathHelper.Pi / 180)) * turnRadius;
-
-            CreateLookAt();
-
-
-            /*
-            // Roll rotation
-            if (Mouse.GetState(  ).LeftButton == ButtonState.Pressed)
-            {
-                cameraUp = Vector3.Transform(cameraUp,
-                     Matrix.CreateFromAxisAngle(cameraDirection,
-                     MathHelper.PiOver4 / 45));
-            }
-            if (Mouse.GetState(  ).RightButton == ButtonState.Pressed)
-            {
-                cameraUp = Vector3.Transform(cameraUp,
-                    Matrix.CreateFromAxisAngle(cameraDirection,
-                    -MathHelper.PiOver4 / 45));
-            }
-            */
-
-            base.Update(gameTime);
         }
 
         public void makeShake()

@@ -34,20 +34,23 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            pos += direction * speed * Utilities.deltaTime;
-            if (speed != 0)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                speed -= Utilities.deltaTime * 50;
-                if (speed < 0)
-                    speed = 0;
-            }
-            if(speed < 10f)
-            {
-                fScale *= 0.9f;
-            }
+                pos += direction * speed * Utilities.deltaTime;
+                if (speed != 0)
+                {
+                    speed -= Utilities.deltaTime * 50;
+                    if (speed < 0)
+                        speed = 0;
+                }
+                if (speed < 10f)
+                {
+                    fScale *= 0.9f;
+                }
 
-            if (fScale < 0.0005f)
-                game.modelManager.toDeleteModel(this);
+                if (fScale < 0.0005f)
+                    game.modelManager.toDeleteModel(this);
+            }
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)

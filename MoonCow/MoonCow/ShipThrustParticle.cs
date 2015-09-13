@@ -108,150 +108,153 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            direction = ship.direction;
-            direction.Y = (float)Math.Sin(ship.rot.X);
+            if (!Utilities.paused && !Utilities.softPaused)
+            {
+                direction = ship.direction;
+                direction.Y = (float)Math.Sin(ship.rot.X);
 
-            switch(type)
-            { 
-                case -1:
-                    distance -= Utilities.deltaTime * 2;
-                    pos = ship.pos + direction * distance;
-                    fScale -= Utilities.deltaTime * 0.1f;
-                    if (fScale < 0.15f)
-                        alpha -= Utilities.deltaTime * 3;
+                switch (type)
+                {
+                    case -1:
+                        distance -= Utilities.deltaTime * 2;
+                        pos = ship.pos + direction * distance;
+                        fScale -= Utilities.deltaTime * 0.1f;
+                        if (fScale < 0.15f)
+                            alpha -= Utilities.deltaTime * 3;
 
-                    game.GraphicsDevice.SetRenderTarget(rTarg);
-                    sb.Begin();
-                    sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
-                    sb.End();
-                    game.GraphicsDevice.SetRenderTarget(null);
+                        game.GraphicsDevice.SetRenderTarget(rTarg);
+                        sb.Begin();
+                        sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
+                        sb.End();
+                        game.GraphicsDevice.SetRenderTarget(null);
 
-                    if (fScale <= 0)
-                    {
-                        particles.thrustToDelete.Add(this);
-                    }
-                    break;
-                case 0:
-                    pos = ship.pos+direction*distance;
-                    rot.Z = Utilities.nextFloat();
-                    break;
-                case 1:
-                    distance -= Utilities.deltaTime*2;
-                    pos = ship.pos+direction*distance;
-                    fScale -= Utilities.deltaTime*0.15f;
-                    if (fScale < 0.15f)
-                        alpha -= Utilities.deltaTime * 3;
-
-                    game.GraphicsDevice.SetRenderTarget(rTarg);
-                    sb.Begin();
-                    sb.Draw(tex, new Rectangle(0,0,64,64), col*alpha);
-                    sb.End();
-                    game.GraphicsDevice.SetRenderTarget(null);
-
-                    if(fScale <= 0)
-                    {
-                        particles.thrustToDelete.Add(this);
-                    }
-                    break;
-                case 2:
-                    distance -= Utilities.deltaTime * 1.5f;
-                    pos = ship.pos + direction * distance;
-
-
-                    fScale = (float)(Math.Cos(time) + 1) * 0.01f;
-
-                    time += Utilities.deltaTime * MathHelper.Pi * 2.5f;
-
-                    fScale += Utilities.deltaTime * 0.06f;
-                    if (time > MathHelper.Pi*0.5f)
-                        alpha -= Utilities.deltaTime * 4;
-
-                    col = Color.Lerp(col, Color.Red, Utilities.deltaTime * 8);
-                   
-
-
-                    game.GraphicsDevice.SetRenderTarget(rTarg);
-                    sb.Begin();
-                    sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
-                    sb.End();
-                    game.GraphicsDevice.SetRenderTarget(null);
-
-                    if (time > MathHelper.Pi*1)
-                    {
-                        particles.thrustToDelete.Add(this);
-                    }
-                    break;
-                case 3:
-                    distance -= Utilities.deltaTime * 2;
-                    pos = ship.pos + direction * distance;
-                    fScale += Utilities.deltaTime * 0.06f;
-                    if (fScale < 0.15f)
-                        alpha -= Utilities.deltaTime * 3;
-
-                    col = Color.Lerp(col, Color.Blue, Utilities.deltaTime * 8);
-
-
-                    game.GraphicsDevice.SetRenderTarget(rTarg);
-                    sb.Begin();
-                    sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
-                    sb.End();
-                    game.GraphicsDevice.SetRenderTarget(null);
-
-                    if (alpha <= 0)
-                    {
-                        particles.thrustToDelete.Add(this);
-                    }
-                    break;
-                case 4:
-                    pos = ship.pos+direction*distance;
-                    game.GraphicsDevice.SetRenderTarget(rTarg);
-                    sb.Begin();
-                    sb.Draw(tex, new Rectangle(0, 0, 64, 128), Color.White * alpha);
-                    sb.End();
-                    game.GraphicsDevice.SetRenderTarget(null);
-
-                    fScale = ((float)Math.Cos(time) + 1) * .03f;
-
-                    time  += Utilities.deltaTime*MathHelper.Pi*6;
-                    if(time > MathHelper.Pi)
-                    {
-                        particles.thrustToDelete.Add(this);
-                    }
-                    break;
-                case 5:
-                    pos = ship.pos + ship.direction * distance;
-                    fScale += Utilities.deltaTime*0.4f;
-
-                    //if (fScale > 0.05f)
-                    alpha -= Utilities.deltaTime*3;
-
-                    game.GraphicsDevice.SetRenderTarget(rTarg);
-
-                    col = Color.Lerp(col, Color.Blue, Utilities.deltaTime * 8);
-
-                    sb.Begin();
-                    sb.Draw(tex, Vector2.Zero, col*alpha);
-                    sb.End();
-                    game.GraphicsDevice.SetRenderTarget(null);
-
-
-
-                    if (fScale > 0.06f)
-                    {
-                        game.modelManager.toDeleteModel(this);
-                        try
+                        if (fScale <= 0)
                         {
-                            sb.Dispose();
-                            rTarg.Dispose();
+                            particles.thrustToDelete.Add(this);
                         }
-                        catch(NullReferenceException)
+                        break;
+                    case 0:
+                        pos = ship.pos + direction * distance;
+                        rot.Z = Utilities.nextFloat();
+                        break;
+                    case 1:
+                        distance -= Utilities.deltaTime * 2;
+                        pos = ship.pos + direction * distance;
+                        fScale -= Utilities.deltaTime * 0.15f;
+                        if (fScale < 0.15f)
+                            alpha -= Utilities.deltaTime * 3;
+
+                        game.GraphicsDevice.SetRenderTarget(rTarg);
+                        sb.Begin();
+                        sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
+                        sb.End();
+                        game.GraphicsDevice.SetRenderTarget(null);
+
+                        if (fScale <= 0)
                         {
-                            //Just in case?
+                            particles.thrustToDelete.Add(this);
                         }
-                    }
-                    break;
-                default:
-                    break;
+                        break;
+                    case 2:
+                        distance -= Utilities.deltaTime * 1.5f;
+                        pos = ship.pos + direction * distance;
+
+
+                        fScale = (float)(Math.Cos(time) + 1) * 0.01f;
+
+                        time += Utilities.deltaTime * MathHelper.Pi * 2.5f;
+
+                        fScale += Utilities.deltaTime * 0.06f;
+                        if (time > MathHelper.Pi * 0.5f)
+                            alpha -= Utilities.deltaTime * 4;
+
+                        col = Color.Lerp(col, Color.Red, Utilities.deltaTime * 8);
+
+
+
+                        game.GraphicsDevice.SetRenderTarget(rTarg);
+                        sb.Begin();
+                        sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
+                        sb.End();
+                        game.GraphicsDevice.SetRenderTarget(null);
+
+                        if (time > MathHelper.Pi * 1)
+                        {
+                            particles.thrustToDelete.Add(this);
+                        }
+                        break;
+                    case 3:
+                        distance -= Utilities.deltaTime * 2;
+                        pos = ship.pos + direction * distance;
+                        fScale += Utilities.deltaTime * 0.06f;
+                        if (fScale < 0.15f)
+                            alpha -= Utilities.deltaTime * 3;
+
+                        col = Color.Lerp(col, Color.Blue, Utilities.deltaTime * 8);
+
+
+                        game.GraphicsDevice.SetRenderTarget(rTarg);
+                        sb.Begin();
+                        sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
+                        sb.End();
+                        game.GraphicsDevice.SetRenderTarget(null);
+
+                        if (alpha <= 0)
+                        {
+                            particles.thrustToDelete.Add(this);
+                        }
+                        break;
+                    case 4:
+                        pos = ship.pos + direction * distance;
+                        game.GraphicsDevice.SetRenderTarget(rTarg);
+                        sb.Begin();
+                        sb.Draw(tex, new Rectangle(0, 0, 64, 128), Color.White * alpha);
+                        sb.End();
+                        game.GraphicsDevice.SetRenderTarget(null);
+
+                        fScale = ((float)Math.Cos(time) + 1) * .03f;
+
+                        time += Utilities.deltaTime * MathHelper.Pi * 6;
+                        if (time > MathHelper.Pi)
+                        {
+                            particles.thrustToDelete.Add(this);
+                        }
+                        break;
+                    case 5:
+                        pos = ship.pos + ship.direction * distance;
+                        fScale += Utilities.deltaTime * 0.4f;
+
+                        //if (fScale > 0.05f)
+                        alpha -= Utilities.deltaTime * 3;
+
+                        game.GraphicsDevice.SetRenderTarget(rTarg);
+
+                        col = Color.Lerp(col, Color.Blue, Utilities.deltaTime * 8);
+
+                        sb.Begin();
+                        sb.Draw(tex, Vector2.Zero, col * alpha);
+                        sb.End();
+                        game.GraphicsDevice.SetRenderTarget(null);
+
+
+
+                        if (fScale > 0.06f)
+                        {
+                            game.modelManager.toDeleteModel(this);
+                            try
+                            {
+                                sb.Dispose();
+                                rTarg.Dispose();
+                            }
+                            catch (NullReferenceException)
+                            {
+                                //Just in case?
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
         }

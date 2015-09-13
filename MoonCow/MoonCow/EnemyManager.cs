@@ -37,49 +37,52 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if(spawnState == SpawnState.idle)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                if (!endMessageTriggered && enemies.Count() == 0)
+                if (spawnState == SpawnState.idle)
                 {
-                    game.hud.hudAttackDisplayer.endAttackMessage();
-                    endMessageTriggered = true;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.R) || GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
-                {
-                    if(enemies.Count() == 0)
-                        game.hud.hudAttackDisplayer.startAttackMessage(1);
-                    spawnState = SpawnState.deploying;
-                    endMessageTriggered = false;
-                }
-            }
-            if (spawnState == SpawnState.deploying)
-            {
-                countdown -= Utilities.deltaTime;
-                if (countdown <= 0)
-                {
-                    countdown = 1;
-                    if (inWave < waveMax)
+                    if (!endMessageTriggered && enemies.Count() == 0)
                     {
-                        inWave++;
-                        addEnemy(new Swarmer(game));
+                        game.hud.hudAttackDisplayer.endAttackMessage();
+                        endMessageTriggered = true;
                     }
-
-                    if(inWave == waveMax)
+                    if (Keyboard.GetState().IsKeyDown(Keys.R) || GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
                     {
-                        spawnState = SpawnState.idle;
-                        inWave = 0;
-                        countdown = 0;
+                        if (enemies.Count() == 0)
+                            game.hud.hudAttackDisplayer.startAttackMessage(1);
+                        spawnState = SpawnState.deploying;
+                        endMessageTriggered = false;
                     }
                 }
-            }
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Update(gameTime);
-            }
+                if (spawnState == SpawnState.deploying)
+                {
+                    countdown -= Utilities.deltaTime;
+                    if (countdown <= 0)
+                    {
+                        countdown = 1;
+                        if (inWave < waveMax)
+                        {
+                            inWave++;
+                            addEnemy(new Swarmer(game));
+                        }
 
-            foreach (Enemy enemy in toDelete)
-            {
-                enemies.Remove(enemy);
+                        if (inWave == waveMax)
+                        {
+                            spawnState = SpawnState.idle;
+                            inWave = 0;
+                            countdown = 0;
+                        }
+                    }
+                }
+                foreach (Enemy enemy in enemies)
+                {
+                    enemy.Update(gameTime);
+                }
+
+                foreach (Enemy enemy in toDelete)
+                {
+                    enemies.Remove(enemy);
+                }
             }
         }
 

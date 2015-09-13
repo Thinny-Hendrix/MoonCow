@@ -62,7 +62,7 @@ namespace MoonCow
 
             //calculate 3D target direction normal
 
-            if (!Utilities.paused)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
                 yAngle = (float)Math.Atan2(pos.X - ship.pos.X, pos.Z - ship.pos.Z);
                 xAngle = (float)Math.Atan2(pos.Y - ship.pos.Y, pos.Z - ship.pos.Z);

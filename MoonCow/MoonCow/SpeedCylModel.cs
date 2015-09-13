@@ -26,20 +26,23 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            direction = ship.direction;
-            pos = ship.pos;
-            rot.Y = ship.rot.Y;
-
-            time += Utilities.deltaTime;
-            if (time > .06f)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                rot.Z = (float)Utilities.random.NextDouble()*MathHelper.Pi*2;
-                time = 0;
+                direction = ship.direction;
+                pos = ship.pos;
+                rot.Y = ship.rot.Y;
+
+                time += Utilities.deltaTime;
+                if (time > .06f)
+                {
+                    rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
+                    time = 0;
+                }
+                if (ship.boosting)
+                    offset = MathHelper.Lerp(offset, 0, Utilities.deltaTime * 5);
+                else
+                    offset = MathHelper.Lerp(offset, -25, Utilities.deltaTime * 3);
             }
-            if (ship.boosting)
-                offset = MathHelper.Lerp(offset, 0, Utilities.deltaTime*5);
-            else
-                offset = MathHelper.Lerp(offset, -25, Utilities.deltaTime * 3);
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)

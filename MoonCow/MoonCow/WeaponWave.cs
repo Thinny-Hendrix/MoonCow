@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class WeaponLaser:Weapon
+    class WeaponWave:Weapon
     {
         int laserPos;
-        public WeaponLaser(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
+        public WeaponWave(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
-            icon = TextureManager.icoPew;
-            name = "Laser Cutters";
+            icon = TextureManager.icoWave;
+            name = "Pulse Generator";
 
             coolMax = 15;
             laserPos = 0;

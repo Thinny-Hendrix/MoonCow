@@ -48,42 +48,45 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            distance += speed * Utilities.deltaTime;
-            if (speed > 0)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                speed *= Utilities.deltaTime * 60*0.9f;
-                if (speed < 0)
-                    speed = 0;
-            }
-            yFall -= Utilities.deltaTime/3;
+                distance += speed * Utilities.deltaTime;
+                if (speed > 0)
+                {
+                    speed *= Utilities.deltaTime * 60 * 0.9f;
+                    if (speed < 0)
+                        speed = 0;
+                }
+                yFall -= Utilities.deltaTime / 3;
 
 
-            //pos = ship.pos+direction*distance;
-            pos += direction * speed * Utilities.deltaTime;
-            pos.Y -= Utilities.deltaTime/3;
+                //pos = ship.pos+direction*distance;
+                pos += direction * speed * Utilities.deltaTime;
+                pos.Y -= Utilities.deltaTime / 3;
 
-            life += Utilities.deltaTime*MathHelper.Pi*11;
+                life += Utilities.deltaTime * MathHelper.Pi * 11;
 
-            if (life > MathHelper.Pi * 8)
-            {
-                if (life > MathHelper.Pi * 14)
-                    alpha = (float)((Math.Cos(life)) + 1) / 2;
-                else
-                    alpha = (float)((Math.Cos(life)) + 1) *0.6f+0.4f;
+                if (life > MathHelper.Pi * 8)
+                {
+                    if (life > MathHelper.Pi * 14)
+                        alpha = (float)((Math.Cos(life)) + 1) / 2;
+                    else
+                        alpha = (float)((Math.Cos(life)) + 1) * 0.6f + 0.4f;
 
-            }
-            
-            game.GraphicsDevice.SetRenderTarget(rTarg);
-            sb.Begin();
-            sb.Draw(tex, new Rectangle(0,0,64,64), col*alpha);
-            sb.End();
-            game.GraphicsDevice.SetRenderTarget(null);
+                }
 
-            if (life > MathHelper.Pi * 15)
-            {
-                ship.particles.moneyToDelete.Add(this);
-                sb.Dispose();
-                rTarg.Dispose();
+                game.GraphicsDevice.SetRenderTarget(rTarg);
+                sb.Begin();
+                sb.Draw(tex, new Rectangle(0, 0, 64, 64), col * alpha);
+                sb.End();
+                game.GraphicsDevice.SetRenderTarget(null);
+
+                if (life > MathHelper.Pi * 15)
+                {
+                    ship.particles.moneyToDelete.Add(this);
+                    sb.Dispose();
+                    rTarg.Dispose();
+                }
             }
 
         }

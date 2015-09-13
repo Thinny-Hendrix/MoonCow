@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
     public class Weapon
     {
+        //general info used for hud
+        public string name { get; protected set; }
+        public Texture2D icon { get; protected set; }
+        //these three are values out of 20, displayed on quick select as a bar
+        public float rateOfFire { get; protected set; }
+        public float range { get; protected set; }
+        public float damage { get; protected set; }
+
+
+        //internal stuff
         public float exp { get; protected set; }
         public float EXPMAX { get; protected set; }
         public float coolMax { get; protected set; }

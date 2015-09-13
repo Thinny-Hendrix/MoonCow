@@ -27,23 +27,26 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            try
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                if (manager.spawnState == EnemyManager.SpawnState.deploying)
-                    isVisible = true;
-                else
-                    isVisible = false;
-            }
-            catch (NullReferenceException)
-            {
-                manager = game.enemyManager;
-            }
+                try
+                {
+                    if (manager.spawnState == EnemyManager.SpawnState.deploying)
+                        isVisible = true;
+                    else
+                        isVisible = false;
+                }
+                catch (NullReferenceException)
+                {
+                    manager = game.enemyManager;
+                }
 
-            if (isVisible)
-            {
-                rot.Z -= Utilities.deltaTime * 2;
-                if (rot.Z < MathHelper.Pi * 2)
-                    rot.Z += MathHelper.Pi * 2;
+                if (isVisible)
+                {
+                    rot.Z -= Utilities.deltaTime * 2;
+                    if (rot.Z < MathHelper.Pi * 2)
+                        rot.Z += MathHelper.Pi * 2;
+                }
             }
         }
 
