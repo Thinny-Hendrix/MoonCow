@@ -285,10 +285,12 @@ namespace MoonCow
                 //tiltUp = currentDirection;
                 //tiltUp = Vector3.Cross(currentDirection, Vector3.Forward);
 
-                tiltUp.Z = (float)Math.Sin(tiltAngle);
-                tiltUp.X = (float)Math.Sin(tiltAngle);
+                //tiltUp.Z = (float)Math.Sin(tiltAngle);
+                //tiltUp.X = (float)Math.Sin(tiltAngle);
                 //tiltUp.Y = (float)Math.Cos(tiltAngle);
-                tiltUp.Normalize();
+                //tiltUp.Normalize();
+
+                tiltUp = Vector3.Transform(Vector3.Up,Matrix.CreateFromAxisAngle(currentDirection,tiltAngle));
             }
 
 

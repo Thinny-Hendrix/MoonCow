@@ -161,6 +161,7 @@ namespace MoonCow
 
                 }
                 mesh.Draw();
+                mesh.Draw();
             }
         }
 
@@ -171,7 +172,6 @@ namespace MoonCow
             device.BlendState = BlendState.Additive;
             device.DepthStencilState = DepthStencilState.DepthRead;
 
-            drawRings(TextureManager.bombRing, camera);
             drawRings(TextureManager.bombRing, camera);
             if (time < 15)
             {

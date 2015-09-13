@@ -25,6 +25,10 @@ namespace MoonCow
         public List<Projectile> projectiles = new List<Projectile>();
         public List<Projectile> toDelete = new List<Projectile>();
 
+        public List<Weapon> weapons = new List<Weapon>();
+        public Weapon activeWeapon;
+        public Weapon prevWeapon;
+
 
         public WeaponSystem(Ship ship, Game game):base(game)
         {
@@ -36,6 +40,12 @@ namespace MoonCow
             pew1 = Game.Content.Load<Texture2D>(@"Models/Effects/tex1");
             pew2 = Game.Content.Load<Texture2D>(@"Models/Effects/tex2");
             pew3 = Game.Content.Load<Texture2D>(@"Models/Effects/tex3");
+
+            weapons.Add(new WeaponLaser(this, ship, this.game));
+            weapons.Add(new WeaponBomb(this, ship, this.game));
+
+
+            activeWeapon = (Weapon)weapons.ElementAt(0);
 
 
         }
@@ -54,21 +64,26 @@ namespace MoonCow
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.D1))
-                currentWeapon = 1;
+                activeWeapon = (Weapon)weapons.ElementAt(0);
             if (Keyboard.GetState().IsKeyDown(Keys.D2))
-                currentWeapon = 2;
+                activeWeapon = (Weapon)weapons.ElementAt(1);
             if (Keyboard.GetState().IsKeyDown(Keys.D3))
-                currentWeapon = 3;
+                activeWeapon = (Weapon)weapons.ElementAt(0);
             if (Keyboard.GetState().IsKeyDown(Keys.D4))
-                currentWeapon = 4;
+                activeWeapon = (Weapon)weapons.ElementAt(0);
             if (Keyboard.GetState().IsKeyDown(Keys.D5) && hasDrill)
-                currentWeapon = 5;
+                activeWeapon = (Weapon)weapons.ElementAt(0);
 
             if (cooldown > 0)
             {
                 cooldown -= Utilities.deltaTime * 60;
                 if (cooldown < 0)
                     cooldown = 0;
+            }
+
+            foreach(Weapon w in weapons)
+            {
+                w.Update();
             }
  
             foreach (Projectile p in projectiles)
@@ -87,63 +102,7 @@ namespace MoonCow
         public void fire()
         {
             if (!ship.boosting && cooldown <= 0)
-            {
-                switch (currentWeapon)
-                {
-                    default:
-                    case 1:
-                        if (laserPos == 0)
-                        {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 1));
-                            laserPos = 1;
-                            game.audioManager.shootLaser();
-                        }
-                        else
-                        {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 1));
-                            laserPos = 0;
-                            game.audioManager.shootLaser2();
-                        }
-                        cooldown = 15;
-                        break;
-                    case 2:
-                        if (laserPos == 0)
-                        {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 0));
-                            laserPos = 1;
-                        }
-                        else
-                        {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 0));
-                            laserPos = 0;
-                        }
-                        cooldown = 15;
-                        break;
-
-                    case 3:
-                        if (laserPos == 0)
-                        {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 2));
-                            laserPos = 1;
-                        }
-                        else
-                        {
-                            projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, (Game1)game, this, 2));
-                            laserPos = 0;
-                        }
-                        cooldown = 15;
-                        break;
-
-                    case 4:
-
-                        break;
-                        
-                    case 5:
-
-                        break;
-                }
-            }
-
+                activeWeapon.Fire();
         }
     
     }

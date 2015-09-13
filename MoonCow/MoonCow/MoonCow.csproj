@@ -89,6 +89,9 @@
     <Compile Include="TextureManager.cs" />
     <Compile Include="TileModel.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Weapon.cs" />
+    <Compile Include="WeaponBomb.cs" />
+    <Compile Include="WeaponLaser.cs" />
     <Compile Include="WeaponSystem.cs" />
   </ItemGroup>
   <ItemGroup>

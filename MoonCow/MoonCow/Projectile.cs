@@ -21,12 +21,12 @@ namespace MoonCow
         OOBB boundingBox;
         Vector3 frameDiff;
         Vector2 nodePos;
-        WeaponSystem weapons;
+        Weapon weapons;
         ProjectileModel model;
         int damage;
         int type;//for level ups
 
-        public Projectile(Vector3 pos, Vector3 direction, Game1 game, WeaponSystem weapons, int type)
+        public Projectile(Vector3 pos, Vector3 direction, Game1 game, Weapon weapons, int type)
         {
             this.direction = direction;
             this.game = game;
@@ -36,7 +36,7 @@ namespace MoonCow
             this.type = type;
 
             speed = 50;
-            life = 120;
+            life = 300;
             delete = false;
             damage = 5;
 
