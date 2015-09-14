@@ -12,8 +12,6 @@ namespace MoonCow
     {
         Ship ship;
         int currentWeapon; //1=lasers, 2=missiles, 3=bomb, 4=shockwave, 5=drill 
-        int laserPos; //0 = left, 1 = right
-        float cooldown;
         public bool hasDrill;
         Game1 game;
 
@@ -31,7 +29,6 @@ namespace MoonCow
             this.ship = ship;
             this.game = (Game1)game;
             currentWeapon = 1;
-            laserPos = 0;
 
             pew1 = Game.Content.Load<Texture2D>(@"Models/Effects/tex1");
             pew2 = Game.Content.Load<Texture2D>(@"Models/Effects/tex2");
@@ -54,7 +51,7 @@ namespace MoonCow
         {
             if (!Utilities.paused && !Utilities.softPaused)
             {
-                if ((Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed) && cooldown == 0)
+                if ((Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed))
                     fire();
 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
@@ -65,22 +62,32 @@ namespace MoonCow
                         currentWeapon = 1;
                 }
 
-                if (Keyboard.GetState().IsKeyDown(Keys.D1))
-                    activeWeapon = (Weapon)weapons.ElementAt(2);
-                if (Keyboard.GetState().IsKeyDown(Keys.D2))
-                    activeWeapon = (Weapon)weapons.ElementAt(3);
-                if (Keyboard.GetState().IsKeyDown(Keys.D3))
-                    activeWeapon = (Weapon)weapons.ElementAt(0);
-                if (Keyboard.GetState().IsKeyDown(Keys.D4))
-                    activeWeapon = (Weapon)weapons.ElementAt(1);
-                if (Keyboard.GetState().IsKeyDown(Keys.D5) && hasDrill)
-                    activeWeapon = (Weapon)weapons.ElementAt(4);
+                bool wake = false;
 
-                if (cooldown > 0)
+                if (Keyboard.GetState().IsKeyDown(Keys.D1))
                 {
-                    cooldown -= Utilities.deltaTime * 60;
-                    if (cooldown < 0)
-                        cooldown = 0;
+                    activeWeapon = (Weapon)weapons.ElementAt(2);
+                    game.hud.hudWeapon.Wake();
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D2))
+                {
+                    activeWeapon = (Weapon)weapons.ElementAt(3);
+                    game.hud.hudWeapon.Wake();
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D3))
+                {
+                    activeWeapon = (Weapon)weapons.ElementAt(0);
+                    game.hud.hudWeapon.Wake();
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D4))
+                {
+                    activeWeapon = (Weapon)weapons.ElementAt(1);
+                    game.hud.hudWeapon.Wake();
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D5) && hasDrill)
+                {
+                    activeWeapon = (Weapon)weapons.ElementAt(4);
+                    game.hud.hudWeapon.Wake();
                 }
 
                 foreach (Weapon w in weapons)
@@ -105,8 +112,11 @@ namespace MoonCow
 
         public void fire()
         {
-            if (!ship.boosting && cooldown <= 0)
+            if (!ship.boosting)
+            {
+                game.hud.hudWeapon.Wake();
                 activeWeapon.Fire();
+            }
         }
     
     }

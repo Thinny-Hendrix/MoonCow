@@ -14,6 +14,10 @@ namespace MoonCow
             icon = TextureManager.icoMiss;
             name = "Homing Spears";
 
+            damage = 0.6f;
+            rateOfFire = 0.3f;
+            range = 0.9f;
+
             coolMax = 15;
             laserPos = 0;
         }

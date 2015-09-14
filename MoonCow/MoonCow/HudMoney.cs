@@ -23,8 +23,8 @@ namespace MoonCow
         public HudMoney(Hud hud, SpriteFont font, Game1 game):base(hud, font, game)
         {
             monPos = new Vector2(1450, 45);
-            monTotPos = new Vector2(1715, 80);
-            monDifPos = new Vector2(1715, 160);
+            monTotPos = new Vector2(1700, 100);
+            monDifPos = new Vector2(1690, 180);
             wakeThresh = 3;
 
             hudMonF = game.Content.Load<Texture2D>(@"Hud/hudMonF");
@@ -55,15 +55,20 @@ namespace MoonCow
                 sb.Draw(hudMonB, hud.scaledRect(monPos, 425, 151), Color.White);
                 sb.Draw(hudMonF, hud.scaledRect(monPos, 425, 151), Color.White);
 
-                sb.DrawString(font, moneyTot, hud.scaledCoords(new Vector2(monTotPos.X - totDim * 2, monTotPos.Y)), Color.White);
+                sb.DrawString(font, moneyTot, hud.scaledCoords(monTotPos), Color.White, 0,
+                    new Vector2(font.MeasureString(moneyTot).X, font.MeasureString(moneyTot).Y / 2), hud.scale * (28.0f / 40), SpriteEffects.None, 0);
+
                 if (game.ship.moneyManager.changing)
                 {
-                    sb.DrawString(font, moneyDif, hud.scaledCoords(new Vector2(monDifPos.X - diffDim * 2 + 3, monDifPos.Y + 3)), hud.outline);
+                    sb.DrawString(font, moneyDif, hud.scaledCoords(monDifPos.X + 3, monDifPos.Y + 3), hud.outline, 0,
+                            new Vector2(font.MeasureString(moneyDif).X, font.MeasureString(moneyDif).Y / 2), hud.scale * (28.0f / 40), SpriteEffects.None, 0);
 
                     if (game.ship.moneyManager.difference < 0)
-                        sb.DrawString(font, moneyDif, hud.scaledCoords(new Vector2(monDifPos.X - diffDim * 2, monDifPos.Y)), hud.redBody);
+                        sb.DrawString(font, moneyDif, hud.scaledCoords(monDifPos), hud.redBody, 0,
+                            new Vector2(font.MeasureString(moneyDif).X, font.MeasureString(moneyDif).Y / 2), hud.scale * (28.0f / 40), SpriteEffects.None, 0);
                     else
-                        sb.DrawString(font, moneyDif, hud.scaledCoords(new Vector2(monDifPos.X - diffDim * 2, monDifPos.Y)), hud.contSecondary);
+                        sb.DrawString(font, moneyDif, hud.scaledCoords(monDifPos.X, monDifPos.Y), hud.contSecondary, 0,
+                            new Vector2(font.MeasureString(moneyDif).X, font.MeasureString(moneyDif).Y / 2), hud.scale * (28.0f / 40), SpriteEffects.None, 0);
                 }
             }
         }

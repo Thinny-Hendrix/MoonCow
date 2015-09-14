@@ -8,16 +8,22 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MoonCow
 {
-    class QuickSelect
+    public class QuickSelect
     {
         float yHold;
         const float HOLD_THRESH = 10;
         Hud hud;
         Game1 game;
         WeaponSystem wepSys;
-        bool active;
+        public bool active;
         float imgW;
         float imgH;
+
+        float currentDam;
+        float currentRof;
+        float currentRan;
+
+        Texture2D solidWhite;
 
         Texture2D out4;
         Texture2D out4_1;
@@ -58,6 +64,9 @@ namespace MoonCow
             this.game = game;
             this.font = font;
             wepSys = game.ship.weapons;
+
+            solidWhite = new Texture2D(game.GraphicsDevice, 1, 1);
+            solidWhite.SetData(new Color[] { Color.White });
 
             out4 = game.Content.Load<Texture2D>(@"Hud/QuickSelect/qsOut4");
             out4_1 = game.Content.Load<Texture2D>(@"Hud/QuickSelect/qsOut4-1");
@@ -105,6 +114,7 @@ namespace MoonCow
             }
             if(active)
             {
+                hud.wakeAll();
                 Vector2 coords = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left;
                 float angle = (float)Math.Atan2(coords.Y, coords.X);
                 if (!selecting && angle != 0)
@@ -144,6 +154,9 @@ namespace MoonCow
                     active = false;
                     selecting = false;
                     wepSys.changeWeapons(selectedWep);
+                    currentDam = 0;
+                    currentRof = 0;
+                    currentRan = 0;
                 }
 
             }
@@ -225,6 +238,12 @@ namespace MoonCow
             Weapon wep = wepSys.weapons.ElementAt(selectedWep);
             string name = wep.name;
             string ammo = wep.formattedAmmo();
+            string level = wep.formattedLevel();
+
+            currentDam = MathHelper.Lerp(currentDam, wep.damage, Utilities.deltaTime * 8);
+            currentRof = MathHelper.Lerp(currentRof, wep.rateOfFire, Utilities.deltaTime*8);
+            currentRan = MathHelper.Lerp(currentRan, wep.range, Utilities.deltaTime*8);
+
             Color c;
             if (wep.ammo > 0)
                 c = hud.contSecondary;
@@ -235,6 +254,36 @@ namespace MoonCow
                 new Vector2(font.MeasureString(name).X / 2, font.MeasureString(name).Y / 2), hud.scale*22.0f/40, SpriteEffects.None, 0);
             sb.DrawString(font, ammo, hud.scaledCoords(960, 350), c, 0,
                 new Vector2(font.MeasureString(ammo).X / 2, font.MeasureString(ammo).Y / 2), hud.scale * 18.0f / 40, SpriteEffects.None, 0);
+
+            //level
+            sb.DrawString(font, level, hud.scaledCoords(960, 500), hud.contSecondary, 0,
+                new Vector2(font.MeasureString(level).X / 2, font.MeasureString(level).Y / 2), hud.scale * 20.0f / 40, SpriteEffects.None, 0);
+            //stencil'd exp bar
+
+            //statistics
+            sb.DrawString(font, "Damage", hud.scaledCoords(957, 390), Color.White, 0,
+                new Vector2(font.MeasureString("Damage").X, font.MeasureString("Damage").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
+            sb.DrawString(font, "rate of fire", hud.scaledCoords(957, 409), Color.White, 0,
+                new Vector2(font.MeasureString("rate of fire").X, font.MeasureString("rate of fire").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
+            sb.DrawString(font, "range", hud.scaledCoords(957, 428), Color.White, 0,
+                new Vector2(font.MeasureString("range").X, font.MeasureString("range").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
+
+            //rect backs
+            sb.Draw(solidWhite, hud.scaledRect(new Vector2(963, 379), 150, 16),
+                    null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
+            sb.Draw(solidWhite, hud.scaledRect(new Vector2(963, 398), 150, 16),
+                    null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
+            sb.Draw(solidWhite, hud.scaledRect(new Vector2(963, 417), 150, 16),
+                    null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
+
+            //rect fills
+            sb.Draw(solidWhite, hud.scaledRect(new Vector2(963, 379), 150 * currentDam, 16),
+                    null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
+            sb.Draw(solidWhite, hud.scaledRect(new Vector2(963, 398), 150 * currentRof, 16),
+                    null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
+            sb.Draw(solidWhite, hud.scaledRect(new Vector2(963, 417), 150 * currentRan, 16),
+                    null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
+
         }
         public void Draw(SpriteBatch sb)
         {

@@ -12,7 +12,7 @@ namespace MoonCow
         //general info used for hud
         public string name { get; protected set; }
         public Texture2D icon { get; protected set; }
-        //these three are values out of 20, displayed on quick select as a bar
+        //these three are values out of 1, displayed on quick select as a bar
         public float rateOfFire { get; protected set; }
         public float range { get; protected set; }
         public float damage { get; protected set; }
@@ -96,6 +96,11 @@ namespace MoonCow
         public string formattedAmmo()
         {
             return ammo + "/" + ammoMax;
+        }
+
+        public string formattedLevel()
+        {
+            return "V" + level;
         }
 
 

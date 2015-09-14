@@ -16,6 +16,10 @@ namespace MoonCow
             icon = TextureManager.icoDrill;
             name = "Omega Drill";
 
+            damage = 1;
+            rateOfFire = 0;
+            range = 0.1f;
+
             coolMax = 90;
             softCoolmax = 60;
             ammoMax = 16;

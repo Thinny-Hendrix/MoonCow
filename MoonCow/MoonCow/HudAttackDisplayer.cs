@@ -96,21 +96,24 @@ namespace MoonCow
 
             if (displayMessage)
             {
-                if (displayTime < 3)
-                    displayTime += Utilities.deltaTime;
-                else
+                if (!Utilities.paused && !Utilities.softPaused)
                 {
-                    messageAlpha -= Utilities.deltaTime;
+                    if (displayTime < 3)
+                        displayTime += Utilities.deltaTime;
+                    else
+                    {
+                        messageAlpha -= Utilities.deltaTime;
 
-                    if (displayTime > 3)
-                        cosTime = (float)(Math.Cos((messageAlpha) * MathHelper.Pi)+1)/2.0f;
+                        if (displayTime > 3)
+                            cosTime = (float)(Math.Cos((messageAlpha) * MathHelper.Pi) + 1) / 2.0f;
                         currentWarnPos = Vector2.Lerp(warnMidPos, warnSidePos, cosTime);
 
-                    if (messageAlpha <= 0)
-                    {
-                        flashTime = 1;
-                        displayMessage = false;
-                        currentWarnPos = warnSidePos;
+                        if (messageAlpha <= 0)
+                        {
+                            flashTime = 1;
+                            displayMessage = false;
+                            currentWarnPos = warnSidePos;
+                        }
                     }
                 }
             }
@@ -171,7 +174,7 @@ namespace MoonCow
         {
             sb.Begin();
 
-            if (displayMessage)
+            if (displayMessage && !hud.quickSelect.active)
             {
                 if (messageType == MessageType.start)
                     drawStartMessage();
@@ -180,7 +183,10 @@ namespace MoonCow
             }
 
             if (messageType == MessageType.start)//if the attack hasn't ended yet
+            {
+                if ((!hud.quickSelect.active && displayMessage) || !displayMessage)
                 drawWarn();
+            }
             sb.End();
         }
 

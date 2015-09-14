@@ -43,7 +43,7 @@ namespace MoonCow
             }
 
             linkNeighbors();
-            game.hud.minimap.drawMap(map);
+            game.hud.hudMap.minimap.drawMap(map);
 
         }
 

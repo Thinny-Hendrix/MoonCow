@@ -15,6 +15,9 @@ namespace MoonCow
             icon = TextureManager.icoBomb;
             name = "Exobomb";
 
+            rateOfFire = 0.2f;
+            damage = 1;
+            range = 0.8f;
             coolMax = 90;
             softCoolmax = 60;
             ammoMax = 16;

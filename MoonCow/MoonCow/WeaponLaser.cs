@@ -14,13 +14,20 @@ namespace MoonCow
             icon = TextureManager.icoPew;
             name = "Laser Cutters";
 
+            damage = 0.3f;
+            rateOfFire = 0.9f;
+            range = 0.9f;
+
             coolMax = 15;
             laserPos = 0;
+
+            ammoMax = 200;
+            ammo = ammoMax;
         }
 
         public override void Fire()
         {
-            if(cooldown == 0)
+            if(cooldown == 0 && ammo > 0)
             {
                 if (laserPos == 0)
                 {
@@ -35,6 +42,7 @@ namespace MoonCow
                     game.audioManager.shootLaser2();
                 }
                 cooldown = coolMax;
+                base.Fire();
             }
         }
         

@@ -14,6 +14,10 @@ namespace MoonCow
             icon = TextureManager.icoWave;
             name = "Pulse Generator";
 
+            damage = 0.7f;
+            rateOfFire = 0.4f;
+            range = 0.3f;
+
             coolMax = 15;
             laserPos = 0;
         }

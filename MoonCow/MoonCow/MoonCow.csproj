@@ -55,7 +55,11 @@
     <Compile Include="Hud.cs" />
     <Compile Include="HudAttackDisplayer.cs" />
     <Compile Include="HudComponent.cs" />
+    <Compile Include="HudHealth.cs" />
+    <Compile Include="HudMap.cs" />
     <Compile Include="HudMoney.cs" />
+    <Compile Include="HudState.cs" />
+    <Compile Include="HudWeapon.cs" />
     <Compile Include="ImpactParticleModel.cs" />
     <Compile Include="LaserHitEffect.cs" />
     <Compile Include="MapData.cs" />
