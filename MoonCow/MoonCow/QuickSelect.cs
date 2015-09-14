@@ -50,11 +50,13 @@ namespace MoonCow
         enum QsWheel { Four, Five}
         QsWheel qsWheel = QsWheel.Five;
 
+        SpriteFont font;
 
-        public QuickSelect(Hud hud, Game1 game)
+        public QuickSelect(Hud hud, Game1 game, SpriteFont font)
         {
             this.hud = hud;
             this.game = game;
+            this.font = font;
             wepSys = game.ship.weapons;
 
             out4 = game.Content.Load<Texture2D>(@"Hud/QuickSelect/qsOut4");
@@ -218,6 +220,22 @@ namespace MoonCow
             }
         }
 
+        void drawStats(SpriteBatch sb)
+        {
+            Weapon wep = wepSys.weapons.ElementAt(selectedWep);
+            string name = wep.name;
+            string ammo = wep.formattedAmmo();
+            Color c;
+            if (wep.ammo > 0)
+                c = hud.contSecondary;
+            else
+                c = hud.redBody;
+
+            sb.DrawString(font, name, hud.scaledCoords(960, 325), Color.White, 0,
+                new Vector2(font.MeasureString(name).X / 2, font.MeasureString(name).Y / 2), hud.scale*22.0f/40, SpriteEffects.None, 0);
+            sb.DrawString(font, ammo, hud.scaledCoords(960, 350), c, 0,
+                new Vector2(font.MeasureString(ammo).X / 2, font.MeasureString(ammo).Y / 2), hud.scale * 18.0f / 40, SpriteEffects.None, 0);
+        }
         public void Draw(SpriteBatch sb)
         {
             if (active)
@@ -226,9 +244,11 @@ namespace MoonCow
                 sb.Draw(currentFill, hud.scaledRect(new Vector2(960, 540), imgW, imgH),
                     null, Color.White, 0, new Vector2(imgW / 2, imgH / 2), SpriteEffects.None, 0);
 
-                if(selecting)
+                if (selecting)
+                {
                     sb.Draw(currentHi, hud.scaledRect(new Vector2(960, 540), imgW, imgH),
                         null, Color.White, 0, new Vector2(imgW / 2, imgH / 2), SpriteEffects.None, 0);
+                }
 
                 sb.Draw(currentOut, hud.scaledRect(new Vector2(960, 540), imgW, imgH),
                     null, Color.White, 0, new Vector2(imgW / 2, imgH / 2), SpriteEffects.None, 0);
@@ -245,6 +265,9 @@ namespace MoonCow
                 if(qsWheel == QsWheel.Five)
                     sb.Draw(TextureManager.icoDrill, hud.scaledRect(new Vector2(960, 700), 90, 90),
                     null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
+
+                if(selecting)
+                    drawStats(sb);
 
                 sb.End();
             }

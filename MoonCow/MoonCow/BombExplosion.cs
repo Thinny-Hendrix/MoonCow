@@ -105,7 +105,11 @@ namespace MoonCow
             updateRingRots();
             time += frameTime;
             if (time > 120)
+            {
                 game.modelManager.toDeleteModel(this);
+                sb.Dispose();
+                rippleTex.Dispose();
+            }
         }
 
         void drawRings(Texture2D tex, Camera camera)

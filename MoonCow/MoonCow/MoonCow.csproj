@@ -54,6 +54,8 @@
     <Compile Include="Heavy.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="HudAttackDisplayer.cs" />
+    <Compile Include="HudComponent.cs" />
+    <Compile Include="HudMoney.cs" />
     <Compile Include="ImpactParticleModel.cs" />
     <Compile Include="LaserHitEffect.cs" />
     <Compile Include="MapData.cs" />
@@ -949,6 +951,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Hud\Venera900big.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Hud\Venera40.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Content\Models\Enemies\Swarmer\swarmerAlpha.fbx" />

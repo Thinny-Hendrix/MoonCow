@@ -20,7 +20,7 @@ namespace MoonCow
 
         public List<MoneyGib> moneyGibs = new List<MoneyGib>();
         public List<MoneyGib> toDelete = new List<MoneyGib>();
-        Game game;
+        Game1 game;
         
         Model moneyGib1;
 
@@ -30,7 +30,7 @@ namespace MoonCow
             changing = false;
             display = true;
             displayTime = 0;
-            this.game = game;
+            this.game = (Game1)game;
 
             moneyGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/gib1");
 
@@ -46,6 +46,7 @@ namespace MoonCow
             if (changing)
             {
                 displayNo = MathHelper.Lerp(displayNo, balance, Utilities.deltaTime*3);
+                game.hud.hudMoney.Wake();
 
                 if (difference >= 0)
                 {
@@ -79,7 +80,7 @@ namespace MoonCow
             difference += amount;
             balance += amount;
             changing = true;
-            display = true;
+            game.hud.hudMoney.Wake();
             displayTime = 0;
 
         }

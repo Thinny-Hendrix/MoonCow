@@ -93,6 +93,11 @@ namespace MoonCow
 
         }
 
+        public string formattedAmmo()
+        {
+            return ammo + "/" + ammoMax;
+        }
+
 
 
     }

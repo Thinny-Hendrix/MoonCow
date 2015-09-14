@@ -20,6 +20,9 @@ namespace MoonCow
         public SpriteBatch spriteBatch;
         public GraphicsDevice graphicsDevice;
         public HudAttackDisplayer hudAttackDisplayer;
+
+        public HudMoney hudMoney;
+
         QuickSelect quickSelect;
 
         Vector2 position;
@@ -30,8 +33,7 @@ namespace MoonCow
         float boostDrawScale;
         float boostDrawAlpha;
 
-        String moneyTot;
-        String moneyDif;
+        
         String frameRate;
         String gameState;
         String stateTimer;
@@ -52,8 +54,6 @@ namespace MoonCow
         Texture2D hudHealthF;
         Texture2D hudWepB;
         Texture2D hudWepF;
-        Texture2D hudMonB;
-        Texture2D hudMonF;
         Texture2D hudStatB;
         Texture2D hudStatF;
         Texture2D hudMapB;
@@ -62,13 +62,12 @@ namespace MoonCow
 
         Texture2D whiteTex;
         public float flashTime;
+        public float scale;
 
         Vector2 wepPos;
         Vector2 wepAmmoPos;
 
-        Vector2 monPos;
-        Vector2 monTotPos;
-        Vector2 monDifPos;
+        
 
         Vector2 healthPos;
         Vector2 shieldBarPos;
@@ -95,16 +94,16 @@ namespace MoonCow
             this.font = font;
             this.spriteBatch = spriteBatch;
             this.graphicsDevice = graphicsDevice;
+            hudMoney = new HudMoney(this, font, game);
             minimap = new Minimap(game);
 
             viewportW = game.GraphicsDevice.Viewport.Width;
             viewportH = game.GraphicsDevice.Viewport.Height;
 
             hudAttackDisplayer = new HudAttackDisplayer(game, this);
-            quickSelect = new QuickSelect(this, game);
+            quickSelect = new QuickSelect(this, game, font);
 
             position = new Vector2(0, 0);
-            //money = "900 dollarydoos";
             contPrimary = Color.White;
             contSecondary = new Color(174, 215, 255);
             outline = new Color(0, 64, 127);
@@ -118,9 +117,7 @@ namespace MoonCow
 
             wepPos = new Vector2(45, 45);
             wepAmmoPos = new Vector2(240, 80);
-            monPos = new Vector2(1450, 45);
-            monTotPos = new Vector2(1715, 80);
-            monDifPos = new Vector2(1715, 160);
+            
 
             statPos = new Vector2(45, 884);
             statTimePos = new Vector2(150, 950);
@@ -130,7 +127,8 @@ namespace MoonCow
             whiteTex.SetData(new Color[] { Color.White });
             flashTime = 15;
 
-            weaponAmmo = "FIRING";
+            weaponAmmo = ship.weapons.activeWeapon.ammo + " / " + ship.weapons.activeWeapon.ammoMax;
+            scale = (float)game.GraphicsDevice.Viewport.Bounds.Width / 1920.0f;
         }
 
         public Rectangle scaledRect(Vector2 pos, float x, float y)
@@ -183,9 +181,6 @@ namespace MoonCow
             hudWepF = Game.Content.Load<Texture2D>(@"Hud/hudWepF");
             hudWepB = Game.Content.Load<Texture2D>(@"Hud/hudWepB");
 
-            hudMonF = Game.Content.Load<Texture2D>(@"Hud/hudMonF");
-            hudMonB = Game.Content.Load<Texture2D>(@"Hud/hudMonB");
-
             hudStatF = Game.Content.Load<Texture2D>(@"Hud/hudStatF");
             hudStatB = Game.Content.Load<Texture2D>(@"Hud/hudStatB");
 
@@ -221,6 +216,8 @@ namespace MoonCow
             float fps = 1.0f / Utilities.frameRate;
             frameRate = fps + " FPS";
 
+            weaponAmmo = ship.weapons.activeWeapon.ammo + " / " + ship.weapons.activeWeapon.ammoMax;
+
             shieldValue = "SHIELDS AT " + (int)game.ship.shipHealth.shieldVal + "%";
             hpValue = game.ship.shipHealth.hpVal + " HP";
 
@@ -230,12 +227,7 @@ namespace MoonCow
                 gameState = "Press R\nfor enemies";
 
 
-            moneyTot = "" + Math.Floor(game.ship.moneyManager.displayNo);
-            float diff = game.ship.moneyManager.difference;
-            if(diff < 0)
-                moneyDif = "" + game.ship.moneyManager.difference;
-            else
-                moneyDif = "+" + game.ship.moneyManager.difference;
+            
 
 
             if (flashTime < 10)
@@ -251,6 +243,7 @@ namespace MoonCow
 
             minimap.update();
             hudAttackDisplayer.Update();
+            hudMoney.Update();
             quickSelect.Update();
 
         }
@@ -267,8 +260,12 @@ namespace MoonCow
             spriteBatch.Draw(hudHealthB, scaledRect(healthPos, 603, 104), Color.White);
             spriteBatch.Draw(hudHealthF, scaledRect(healthPos, 603, 104), Color.White);
 
-            spriteBatch.DrawString(font, shieldValue, scaledCoords(shieldBarPos), blueBody);
-            spriteBatch.DrawString(font, hpValue, scaledCoords(hpBarPos), redBody);
+            spriteBatch.DrawString(font, shieldValue, scaledCoords(shieldBarPos), blueBody, 0,
+                new Vector2(font.MeasureString(shieldValue).X / 2, font.MeasureString(shieldValue).Y / 2), scale, SpriteEffects.None, 0);
+
+
+           // spriteBatch.DrawString(font, shieldValue, scaledCoords(shieldBarPos), blueBody);
+            //spriteBatch.DrawString(font, hpValue, scaledCoords(hpBarPos), redBody);
 
             spriteBatch.End();
         }
@@ -282,35 +279,14 @@ namespace MoonCow
             spriteBatch.Draw(ship.weapons.activeWeapon.icon, scaledRect(new Vector2(140, 115), 90, 90),
                     null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                spriteBatch.DrawString(font, weaponAmmo, scaledCoords(wepAmmoPos), Color.White);
+            spriteBatch.DrawString(font, weaponAmmo, scaledCoords(wepAmmoPos), Color.White, 0,
+                new Vector2(font.MeasureString(weaponAmmo).X / 2, font.MeasureString(weaponAmmo).Y / 2), scale, SpriteEffects.None, 0);
             spriteBatch.End();
         }
 
         void drawMon()
         {
-            float totDim = font.MeasureString(moneyTot).X;
-            float diffDim = font.MeasureString(moneyDif).X;
-
-
-            graphicsDevice.BlendState = BlendState.AlphaBlend;
-            spriteBatch.Begin();
-            spriteBatch.Draw(hudMonB, scaledRect(monPos, 425, 151), Color.White);
-            spriteBatch.Draw(hudMonF, scaledRect(monPos, 425, 151), Color.White);
-
-            spriteBatch.DrawString(font, moneyTot, scaledCoords(new Vector2(monTotPos.X - totDim * 2, monTotPos.Y)), Color.White);
-            if (((Game1)Game).ship.moneyManager.changing)
-            {
-                spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X - diffDim * 2+3, monDifPos.Y+3)), outline);
-
-                if (((Game1)Game).ship.moneyManager.difference < 0)
-                    spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X-diffDim*2, monDifPos.Y)), redBody);
-                else
-                    spriteBatch.DrawString(font, moneyDif, scaledCoords(new Vector2(monDifPos.X - diffDim*2, monDifPos.Y)), contSecondary);
-            }
-
-
-            spriteBatch.End();
+            
         }
 
         void drawStat()
@@ -375,8 +351,10 @@ namespace MoonCow
 
             drawHealth();
             drawWep();
-            if(((Game1)Game).ship.moneyManager.display)
-                drawMon();
+            spriteBatch.Begin();
+            hudMoney.Draw(spriteBatch);
+            spriteBatch.End();
+            drawMon();
             drawStat();
             drawMap();
 
