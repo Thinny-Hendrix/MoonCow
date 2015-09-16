@@ -259,7 +259,7 @@ namespace MoonCow
             graphicsDevice.BlendState = BlendState.Opaque;
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-            base.Draw(gameTime);
+            dummyTexture.Dispose();
         }
 
         public void startBoost()
