@@ -155,7 +155,7 @@ namespace MoonCow
                     if (enemy.nodePos.X >= nodePos.X - 1 && enemy.nodePos.X <= nodePos.X + 1 &&
                         enemy.nodePos.Y >= nodePos.Y - 1 && enemy.nodePos.Y <= nodePos.Y + 1)
                     {
-                        System.Diagnostics.Debug.WriteLine(hitList.Contains(enemy));
+                        //System.Diagnostics.Debug.WriteLine(hitList.Contains(enemy));
                         //if (hitList.Contains(enemy))
                         {
                             if (collider.checkPoint(enemy.pos))

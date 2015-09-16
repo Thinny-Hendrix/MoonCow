@@ -42,7 +42,7 @@ namespace MoonCow
 
         public bool finishingMove;
 
-        Vector2 nodePos;
+        public Vector2 nodePos;
 
         float rollCooldown = 0;
         float tilt = 0;

@@ -44,6 +44,8 @@
     <Compile Include="BloomComponent.cs" />
     <Compile Include="BloomSettings.cs" />
     <Compile Include="BombExplosion.cs" />
+    <Compile Include="BombProjectile.cs" />
+    <Compile Include="BombProjectileModel.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CircleCollider.cs" />
     <Compile Include="CoreSphereModel.cs" />
@@ -51,6 +53,8 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
+    <Compile Include="GattleProjectile.cs" />
+    <Compile Include="GattleTurret.cs" />
     <Compile Include="Heavy.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="HudAttackDisplayer.cs" />
@@ -95,6 +99,11 @@
     <Compile Include="Tester.cs" />
     <Compile Include="TextureManager.cs" />
     <Compile Include="TileModel.cs" />
+    <Compile Include="Turret.cs" />
+    <Compile Include="TurretBase.cs" />
+    <Compile Include="TurretBaseModel.cs" />
+    <Compile Include="TurretManager.cs" />
+    <Compile Include="TurretModel.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="WeaponBomb.cs" />
@@ -470,6 +479,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Weapons\bombRipple.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\bombt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Weapons\sploblip.png">
@@ -1058,6 +1070,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Weapons\bombSploRings.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\bombModel.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Turrets\gatTurt_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Turrets\turrBase_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Turrets\turretBase.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Turrets\turretGatt.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

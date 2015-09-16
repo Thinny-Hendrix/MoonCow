@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class ProjectileModel:BasicModel
+    public class ProjectileModel:BasicModel
     {
         Projectile projectile;
         Game1 game;
@@ -48,6 +48,8 @@ namespace MoonCow
             tex = TextureManager.particle1small;
             tex2 = TextureManager.particle2small;
             tex3 = TextureManager.particle3small;
+
+            scale = new Vector3(.1f, .1f, .1f);
 
             texPos1 = new Vector2(0, 0);
 
@@ -149,7 +151,9 @@ namespace MoonCow
                         else
                         {
                             effect.World = mesh.ParentBone.Transform * GetWorld();
-                            //effect.World = Matrix.CreateScale(scale) * Matrix.CreateRotationY(MathHelper.PiOver2) * Matrix.CreateConstrainedBillboard(projectile.pos, game.camera.cameraPosition, Vector3.Cross(Vector3.Left, projectile.direction), null, null);
+                            effect.World = Matrix.CreateScale(scale) * Matrix.CreateFromYawPitchRoll(-MathHelper.Pi, -MathHelper.PiOver2, -MathHelper.PiOver2) * Matrix.CreateConstrainedBillboard(projectile.pos, game.camera.cameraPosition, projectile.direction, null, projectile.direction);
+                           // effect.World = Matrix.CreateScale(scale) * Matrix.CreateFromYawPitchRoll(-MathHelper.Pi+0.5f,MathHelper.Pi,MathHelper.PiOver2) * Matrix.CreateConstrainedBillboard(projectile.pos, game.camera.cameraPosition, projectile.direction, null, projectile.direction);
+                            //effect.World = Matrix.CreateScale(scale) * Matrix.CreateRotationY(MathHelper.Pi) * Matrix.CreateRotationX(-MathHelper.PiOver2) * Matrix.CreateRotationZ(MathHelper.PiOver2) * Matrix.CreateConstrainedBillboard(projectile.pos, game.camera.cameraPosition, projectile.direction, null, projectile.direction);
                         }
 
                         effect.View = camera.view;
@@ -197,7 +201,7 @@ namespace MoonCow
             //System.Diagnostics.Debug.WriteLine("tipmatrix is " + tipMatrix);
         }
         
-        public void Dispose()
+        public override void Dispose()
         {
             sb.Dispose();
             tipTarg.Dispose();

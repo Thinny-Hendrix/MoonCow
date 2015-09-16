@@ -53,7 +53,7 @@ namespace MoonCow
             }
             foreach (Projectile p in projectiles)
             {
-                p.update();
+                p.Update();
             }
 
             foreach (Projectile p in toDelete)

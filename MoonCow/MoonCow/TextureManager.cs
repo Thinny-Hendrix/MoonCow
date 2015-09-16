@@ -43,6 +43,11 @@ namespace MoonCow
         static Vector2 linespos;
         static Color windowIdle1;
 
+        //weapon model textures
+        public static Texture2D bombTex1;
+
+
+
         //weapon effects
         public static Texture2D bombRing;
         public static Texture2D bombBlip;
@@ -92,6 +97,8 @@ namespace MoonCow
             warnLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnLines");
             warnSign2 = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnSign");
 
+            //weapon model textures
+            bombTex1 = game.Content.Load<Texture2D>(@"Models/Weapons/bombt");
 
             //weapon effects
             bombRing = game.Content.Load<Texture2D>(@"Models/Weapons/sploring");

@@ -89,5 +89,10 @@ namespace MoonCow
             return Matrix.CreateScale(scale) * Matrix.CreateFromYawPitchRoll(rot.Y, rot.X, rot.Z) * Matrix.CreateTranslation(pos);
         }
 
+        public virtual void Dispose()
+        {
+
+        }
+
     }
 }

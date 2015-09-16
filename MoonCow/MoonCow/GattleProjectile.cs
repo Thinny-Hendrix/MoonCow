@@ -7,34 +7,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    //superclass all weapon projectiles will inherit
-    public class Projectile
+    public class GattleProjectile:Projectile
     {
-        public Vector3 pos;
-        public Vector3 rot;
-        public Vector3 scale;
-        public Vector3 direction;
-        public float speed { get; protected set; }
-        public float life { get; protected set; }
-        public Game1 game { get; protected set; }
-        public bool delete { get; protected set; }
-        public OOBB boundingBox { get; protected set; }
-        public Vector3 frameDiff;
-        public Vector2 nodePos { get; protected set; }
-        Weapon weapons;
-        public BasicModel model;
-        public float damage { get; protected set; }
-        int type;//for level ups
-
-        public Projectile(){}//empty constructor for children to use if necessary
-        public Projectile(Vector3 pos, Vector3 direction, Game1 game, Weapon weapons, int type)
+        Turret turret;
+        bool colEnabled;
+        public GattleProjectile(Vector3 pos, Vector3 direction, Game1 game, Turret turret):base()
         {
             this.direction = direction;
             this.game = game;
             this.pos = pos;
             this.rot.Y = (float)Math.Atan2(direction.X, direction.Z);
-            this.weapons = weapons;
-            this.type = type;
+            this.turret = turret;
 
             speed = 50;
             life = 300;
@@ -43,25 +26,19 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
 
-            if(type == 1)
-                model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Green, Color.CornflowerBlue, game);
-            else if(type == 0)
-                model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Orange, Color.Purple, game);
-            else
-                model = new ProjectileModel(ModelLibrary.projectile, pos, this, new Color(255,0,255), Color.Green, game);
-
+            model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Orange, Color.Red, game);
             game.modelManager.addEffect(model);
+
         }
 
-        public virtual void Update()
+        public override void Update()
         {
             frameDiff = Vector3.Zero;
 
             if (!delete)
             {
                 frameDiff += direction * speed * Utilities.deltaTime;
-                if(type != 2)
-                    checkCollision();
+                checkCollision();
             }
             life -= Utilities.deltaTime * 60;
             if(life <=0)
@@ -71,13 +48,13 @@ namespace MoonCow
             boundingBox.Update(pos, direction);
         }
 
-        protected virtual void checkCollision()
+        protected override void checkCollision()
         {
             // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
             // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
             // be within tolerable limits for CPU time. This will only need to be done with the player
-            pos.Y += frameDiff.Y;
             pos.X += frameDiff.X;
+            pos.Y += frameDiff.Y;
             bool collided = false;
 
             //## COLLISIONS WHOOO! ##
@@ -125,14 +102,14 @@ namespace MoonCow
                 deleteProjectile();
             }
 
-            try 
+            try
             {
                 foreach (Enemy enemy in game.enemyManager.enemies)
                 {
-                    if(nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
+                    if (nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
                     {
                         //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if(boundingBox.intersects(enemy.boundingBox))
+                        if (boundingBox.intersects(enemy.boundingBox))
                         {
                             enemy.health -= damage;
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
@@ -148,29 +125,27 @@ namespace MoonCow
 
             if (collided)
             {
-                for (int i = 0; i < 10; i++)
-                    game.modelManager.addEffect(new DotParticle(game, pos));
-                if(type == 1)
-                    game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Green));
-                else
+                if (colEnabled)
+                {
+                    for (int i = 0; i < 10; i++)
+                        game.modelManager.addEffect(new DotParticle(game, pos));
                     game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Orange));
 
-                if (type != 1)
-                {
-                    game.modelManager.addEffect(new BombExplosion(pos, game));
-                    //game.ship.moneyManager.addGib(73, pos);
+                    deleteProjectile();
                 }
-                deleteProjectile();
+            }
+            else
+            {
+                colEnabled = true;
             }
         }
 
-        protected virtual void deleteProjectile()
+        protected override void deleteProjectile()
         {
             game.modelManager.removeEffect(model);
-            weapons.toDelete.Add(this);
+            turret.toDelete.Add(this);
             delete = true;
             model.Dispose();
         }
-
     }
 }

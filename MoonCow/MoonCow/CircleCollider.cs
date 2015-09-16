@@ -43,6 +43,11 @@ namespace MoonCow
             return dist <= radius;
         }
 
+        public float distFrom(Vector3 point)
+        {
+            return (float)Math.Sqrt(Math.Pow(point.X - centre.X, 2) + Math.Pow(point.Z - centre.Y, 2));
+        }
+
         public bool checkOOBB(OOBB box)
         {
             // super maths here

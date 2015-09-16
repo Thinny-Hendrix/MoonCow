@@ -7,71 +7,47 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    //superclass all weapon projectiles will inherit
-    public class Projectile
+    public class BombProjectile:Projectile
     {
-        public Vector3 pos;
-        public Vector3 rot;
-        public Vector3 scale;
-        public Vector3 direction;
-        public float speed { get; protected set; }
-        public float life { get; protected set; }
-        public Game1 game { get; protected set; }
-        public bool delete { get; protected set; }
-        public OOBB boundingBox { get; protected set; }
-        public Vector3 frameDiff;
-        public Vector2 nodePos { get; protected set; }
-        Weapon weapons;
-        public BasicModel model;
-        public float damage { get; protected set; }
-        int type;//for level ups
-
-        public Projectile(){}//empty constructor for children to use if necessary
-        public Projectile(Vector3 pos, Vector3 direction, Game1 game, Weapon weapons, int type)
+        Weapon wep;
+        CircleCollider col;
+        public BombProjectile(Vector3 pos, Vector3 direction, Game1 game, Weapon wep):base()
         {
             this.direction = direction;
             this.game = game;
             this.pos = pos;
             this.rot.Y = (float)Math.Atan2(direction.X, direction.Z);
-            this.weapons = weapons;
-            this.type = type;
+            this.wep = wep;
 
             speed = 50;
             life = 300;
             delete = false;
             damage = 5;
 
-            boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
+            col = new CircleCollider(pos, 1);
 
-            if(type == 1)
-                model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Green, Color.CornflowerBlue, game);
-            else if(type == 0)
-                model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Orange, Color.Purple, game);
-            else
-                model = new ProjectileModel(ModelLibrary.projectile, pos, this, new Color(255,0,255), Color.Green, game);
-
-            game.modelManager.addEffect(model);
+            model = new BombProjectileModel(this, pos, direction);
+            game.modelManager.addObject(model);
         }
 
-        public virtual void Update()
+        public override void Update()
         {
             frameDiff = Vector3.Zero;
 
             if (!delete)
             {
                 frameDiff += direction * speed * Utilities.deltaTime;
-                if(type != 2)
-                    checkCollision();
+                checkCollision();
             }
             life -= Utilities.deltaTime * 60;
-            if(life <=0)
+            if (life <= 0)
             {
                 deleteProjectile();
             }
-            boundingBox.Update(pos, direction);
+            col.Update(pos);
         }
 
-        protected virtual void checkCollision()
+        protected override void checkCollision()
         {
             // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
             // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
@@ -82,7 +58,7 @@ namespace MoonCow
 
             //## COLLISIONS WHOOO! ##
             // Move the bounding box to new pos
-            boundingBox.Update(pos, direction);
+            col.Update(pos);
             // Get current node co-ordinates
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
@@ -91,7 +67,7 @@ namespace MoonCow
             {
                 foreach (OOBB box in game.map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
                 {
-                    if (boundingBox.intersects(box))
+                    if (col.checkOOBB(box))
                     {
                         pos.X -= frameDiff.X;
                         collided = true;
@@ -106,14 +82,14 @@ namespace MoonCow
             // Now add the Z component of the movement
             pos.Z += frameDiff.Z;
 
-            boundingBox.Update(pos, direction);
+            col.Update(pos);
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
             try
             {
                 foreach (OOBB box in game.map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes) // for each bounding box in current node
                 {
-                    if (boundingBox.intersects(box))
+                    if (col.checkOOBB(box))
                     {
                         collided = true;
                         pos.Z -= frameDiff.Z;
@@ -125,16 +101,15 @@ namespace MoonCow
                 deleteProjectile();
             }
 
-            try 
+            try
             {
                 foreach (Enemy enemy in game.enemyManager.enemies)
                 {
-                    if(nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
+                    if (nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
                     {
                         //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if(boundingBox.intersects(enemy.boundingBox))
+                        if (col.checkPoint(enemy.pos))
                         {
-                            enemy.health -= damage;
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
                         }
@@ -150,27 +125,18 @@ namespace MoonCow
             {
                 for (int i = 0; i < 10; i++)
                     game.modelManager.addEffect(new DotParticle(game, pos));
-                if(type == 1)
-                    game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Green));
-                else
-                    game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Orange));
-
-                if (type != 1)
-                {
-                    game.modelManager.addEffect(new BombExplosion(pos, game));
-                    //game.ship.moneyManager.addGib(73, pos);
-                }
+                
+                game.modelManager.addEffect(new BombExplosion(pos, game));
                 deleteProjectile();
             }
         }
 
-        protected virtual void deleteProjectile()
+        protected override void deleteProjectile()
         {
-            game.modelManager.removeEffect(model);
-            weapons.toDelete.Add(this);
+            game.modelManager.removeObject(model);
+            wep.toDelete.Add(this);
             delete = true;
             model.Dispose();
         }
-
     }
 }
