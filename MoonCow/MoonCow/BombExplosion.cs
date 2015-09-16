@@ -14,6 +14,13 @@ namespace MoonCow
         SpriteBatch sb;
         RenderTarget2D rippleTex;
         Vector2 texPos;
+        Vector2 nodePos;
+        List<Enemy> hitList; //once enemy is hit, added to the list so damage is only applied once
+
+        float damage;
+
+        CircleCollider collider;
+        bool colEnabled;
 
         float ringRot;
         float ringRot2;
@@ -28,18 +35,24 @@ namespace MoonCow
         {
             this.pos = pos;
             this.game = game;
-            scale = new Vector3(0.5f);
+            scale = new Vector3(0.35f);
             model = ModelLibrary.bombRings;
             ripple = ModelLibrary.bombRipples;
+
+            collider = new CircleCollider(pos, 5);
 
             ringRot = Utilities.nextFloat() * MathHelper.Pi * 2;
             ringRot2 = Utilities.nextFloat() * MathHelper.Pi * 2;
             ringRot3 = Utilities.nextFloat() * MathHelper.Pi * 2;
             ringRot4 = Utilities.nextFloat() * MathHelper.Pi * 2;
 
-            rippleScale = 0.4f;
+            rippleScale = 0.35f;
             ringAlpha = 1;
             triggeredShake = false;
+
+            damage = 3;
+
+            hitList = new List<Enemy>();
 
             sb = new SpriteBatch(game.GraphicsDevice);
             rippleTex = new RenderTarget2D(game.GraphicsDevice, 512, 128);
@@ -90,10 +103,20 @@ namespace MoonCow
             {
                 if(!triggeredShake)
                 {
+                    colEnabled = true;
                     game.camera.makeShake();
                     game.hud.makeFlash();
                     triggeredShake = true;
                 }
+                if(collider.radius < 17)
+                {
+                    collider.radius += Utilities.deltaTime * 60;
+                    if(collider.radius >= 17)
+                        colEnabled = false;
+                }
+                //damage -= Utilities.deltaTime;
+                if(colEnabled)
+                    checkCollision();
                 scale += new Vector3(0.05f)*frameTime;
                 if (ringAlpha != 0)
                 {
@@ -109,6 +132,48 @@ namespace MoonCow
                 game.modelManager.toDeleteModel(this);
                 sb.Dispose();
                 rippleTex.Dispose();
+            }
+        }
+
+        void checkCollision()
+        {
+            // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
+            // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
+            // be within tolerable limits for CPU time. This will only need to be done with the player
+            bool collided = false;
+
+            //## COLLISIONS WHOOO! ##
+            // Move the bounding box to new pos
+            //circleCol.Update(pos, direction);
+            // Get current node co-ordinates
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+            try 
+            {
+                foreach (Enemy enemy in game.enemyManager.enemies)
+                {
+                    if (enemy.nodePos.X >= nodePos.X - 1 && enemy.nodePos.X <= nodePos.X + 1 &&
+                        enemy.nodePos.Y >= nodePos.Y - 1 && enemy.nodePos.Y <= nodePos.Y + 1)
+                    {
+                        System.Diagnostics.Debug.WriteLine(hitList.Contains(enemy));
+                        //if (hitList.Contains(enemy))
+                        {
+                            if (collider.checkPoint(enemy.pos))
+                            {
+                                enemy.health -= damage;
+                                hitList.Add(enemy);
+                                collided = true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+            }
+
+            if (collided)
+            {
             }
         }
 

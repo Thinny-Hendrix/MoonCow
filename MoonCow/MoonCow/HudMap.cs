@@ -62,7 +62,7 @@ namespace MoonCow
             else
             {
                 sb.Draw(hudMapB, hud.scaledRect(mapPos, 541, 283), Color.White);
-                sb.Draw(minimap.displayMap, hud.scaledRect(new Vector2(1572, 760), minimap.map.Bounds.Width / 2, minimap.map.Bounds.Height / 2), Color.White);
+                sb.Draw(minimap.displayMap, hud.scaledRect(new Vector2(1675, 930), minimap.map.Bounds.Width, minimap.map.Bounds.Height), null, Color.White, -minimap.shipRot, minimap.shipPos, SpriteEffects.None, 1);
                 sb.Draw(hudMapF, hud.scaledRect(mapPos, 541, 283), Color.White);
             }
 

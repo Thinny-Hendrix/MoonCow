@@ -16,6 +16,8 @@ namespace MoonCow
         public Vector3 scale;
         public Vector3 direction;
 
+        public Vector3 knockbackDirection;
+
         public float moveSpeed;
         public float maxSpeed;
         protected float time;
@@ -31,7 +33,7 @@ namespace MoonCow
 
         public OOBB boundingBox;
         public CircleCollider agroSphere;
-        public int health;
+        public float health;
 
         public Vector2 nodePos;
 
@@ -66,7 +68,28 @@ namespace MoonCow
 
         }
 
-        protected void death()
+        public virtual void knockbackDamage(float damage, Vector3 source)
+        {
+            //minus health, check if death
+            //set knockback direction to the direction of the source from the enemy
+            //set knockback speed based on mass of enemy and amount of damage
+            //store current state in prevState 
+            //change enemy state (maybe call it 'recover'?)
+
+            //TO PUT IN UPDATE -
+            //while in this state, move in knockbackDirection until knockbackSpeed is 0 (do collision checks too)
+            //(reduce knockbackSpeed per frame)
+            //if knockback is 0
+            //once knockback is 0 and cooldown has ended, change currentState back to whatever this is
+        }
+
+        public virtual void freezeDamage(float damage)
+        {
+            //kind of like knockback except enemy stays in place, this will be used for the drill
+            //prolly needs its own enum
+        }
+
+        protected virtual void death()
         {
             for (int i = 0; i < 4; i++)
                 game.ship.moneyManager.addGib(5, pos);

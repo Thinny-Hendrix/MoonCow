@@ -9,11 +9,17 @@ namespace MoonCow
     public class CircleCollider
     {
         Vector2 centre;
-        float radius;
+        public float radius{get; set;}
 
         public CircleCollider(Vector2 middle, float r)
         {
             centre = middle;
+            radius = r;
+        }
+
+        public CircleCollider(Vector3 center, float r)
+        {
+            this.centre = new Vector2(center.X, center.Z);
             radius = r;
         }
 
@@ -26,6 +32,14 @@ namespace MoonCow
         {
             // maths here
             float dist = (float)Math.Sqrt(Math.Pow(point.X - centre.X, 2) + Math.Pow(point.Y - centre.Y, 2));
+            return dist <= radius;
+        }
+
+        //vector3 version saves me a lot of time
+        public bool checkPoint(Vector3 point)
+        {
+            // maths here
+            float dist = (float)Math.Sqrt(Math.Pow(point.X - centre.X, 2) + Math.Pow(point.Z - centre.Y, 2));
             return dist <= radius;
         }
 

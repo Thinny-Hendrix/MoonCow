@@ -19,6 +19,9 @@ namespace MoonCow
         RenderTarget2D itemMap;
         SpriteBatch sb;
 
+        public Vector2 shipPos;
+        public float shipRot;
+
         public Minimap(Game1 game)
         {
             this.game = game;
@@ -30,6 +33,8 @@ namespace MoonCow
 
         public void update()
         {
+            shipPos = new Vector2((int)game.ship.pos.X + 15, (int)game.ship.pos.Z+15);
+            shipRot = -game.ship.rot.Y;
             game.GraphicsDevice.SetRenderTarget(itemMap);
             sb.Begin();
             sb.Draw(map, Vector2.Zero, Color.White);

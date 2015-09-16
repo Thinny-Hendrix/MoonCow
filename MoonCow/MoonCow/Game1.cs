@@ -35,13 +35,17 @@ namespace MoonCow
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
+            };
             //graphicsDevice = new GraphicsDevice();
             Content.RootDirectory = "Content";
 
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
+
 
         }
 

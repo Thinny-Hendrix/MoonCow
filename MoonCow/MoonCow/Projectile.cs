@@ -156,7 +156,7 @@ namespace MoonCow
                 if (type != 1)
                 {
                     game.modelManager.addEffect(new BombExplosion(pos, game));
-                    game.ship.moneyManager.addGib(73, pos);
+                    //game.ship.moneyManager.addGib(73, pos);
                 }
                 deleteProjectile();
             }
