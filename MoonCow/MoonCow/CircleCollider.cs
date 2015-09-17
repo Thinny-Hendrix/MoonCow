@@ -53,7 +53,7 @@ namespace MoonCow
             // super maths here
             bool[] pointInside = new bool[4];
 
-            for(int i = 0; i < 4; i++) // Loop through two perpendicular sides of the box
+            for(int i = 0; i < 2; i++) // Loop through two perpendicular sides of the box
             {
                 // Get normalised direction vector for box side
                 Vector2 ABdir = box.corners[(i + 1) % 4] - box.corners[i];
