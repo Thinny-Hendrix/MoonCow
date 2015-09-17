@@ -51,7 +51,7 @@ namespace MoonCow
         public bool checkOOBB(OOBB box)
         {
             // super maths here
-            bool[] pointInside = new bool[4];
+            bool[] pointInside = new bool[2];
 
             for(int i = 0; i < 2; i++) // Loop through two perpendicular sides of the box
             {
@@ -71,7 +71,7 @@ namespace MoonCow
             }
 
             // If any of the circle points are inside the box
-            if(pointInside[0] || pointInside[1] || pointInside[2] || pointInside [3])
+            if(pointInside[0] || pointInside[1])
             {
                 return true;
             }
