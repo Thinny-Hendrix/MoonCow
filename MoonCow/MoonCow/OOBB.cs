@@ -115,6 +115,34 @@ namespace MoonCow
         }
 
         /// <summary>
+        /// Checks if a point is inside the box
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns>True if point is in box, false if not</returns>
+        public bool pointInBox(Vector2 point)
+        {
+            bool[] leftOfFace = new bool[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                float A = -1f * (corners[(i + 1) % 4].Y - corners[i].Y);
+                float B = corners[(i + 1) % 4].X - corners[i].X;
+                float C = -1f * ((A * corners[i].X) + (B * corners[i].Y));
+
+                float D = (A * point.X) + (B * point.Y) + C;
+
+                leftOfFace[i] = D < 0;
+            }
+
+            if (!(leftOfFace[0] || leftOfFace[1] || leftOfFace[2] || leftOfFace[3]))     // if the point is left of every plane it is inside
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Gets the area of the bounding box
         /// </summary>
         /// <returns>The area of the box</returns>

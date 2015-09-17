@@ -51,27 +51,31 @@ namespace MoonCow
         public bool checkOOBB(OOBB box)
         {
             // super maths here
-            for(int i = 0; i < 4; i++)
+            bool[] pointInside = new bool[4];
+
+            for(int i = 0; i < 4; i++) // Loop through two perpendicular sides of the box
             {
-                if(!checkPoint(box.corners[i]) && !checkPoint(box.corners[(i + 1) % 4]))
-                {
-                   if (Math.Pow(box.corners[i].X, 2) + Math.Pow(box.corners[i].Y, 2) > radius * radius && Math.Pow(box.corners[(i + 1) % 4].X, 2) + Math.Pow(box.corners[(i + 1) % 4].Y, 2) > radius * radius)
-                   {
-                       if (!(Math.Pow((box.corners[i].X * box.corners[(i + 1) % 4].Y) - (box.corners[(i + 1) % 4].X * box.corners[i].Y), 2) > Math.Pow(radius, 2) * (Math.Pow(box.corners[i].X - box.corners[(i + 1) % 4].X, 2) + Math.Pow(box.corners[i].Y - box.corners[(i + 1) % 4].Y, 2))))
-                       {
-                           return true;
-                       }
-                   }
-                   else
-                   {
-                       return true;
-                   }
-                }
-                else 
-                { 
-                    return false; 
-                }
+                // Get normalised direction vector for box side
+                Vector2 ABdir = box.corners[(i + 1) % 4] - box.corners[i];
+                ABdir.Normalize();
+
+                // Get perpendicular direction vector
+                Vector2 PerpAB = new Vector2(ABdir.Y, ABdir.X * -1);
+
+                // get the two points on the circle that intersect the perpendicular direction vector
+                Vector2 circlePoint = centre + (radius * PerpAB);
+                Vector2 otherCirclePoint = centre + (radius * (-1 * PerpAB));
+
+                // See if either of those points is inisde the box
+                pointInside[i] = box.pointInBox(circlePoint) || box.pointInBox(otherCirclePoint);
             }
+
+            // If any of the circle points are inside the box
+            if(pointInside[0] || pointInside[1] || pointInside[2] || pointInside [3])
+            {
+                return true;
+            }
+
             return false;
         }
     }
