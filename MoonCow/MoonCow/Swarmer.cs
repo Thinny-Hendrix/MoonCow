@@ -21,7 +21,7 @@ namespace MoonCow
         {
             this.game = game;
             moveSpeed = 0;
-            maxSpeed = 8 + Utilities.nextFloat();
+            maxSpeed = 10 + Utilities.nextFloat();
             direction = new Vector3(0, (float)Math.PI, 0);
             rot = direction;
             currentTurnSpeed = 0;
@@ -62,82 +62,87 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             float yAngle;
-            Vector3 targetDirection = new Vector3(0, 0, 0);
+            Vector3 targetDirection = Vector3.Zero;
             //target = game.ship.pos;
             //target = new Vector3(makeCentreCoordinate(coreLocation.X), 4.5f, makeCentreCoordinate(coreLocation.Y));
 
             //Agro stuff and attacks
-            agroSphere.Update(pos);
-            if (agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))
+            if (!electroDamage.active)
             {
-                //Agro mode active, begin doing collision checks on player and chase
-                //System.Diagnostics.Debug.WriteLine("Enemy now aggressive");
-            }
-
-            if ((pos.X < target.X + 1 && pos.X > target.X - 1) && (pos.Z < target.Z + 1 && pos.Z > target.Z - 1))
-            {
-                if (path.Count > pathPosition)
+                agroSphere.Update(pos);
+                if (agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))
                 {
-                    prevPosition = nextPosition;
-                    nextPosition = path[pathPosition];
-                    pathPosition += 1;
+                    //Agro mode active, begin doing collision checks on player and chase
+                    //System.Diagnostics.Debug.WriteLine("Enemy now aggressive");
+                }
 
+                if ((pos.X < target.X + 1 && pos.X > target.X - 1) && (pos.Z < target.Z + 1 && pos.Z > target.Z - 1))
+                {
                     if (path.Count > pathPosition)
                     {
-                        target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-5 + Utilities.nextFloat() * 10), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-5 + Utilities.nextFloat() * 10));
+                        prevPosition = nextPosition;
+                        nextPosition = path[pathPosition];
+                        pathPosition += 1;
+
+                        if (path.Count > pathPosition)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-5 + Utilities.nextFloat() * 10), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-5 + Utilities.nextFloat() * 10));
+                        }
+                        else if (path.Count == pathPosition)
+                        {
+                            // How do I get the enemies to surround the core without going through it?
+                            // Answering this question will be post alpha
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                        }
                     }
-                    else if (path.Count == pathPosition)
+                    else
                     {
-                        // How do I get the enemies to surround the core without going through it?
-                        // Answering this question will be post alpha
-                        target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                        atCore = true;
+                        target = new Vector3(makeCentreCoordinate(nextPosition.X), 4.5f, makeCentreCoordinate(nextPosition.Y));
                     }
+                }
+
+                //Turning Code
+                yAngle = (float)Math.Atan2(pos.X - target.X, pos.Z - target.Z);
+                targetDirection.X = -(float)Math.Sin(yAngle);
+                targetDirection.Z = -(float)Math.Cos(yAngle);
+                targetDirection.Normalize();
+
+                direction = Vector3.Lerp(direction, targetDirection, Utilities.deltaTime * 4.5f);
+                rot.Y = (float)Math.Atan2(direction.X, direction.Z) + MathHelper.Pi;
+
+                //Movement Code
+                if (!atCore)
+                {
+                    frameDiff += direction * moveSpeed * Utilities.deltaTime;
+
+                    if (moveSpeed < maxSpeed)
+                    {
+                        moveSpeed += Utilities.deltaTime * 6;
+                    }
+
+                    checkCollision();
+                    frameDiff = Vector3.Zero;
                 }
                 else
                 {
-                    atCore = true;
-                    target = new Vector3(makeCentreCoordinate(nextPosition.X), 4.5f, makeCentreCoordinate(nextPosition.Y));
-                }
-            }
+                    //need slowdown code
+                    moveSpeed = 0;
 
-            //Turning Code
-            yAngle = (float)Math.Atan2(pos.X - target.X, pos.Z - target.Z);
-            targetDirection.X = -(float)Math.Sin(yAngle);
-            targetDirection.Z = -(float)Math.Cos(yAngle);
-            targetDirection.Normalize();
-
-            direction = Vector3.Lerp(direction, targetDirection, Utilities.deltaTime * 4.5f);
-            rot.Y = (float)Math.Atan2(direction.X, direction.Z) + MathHelper.Pi;
-
-            //Movement Code
-            if (!atCore)
-            {
-                frameDiff += direction * moveSpeed * Utilities.deltaTime;
-
-                if (moveSpeed < maxSpeed)
-                {
-                    moveSpeed += Utilities.deltaTime * 6;
                 }
 
-                checkCollision();
-                frameDiff = Vector3.Zero;
+                nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+                boundingBox.Update(pos, direction);
+
+                pos.Y = 4.5f + (float)Math.Sin(time) * 0.2f;
+
+                time += Utilities.deltaTime * MathHelper.Pi * 2.4f;
+
+                if (time > MathHelper.Pi * 2)
+                    time -= MathHelper.Pi * 2;
             }
-            else
-            {
-                //need slowdown code
-                moveSpeed = 0;
 
-            }
-
-            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-            boundingBox.Update(pos, direction);
-
-            pos.Y = 4.5f + (float)Math.Sin(time) * 0.2f;
-
-            time += Utilities.deltaTime * MathHelper.Pi * 2.4f;
-
-            if (time > MathHelper.Pi * 2)
-                time -= MathHelper.Pi * 2;
+            base.Update(gameTime);
 
             if (health <= 0)
             {

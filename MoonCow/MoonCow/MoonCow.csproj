@@ -39,22 +39,38 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AstBig.cs" />
+    <Compile Include="Asteroid.cs" />
+    <Compile Include="AsteroidGenerator.cs" />
+    <Compile Include="AsteroidManager.cs" />
+    <Compile Include="AsteroidModel.cs" />
+    <Compile Include="AstMid.cs" />
+    <Compile Include="AstSmall.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="BasicModel.cs" />
     <Compile Include="BloomComponent.cs" />
     <Compile Include="BloomSettings.cs" />
+    <Compile Include="BombCenterParticle.cs" />
     <Compile Include="BombExplosion.cs" />
     <Compile Include="BombProjectile.cs" />
     <Compile Include="BombProjectileModel.cs" />
+    <Compile Include="BombRings.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CircleCollider.cs" />
     <Compile Include="CoreSphereModel.cs" />
     <Compile Include="DotParticle.cs" />
+    <Compile Include="ElecParticle.cs" />
+    <Compile Include="ElectroDamage.cs" />
+    <Compile Include="ElectroShot.cs" />
+    <Compile Include="ElectroShotModel.cs" />
+    <Compile Include="ElectroTurret.cs" />
+    <Compile Include="ElectroTurretModel.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
     <Compile Include="GattleProjectile.cs" />
     <Compile Include="GattleTurret.cs" />
+    <Compile Include="GattleTurretModel.cs" />
     <Compile Include="Heavy.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="HudAttackDisplayer.cs" />
@@ -388,6 +404,18 @@
     <Content Include="Content\Models\Effects\burstWhite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Models\Effects\Electro\elecL1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Electro\elecL2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Electro\elecL3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Electro\elecL4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Models\Effects\gibglow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -476,6 +504,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\StationTiles\Window\windowWarnSign.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\bombcenter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Weapons\bombRipple.png">
@@ -978,6 +1009,12 @@
     <Content Include="Content\Hud\Venera40.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Models\AstField\ast1tex_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\AstField\ast1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Content\Models\Enemies\Swarmer\swarmerAlpha.fbx" />
     <Content Include="Content\Models\MoneyGibs\gib1.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1085,6 +1122,36 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Turrets\turretGatt.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Turrets\elecTurt_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Misc\dirSquare.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Turrets\turretElec.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Turrets\electroTurretold.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\StationTiles\cornerRb.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\StationTiles\dendRb.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\StationTiles\straightRb.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\StationTiles\tint3Rb.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\StationTiles\tint4Rb.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Turrets\electroTurret.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

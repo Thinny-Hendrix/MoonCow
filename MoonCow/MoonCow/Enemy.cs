@@ -46,11 +46,14 @@ namespace MoonCow
         protected int pathPosition = 0;
 
         public EnemyModel enemyModel;
-        //WeaponSystem weapons;
+
+        //special damage types
+        public ElectroDamage electroDamage;
+
 
         public Enemy(Game1 game)
         {
-
+            electroDamage = new ElectroDamage(this, game);
         }
 
         protected float makeCentreCoordinate(float c)
@@ -65,7 +68,7 @@ namespace MoonCow
 
         public virtual void Update(GameTime gameTime)
         {
-
+            electroDamage.Update();
         }
 
         public virtual void knockbackDamage(float damage, Vector3 source)
@@ -81,6 +84,11 @@ namespace MoonCow
             //(reduce knockbackSpeed per frame)
             //if knockback is 0
             //once knockback is 0 and cooldown has ended, change currentState back to whatever this is
+        }
+
+        public void addElectroDamage(float damage)
+        {
+            electroDamage.activate(damage);
         }
 
         public virtual void freezeDamage(float damage)

@@ -33,6 +33,7 @@ namespace MoonCow
 
         public static Model square;
         public static Model flameSquare;
+        public static Model dirSquare;
 
         //station window
         public static RenderTarget2D baseWindow;
@@ -43,8 +44,15 @@ namespace MoonCow
         static Vector2 linespos;
         static Color windowIdle1;
 
+        //asteroid field
+        public static Texture2D ast1;
+
         //weapon model textures
         public static Texture2D bombTex1;
+
+        //Turret model textures
+        public static Texture2D turBase;
+        public static Texture2D elecTurTex;
 
 
 
@@ -52,6 +60,7 @@ namespace MoonCow
         public static Texture2D bombRing;
         public static Texture2D bombBlip;
         public static Texture2D bombRipple;
+        public static Texture2D bombCenter;
 
         //weapon icons
         public static Texture2D icoPew;
@@ -60,6 +69,11 @@ namespace MoonCow
         public static Texture2D icoWave;
         public static Texture2D icoDrill;
 
+        //electricity
+        public static Texture2D elecL1;
+        public static Texture2D elecL2;
+        public static Texture2D elecL3;
+        public static Texture2D elecL4;
 
         public static Texture2D pureWhite;
 
@@ -97,13 +111,22 @@ namespace MoonCow
             warnLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnLines");
             warnSign2 = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnSign");
 
+            //ast field
+            ast1 = game.Content.Load<Texture2D>(@"Models/AstField/ast1tex_0");
+
             //weapon model textures
             bombTex1 = game.Content.Load<Texture2D>(@"Models/Weapons/bombt");
+
+            //turret model textures
+            turBase = game.Content.Load<Texture2D>(@"Models/Turrets/turrBase_0");
+            elecTurTex = game.Content.Load<Texture2D>(@"Models/Turrets/elecTurt_0");
 
             //weapon effects
             bombRing = game.Content.Load<Texture2D>(@"Models/Weapons/sploring");
             bombBlip = game.Content.Load<Texture2D>(@"Models/Weapons/sploblip");
             bombRipple = game.Content.Load<Texture2D>(@"Models/Weapons/bombRipple");
+            bombCenter = game.Content.Load<Texture2D>(@"Models/Weapons/bombcenter");
+
 
             //weapon icons
             icoPew = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoPew");
@@ -112,11 +135,19 @@ namespace MoonCow
             icoWave = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoWave");
             icoDrill = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoDrill");
 
+            //electricity textures
+            elecL1 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL1");
+            elecL2 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL2");
+            elecL3 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL3");
+            elecL4 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL4");
+
+
 
 
 
             square = game.Content.Load<Model>(@"Models/Misc/square");
             flameSquare = game.Content.Load<Model>(@"Models/Effects/flameSquare");
+            dirSquare = game.Content.Load<Model>(@"Models/Misc/dirSquare");
 
 
         }

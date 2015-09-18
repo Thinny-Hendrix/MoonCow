@@ -536,6 +536,20 @@ namespace MoonCow
                     }
                 }
             }
+
+            foreach (Asteroid a in game.asteroidManager.asteroids)
+            {
+                if (nodePos.X == a.nodePos.X && nodePos.Y == a.nodePos.Y)
+                {
+                    //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
+                    if (a.col.checkPoint(pos))
+                    {
+                        a.push(moveSpeed, pos);
+                        //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                        collision = true;
+                    }
+                }
+            }
             return collision;
         }
 

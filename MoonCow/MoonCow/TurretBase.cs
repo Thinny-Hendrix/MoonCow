@@ -19,15 +19,19 @@ namespace MoonCow
         Vector2 nodePos;
         CircleCollider col;
 
+        public enum TurretType { none, gattle, pyro, electro}
+        public TurretType turretType;
+
         public TurretBase(Vector3 pos, Vector3 dir, Game1 game)
         {
             this.pos = pos;
             this.dir = dir;
             this.game = game;
-            baseModel = new TurretBaseModel(pos);
+            baseModel = new TurretBaseModel(pos, game);
             game.modelManager.addObject(baseModel);
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
             ship = game.ship;
+            turretType = TurretType.none;
 
             col = new CircleCollider(pos, 5);
         }
@@ -65,8 +69,25 @@ namespace MoonCow
                     {
                         if (turret == null)
                         {
-                            if(ship.moneyManager.canPurchase(200))
+                            if (ship.moneyManager.canPurchase(0))
+                            {
                                 turret = new GattleTurret(pos, dir, game);
+                                turretType = TurretType.gattle;
+                                baseModel.changeColor(turretType, game);
+                            }
+                        }
+                    }
+
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.RightShift))
+                    {
+                        if (turret == null)
+                        {
+                            if (ship.moneyManager.canPurchase(0))
+                            {
+                                turret = new ElectroTurret(pos, dir, game);
+                                turretType = TurretType.electro;
+                                baseModel.changeColor(turretType, game);
+                            }
                         }
                     }
                 }

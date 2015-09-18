@@ -9,13 +9,31 @@ namespace MoonCow
 {
     public class GattleTurret:Turret
     {
+        public float xAngle;
+        public float yAngle;
+
+        float origY;
+        float origZ;
+        float goalY;
+        float goalZ;
+        float lookTime;
+
         public GattleTurret(Vector3 pos, Vector3 targetDir, Game1 game):base(pos, targetDir,game)
         {
             col = new CircleCollider(pos, 20);
-            turretModel = new TurretModel(this, game);
+            turretModel = new GattleTurretModel(this, game);
             game.modelManager.addObject(turretModel);
-            cooldownMax = 1;
-          
+            cooldownMax = 0.25f;
+
+            origY = (float)Math.Atan2(targetDir.X, targetDir.Z);
+            origZ = (float)Math.Atan2(targetDir.Y, targetDir.Z);
+        }
+
+        void setRandomDir()
+        {
+            yAngle = origY + (Utilities.nextFloat() * MathHelper.Pi * 0.7f - MathHelper.Pi * 0.35f);
+            xAngle = origZ + (Utilities.nextFloat() * MathHelper.PiOver4*0.4f - MathHelper.PiOver4 * 0.2f);
+            setTargetDir();
         }
 
         public override void Update()
@@ -29,23 +47,32 @@ namespace MoonCow
             if(state == State.idle)
             {
                 //do a look around thing so they aren't completely static
+                if(lookTime <= 0)
+                {
+                    setRandomDir();
+                    lookTime = Utilities.nextFloat() + 1f;
+                }
+                currentDir = Vector3.Lerp(currentDir, targetDir, Utilities.deltaTime * 3);
+                lookTime -= Utilities.deltaTime;
 
                 if(enemyManager.enemies.Count() > 0)
                 {
-                    if (enemiesInRange())
+                    if (enemiesInRange(col))
+                    {
                         state = State.active;
+                        lookTime = Utilities.nextFloat() + 1f;
+                    }
                 }
+
+
             }
             if(state == State.active)
             {
                 setTarget();
 
-                float yAngle = (float)Math.Atan2(pos.X - target.pos.X, pos.Z - target.pos.Z);
-                float xAngle = (float)Math.Atan2(pos.Y - target.pos.Y, pos.Z - target.pos.Z);
-                targetDir.X = (float)Math.Sin(yAngle);
-                targetDir.Z = (float)Math.Cos(yAngle);
-                targetDir.Y = -(float)Math.Sin(xAngle);
-                targetDir.Normalize();
+                yAngle = (float)Math.Atan2(pos.X - target.pos.X, pos.Z - target.pos.Z);
+                xAngle = (float)Math.Atan2(pos.Y - target.pos.Y, pos.Z - target.pos.Z);
+                setTargetDir();
                 /*
                 targetDir.X = pos.X - target.pos.X;
                 targetDir.Z = pos.Z - target.pos.Z;
@@ -56,11 +83,22 @@ namespace MoonCow
                 if (cooldown == 0)
                     fire();
 
-                if (!enemiesInRange())
+                if (!enemiesInRange(col))
+                {
                     state = State.idle;
+                    target = null;
+                }
             }
 
             updateProjectiles();
+        }
+
+        void setTargetDir()
+        {
+            targetDir.X = (float)Math.Sin(yAngle);
+            targetDir.Z = (float)Math.Cos(yAngle);
+            targetDir.Y = -(float)Math.Sin(xAngle);
+            targetDir.Normalize();
         }
 
         public void updateProjectiles()
@@ -84,6 +122,7 @@ namespace MoonCow
 
         public override void fire()
         {
+            turretModel.fire();
             cooldown = cooldownMax;
             projectiles.Add(new GattleProjectile(pos + new Vector3(targetDir.X * -4, 1.5f, targetDir.Z * -4), targetDir*-1, game, this));
         }

@@ -22,7 +22,7 @@ namespace MoonCow
             speed = 50;
             life = 300;
             delete = false;
-            damage = 5;
+            damage = 4f;
 
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
 

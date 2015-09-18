@@ -27,6 +27,7 @@ namespace MoonCow
 	    public EnemyManager enemyManager;
         public AudioManager audioManager;
         public TurretManager turretManager;
+        public AsteroidManager asteroidManager;
         public Ship ship;
         private MapData layout;
         public Hud hud;
@@ -80,6 +81,7 @@ namespace MoonCow
 
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             turretManager = new TurretManager(this);
+            asteroidManager = new AsteroidManager(this);
 
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
@@ -95,6 +97,7 @@ namespace MoonCow
             Components.Add(audioManager);
             Components.Add(enemyManager);
             Components.Add(turretManager);
+            Components.Add(asteroidManager);
 
             //make sure the post process effects go second last, and the hud is absolute last
             //Components.Add(bloom);

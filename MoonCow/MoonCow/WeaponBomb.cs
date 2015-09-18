@@ -6,10 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class WeaponBomb:Weapon
+    public class WeaponBomb:Weapon
     {
         float softCooldown;
         float softCoolmax;
+        public List<BombExplosion> splos;
+        public List<BombExplosion> sploToDelete;
         public WeaponBomb(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
             icon = TextureManager.icoBomb;
@@ -22,6 +24,9 @@ namespace MoonCow
             softCoolmax = 60;
             ammoMax = 16;
             ammo = ammoMax;
+
+            splos = new List<BombExplosion>();
+            sploToDelete = new List<BombExplosion>();
         }
 
         public override void Update()
@@ -33,6 +38,12 @@ namespace MoonCow
                     softCooldown = 0;
             }
             base.Update();
+
+            foreach (BombExplosion b in splos)
+                b.Update();
+            foreach (BombExplosion b in sploToDelete)
+                splos.Remove(b);
+            sploToDelete.Clear();
         }
 
         public override void Fire()

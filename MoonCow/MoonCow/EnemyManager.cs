@@ -25,7 +25,7 @@ namespace MoonCow
             this.game = game;
             countdown = 0;
             spawnState = SpawnState.idle;
-            waveMax = 10;
+            waveMax = 20;
             endMessageTriggered = true;
         }
 
@@ -59,7 +59,7 @@ namespace MoonCow
                     countdown -= Utilities.deltaTime;
                     if (countdown <= 0)
                     {
-                        countdown = 1;
+                        countdown = 0.6f;
                         if (inWave < waveMax)
                         {
                             inWave++;

@@ -36,7 +36,7 @@ namespace MoonCow
             this.ship = ship;
             this.game = game;
             scale = new Vector3(.03f, .03f, .03f);
-            glow = new MoneyGibGlow(game.Content.Load<Model>(@"Models/Misc/square"), this, game);
+            glow = new MoneyGibGlow(TextureManager.square, this, game);
             game.modelManager.addEffect(glow);
 
 

@@ -49,5 +49,51 @@ namespace MoonCow
         {
             return (float)random.NextDouble();
         }
+
+        /// <summary>
+        /// Returns the length between two points in a 3D space
+        /// </summary>
+        /// <param name="pos1"></param>
+        /// <param name="pos2"></param>
+        /// <returns></returns>
+        public static float tdTrig(Vector3 pos1, Vector3 pos2)
+        {
+            float x = pos1.X - pos2.X;
+            float y = pos1.Y - pos2.Y;
+            float z = pos1.Z - pos2.Z;
+
+            float a = (float)Math.Sqrt(x * x + z * z);
+            float b = (float)Math.Sqrt(a * a + y * y); 
+
+            return b;
+        }
+
+        public static float tdTrig(Vector3 pos)
+        {
+            float a = (float)Math.Sqrt(pos.X * pos.X + pos.Z * pos.Z);
+            float b = (float)Math.Sqrt(a * a + pos.Y * pos.Y);
+
+            return b;
+        }
+
+        public static float tdTan(Vector3 pos1, Vector3 pos2)
+        {
+            float x = pos1.X - pos2.X;
+            float y = pos1.Y - pos2.Y;
+            float z = pos1.Z - pos2.Z;
+
+            float a = (float)Math.Sqrt(x * x + z * z);
+            //float b = (float)Math.Sqrt(a * a + y * y);
+
+            float angle = (float)Math.Tan(y / a);
+
+            return angle;
+        }
+
+        public static float tdTan(Vector3 pos)
+        {
+            float a = (float)Math.Sqrt(pos.X * pos.X + pos.Z * pos.Z);
+            return (float)Math.Tan(pos.Y / a);
+        }
     }
 }

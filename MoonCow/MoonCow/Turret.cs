@@ -35,8 +35,8 @@ namespace MoonCow
             projectiles = new List<Projectile>();
             toDelete = new List<Projectile>();
             col = new CircleCollider(pos, 40);
-            turretModel = new TurretModel(this, game);
-            game.modelManager.addObject(turretModel);
+            //turretModel = new TurretModel(this, game);
+            //game.modelManager.addObject(turretModel);
             enemyManager = game.enemyManager;
         }
 
@@ -45,7 +45,7 @@ namespace MoonCow
 
         }
 
-        public virtual bool enemiesInRange()
+        public virtual bool enemiesInRange(CircleCollider col)
         {
             Vector2 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 

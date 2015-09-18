@@ -44,12 +44,18 @@ namespace MoonCow
         //turrets
         public static Model turretBase;
         public static Model turretGatt;
+        public static Model turretElec;
 
         //Enemies
         public static Model swarmer;
 
+        //Asteroid field
+        public static Model ast1;
+
 
         //Ships
+
+        //Money gibs
 
 
 
@@ -57,11 +63,11 @@ namespace MoonCow
         public static void initialize(Game game)
         {
             //nodes
-            stationStraight = game.Content.Load<Model>(@"Models/StationTiles/straightRound2");
-            stationCorner = game.Content.Load<Model>(@"Models/StationTiles/cornerRound2");
-            stationTInt3 = game.Content.Load<Model>(@"Models/StationTiles/tint3Round2");
-            stationTInt4 = game.Content.Load<Model>(@"Models/StationTiles/tint4Round");
-            stationDend = game.Content.Load<Model>(@"Models/StationTiles/dendRound2");
+            stationStraight = game.Content.Load<Model>(@"Models/StationTiles/straightRb");
+            stationCorner = game.Content.Load<Model>(@"Models/StationTiles/cornerRb");
+            stationTInt3 = game.Content.Load<Model>(@"Models/StationTiles/tint3Rb");
+            stationTInt4 = game.Content.Load<Model>(@"Models/StationTiles/tint4Rb");
+            stationDend = game.Content.Load<Model>(@"Models/StationTiles/dendRb");
 
             //rails
             railStraight = game.Content.Load<Model>(@"Models/Rails/straight");
@@ -91,10 +97,15 @@ namespace MoonCow
             //Turrets
             turretBase = game.Content.Load<Model>(@"Models/Turrets/turretBase");
             turretGatt = game.Content.Load<Model>(@"Models/Turrets/turretGatt");
+            turretElec = game.Content.Load<Model>(@"Models/Turrets/electroTurret");
+
 
 
             //Enemies
             swarmer = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swarmerAlpha");
+
+            //Asteroid field
+            ast1 = game.Content.Load<Model>(@"Models/AstField/ast1");
 
         }
     }

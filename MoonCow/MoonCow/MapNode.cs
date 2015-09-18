@@ -33,6 +33,7 @@ namespace MoonCow
         public int type;               //What node type this node is
         private BasicModel model;       //The model for this node
         private BasicModel stationModel;
+        bool asteroidNode = false;
         
 
         /// <summary>
@@ -633,6 +634,7 @@ namespace MoonCow
                     break;
                 case 59:
                     traversable = false;
+
                     //model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     break;
                 case 60:
@@ -647,6 +649,9 @@ namespace MoonCow
                     //model = new TileModel(game.Content.Load<Model>(@"Models/TempRails/corstProto"), new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     break;
             }
+
+            if(type > 34 && type < 60)//if the type is in the range of asteroid tiles
+                game.asteroidManager.addPos(new Vector3(pos.X * 30, 4.5f, pos.Y * 30));
 
             position = pos;
             this.type = type;

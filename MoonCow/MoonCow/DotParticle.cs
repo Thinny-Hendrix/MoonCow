@@ -17,7 +17,19 @@ namespace MoonCow
 
         float speed;
 
+        public DotParticle(Game1 game, Vector3 pos, float speed):base()
+        {
+             makeDotParticle(game, pos);
+             this.speed = speed + Utilities.nextFloat() * 15;
+
+        }
         public DotParticle(Game1 game, Vector3 pos):base()
+        {
+            makeDotParticle(game, pos);
+            speed = 10 + Utilities.nextFloat() * 15;
+        }
+
+        void makeDotParticle(Game1 game, Vector3 pos)
         {
             this.game = game;
             this.pos = pos;
@@ -27,9 +39,7 @@ namespace MoonCow
             direction.Y = Utilities.nextFloat() * 2 - 1;
             direction.Z = Utilities.nextFloat() * 2 - 1;
             direction.Normalize();
-            speed = 10 + Utilities.nextFloat() * 15;
-
-            fScale = 0.003f + Utilities.nextFloat()*0.004f;
+            fScale = 0.003f + Utilities.nextFloat() * 0.004f;
         }
 
         public override void Update(GameTime gameTime)

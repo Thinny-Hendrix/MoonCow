@@ -146,6 +146,24 @@ namespace MoonCow
                 deleteProjectile();
             }
 
+            try
+            {
+                foreach (Asteroid a in game.asteroidManager.asteroids)
+                {
+                    if (nodePos.X == a.nodePos.X && nodePos.Y == a.nodePos.Y)
+                    {
+                        //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
+                        if (a.col.checkPoint(pos))
+                        {
+                            a.damage(damage, pos);
+                            game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                            collided = true;
+                        }
+                    }
+                }
+            }
+            catch (IndexOutOfRangeException) { }
+
             if (collided)
             {
                 for (int i = 0; i < 10; i++)
@@ -157,7 +175,7 @@ namespace MoonCow
 
                 if (type != 1)
                 {
-                    game.modelManager.addEffect(new BombExplosion(pos, game));
+                    //game.modelManager.addEffect(new BombExplosion(pos, game));
                     //game.ship.moneyManager.addGib(73, pos);
                 }
                 deleteProjectile();

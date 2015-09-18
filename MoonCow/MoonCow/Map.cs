@@ -43,6 +43,7 @@ namespace MoonCow
             }
 
             linkNeighbors();
+            game.asteroidManager.generateField();
             game.hud.hudMap.minimap.drawMap(map);
 
         }

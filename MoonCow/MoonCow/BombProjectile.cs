@@ -9,9 +9,9 @@ namespace MoonCow
 {
     public class BombProjectile:Projectile
     {
-        Weapon wep;
+        WeaponBomb wep;
         CircleCollider col;
-        public BombProjectile(Vector3 pos, Vector3 direction, Game1 game, Weapon wep):base()
+        public BombProjectile(Vector3 pos, Vector3 direction, Game1 game, WeaponBomb wep):base()
         {
             this.direction = direction;
             this.game = game;
@@ -123,10 +123,10 @@ namespace MoonCow
 
             if (collided)
             {
-                for (int i = 0; i < 10; i++)
-                    game.modelManager.addEffect(new DotParticle(game, pos));
-                
-                game.modelManager.addEffect(new BombExplosion(pos, game));
+                //for (int i = 0; i < 10; i++)
+                  //  game.modelManager.addEffect(new DotParticle(game, pos));
+
+                wep.splos.Add(new BombExplosion(pos, game));
                 deleteProjectile();
             }
         }
