@@ -25,6 +25,7 @@ namespace MoonCow
             this.pos = pos;
             this.game = game;
             manager = game.asteroidManager;
+            dir = Vector3.Zero;
         }
         public virtual void Update()
         {
@@ -36,9 +37,17 @@ namespace MoonCow
 
         }
 
-        public virtual void push(float speed, Vector3 point)
+        public virtual void push(float speed, Vector3 point, float objectMass)
         {
+            // F = MA
+            Vector3 impactDir = pos - point;
+            float impactForce = speed * objectMass;
 
+            // Need to divide the impact force by this.mass to get accerleration caused by impact
+            // Multiply this by normalised impactDir and add to current velocity - this way allows for unlimited speed probably not the best
+
+            // Could get acceleration caused by impact and use as a ratio to affect current dir by impact dir
+            // ratio of two masses would probably be better for this
         }
 
         public virtual void damage(float value, Vector3 point)

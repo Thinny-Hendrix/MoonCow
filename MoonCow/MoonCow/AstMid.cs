@@ -54,7 +54,7 @@ namespace MoonCow
                     dir.Normalize();
                     Asteroid a = new AstSmall(pos + (dir * 2), game);
                     manager.addAsteroid(a);
-                    a.push(10, pos);
+                    a.push(10, pos, mass);
                     angle += MathHelper.Pi*2 / 3;
                 }
             }
