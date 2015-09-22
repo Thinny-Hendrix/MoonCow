@@ -69,9 +69,9 @@ namespace MoonCow
         public MoneyManager moneyManager;
         public ShipHealthSystem shipHealth;
 
-        public Ship(Game game) : base(game)
+        public Ship(Game1 game) : base(game)
         {
-            this.game = (Game1)game;
+            this.game = game;
 
             pos = new Vector3(90, 4.5f, 0);
             moveSpeed = 0;
@@ -90,10 +90,10 @@ namespace MoonCow
             speedCyl = new SpeedCylModel(game.Content.Load<Model>(@"Models/Misc/speedCyl"), this, ((Game1)Game));
             rbowTun = new RainbowTunnelModel(game.Content.Load<Model>(@"Models/Misc/Rbow/rbowTun"), this, ((Game1)Game));
 
-            ((Game1)Game).modelManager.addObject(shipModel);
-            ((Game1)Game).modelManager.add(skyboxModel);
-            ((Game1)Game).modelManager.addObject(rbowTun);
-            ((Game1)Game).modelManager.addTransparent(speedCyl);
+            game.modelManager.addObject(shipModel);
+            game.modelManager.add(skyboxModel);
+            game.modelManager.addObject(rbowTun);
+            game.modelManager.addTransparent(speedCyl);
 
             weapons = new WeaponSystem(this, this.game);
             moneyManager = new MoneyManager(this.game);
@@ -461,7 +461,7 @@ namespace MoonCow
             {
                 if(!finishingMove)
                 {
-                    ((Game1)Game).hud.flashTime = 0;
+                    game.hud.flashTime = 0;
                     finishingMove = true;
                 }
             }
@@ -469,7 +469,7 @@ namespace MoonCow
             {
                 if (finishingMove)
                 {
-                    ((Game1)Game).hud.flashTime = 0;
+                    game.hud.flashTime = 0;
                     finishingMove = false;
                 }
             }
@@ -513,12 +513,12 @@ namespace MoonCow
 
             // Make a list containing current node and all neighbor nodes
             List<MapNode> currentNodes = new List<MapNode>();
-            currentNodes.Add(((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y]);
+            currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y]);
             for (int i = 0; i < 4; i++)
             {
-                if(((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i] != null)
+                if (game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i] != null)
                 {
-                    currentNodes.Add(((Game1)Game).map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i]);
+                    currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i]);
                 }
             }
 

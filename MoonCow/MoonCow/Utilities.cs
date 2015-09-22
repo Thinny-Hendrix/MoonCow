@@ -68,6 +68,11 @@ namespace MoonCow
             return b;
         }
 
+        public static float hypotenuseOf(float x, float y)
+        {
+            return (float)Math.Sqrt(x * x + y * y);
+        }
+
         public static float tdTrig(Vector3 pos)
         {
             float a = (float)Math.Sqrt(pos.X * pos.X + pos.Z * pos.Z);

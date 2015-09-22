@@ -18,6 +18,7 @@ namespace MoonCow
         public Vector2 position;       //X and Y co-ordinates in map
         public MapNode[] neighbors;    //Array of linked nodes
         public MapNode parent;         //Pointer to node in path before this one
+        public Vector3 pos;            //world coordinate of node center
 
         public bool inOpenList;        //Currently in OpenList?
         public bool inClosedList;      //Currently in ClosedList?
@@ -41,6 +42,7 @@ namespace MoonCow
         /// </summary>
         public MapNode(Game1 game, int type, Vector2 pos)
         {
+            this.pos = new Vector3(pos.X * 30, 4.5f, pos.Y * 30);
             switch(type)
             {
                 case 1:
@@ -651,7 +653,7 @@ namespace MoonCow
             }
 
             if(type > 34 && type < 60)//if the type is in the range of asteroid tiles
-                game.asteroidManager.addPos(new Vector3(pos.X * 30, 4.5f, pos.Y * 30));
+                game.asteroidManager.addPos(this);
 
             position = pos;
             this.type = type;

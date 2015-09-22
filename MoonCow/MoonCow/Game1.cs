@@ -82,13 +82,13 @@ namespace MoonCow
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             turretManager = new TurretManager(this);
             asteroidManager = new AsteroidManager(this);
-
+            enemyManager = new EnemyManager(this);
+            audioManager = new AudioManager(this);
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
             map = new Map(this, layout.getNodes());
 
-	        enemyManager = new EnemyManager(this);
-            audioManager = new AudioManager(this);
+	        
             //bloom = new BloomComponent(this);
 
             Components.Add(ship);

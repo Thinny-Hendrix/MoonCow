@@ -84,7 +84,7 @@ namespace MoonCow
 
             foreach (BasicModel m in toDeleteEffect)
                 effectModels.Remove(m);
-
+            toDeleteEffect.Clear();
 
             foreach (BasicModel model in enemyModels)
                 model.Update(gameTime);

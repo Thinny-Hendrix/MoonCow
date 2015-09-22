@@ -34,25 +34,28 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            fScale += Utilities.deltaTime*2.5f;
-
-            if (fScale > 0.1f)
-                alpha = 1 - (fScale - 0.1f)*5;
-
-            game.GraphicsDevice.SetRenderTarget(rt);
-
-            sb.Begin();
-            sb.Draw(tex, Vector2.Zero, col*alpha);
-            sb.End();
-            game.GraphicsDevice.SetRenderTarget(null);
-
-
-
-            if (fScale > 0.3f)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                sb.Dispose();
-                rt.Dispose();
-                game.modelManager.toDeleteModel(this);
+                fScale += Utilities.deltaTime * 2.5f;
+
+                if (fScale > 0.1f)
+                    alpha = 1 - (fScale - 0.1f) * 5;
+
+                game.GraphicsDevice.SetRenderTarget(rt);
+
+                sb.Begin();
+                sb.Draw(tex, Vector2.Zero, col * alpha);
+                sb.End();
+                game.GraphicsDevice.SetRenderTarget(null);
+
+
+
+                if (fScale > 0.3f)
+                {
+                    sb.Dispose();
+                    rt.Dispose();
+                    game.modelManager.toDeleteModel(this);
+                }
             }
 
         }

@@ -12,6 +12,8 @@ namespace MoonCow
     {
         public List<Enemy> enemies = new List<Enemy>();
         public List<Enemy> toDelete = new List<Enemy>();
+        public List<Sentry> sentries = new List<Sentry>();
+        public List<Sentry> sToDelete = new List<Sentry>();
         Game1 game;
         float countdown;
         int inWave;//determines how much of the wave has spawned
@@ -75,14 +77,19 @@ namespace MoonCow
                     }
                 }
                 foreach (Enemy enemy in enemies)
-                {
                     enemy.Update(gameTime);
-                }
 
                 foreach (Enemy enemy in toDelete)
-                {
                     enemies.Remove(enemy);
-                }
+                toDelete.Clear();
+
+                foreach (Sentry s in sentries)
+                    s.Update();
+
+                foreach (Sentry s in sToDelete)
+                    sentries.Remove(s);
+                sToDelete.Clear();
+
             }
         }
 
@@ -94,6 +101,11 @@ namespace MoonCow
         public void removeEnemy(Enemy enemy)
         {
             enemies.Remove(enemy);
+        }
+
+        public void addSentry(Vector3 pos)
+        {
+            sentries.Add(new Sentry(game, this, pos));
         }
     }
 }

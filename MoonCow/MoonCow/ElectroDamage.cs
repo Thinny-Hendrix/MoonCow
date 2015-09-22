@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
@@ -43,6 +44,7 @@ namespace MoonCow
             this.damage += damage;
             if (!active)
             {
+                game.modelManager.addEffect(new LaserHitEffect(game, enemy.pos, Color.SeaGreen));
                 active = true;
                 time = maxTime;
             }

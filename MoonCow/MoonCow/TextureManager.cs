@@ -75,6 +75,17 @@ namespace MoonCow
         public static Texture2D elecL3;
         public static Texture2D elecL4;
 
+        //enemies
+        //sentry
+        public static Texture2D sentryBod;
+        public static Texture2D sEye0;
+        public static Texture2D sEye1;
+        public static Texture2D sEye2;
+        public static Texture2D sEye3;
+        public static Texture2D sEye4;
+        public static Texture2D sEye5;
+
+
         public static Texture2D pureWhite;
 
         public static void initialize(Game game)
@@ -141,6 +152,15 @@ namespace MoonCow
             elecL3 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL3");
             elecL4 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL4");
 
+            //enemies
+            //sentry
+            sentryBod = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentryt");
+            sEye0 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes0");
+            sEye1 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes1");
+            sEye2 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes2");
+            sEye3 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes3");
+            sEye4 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes4");
+            sEye5 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes5");
 
 
 

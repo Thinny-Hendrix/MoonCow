@@ -54,19 +54,22 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            time += MathHelper.Pi * 6 * Utilities.deltaTime;
+            if (!Utilities.paused && !Utilities.softPaused)
+            {
+                time += MathHelper.Pi * 6 * Utilities.deltaTime;
 
-            changeTex();
+                changeTex();
 
-            game.GraphicsDevice.SetRenderTarget(rTarg);
-            sb.Begin();
-            sb.Draw(tex, Vector2.Zero, Color.Lerp(Color.Aqua, Color.SeaGreen, Utilities.nextFloat()));
-            sb.End();
-            game.GraphicsDevice.SetRenderTarget(null);
+                game.GraphicsDevice.SetRenderTarget(rTarg);
+                sb.Begin();
+                sb.Draw(tex, Vector2.Zero, Color.Lerp(Color.Aqua, Color.SeaGreen, Utilities.nextFloat()));
+                sb.End();
+                game.GraphicsDevice.SetRenderTarget(null);
 
-            scale.Y = (float)Math.Sin(time)*2;
-            if (time > MathHelper.Pi)
-                Dispose();
+                scale.Y = (float)Math.Sin(time) * 2;
+                if (time > MathHelper.Pi)
+                    Dispose();
+            }
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)

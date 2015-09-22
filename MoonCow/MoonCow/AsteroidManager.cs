@@ -13,7 +13,7 @@ namespace MoonCow
         public List<Asteroid> asteroids;
         List<Asteroid> toDelete;
         List<Asteroid> toAdd;
-        List<Vector3> astNodes;
+        List<MapNode> astNodes;
         AsteroidGenerator astGen;
         public AsteroidManager(Game1 game):base(game)
         {
@@ -21,8 +21,8 @@ namespace MoonCow
             asteroids = new List<Asteroid>();
             toDelete = new List<Asteroid>();
             toAdd = new List<Asteroid>();
-            astNodes = new List<Vector3>();
-            astGen = new AsteroidGenerator(this);
+            astNodes = new List<MapNode>();
+            astGen = new AsteroidGenerator(this, game);
         }
 
         public override void Update(GameTime gameTime)
@@ -65,7 +65,7 @@ namespace MoonCow
             asteroids.Add(new AstBig(pos, game));
         }
 
-        public void addPos(Vector3 pos)
+        public void addPos(MapNode pos)
         {
             astNodes.Add(pos);
         }
