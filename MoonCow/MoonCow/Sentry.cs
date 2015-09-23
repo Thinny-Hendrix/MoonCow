@@ -86,6 +86,8 @@ namespace MoonCow
             }
             if(state == State.wake)
             {
+                calcDir();
+                updateVisor();
                 shockTime += Utilities.deltaTime*1.5f;
                 if (shockTime >= 1)
                 {

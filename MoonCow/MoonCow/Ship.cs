@@ -137,9 +137,9 @@ namespace MoonCow
                     else
                         GamePad.SetVibration(PlayerIndex.One, 0, 0);
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.S) || 
+                    if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.S) || 
                         GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < -0.3f ||
-                        GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < -0.3f)
+                        GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y < -0.3f))
                     {
                         inUTurn = true;
                         boosting = false;
@@ -264,7 +264,7 @@ namespace MoonCow
 
             if (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.D))
                 keys = true;
-            if (Keyboard.GetState().IsKeyDown(Keys.A) || stickX < -0.3f)
+            if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.A) || stickX < -0.3f))
             {
                 turning = true;
                 if (boosting)
@@ -288,7 +288,7 @@ namespace MoonCow
                     tilt = MathHelper.Lerp(tilt, 20 * currentTurnSpeed, Utilities.deltaTime * 2);
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D) || stickX > 0.3f)
+            if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.D) || stickX > 0.3f))
             {
                 turning = true;
                 if (boosting)
@@ -331,7 +331,7 @@ namespace MoonCow
 
         void updateSpeed()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.1f)
+            if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.1f))
             {
                 moving = true;
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3f)
@@ -363,35 +363,38 @@ namespace MoonCow
 
         void updateBarrelRoll()
         {
-            if ((Keyboard.GetState().IsKeyDown(Keys.Q) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < -0.3f) && rollCooldown <= 0)
+            if (!game.minigame.active)
             {
-                rollCooldown = 30;
-                rollRecoverTime = MathHelper.PiOver2;
+                if ((Keyboard.GetState().IsKeyDown(Keys.Q) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < -0.3f) && rollCooldown <= 0)
+                {
+                    rollCooldown = 30;
+                    rollRecoverTime = MathHelper.PiOver2;
 
-                if (roll < 0 && rollState == RollState.rolling)
-                    targetRoll = 0;
-                else
-                    targetRoll = MathHelper.Pi * 2;
+                    if (roll < 0 && rollState == RollState.rolling)
+                        targetRoll = 0;
+                    else
+                        targetRoll = MathHelper.Pi * 2;
 
-                rollState = RollState.rolling;
-                rollDir = RollDir.left;
-                
-            }
+                    rollState = RollState.rolling;
+                    rollDir = RollDir.left;
 
-            if ((Keyboard.GetState().IsKeyDown(Keys.E) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.3f) && rollCooldown <= 0)
-            {
-                rollCooldown = 30;
-                rollRecoverTime = MathHelper.PiOver2;
+                }
 
-                if (roll > 0 && rollState == RollState.rolling)
-                    targetRoll = 0;
-                else
-                    targetRoll = -MathHelper.Pi * 2;
+                if ((Keyboard.GetState().IsKeyDown(Keys.E) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.3f) && rollCooldown <= 0)
+                {
+                    rollCooldown = 30;
+                    rollRecoverTime = MathHelper.PiOver2;
 
-                rollState = RollState.rolling;
-                rollDir = RollDir.right;
-                
+                    if (roll > 0 && rollState == RollState.rolling)
+                        targetRoll = 0;
+                    else
+                        targetRoll = -MathHelper.Pi * 2;
 
+                    rollState = RollState.rolling;
+                    rollDir = RollDir.right;
+
+
+                }
             }
 
             if (rollState == RollState.rolling) //todo - treat sideways movement like forwards with lerping

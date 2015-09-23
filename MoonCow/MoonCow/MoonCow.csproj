@@ -68,6 +68,16 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
+    <Compile Include="FireParticle.cs" />
+    <Compile Include="JunkShip.cs" />
+    <Compile Include="JunkShipModel.cs" />
+    <Compile Include="MgInstance.cs" />
+    <Compile Include="MgKey.cs" />
+    <Compile Include="MgManager.cs" />
+    <Compile Include="MgMarker.cs" />
+    <Compile Include="Minigame.cs" />
+    <Compile Include="PyroTurret.cs" />
+    <Compile Include="SpRing.cs" />
     <Compile Include="SentryProjectile.cs" />
     <Compile Include="GattleProjectile.cs" />
     <Compile Include="GattleTurret.cs" />
@@ -113,6 +123,7 @@
     <Compile Include="SpaceDust.cs" />
     <Compile Include="SpawnVortex.cs" />
     <Compile Include="SpeedCylModel.cs" />
+    <Compile Include="SpriteParticle.cs" />
     <Compile Include="StationModel.cs" />
     <Compile Include="Swarmer.cs" />
     <Compile Include="Tester.cs" />
@@ -399,6 +410,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\MapXml\map1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Minigame\mgbg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Minigame\mgMark.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\boostFlame.png">

@@ -14,12 +14,14 @@ namespace MoonCow
         public float hpMax;
         float shieldIdleTime;
         Ship ship;
+        Game1 game;
         public enum ShieldState { max, recharging, idle }
         public ShieldState shieldState;
 
 
         public ShipHealthSystem(Game1 game, Ship ship):base(game)
         {
+            this.game = game;
             this.ship = ship;
 
             reset();
@@ -50,6 +52,8 @@ namespace MoonCow
 
         public void onHit(float damage)
         {
+            if (game.minigame.active)
+                game.minigame.abort();
             if(damage < shieldVal)
             {
                 shieldVal -= damage;

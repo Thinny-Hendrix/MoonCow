@@ -28,6 +28,7 @@ namespace MoonCow
         public AudioManager audioManager;
         public TurretManager turretManager;
         public AsteroidManager asteroidManager;
+        public Minigame minigame;
         public Ship ship;
         private MapData layout;
         public Hud hud;
@@ -84,6 +85,7 @@ namespace MoonCow
             asteroidManager = new AsteroidManager(this);
             enemyManager = new EnemyManager(this);
             audioManager = new AudioManager(this);
+            minigame = new Minigame(this);
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
             map = new Map(this, layout.getNodes());
@@ -98,6 +100,7 @@ namespace MoonCow
             Components.Add(enemyManager);
             Components.Add(turretManager);
             Components.Add(asteroidManager);
+            Components.Add(minigame);
 
             //make sure the post process effects go second last, and the hud is absolute last
             //Components.Add(bloom);

@@ -36,6 +36,33 @@ namespace MoonCow
             Update(pos, direction);
         }
 
+        /// <summary>
+        /// updates a non-rectangular OOBB
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="dir"></param>
+        public void UpdateFrustum(Vector3 pos, Vector3 dir)
+        {
+            corners[0] = new Vector2(0 - (width / 2), 0 - (height / 2));
+            corners[1] = new Vector2(0 + (width / 2), 0 - (height / 2));
+            corners[2] = new Vector2(0 + (width / 2), 0 + (height / 2));
+            corners[3] = new Vector2(0 - (width / 2), 0 + (height / 2));
+
+            // Set rotation
+            float rotation = (float)Math.Atan2(dir.X, dir.Z);
+            for (int i = 0; i < 4; i++)
+            {
+                corners[i] = new Vector2((float)(corners[i].X * Math.Cos(rotation) - corners[i].Y * Math.Sin(rotation)), (float)(corners[i].X * Math.Sin(rotation) + corners[i].Y * Math.Cos(rotation)));
+            }
+
+            //Set position
+            for (int i = 0; i < 4; i++)
+            {
+                corners[i] += new Vector2(pos.X, pos.Z);
+                //System.Diagnostics.Debug.WriteLine(corners[i]);
+            }
+        }
+
 
         /// <summary>
         /// Move the collision box to a new place and rotate accordingly

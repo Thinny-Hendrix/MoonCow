@@ -51,16 +51,17 @@ namespace MoonCow
         {
             if (!Utilities.paused && !Utilities.softPaused)
             {
-                if ((Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed))
-                    fire();
+                if(!game.minigame.active)
+                    if ((Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed))
+                      fire();
 
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
+                /*if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
                 {
                     if (currentWeapon != 5)
                         currentWeapon++;
                     else
                         currentWeapon = 1;
-                }
+                }*/
 
                 bool wake = false;
 

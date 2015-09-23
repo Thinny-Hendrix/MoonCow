@@ -36,19 +36,8 @@ namespace MoonCow
             col = new CircleCollider(pos, 5);
         }
 
-        public void timer()
-        {
-            //incredibly dirty hack to prevent null enemyManager, will become obsolete once player needs to manually create turrets
-            time++;
-            if(time >= 10)
-                turret = new GattleTurret(pos, dir, game);
-        }
-
         public void Update()
         {
-            //if (time < 10)
-                //timer();
-
             checkCollision();
 
             if(turret != null)
@@ -86,6 +75,19 @@ namespace MoonCow
                             {
                                 turret = new ElectroTurret(pos, dir, game);
                                 turretType = TurretType.electro;
+                                baseModel.changeColor(turretType, game);
+                            }
+                        }
+                    }
+
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.OemComma))
+                    {
+                        if (turret == null)
+                        {
+                            if (ship.moneyManager.canPurchase(0))
+                            {
+                                turret = new PyroTurret(pos, dir, game);
+                                turretType = TurretType.pyro;
                                 baseModel.changeColor(turretType, game);
                             }
                         }

@@ -254,6 +254,10 @@ namespace MoonCow
             //spriteBatch.DrawString(font, frameRate, position, contPrimary);
             spriteBatch.DrawString(font, frameRate, Vector2.Zero, Color.White, 0,
                     Vector2.Zero, scale * (20.0f / 40), SpriteEffects.None, 0);
+
+            if(game.minigame.active)
+                spriteBatch.Draw((Texture2D)game.minigame.manager.rTarg, scaledRect(new Vector2(960, 540), 1024, 1024), null, Color.White, 0, new Vector2(512), SpriteEffects.None, 0);
+
             spriteBatch.End();
 
             graphicsDevice.BlendState = BlendState.Opaque;

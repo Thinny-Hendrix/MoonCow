@@ -40,7 +40,10 @@ namespace MoonCow
 
                 if (Utilities.random.Next(4) == 0)
                 {
-                    game.enemyManager.addSentry(node.pos);
+                    if (Utilities.random.Next(2) == 0)
+                        game.enemyManager.addSentry(node.pos);
+                    else
+                        manager.addShip(node.pos);
                 }
                 else
                 {
