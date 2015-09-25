@@ -37,9 +37,6 @@ namespace MoonCow
         public float distFromShip;
         public CircleCollider col;
 
-        List<Projectile> projectiles;
-        public List<Projectile> toDelete;
-
         float cannonTurnSpeed;
         float cannonAngle;
         public Sentry(Game1 game, EnemyManager manager, Vector3 pos)
@@ -54,9 +51,6 @@ namespace MoonCow
             col = new CircleCollider(pos, 1.5f);
             state = State.idle;
             prevState = state;
-
-            projectiles = new List<Projectile>();
-            toDelete = new List<Projectile>();
 
             model = new SentryModel(this, game);
             game.modelManager.addEnemy(model);
@@ -155,8 +149,6 @@ namespace MoonCow
                 if (emoteTime >= 1)
                     state = State.active;
             }
-
-            updateProjectiles();
         }
 
         void calcDir()
@@ -186,15 +178,6 @@ namespace MoonCow
             eyeDir = Vector3.Lerp(eyeDir, targetDir, Utilities.deltaTime * 8);
         }
 
-        void updateProjectiles()
-        {
-            foreach (Projectile p in projectiles)
-                p.Update();
-            foreach (Projectile p in toDelete)
-                projectiles.Remove(p);
-            toDelete.Clear();
-        }
-
         public void hitShip()
         {
             if (state != State.agro)
@@ -217,7 +200,7 @@ namespace MoonCow
 
         void fire()
         {
-            projectiles.Add(new SentryProjectile(pos, targetDir*-1, game, this));
+            manager.projectiles.Add(new SentryProjectile(pos, targetDir*-1, game, this));
         }
 
         bool shipInRange()

@@ -14,6 +14,10 @@ namespace MoonCow
         public List<Enemy> toDelete = new List<Enemy>();
         public List<Sentry> sentries = new List<Sentry>();
         public List<Sentry> sToDelete = new List<Sentry>();
+
+        public List<Projectile> projectiles = new List<Projectile>();
+        public List<Projectile> pToDelete = new List<Projectile>();
+
         Game1 game;
         float countdown;
         int inWave;//determines how much of the wave has spawned
@@ -89,6 +93,13 @@ namespace MoonCow
                 foreach (Sentry s in sToDelete)
                     sentries.Remove(s);
                 sToDelete.Clear();
+
+                foreach (Projectile p in projectiles)
+                    p.Update();
+
+                foreach (Projectile p in pToDelete)
+                    projectiles.Remove(p);
+                pToDelete.Clear();
 
             }
         }

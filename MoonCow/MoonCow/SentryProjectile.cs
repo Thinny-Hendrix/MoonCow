@@ -154,7 +154,7 @@ namespace MoonCow
         protected override void deleteProjectile()
         {
             game.modelManager.removeEffect(model);
-            enemy.toDelete.Add(this);
+            game.enemyManager.pToDelete.Add(this);
             delete = true;
             model.Dispose();
         }

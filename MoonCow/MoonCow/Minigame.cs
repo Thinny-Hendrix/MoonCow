@@ -66,8 +66,18 @@ namespace MoonCow
             manager.reset();
         }
 
-        public void updateStats()
+        public void updateStats(bool win)
         {
+            if(win)
+            {
+                manager.speed += 100;
+                maxBeats += 2;
+                maxDubs = (int)Math.Floor((float)maxBeats / 2);
+            }
+            if(!win)
+            {
+                manager.speed -= 15;
+            }
 
         }
 

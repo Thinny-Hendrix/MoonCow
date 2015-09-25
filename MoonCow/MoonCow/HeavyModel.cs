@@ -4,20 +4,15 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 
 namespace MoonCow
 {
-    public class EnemyModel:BasicModel
+    class HeavyModel:EnemyModel
     {
-        public Enemy enemy;
-        //AnimationPlayer animPlayer;
-
-        public EnemyModel(Enemy enemy):base()
+        public HeavyModel(Heavy enemy):base(enemy)
         {
-            this.enemy = enemy;
+            scale = new Vector3(1);
         }
-
         public override void Update(GameTime gameTime)
         {
             pos = enemy.pos;
@@ -25,7 +20,7 @@ namespace MoonCow
             rot = enemy.rot;
 
             rot.Y -= MathHelper.Pi;
-                //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
+            //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -48,18 +43,24 @@ namespace MoonCow
                     //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
 
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
-                    effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
-                    //effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
-                    effect.SpecularColor = Vector3.One;
-                    effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
+                    if (mesh.Name.Contains("glow"))
+                    {
+                        effect.AmbientLightColor = Vector3.One;
+                    }
+                    else
+                    {
+                        effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                        effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
+                        //effect.DirectionalLight0.SpecularColor = Vector3.One;
+                        effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
+                        effect.SpecularColor = Vector3.One;
+                        effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
+                    }
                     effect.PreferPerPixelLighting = true;
 
                 }
                 mesh.Draw();
             }
         }
-
     }
 }

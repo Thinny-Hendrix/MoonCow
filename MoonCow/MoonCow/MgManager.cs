@@ -237,6 +237,7 @@ namespace MoonCow
             minigame.successCount++;
             minigame.attempts++;
             minigame.abort();
+            minigame.updateStats(true);
         }
 
         public void loadInstance(MgInstance instance)

@@ -17,10 +17,11 @@ namespace MoonCow
             this.junkShip = junkShip;
             this.game = game;
             pos = junkShip.pos;
-            pos.Y -= 8;
-            model = ModelLibrary.swarmer;
-
+            //pos.Y -= 8;
+            model = ModelLibrary.heavy;
+            scale = new Vector3(0.3f);
             rot.Y = (float)Math.Atan2(junkShip.dir.X, junkShip.dir.Z);
+            rot.Y -= MathHelper.PiOver2;
         }
 
         public override void Update(GameTime gameTime)

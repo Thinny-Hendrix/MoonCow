@@ -4,18 +4,17 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 
 namespace MoonCow
 {
-    public class EnemyModel:BasicModel
+    class SwarmerModel:EnemyModel
     {
-        public Enemy enemy;
         //AnimationPlayer animPlayer;
 
-        public EnemyModel(Enemy enemy):base()
+        public SwarmerModel(Swarmer enemy):base(enemy)
         {
-            this.enemy = enemy;
+            model = ModelLibrary.swarmer;
+            scale = new Vector3(.07f);
         }
 
         public override void Update(GameTime gameTime)
@@ -44,22 +43,25 @@ namespace MoonCow
                     effect.TextureEnabled = true;
                     effect.Alpha = 1;
 
-                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
-                    //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
 
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
-                    effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
-                    //effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
-                    effect.SpecularColor = Vector3.One;
-                    effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
+                    if (mesh.Name.Contains("glow"))
+                    {
+                        effect.AmbientLightColor = Vector3.One;
+                    }
+                    else
+                    {
+                        effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                        effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
+                        effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
+                        effect.SpecularColor = Vector3.One;
+                        effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
+                    }
                     effect.PreferPerPixelLighting = true;
 
                 }
                 mesh.Draw();
             }
         }
-
     }
 }

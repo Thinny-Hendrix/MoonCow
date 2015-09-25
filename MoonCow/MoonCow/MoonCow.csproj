@@ -69,6 +69,7 @@
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
     <Compile Include="FireParticle.cs" />
+    <Compile Include="HeavyModel.cs" />
     <Compile Include="JunkShip.cs" />
     <Compile Include="JunkShipModel.cs" />
     <Compile Include="MgInstance.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="SpriteParticle.cs" />
     <Compile Include="StationModel.cs" />
     <Compile Include="Swarmer.cs" />
+    <Compile Include="SwarmerModel.cs" />
     <Compile Include="Tester.cs" />
     <Compile Include="TextureManager.cs" />
     <Compile Include="TileModel.cs" />
@@ -693,7 +695,7 @@
     <Content Include="Content\Models\Enemies\Sneaker\sneakheadt_1.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Models\Enemies\Sneaker\sneakproto.xnb">
+    <Content Include="Content\Models\Enemies\Sneaker\sneakprotoOld.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Enemies\Sneaker\sneaktorsot_0.xnb">
@@ -1057,6 +1059,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Enemies\Sentry\sentry.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Heavy\hev1t_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Heavy\hevProto.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Sneaker\sneakProto.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Sneaker\sneakt_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Content\Models\Enemies\Swarmer\swarmerAlpha.fbx" />

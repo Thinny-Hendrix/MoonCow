@@ -14,6 +14,8 @@ namespace MoonCow
         Minigame minigame;
         MgManager manager;
         Game1 game;
+        int prevNo;
+        int dupeCount;
 
         public MgInstance(Game1 game, Minigame minigame)
         {
@@ -22,12 +24,16 @@ namespace MoonCow
             manager = minigame.manager;
             markTypes = new List<int>();
             nextTimes = new List<float>();
+            dupeCount = 0;
+            prevNo = -1;
         }
 
         public void generateNew()
         {
             markTypes.Clear();
             nextTimes.Clear();
+            dupeCount = 0;
+            prevNo = -1;
 
             int dubCount = 0;
 
@@ -35,18 +41,61 @@ namespace MoonCow
             {
                 if(dubCount < minigame.maxDubs && Utilities.random.Next(2) == 0)
                 {
-                    markTypes.Add(Utilities.random.Next(4));
-                    markTypes.Add(Utilities.random.Next(4));
+                    addMarker(Utilities.random.Next(4));
+                    addMarker(Utilities.random.Next(4));
                     nextTimes.Add(0.5f);
                     nextTimes.Add(0.5f);
                     dubCount++;
                 }
                 else
                 {
-                    markTypes.Add(Utilities.random.Next(4));
+                    addMarker(Utilities.random.Next(4));
                     nextTimes.Add(1);
                 }
             }
+        }
+
+        void addMarker(int no)
+        {
+            //if this works properly it should prevent there being any more than 4 of the same thing in a row
+
+            if (dupeCount < 4)
+            {
+                markTypes.Add(no);
+                if (no == prevNo)
+                    dupeCount++;
+                prevNo = no;
+            }
+            else
+            {
+                if(no != prevNo)
+                {
+                    markTypes.Add(no);
+                    dupeCount = 0;
+                    prevNo = no;
+                }
+                else
+                {
+                    //roll random again, if it's still the same thing then just use the next number
+                    int temp = Utilities.random.Next(4);
+                    if(temp != no)
+                    {
+                        markTypes.Add(temp);
+                        dupeCount = 0;
+                        prevNo = temp;
+                    }
+                    else
+                    {
+                        no++;
+                        if (no > 3)
+                            no = 0;
+                        markTypes.Add(no);
+                        prevNo = no;
+                        dupeCount = 0;
+                    }
+                }
+            }
+            
         }
     }
 }

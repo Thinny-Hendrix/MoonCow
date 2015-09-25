@@ -28,7 +28,7 @@ namespace MoonCow
             maxTurnSpeed = MathHelper.PiOver4 / (59f + Utilities.nextFloat() * 62f);
 
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
-            enemyModel = new EnemyModel(ModelLibrary.swarmer, this);
+            enemyModel = new SwarmerModel(this);
 
             game.modelManager.addEnemy(enemyModel);
 
