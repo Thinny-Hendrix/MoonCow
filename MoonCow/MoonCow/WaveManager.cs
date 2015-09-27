@@ -12,57 +12,56 @@ namespace MoonCow
     {
         Game1 game;
         float countdown;
+        float waitCounter;
         int waveCount;
         int inWave;//determines how much of the wave has spawned
         int waveMax;
-        public enum SpawnState { idle, deploying }
+        public enum SpawnState { idle, deploying, waiting }
         public SpawnState spawnState;
         bool endMessageTriggered;
+        bool startMessageTriggered;
 
         public WaveManager(Game1 game) : base(game)
         {
             this.game = game;
             countdown = 0;
+            waitCounter = 15;
             waveCount = 0;
-            spawnState = SpawnState.idle;
+            spawnState = SpawnState.waiting;
             waveMax = 20;
             endMessageTriggered = true;
+            startMessageTriggered = false;
         }
 
-        // new update - not yet active - will automatically spawn waves, wait for period of time, then spawn a harder wave, dynamic difficulty will be a thing
-        public void update(GameTime gametime)
+        //  need to add incremental difficulty for each wave with a modifier for dynamic difficulty, also a end to the level (read in how many waves the level lasts for from the xml?)
+        public override void Update(GameTime gametime)
         {
             if (!Utilities.paused && !Utilities.softPaused)
             {
-                if(spawnState == SpawnState.idle && game.enemyManager.enemies.Count() == 0)
+                if(spawnState == SpawnState.idle && game.enemyManager.enemies.Count() == 0) // A wave just ended, so transition into waiting state
                 {
-
+                    spawnState = SpawnState.waiting;
+                    game.hud.hudAttackDisplayer.endAttackMessage();
+                    waitCounter = 50f; // 50 seconds between waves
                 }
-            }
-        }
-
-        // previous update - still active - press R for enemies
-        public override void Update(GameTime gameTime)
-        {
-            if (!Utilities.paused && !Utilities.softPaused)
-            {
-                if (spawnState == SpawnState.idle)
+                if(spawnState == SpawnState.waiting)    // The wait between waves
                 {
-                    if (!endMessageTriggered && game.enemyManager.enemies.Count() == 0)
+                    waitCounter -= Utilities.deltaTime;
+                    if(waitCounter <= 0)
                     {
-                        game.hud.hudAttackDisplayer.endAttackMessage();
-                        endMessageTriggered = true;
-                    }
-                    if (Keyboard.GetState().IsKeyDown(Keys.R) || GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
-                    {
-                        if (game.enemyManager.enemies.Count() == 0)
-                            game.hud.hudAttackDisplayer.startAttackMessage(1);
                         spawnState = SpawnState.deploying;
-                        endMessageTriggered = false;
                     }
                 }
-                if (spawnState == SpawnState.deploying)
+                if(spawnState == SpawnState.deploying)  // Deplaying enemies
                 {
+                    if(!startMessageTriggered)
+                    {
+                        waveCount++;
+                        game.hud.hudAttackDisplayer.startAttackMessage(waveCount);
+                        startMessageTriggered = true;
+                    }
+                    
+                    // spawn enemies
                     countdown -= Utilities.deltaTime;
                     if (countdown <= 0)
                     {
@@ -78,12 +77,11 @@ namespace MoonCow
                             spawnState = SpawnState.idle;
                             inWave = 0;
                             countdown = 0;
+                            startMessageTriggered = false;
                         }
                     }
                 }
             }
-
-
         }
     }
 }

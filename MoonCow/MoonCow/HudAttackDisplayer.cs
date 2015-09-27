@@ -33,6 +33,7 @@ namespace MoonCow
         bool displayMessage;
         String startMessage;
         String endMessage;
+        int waveNo = 0;
 
         SpriteFont bigFont;
         SpriteBatch sb;
@@ -68,8 +69,9 @@ namespace MoonCow
             currentWarnPos = warnMidPos;
         }
 
-        public void startAttackMessage(int waves)
+        public void startAttackMessage(int wave)
         {
+            waveNo = wave;
             displayMessage = true;
             displayTime = 0;
             messageAlpha = 1;
@@ -151,8 +153,8 @@ namespace MoonCow
                 new Vector2(bigFont.MeasureString("attack").X / 2, bigFont.MeasureString("attack").Y / 2), 0.55f, SpriteEffects.None, 0);
             sb.DrawString(bigFont, "start", hud.scaledCoords(960, 575), Color.White * messageAlpha, 0,
                 new Vector2(bigFont.MeasureString("start").X / 2, bigFont.MeasureString("start").Y / 2), 0.55f, SpriteEffects.None, 0);
-            sb.DrawString(bigFont, "1 wave", hud.scaledCoords(960, 660), Color.White * messageAlpha, 0,
-                new Vector2(bigFont.MeasureString("1 wave").X / 2, bigFont.MeasureString("1 wave").Y / 2), 0.3f, SpriteEffects.None, 0);
+            sb.DrawString(bigFont, "wave " + waveNo, hud.scaledCoords(960, 660), Color.White * messageAlpha, 0,
+                new Vector2(bigFont.MeasureString("wave" + waveNo).X / 2, bigFont.MeasureString("wave" + waveNo).Y / 2), 0.3f, SpriteEffects.None, 0);
         }
 
         void drawEndMessage()
