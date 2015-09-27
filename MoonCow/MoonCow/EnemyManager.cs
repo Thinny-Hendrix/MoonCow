@@ -19,20 +19,10 @@ namespace MoonCow
         public List<Projectile> pToDelete = new List<Projectile>();
 
         Game1 game;
-        float countdown;
-        int inWave;//determines how much of the wave has spawned
-        int waveMax;
-        public enum SpawnState { idle, deploying}
-        public SpawnState spawnState;
-        bool endMessageTriggered;
 
         public EnemyManager(Game1 game) : base(game)
         {
             this.game = game;
-            countdown = 0;
-            spawnState = SpawnState.idle;
-            waveMax = 20;
-            endMessageTriggered = true;
         }
 
         public override void Initialize()
@@ -45,41 +35,6 @@ namespace MoonCow
         {
             if (!Utilities.paused && !Utilities.softPaused)
             {
-                if (spawnState == SpawnState.idle)
-                {
-                    if (!endMessageTriggered && enemies.Count() == 0)
-                    {
-                        game.hud.hudAttackDisplayer.endAttackMessage();
-                        endMessageTriggered = true;
-                    }
-                    if (Keyboard.GetState().IsKeyDown(Keys.R) || GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
-                    {
-                        if (enemies.Count() == 0)
-                            game.hud.hudAttackDisplayer.startAttackMessage(1);
-                        spawnState = SpawnState.deploying;
-                        endMessageTriggered = false;
-                    }
-                }
-                if (spawnState == SpawnState.deploying)
-                {
-                    countdown -= Utilities.deltaTime;
-                    if (countdown <= 0)
-                    {
-                        countdown = 0.6f;
-                        if (inWave < waveMax)
-                        {
-                            inWave++;
-                            addEnemy(new Swarmer(game));
-                        }
-
-                        if (inWave == waveMax)
-                        {
-                            spawnState = SpawnState.idle;
-                            inWave = 0;
-                            countdown = 0;
-                        }
-                    }
-                }
                 foreach (Enemy enemy in enemies)
                     enemy.Update(gameTime);
 
@@ -100,7 +55,6 @@ namespace MoonCow
                 foreach (Projectile p in pToDelete)
                     projectiles.Remove(p);
                 pToDelete.Clear();
-
             }
         }
 

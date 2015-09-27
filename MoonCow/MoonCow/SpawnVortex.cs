@@ -11,7 +11,7 @@ namespace MoonCow
     {
         Game1 game;
         Texture2D tex;
-        EnemyManager manager;
+        WaveManager manager;
         bool isVisible;
 
         public SpawnVortex(Vector3 pos, Vector3 rot, Game1 game):base()
@@ -31,14 +31,14 @@ namespace MoonCow
             {
                 try
                 {
-                    if (manager.spawnState == EnemyManager.SpawnState.deploying)
+                    if (manager.spawnState == WaveManager.SpawnState.deploying)
                         isVisible = true;
                     else
                         isVisible = false;
                 }
                 catch (NullReferenceException)
                 {
-                    manager = game.enemyManager;
+                    manager = game.waveManager;
                 }
 
                 if (isVisible)

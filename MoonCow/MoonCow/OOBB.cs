@@ -10,9 +10,6 @@ namespace MoonCow
     {
         public Vector2[] corners;
         private Vector2[] originCorners; // The corners set with inital rotation with origin as centre - used in updates
-        protected float size;
-        protected float width;
-        protected float height;
 
         public OOBB(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
         {
@@ -22,7 +19,6 @@ namespace MoonCow
             corners[2] = c;
             corners[3] = d;
             generateOriginCorners();
-            getArea();
         }
 
         private void generateOriginCorners()
@@ -58,17 +54,21 @@ namespace MoonCow
 
             Vector2 currentCentre = new Vector2(x, y);
 
+            System.Diagnostics.Debug.WriteLine("NEW OOBB");
+            System.Diagnostics.Debug.WriteLine("Corner A = " + corners[0]);
+            System.Diagnostics.Debug.WriteLine("Corner B = " + corners[1]);
+            System.Diagnostics.Debug.WriteLine("Corner C = " + corners[2]);
+            System.Diagnostics.Debug.WriteLine("Corner D = " + corners[3]);
+            System.Diagnostics.Debug.WriteLine("Centre of OOBB = " + currentCentre);
+
             for(int i = 0; i < 4; i++)
             {
                 originCorners[i] = corners[i] - currentCentre;
             }
         }
 
-        public OOBB(Vector3 pos, Vector3 direction, float w, float h)
+        public OOBB(Vector3 pos, Vector3 direction, float width, float height)
         {
-            width = w;
-            height = h;
-            size = w * h;
             corners = new Vector2[4];
             originCorners = new Vector2[4];
             //Set current corners
@@ -163,18 +163,6 @@ namespace MoonCow
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Gets the area of the bounding box
-        /// </summary>
-        /// <returns>The area of the box</returns>
-        public void getArea()
-        {
-            width = (float)Math.Sqrt(Math.Pow(corners[1].X - corners[0].X, 2) + Math.Pow(corners[1].Y - corners[0].Y, 2));
-            height = (float)Math.Sqrt(Math.Pow(corners[2].X - corners[1].X, 2) + Math.Pow(corners[2].Y - corners[1].Y, 2));
-
-            size = width * height;
         }
     }
 }

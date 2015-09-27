@@ -25,6 +25,7 @@ namespace MoonCow
         public Camera camera;
         public ModelManager modelManager;
 	    public EnemyManager enemyManager;
+        public WaveManager waveManager;
         public AudioManager audioManager;
         public TurretManager turretManager;
         public AsteroidManager asteroidManager;
@@ -84,6 +85,7 @@ namespace MoonCow
             turretManager = new TurretManager(this);
             asteroidManager = new AsteroidManager(this);
             enemyManager = new EnemyManager(this);
+            waveManager = new WaveManager(this);
             audioManager = new AudioManager(this);
             minigame = new Minigame(this);
 
@@ -98,6 +100,7 @@ namespace MoonCow
             Components.Add(modelManager);
             Components.Add(audioManager);
             Components.Add(enemyManager);
+            Components.Add(waveManager);
             Components.Add(turretManager);
             Components.Add(asteroidManager);
             Components.Add(minigame);
