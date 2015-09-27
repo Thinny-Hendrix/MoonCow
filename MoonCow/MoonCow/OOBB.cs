@@ -9,6 +9,7 @@ namespace MoonCow
     public class OOBB
     {
         public Vector2[] corners;
+        private Vector2[] originCorners; // The corners set with inital rotation with origin as centre - used in updates
         protected float size;
         protected float width;
         protected float height;
@@ -20,7 +21,47 @@ namespace MoonCow
             corners[1] = b;
             corners[2] = c;
             corners[3] = d;
+            generateOriginCorners();
             getArea();
+        }
+
+        private void generateOriginCorners()
+        {
+            originCorners = new Vector2[4];
+            float x = 0;
+            float y = 0;
+            float m1 = 0;
+            float m2 = 0;
+            // calculate centre
+            if(Math.Abs(corners[1].X - corners[3].X) < 0.001)
+            {
+                x = corners[1].X;
+                m2 = (corners[0].Y - corners[2].Y) / (corners[0].X - corners[2].X);
+                y = m2 * (x - corners[2].X) + corners[2].Y;
+            }
+            else 
+            {
+                if(Math.Abs(corners[0].X - corners[2].X) < 0.001)
+                {
+                    x = corners[0].X;
+                    m1 = (corners[1].Y - corners[3].Y) / (corners[1].X - corners[3].X);
+                    y = m1 * (x - corners[3].X) + corners[3].Y;
+                }
+                else 
+                {
+                    m1 = (corners[1].Y - corners[3].Y) / (corners[1].X - corners[3].X);
+                    m2 = (corners[0].Y - corners[2].Y) / (corners[0].X - corners[2].X);
+                    x = (m1 * corners[3].X - m2 * corners[2].X + corners[2].Y - corners[3].Y) / (m1 - m2);
+                    y = m1 * (x - corners[3].X) + corners[3].Y;
+                }
+            }
+
+            Vector2 currentCentre = new Vector2(x, y);
+
+            for(int i = 0; i < 4; i++)
+            {
+                originCorners[i] = corners[i] - currentCentre;
+            }
         }
 
         public OOBB(Vector3 pos, Vector3 direction, float w, float h)
@@ -29,40 +70,15 @@ namespace MoonCow
             height = h;
             size = w * h;
             corners = new Vector2[4];
-            corners[0] = new Vector2(pos.X - (width / 2), pos.Z - (height / 2));
-            corners[1] = new Vector2(pos.X + (width / 2), pos.Z - (height / 2));
-            corners[2] = new Vector2(pos.X + (width / 2), pos.Z + (height / 2));
-            corners[3] = new Vector2(pos.X - (width / 2), pos.Z + (height / 2));
+            originCorners = new Vector2[4];
+            //Set current corners
+            originCorners[0] = new Vector2(0 - (width / 2), 0 - (height / 2));
+            originCorners[1] = new Vector2(0 + (width / 2), 0 - (height / 2));
+            originCorners[2] = new Vector2(0 + (width / 2), 0 + (height / 2));
+            originCorners[3] = new Vector2(0 - (width / 2), 0 + (height / 2));
+
             Update(pos, direction);
         }
-
-        /// <summary>
-        /// updates a non-rectangular OOBB
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="dir"></param>
-        public void UpdateFrustum(Vector3 pos, Vector3 dir)
-        {
-            corners[0] = new Vector2(0 - (width / 2), 0 - (height / 2));
-            corners[1] = new Vector2(0 + (width / 2), 0 - (height / 2));
-            corners[2] = new Vector2(0 + (width / 2), 0 + (height / 2));
-            corners[3] = new Vector2(0 - (width / 2), 0 + (height / 2));
-
-            // Set rotation
-            float rotation = (float)Math.Atan2(dir.X, dir.Z);
-            for (int i = 0; i < 4; i++)
-            {
-                corners[i] = new Vector2((float)(corners[i].X * Math.Cos(rotation) - corners[i].Y * Math.Sin(rotation)), (float)(corners[i].X * Math.Sin(rotation) + corners[i].Y * Math.Cos(rotation)));
-            }
-
-            //Set position
-            for (int i = 0; i < 4; i++)
-            {
-                corners[i] += new Vector2(pos.X, pos.Z);
-                //System.Diagnostics.Debug.WriteLine(corners[i]);
-            }
-        }
-
 
         /// <summary>
         /// Move the collision box to a new place and rotate accordingly
@@ -72,11 +88,11 @@ namespace MoonCow
         /// <param name="direction"></param>
         public void Update(Vector3 pos, Vector3 direction)
         {
-            // Set size
-            corners[0] = new Vector2(0 - (width / 2), 0 - (height / 2));
-            corners[1] = new Vector2(0 + (width / 2), 0 - (height / 2));
-            corners[2] = new Vector2(0 + (width / 2), 0 + (height / 2));
-            corners[3] = new Vector2(0 - (width / 2), 0 + (height / 2));
+            // Move shape to origin in initial rotation
+            for(int i = 0; i < 4; i++)
+            {
+                corners[i] = originCorners[i];
+            }
 
             // Set rotation
             float rotation = (float)Math.Atan2(direction.X, direction.Z);
@@ -104,17 +120,7 @@ namespace MoonCow
 
             for (int p = 0; p < 4; p++) // for each corner of object 2
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    float A = -1f * (corners[(i + 1) % 4].Y - corners[i].Y);
-                    float B = corners[(i + 1) % 4].X - corners[i].X;
-                    float C = -1f * ((A * corners[i].X) + (B * corners[i].Y));
-
-                    float D = (A * object2.corners[p].X) + (B * object2.corners[p].Y) + C;
-
-                    leftOfFace[i] = D < 0;
-                }
-                if(!(leftOfFace[0] || leftOfFace[1] || leftOfFace[2] || leftOfFace[3]))     // if the point is left of every plane it is inside
+                if(pointInBox(object2.corners[p]))
                 {
                     return true;
                 }
@@ -122,17 +128,7 @@ namespace MoonCow
             
             for (int p = 0; p < 4; p++) // for each corner in object 1
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    float A = -1f * (object2.corners[(i + 1) % 4].Y - object2.corners[i].Y);
-                    float B = object2.corners[(i + 1) % 4].X - object2.corners[i].X;
-                    float C = -1f * ((A * object2.corners[i].X) + (B * object2.corners[i].Y));
-
-                    float D = (A * corners[p].X) + (B * corners[p].Y) + C;
-
-                    leftOfFace[i] = D < 0;
-                }
-                if (!(leftOfFace[0] || leftOfFace[1] || leftOfFace[2] || leftOfFace[3]))
+                if(object2.pointInBox(corners[p]))
                 {
                     return true;
                 }
