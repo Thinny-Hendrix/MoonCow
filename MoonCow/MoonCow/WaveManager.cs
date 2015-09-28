@@ -11,11 +11,10 @@ namespace MoonCow
     public class WaveManager : Microsoft.Xna.Framework.GameComponent
     {
         Game1 game;
-        float countdown;
+        List<Wave> waves = new List<Wave>();
+        Wave activeWave;
         float waitCounter;
         int waveCount;
-        int inWave;//determines how much of the wave has spawned
-        int waveMax;
         public enum SpawnState { idle, deploying, waiting }
         public SpawnState spawnState;
         bool endMessageTriggered;
@@ -24,16 +23,16 @@ namespace MoonCow
         public WaveManager(Game1 game) : base(game)
         {
             this.game = game;
-            countdown = 0;
             waitCounter = 15;
-            waveCount = 0;
+            waveCount = 1;
             spawnState = SpawnState.waiting;
-            waveMax = 20;
             endMessageTriggered = true;
             startMessageTriggered = false;
+            activeWave = new Wave(game, waveCount);
+            waves.Add(activeWave);
         }
 
-        //  need to add incremental difficulty for each wave with a modifier for dynamic difficulty, also a end to the level (read in how many waves the level lasts for from the xml?)
+        //  The next wave is created when the wave before it is killed, in this way the wave data exists during the waiting time for statistics about upcoming wave to be accessed and displayed
         public override void Update(GameTime gametime)
         {
             if (!Utilities.paused && !Utilities.softPaused)
@@ -43,6 +42,8 @@ namespace MoonCow
                     spawnState = SpawnState.waiting;
                     game.hud.hudAttackDisplayer.endAttackMessage();
                     waitCounter = 50f; // 50 seconds between waves
+                    activeWave = new Wave(game, waveCount); // create next wave
+                    waves.Add(activeWave);
                 }
                 if(spawnState == SpawnState.waiting)    // The wait between waves
                 {
@@ -56,32 +57,22 @@ namespace MoonCow
                 {
                     if(!startMessageTriggered)
                     {
-                        waveCount++;
                         game.hud.hudAttackDisplayer.startAttackMessage(waveCount);
                         startMessageTriggered = true;
+                        waveCount++;
                     }
                     
                     // spawn enemies
-                    countdown -= Utilities.deltaTime;
-                    if (countdown <= 0)
-                    {
-                        countdown = 0.6f;
-                        if (inWave < waveMax)
-                        {
-                            inWave++;
-                            game.enemyManager.addEnemy(new Swarmer(game));
-                        }
-
-                        if (inWave == waveMax)
-                        {
-                            spawnState = SpawnState.idle;
-                            inWave = 0;
-                            countdown = 0;
-                            startMessageTriggered = false;
-                        }
-                    }
+                    activeWave.spawn();   
                 }
             }
         }
+
+        public void endWave()
+        {
+            spawnState = SpawnState.idle;
+            startMessageTriggered = false;
+        }
+
     }
 }

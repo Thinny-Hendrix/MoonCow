@@ -137,6 +137,7 @@
     <Compile Include="TurretManager.cs" />
     <Compile Include="TurretModel.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Wave.cs" />
     <Compile Include="WaveManager.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="WeaponBomb.cs" />
