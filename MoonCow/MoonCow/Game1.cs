@@ -37,6 +37,9 @@ namespace MoonCow
         BloomComponent bloom;
         int bloomSettingsIndex = 0;
 
+        public enum RunState { MainMenu, MainGame, StatScreen }
+        public RunState runState;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this)
@@ -45,6 +48,8 @@ namespace MoonCow
             };
             //graphicsDevice = new GraphicsDevice();
             Content.RootDirectory = "Content";
+
+            runState = RunState.MainMenu;
 
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1280;
@@ -74,25 +79,32 @@ namespace MoonCow
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             worldRender = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
 
+            initializeGame();
+
+            base.Initialize();
+        }
+
+        void initializeGame()
+        {
             TextureManager.initialize(this);
             ModelLibrary.initialize(this);
 
             modelManager = new ModelManager(this);
             ship = new Ship(this);
-            hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera40"), spriteBatch, GraphicsDevice);
 
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             turretManager = new TurretManager(this);
             asteroidManager = new AsteroidManager(this);
             enemyManager = new EnemyManager(this);
             waveManager = new WaveManager(this);
+            hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera40"), spriteBatch, GraphicsDevice);
             audioManager = new AudioManager(this);
             minigame = new Minigame(this);
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
             map = new Map(this, layout.getNodes());
 
-	        
+
             //bloom = new BloomComponent(this);
 
             Components.Add(ship);
@@ -111,8 +123,6 @@ namespace MoonCow
 
             modelManager.makeStarField();
             turretManager.Initialize();
-
-            base.Initialize();
         }
 
         /// <summary>

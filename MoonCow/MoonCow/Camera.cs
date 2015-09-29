@@ -57,7 +57,7 @@ namespace MoonCow
         Vector3 staticPos;
         Vector3 prevPos;
         Vector3 prevLook;
-        bool transitioning;
+        public bool transitioning;
         bool useStatic;
 
         Vector3 currentPos;

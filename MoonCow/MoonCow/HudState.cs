@@ -18,11 +18,15 @@ namespace MoonCow
         Vector2 statPos;
         Vector2 statNamePos;
         Vector2 statTimePos;
+
+        WaveManager waveManager;
+
         public HudState(Hud hud, SpriteFont font, Game1 game):base(hud, font, game)
         {
             statPos = new Vector2(45, 884);
             statNamePos = new Vector2(200, 980);
             statTimePos = new Vector2(250, 1000);
+            waveManager = game.waveManager;
 
             hudStatF = game.Content.Load<Texture2D>(@"Hud/hudStatF");
             hudStatB = game.Content.Load<Texture2D>(@"Hud/hudStatB");
@@ -31,6 +35,7 @@ namespace MoonCow
         public override void Update()
         {
             stateTimer = "2:30";
+            stateTimer = "" + (int)waveManager.waitTime / 60 + ":" + (int)waveManager.waitTime % 60;
             if (game.waveManager.spawnState == MoonCow.WaveManager.SpawnState.deploying)
                 gameState = "defend";
             else

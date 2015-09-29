@@ -11,9 +11,13 @@ namespace MoonCow
     public class WaveManager : Microsoft.Xna.Framework.GameComponent
     {
         Game1 game;
+
+        //waves are going to be grouped into 'attacks' which will consist of 4ish consecutive waves
+        //after all waves in an attack have been defeated, explore time starts again
+
         List<Wave> waves = new List<Wave>();
         Wave activeWave;
-        float waitCounter;
+        public float waitTime;
         int waveCount;
         public enum SpawnState { idle, deploying, waiting }
         public SpawnState spawnState;
@@ -23,7 +27,7 @@ namespace MoonCow
         public WaveManager(Game1 game) : base(game)
         {
             this.game = game;
-            waitCounter = 15;
+            waitTime = 120;
             waveCount = 1;
             spawnState = SpawnState.waiting;
             endMessageTriggered = true;
@@ -41,18 +45,21 @@ namespace MoonCow
                 {
                     spawnState = SpawnState.waiting;
                     game.hud.hudAttackDisplayer.endAttackMessage();
-                    waitCounter = 50f; // 50 seconds between waves
+                    waitTime = 150; // 2.5 minutes between waves
                     activeWave = new Wave(game, waveCount); // create next wave
                     waves.Add(activeWave);
                 }
+
                 if(spawnState == SpawnState.waiting)    // The wait between waves
                 {
-                    waitCounter -= Utilities.deltaTime;
-                    if(waitCounter <= 0)
+                    waitTime -= Utilities.deltaTime;
+                    if (waitTime <= 0 || Keyboard.GetState().IsKeyDown(Keys.R))
                     {
+                        waitTime = 0;
                         spawnState = SpawnState.deploying;
                     }
                 }
+
                 if(spawnState == SpawnState.deploying)  // Deplaying enemies
                 {
                     if(!startMessageTriggered)

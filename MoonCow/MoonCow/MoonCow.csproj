@@ -72,6 +72,9 @@
     <Compile Include="HeavyModel.cs" />
     <Compile Include="JunkShip.cs" />
     <Compile Include="JunkShipModel.cs" />
+    <Compile Include="MainMenu.cs" />
+    <Compile Include="MenuAssets.cs" />
+    <Compile Include="MenuButton.cs" />
     <Compile Include="MgInstance.cs" />
     <Compile Include="MgKey.cs" />
     <Compile Include="MgManager.cs" />
@@ -1075,6 +1078,18 @@
     <Content Include="Content\Models\Enemies\Sneaker\sneakt_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Models\Enemies\Gunner\gunProto.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Gunner\gunt_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Heavy\hev1t_1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Heavy\hevProto3.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Content\Models\Enemies\Swarmer\swarmerAlpha.fbx" />
     <Content Include="Content\Models\MoneyGibs\gib1.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1212,6 +1227,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Turrets\electroTurret.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Swarmer\swarmProto2.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\Swarmer\swat_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

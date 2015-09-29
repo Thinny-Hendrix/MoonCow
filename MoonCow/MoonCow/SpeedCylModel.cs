@@ -52,7 +52,7 @@ namespace MoonCow
 
         public void overrideDraw(GraphicsDevice device, Camera camera)
         {
-            if (!game.minigame.active)
+            if (!game.minigame.active && !camera.transitioning)
             {
                 Matrix[] transforms = new Matrix[model.Bones.Count];
                 model.CopyAbsoluteBoneTransformsTo(transforms);
