@@ -15,12 +15,12 @@ namespace MoonCow
         //waves are going to be grouped into 'attacks' which will consist of 4ish consecutive waves
         //after all waves in an attack have been defeated, explore time starts again
 
-        List<Wave> waves = new List<Wave>();
-        Wave activeWave;
+        List<Attack> attacks = new List<Attack>();
+        public Attack activeAttack;
         public float waitTime;
-        int waveCount;
-        public enum SpawnState { idle, deploying, waiting }
-        public SpawnState spawnState;
+        int attackCount;
+        
+        public Utilities.SpawnState spawnState;
         bool endMessageTriggered;
         bool startMessageTriggered;
 
@@ -28,12 +28,12 @@ namespace MoonCow
         {
             this.game = game;
             waitTime = 120;
-            waveCount = 1;
-            spawnState = SpawnState.waiting;
+            attackCount = 1;
+            spawnState = Utilities.SpawnState.waiting;
             endMessageTriggered = true;
             startMessageTriggered = false;
-            activeWave = new Wave(game, waveCount);
-            waves.Add(activeWave);
+            activeAttack = new Attack(game, attackCount);
+            attacks.Add(activeAttack);
         }
 
         //  The next wave is created when the wave before it is killed, in this way the wave data exists during the waiting time for statistics about upcoming wave to be accessed and displayed
@@ -41,43 +41,43 @@ namespace MoonCow
         {
             if (!Utilities.paused && !Utilities.softPaused)
             {
-                if(spawnState == SpawnState.idle && game.enemyManager.enemies.Count() == 0) // A wave just ended, so transition into waiting state
+                if(spawnState == Utilities.SpawnState.idle) // An attack just ended, so transition into waiting state
                 {
-                    spawnState = SpawnState.waiting;
+                    spawnState = Utilities.SpawnState.waiting;
                     game.hud.hudAttackDisplayer.endAttackMessage();
-                    waitTime = 150; // 2.5 minutes between waves
-                    activeWave = new Wave(game, waveCount); // create next wave
-                    waves.Add(activeWave);
+                    waitTime = 150; // 2.5 minutes between attacks
+                    activeAttack = new Attack(game, attackCount); // create next attack
+                    attacks.Add(activeAttack);
                 }
 
-                if(spawnState == SpawnState.waiting)    // The wait between waves
+                if(spawnState == Utilities.SpawnState.waiting)    // The wait between attacks
                 {
                     waitTime -= Utilities.deltaTime;
                     if (waitTime <= 0 || Keyboard.GetState().IsKeyDown(Keys.R))
                     {
                         waitTime = 0;
-                        spawnState = SpawnState.deploying;
+                        spawnState = Utilities.SpawnState.deploying;
                     }
                 }
 
-                if(spawnState == SpawnState.deploying)  // Deplaying enemies
+                if(spawnState == Utilities.SpawnState.deploying)  // Attack is active
                 {
                     if(!startMessageTriggered)
                     {
-                        game.hud.hudAttackDisplayer.startAttackMessage(waveCount);
+                        game.hud.hudAttackDisplayer.startAttackMessage(attackCount);
                         startMessageTriggered = true;
-                        waveCount++;
+                        attackCount++;
                     }
                     
                     // spawn enemies
-                    activeWave.spawn();   
+                    activeAttack.update();   
                 }
             }
         }
 
-        public void endWave()
+        public void endAttack()
         {
-            spawnState = SpawnState.idle;
+            spawnState = Utilities.SpawnState.idle;
             startMessageTriggered = false;
         }
 

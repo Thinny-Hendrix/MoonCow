@@ -7,13 +7,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class HeavyModel:EnemyModel
+    class GunnerModel : EnemyModel
     {
-        public HeavyModel(Heavy enemy):base(enemy)
+        //AnimationPlayer animPlayer;
+
+        public GunnerModel(Gunner enemy)
+            : base(enemy)
         {
-            scale = new Vector3(0.2f);
-            model = ModelLibrary.heavy;
+            model = ModelLibrary.gunner;
+            scale = new Vector3(.12f);
         }
+
         public override void Update(GameTime gameTime)
         {
             pos = enemy.pos;
@@ -40,8 +44,6 @@ namespace MoonCow
                     effect.TextureEnabled = true;
                     effect.Alpha = 1;
 
-                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
-                    //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
 
                     if (mesh.Name.Contains("glow"))
@@ -52,7 +54,6 @@ namespace MoonCow
                     {
                         effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                         effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
-                        //effect.DirectionalLight0.SpecularColor = Vector3.One;
                         effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
                         effect.SpecularColor = Vector3.One;
                         effect.EmissiveColor = new Vector3(.4f, .4f, .4f);

@@ -34,14 +34,14 @@ namespace MoonCow
                 if (inWave < waveMax)
                 {
                     inWave++;
-                    game.enemyManager.addEnemy(new Swarmer(game));
+                    game.enemyManager.addEnemy(new Gunner(game));
                 }
 
                 if (inWave == waveMax)
                 {
                     inWave = 0;
                     countDown = 0;
-                    game.waveManager.endWave();
+                    game.waveManager.activeAttack.endWave();
                 }
             }
         }

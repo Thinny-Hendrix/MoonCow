@@ -46,6 +46,7 @@
     <Compile Include="AsteroidModel.cs" />
     <Compile Include="AstMid.cs" />
     <Compile Include="AstSmall.cs" />
+    <Compile Include="Attack.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="BasicModel.cs" />
     <Compile Include="BloomComponent.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
     <Compile Include="FireParticle.cs" />
+    <Compile Include="Gunner.cs" />
+    <Compile Include="GunnerModel.cs" />
     <Compile Include="HeavyModel.cs" />
     <Compile Include="JunkShip.cs" />
     <Compile Include="JunkShipModel.cs" />
@@ -81,6 +84,8 @@
     <Compile Include="MgMarker.cs" />
     <Compile Include="Minigame.cs" />
     <Compile Include="PyroTurret.cs" />
+    <Compile Include="Sneaker.cs" />
+    <Compile Include="SneakerModel.cs" />
     <Compile Include="SpRing.cs" />
     <Compile Include="SentryProjectile.cs" />
     <Compile Include="GattleProjectile.cs" />

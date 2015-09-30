@@ -35,8 +35,8 @@ namespace MoonCow
         public override void Update()
         {
             stateTimer = "2:30";
-            stateTimer = "" + (int)waveManager.waitTime / 60 + ":" + (int)waveManager.waitTime % 60;
-            if (game.waveManager.spawnState == MoonCow.WaveManager.SpawnState.deploying)
+            stateTimer = "" + (int)waveManager.activeAttack.waitTime / 60 + ":" + (int)waveManager.activeAttack.waitTime % 60;
+            if (game.waveManager.spawnState == MoonCow.Utilities.SpawnState.deploying)
                 gameState = "defend";
             else
                 gameState = "explore";

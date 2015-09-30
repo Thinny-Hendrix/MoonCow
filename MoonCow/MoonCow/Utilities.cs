@@ -17,6 +17,7 @@ namespace MoonCow
         public static bool paused = false;
         public static bool softPaused = false;
         public static Random random = new Random();
+        public enum SpawnState { idle, deploying, waiting }
 
         public static void Update(GameTime gameTime)
         {
