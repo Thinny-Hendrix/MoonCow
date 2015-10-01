@@ -27,7 +27,7 @@ namespace MoonCow
         public WaveManager(Game1 game) : base(game)
         {
             this.game = game;
-            waitTime = 120;
+            waitTime = 30; //120 = 2 mins
             attackCount = 1;
             spawnState = Utilities.SpawnState.waiting;
             endMessageTriggered = true;
@@ -45,7 +45,7 @@ namespace MoonCow
                 {
                     spawnState = Utilities.SpawnState.waiting;
                     game.hud.hudAttackDisplayer.endAttackMessage();
-                    waitTime = 150; // 2.5 minutes between attacks
+                    waitTime = 30; // 150 seconds = 2.5 minutes between attacks
                     activeAttack = new Attack(game, attackCount); // create next attack
                     attacks.Add(activeAttack);
                 }

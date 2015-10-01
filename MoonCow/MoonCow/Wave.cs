@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MoonCow
 {
+    // Still needs a way of randomly spawining different enemy types to the correct ratios (see gogole doc)
     class Wave
     {
         Game1 game;
@@ -16,12 +17,12 @@ namespace MoonCow
         int waveMax;
         int waveNumber;
 
-        public Wave(Game1 game, int waveNo)
+        public Wave(Game1 game, int attackNo, int waveNo)
         {
             this.game = game;
             countDown = 0f;
             inWave = 0;
-            waveMax = 20;
+            waveMax = (5 * attackNo) + (waveNo * (2 * Settings.difficulty)); // + dynamic modifier, which can be a negative or positive number
             waveNumber = waveNo;
         }
 

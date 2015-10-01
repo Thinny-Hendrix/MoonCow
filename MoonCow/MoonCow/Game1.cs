@@ -79,9 +79,17 @@ namespace MoonCow
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
             worldRender = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight, true, GraphicsDevice.DisplayMode.Format, DepthFormat.Depth24);
 
+            loadSettings();
+
             initializeGame();
 
             base.Initialize();
+        }
+
+        void loadSettings()
+        {
+            // Read in the XML settings file and set values in static class, hardcoded for now
+            Settings.difficulty = 2;
         }
 
         void initializeGame()

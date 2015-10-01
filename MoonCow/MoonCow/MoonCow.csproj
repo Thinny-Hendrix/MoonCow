@@ -84,6 +84,7 @@
     <Compile Include="MgMarker.cs" />
     <Compile Include="Minigame.cs" />
     <Compile Include="PyroTurret.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Sneaker.cs" />
     <Compile Include="SneakerModel.cs" />
     <Compile Include="SpRing.cs" />
