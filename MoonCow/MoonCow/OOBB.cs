@@ -54,12 +54,14 @@ namespace MoonCow
 
             Vector2 currentCentre = new Vector2(x, y);
 
+            /*
             System.Diagnostics.Debug.WriteLine("NEW OOBB");
             System.Diagnostics.Debug.WriteLine("Corner A = " + corners[0]);
             System.Diagnostics.Debug.WriteLine("Corner B = " + corners[1]);
             System.Diagnostics.Debug.WriteLine("Corner C = " + corners[2]);
             System.Diagnostics.Debug.WriteLine("Corner D = " + corners[3]);
             System.Diagnostics.Debug.WriteLine("Centre of OOBB = " + currentCentre);
+            */
 
             for(int i = 0; i < 4; i++)
             {
