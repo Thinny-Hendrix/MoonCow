@@ -18,6 +18,7 @@ namespace MoonCow
 
         string weaponAmmo;
         string level;
+        string exp;
 
         public HudWeapon(Hud hud, SpriteFont font, Game1 game)
             : base(hud, font, game)
@@ -36,6 +37,8 @@ namespace MoonCow
             weaponAmmo = wepSys.activeWeapon.formattedAmmo();
             level = wepSys.activeWeapon.formattedLevel();
             base.Update();
+
+            exp = "" + (wepSys.activeWeapon.exp / wepSys.activeWeapon.EXPMAX)*100 + "%";
         }
 
         public override void Draw(SpriteBatch sb)
@@ -54,6 +57,9 @@ namespace MoonCow
                 //exp
                 sb.DrawString(font, level, hud.scaledCoords(225,125), Color.White, 0,
                     new Vector2(0, font.MeasureString(level).Y / 2), hud.scale * 16.0f / 40, SpriteEffects.None, 0);
+
+                sb.DrawString(font, exp, hud.scaledCoords(300, 125), Color.White, 0,
+                    new Vector2(0, font.MeasureString(exp).Y / 2), hud.scale * 16.0f / 40, SpriteEffects.None, 0);
 
             }
         }

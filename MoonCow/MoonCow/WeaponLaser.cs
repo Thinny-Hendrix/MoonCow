@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class WeaponLaser:Weapon
+    public class WeaponLaser:Weapon
     {
         int laserPos;
         public WeaponLaser(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
@@ -23,27 +23,76 @@ namespace MoonCow
 
             ammoMax = 200;
             ammo = ammoMax;
+
+            EXPMAX = 250;
         }
 
         public override void Fire()
         {
-            if(cooldown == 0 && ammo > 0)
+            if (cooldown == 0 && ammo > 0)
             {
-                if (laserPos == 0)
+                if (level != 3)
                 {
-                    projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, game, this, 1));
-                    laserPos = 1;
-                    game.audioManager.shootLaser();
+                    if (laserPos == 0)
+                    {
+                        addProjectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
+                        laserPos = 1;
+                        game.audioManager.shootLaser();
+                    }
+                    else
+                    {
+                        addProjectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
+                        laserPos = 0;
+                        game.audioManager.shootLaser2();
+                    }
                 }
                 else
                 {
-                    projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, game, this, 1));
-                    laserPos = 0;
-                    game.audioManager.shootLaser2();
+                    //only shoots one projectile if there's only one ammo left
+                    if(ammo > 1)
+                        addProjectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
+
+                    addProjectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
+
+                    game.audioManager.shootLaser();
                 }
                 cooldown = coolMax;
                 base.Fire();
             }
+            
+        }
+
+        void addProjectile(Vector3 pos, Vector3 dir)
+        {
+            switch(level)
+            {
+                default:
+                    projectiles.Add(new LaserProjectile(pos, dir, game, this, level));
+                    break;
+                case 2:
+                    projectiles.Add(new LaserProjectile(pos, dir, game, this, level));
+                    break;
+                case 3:
+                    projectiles.Add(new LaserProjectile(pos, dir, game, this, level));
+                    break;
+            }
+        }
+
+        public override void levelUp()
+        {
+            switch (level)
+            {
+                default: //level 2
+                    coolMax = 10;
+                    EXPMAX = 500;
+                    ammoMax = 400;
+                    break;
+                case 3:
+                    coolMax = 8;
+                    ammoMax = 500;
+                    break;
+            }
+            ammo = ammoMax;
         }
         
     }

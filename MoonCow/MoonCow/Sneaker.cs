@@ -150,6 +150,15 @@ namespace MoonCow
             }
         }
 
+        protected override void death()
+        {
+            for (int i = 0; i < 4; i++)
+                game.ship.moneyManager.addGib(5, pos, 1);
+
+            game.modelManager.removeEnemy(enemyModel);
+            game.enemyManager.toDelete.Add(this);
+        }
+
         void checkCollision()
         {
             // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component

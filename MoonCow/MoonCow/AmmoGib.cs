@@ -7,36 +7,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    public class MoneyGib : BasicModel
+    public class AmmoGib:MoneyGib
     {
-        public CircleCollider col { get; protected set; }
-        public Ship ship { get; protected set; }
-        public Game1 game { get; protected set; }
-        public MoneyManager moneyManager;
-        public MoneyGibGlow glow { get; protected set; }
-        public Vector3 initDirection;
-        public Vector3 currentDirection;
-        public Vector3 targetDirection;
-        public Vector3 frameDiff;
-        public float changeDirectionSpeed { get; protected set; }
-        public float speed { get; protected set; }
-        public float speedMax { get; protected set; }
-        public float value { get; protected set; }
-        public float yAngle { get; protected set; }
-        public float xAngle { get; protected set; }
-        public bool collected { get; protected set; }
-        public Color color { get; protected set; }
-
-        public MoneyGib() : base() { }
-        public MoneyGib(float value, Model model, MoneyManager moneyManager, Ship ship, Vector3 pos, Game1 game, int type) : base()
+        WeaponSystem weps;
+        int type;
+        public AmmoGib(MoneyManager mon, Ship ship, Vector3 pos, Game1 game, int type) : base()
         {
             this.value = value;
-            this.model = model;
+            this.model = ModelLibrary.bombProjectile;
             this.pos = pos;
-            this.moneyManager = moneyManager;
             this.ship = ship;
             this.game = game;
-            scale = new Vector3(.03f, .03f, .03f);
+            this.type = type;
+            moneyManager = mon;
+            weps = ship.weapons;
+            scale = new Vector3(.3f, .3f, .3f);
 
             setColor(type);
 
@@ -63,16 +48,16 @@ namespace MoonCow
         void setColor(int i)
         {
             //red, aqua, pink, orange, gold
-            switch(i)
+            switch (i)
             {
                 default:
-                    color = Color.Red;
+                    color = Color.Green;
                     break;
                 case 1:
-                    color = Color.Aqua;
+                    color = Color.Green;
                     break;
                 case 2:
-                    color = Color.Magenta;
+                    color = Color.Firebrick;
                     break;
                 case 3:
                     color = Color.Orange;
@@ -121,10 +106,9 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
+                    effect.Texture = TextureManager.bombTex1;
                     effect.Alpha = 1;
 
-                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
-                    //effect.EnableDefaultLighting(); //did not work
                     effect.LightingEnabled = true;
 
                     effect.DirectionalLight0.DiffuseColor = new Vector3(0.3f, 0.3f, 0.3f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
@@ -141,18 +125,12 @@ namespace MoonCow
 
         void checkCollision()
         {
-            // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
-            // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
-            // be within tolerable limits for CPU time. This will only need to be done with the player
             pos += frameDiff;
 
-            //## COLLISIONS WHOOO! ##
-            // Move the bounding box to new pos
             col.Update(pos);
-            // Get current node co-ordinates
+
             Vector2 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
-            //For the current node check if your X component will make you collide with wall
             try
             {
                 if (col.checkOOBB(ship.boundingBox))
@@ -160,17 +138,17 @@ namespace MoonCow
                     collectGib();
                 }
             }
-            catch (IndexOutOfRangeException){}
+            catch (IndexOutOfRangeException) { }
         }
 
         void collectGib()
         {
-            moneyManager.addMoney(value);
-            moneyManager.toDelete.Add(this);
+            weps.addAmmo(type);
             game.modelManager.removeEffect(glow);
             glow.Dispose();
             ship.particles.addMoneyParticle(color);
             collected = true;
+            moneyManager.toDelete.Add(this);
         }
     }
 }

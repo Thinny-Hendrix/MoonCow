@@ -15,22 +15,36 @@ namespace MoonCow
         Game1 game;
         SpriteBatch sb;
         RenderTarget2D rTarg;
-        Color col;
+        Color c1;
+        Color c2;
         public ElecParticle(Vector3 pos, Game1 game):base()
+        {
+            initialize(pos, game);
+            c1 = Color.Aqua;
+            c2 = Color.SeaGreen;
+        }
+
+        public ElecParticle(Vector3 pos, Game1 game, Color c1, Color c2):base()
+        {
+            initialize(pos, game);
+            this.c1 = c1;
+            this.c2 = c2;
+        }
+
+        void initialize(Vector3 pos, Game1 game)
         {
             this.pos = pos;
             this.scale = new Vector3(0.6f);
             this.game = game;
-            dir.X = Utilities.nextFloat() * MathHelper.Pi * 2-MathHelper.Pi;
-            dir.Y = Utilities.nextFloat() * MathHelper.Pi * 2-MathHelper.Pi;
-            dir.Z = Utilities.nextFloat() * MathHelper.Pi * 2-MathHelper.Pi;
+            dir.X = Utilities.nextFloat() * MathHelper.Pi * 2 - MathHelper.Pi;
+            dir.Y = Utilities.nextFloat() * MathHelper.Pi * 2 - MathHelper.Pi;
+            dir.Z = Utilities.nextFloat() * MathHelper.Pi * 2 - MathHelper.Pi;
             dir.Normalize();
             model = TextureManager.dirSquare;
             tex = TextureManager.elecL2;
 
             sb = new SpriteBatch(game.GraphicsDevice);
             rTarg = new RenderTarget2D(game.GraphicsDevice, 128, 512);
-            col = Color.Aqua;
         }
 
         void changeTex()
@@ -62,7 +76,7 @@ namespace MoonCow
 
                 game.GraphicsDevice.SetRenderTarget(rTarg);
                 sb.Begin();
-                sb.Draw(tex, Vector2.Zero, Color.Lerp(Color.Aqua, Color.SeaGreen, Utilities.nextFloat()));
+                sb.Draw(tex, Vector2.Zero, Color.Lerp(c1, c2, Utilities.nextFloat()));
                 sb.End();
                 game.GraphicsDevice.SetRenderTarget(null);
 

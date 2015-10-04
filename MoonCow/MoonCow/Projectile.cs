@@ -20,20 +20,21 @@ namespace MoonCow
         public OOBB boundingBox { get; protected set; }
         public Vector3 frameDiff;
         public Vector2 nodePos { get; protected set; }
-        Weapon weapons;
+        Weapon weapon;
         public BasicModel model;
         public float damage { get; protected set; }
         int type;//for level ups
         public CircleCollider col;
 
+
         public Projectile(){}//empty constructor for children to use if necessary
-        public Projectile(Vector3 pos, Vector3 direction, Game1 game, Weapon weapons, int type)
+        public Projectile(Vector3 pos, Vector3 direction, Game1 game, Weapon weapon, int type)
         {
             this.direction = direction;
             this.game = game;
             this.pos = pos;
             this.rot.Y = (float)Math.Atan2(direction.X, direction.Z);
-            this.weapons = weapons;
+            this.weapon = weapon;
             this.type = type;
 
             speed = 50;
@@ -46,6 +47,7 @@ namespace MoonCow
             boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
 
             if(type == 1)
+    //            model = new ProjectileModel(this, TextureManager.elecRound64, TextureManager.elecRound64, TextureManager.elecTrail64, Color.Magenta, Color.Purple, game);
                 model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Green, Color.CornflowerBlue, game);
             else if(type == 0)
                 model = new ProjectileModel(ModelLibrary.projectile, pos, this, Color.Orange, Color.Purple, game);
@@ -186,7 +188,7 @@ namespace MoonCow
         protected virtual void deleteProjectile()
         {
             game.modelManager.removeEffect(model);
-            weapons.toDelete.Add(this);
+            weapon.toDelete.Add(this);
             delete = true;
             model.Dispose();
         }

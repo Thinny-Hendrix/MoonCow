@@ -36,6 +36,37 @@ namespace MoonCow
 
         float endRot;
 
+        public float tipRot1;
+        public float tipRot2;
+
+
+        public ProjectileModel(Projectile projectile, Texture2D t1, Texture2D t2, Texture2D t3, Color c1, Color c2, Game1 game):base()
+        {
+            model = ModelLibrary.projectile;
+            this.game = game;
+            this.projectile = projectile;
+            pos = projectile.pos;
+            tex = t1;
+            tex2 = t2;
+            tex3 = t3;
+            this.c1 = c1;
+            this.c2 = c2;
+
+            scale = new Vector3(.1f, .1f, .1f);
+
+            texPos1 = new Vector2(0, 0);
+
+            tip = model.Bones["tip1"];
+            tipMatrix = Matrix.Identity;
+
+            tipTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
+            trailTarg = new RenderTarget2D(game.GraphicsDevice, 64, 172);
+            endTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
+            sb = new SpriteBatch(game.GraphicsDevice);
+
+            updateRots();
+        }
+
 
         public ProjectileModel(Model model, Vector3 pos, Projectile projectile, Color c1, Color c2, Game1 game):base(model)
         {
@@ -60,13 +91,21 @@ namespace MoonCow
             trailTarg = new RenderTarget2D(game.GraphicsDevice, 64, 172);
             endTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
             sb = new SpriteBatch(game.GraphicsDevice);
-    
+
+            updateRots();
+        }
+
+        void updateRots()
+        {
+            tipRot1 = Utilities.nextFloat() * MathHelper.Pi * 2;
+            tipRot2 = Utilities.nextFloat() * MathHelper.Pi * 2;
         }
 
         public override void Update(GameTime gameTime)
         {
             pos = projectile.pos;
             rot = projectile.rot;
+            updateRots();
             //rot.Y += MathHelper.Pi;
             rot.Z += MathHelper.PiOver2;
             scale = new Vector3(.1f, .1f, .1f);
@@ -145,7 +184,10 @@ namespace MoonCow
                     {
                         if (mesh.Name.StartsWith("tip"))
                         {
-                            effect.World = Matrix.CreateScale(scale*2)*Matrix.CreateRotationY(MathHelper.PiOver2)*Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
+                            if (mesh.Name.EndsWith("1") || mesh.Name.EndsWith("3"))
+                                effect.World = Matrix.CreateRotationX(tipRot1) * Matrix.CreateScale(scale * 2) * Matrix.CreateRotationY(MathHelper.PiOver2) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
+                            else
+                                effect.World = Matrix.CreateRotationX(tipRot2) * Matrix.CreateScale(scale * 2) * Matrix.CreateRotationY(MathHelper.PiOver2) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
                             //effect.World = mesh.ParentBone.Transform * GetWorld();
                         }
                         else

@@ -4,33 +4,49 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 namespace MoonCow
 {
-    public class SentryProjectile:Projectile
+    public class LaserProjectile:Projectile
     {
-        Sentry enemy;
-        bool sentFail;
-        float distFromSource;
-        public SentryProjectile(Vector3 pos, Vector3 direction, Game1 game, Sentry enemy):base()
+        WeaponLaser wep;
+        int type;
+        Color c1;
+        Color c2;
+
+        public LaserProjectile(Vector3 pos, Vector3 direction, Game1 game, WeaponLaser weapons, int type)
+            : base()
         {
             this.direction = direction;
             this.game = game;
             this.pos = pos;
             this.rot.Y = (float)Math.Atan2(direction.X, direction.Z);
-            this.enemy = enemy;
+            this.wep = weapons;
+            this.type = type;
 
             speed = 50;
-            life = 120;
-            delete = false;
-            damage = 20;
+            life = 200;
+            damage = 5;
 
-            boundingBox = new OOBB(pos, direction, 0.3f, 1); // Need to be changed to be actual projectile dimensions
             col = new CircleCollider(pos, 0.2f);
+            if (type == 1)
+            {
+                c1 = Color.Green;
+                c2 = Color.CornflowerBlue;
+                model = new ProjectileModel(ModelLibrary.projectile, pos, this, c1, c2, game);
 
-            model = new ProjectileModel(this, TextureManager.elecRound64, TextureManager.elecRound64, TextureManager.elecTrail64, Color.Red, Color.Orange, game);
-
-
+            }
+            else if (type == 2)
+            {
+                c1 = Color.Blue;
+                c2 = Color.Aqua;
+                model = new ProjectileModel(ModelLibrary.projectile, pos, this, c1, c2, game);
+            }
+            else
+            {
+                c1 = Color.Red;
+                c2 = Color.Purple;
+                model = new ProjectileModel(this, TextureManager.elecRound64, TextureManager.elecRound64, TextureManager.elecTrail64, c1, c2, game);
+            }
             game.modelManager.addEffect(model);
         }
 
@@ -38,24 +54,28 @@ namespace MoonCow
         {
             frameDiff = Vector3.Zero;
 
-            if (!delete)
-            {
-                frameDiff += direction * speed * Utilities.deltaTime;
-                checkCollision();
-            }
+            frameDiff += direction * speed * Utilities.deltaTime;
+            col.Update(pos);
+            checkCollision();
+
             life -= Utilities.deltaTime * 60;
             if(life <=0)
             {
                 deleteProjectile();
             }
-            boundingBox.Update(pos, direction);
-            col.Update(pos);
+        }
 
-            distFromSource = Utilities.hypotenuseOf(pos.X - enemy.pos.X, pos.Z - enemy.pos.Z);
-            if (!sentFail && distFromSource > enemy.distFromShip + 2)
+        void onImpact()
+        {
+            for (int i = 0; i < 10; i++)
+                game.modelManager.addEffect(new DotParticle(game, pos));
+
+            game.modelManager.addEffect(new LaserHitEffect(game, pos, c1));
+            game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Orange));
+            if (type == 3)
             {
-                sentFail = true;
-                enemy.missedShip();
+                for (int i = 0; i < 5; i++)
+                    game.modelManager.addEffect(new ElecParticle(pos, game, c1, c2));
             }
         }
 
@@ -64,34 +84,23 @@ namespace MoonCow
             // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
             // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
             // be within tolerable limits for CPU time. This will only need to be done with the player
-            pos.Y += frameDiff.Y;
-            pos.X += frameDiff.X;
-            pos.Z += frameDiff.Z;
+            pos += frameDiff;
             bool collided = false;
 
             //## COLLISIONS WHOOO! ##
             // Move the bounding box to new pos
-            col.Update(pos);
             // Get current node co-ordinates
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
             //For the current node check if your X component will make you collide with wall
-            if(col.checkOOBB(game.ship.boundingBox))
-            {
-                game.ship.shipHealth.onHit(damage);
-                enemy.hitShip();
-                collided = true;
-            }
-
             try
             {
                 foreach (OOBB box in game.map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
                 {
                     if (col.checkOOBB(box))
                     {
+                        pos.X -= frameDiff.X;
                         collided = true;
-                        if(!sentFail)
-                           enemy.missedShip();
                     }
                 }
             }
@@ -99,21 +108,41 @@ namespace MoonCow
             {
                 deleteProjectile();
             }
-            try 
+
+            try
             {
                 foreach (Enemy enemy in game.enemyManager.enemies)
                 {
-                    if(nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
+                    if (nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
                     {
                         //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if(col.checkOOBB(enemy.boundingBox))
+                        if (col.checkOOBB(enemy.boundingBox))
                         {
                             enemy.health -= damage;
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                            wep.addExp(5);
                             collided = true;
+                        }
+                    }
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                deleteProjectile();
+            }
 
-                            if (!sentFail)
-                                this.enemy.missedShip();
+            try
+            {
+                foreach (Sentry s in game.enemyManager.sentries)
+                {
+                    if (nodePos.X == s.nodePos.X && nodePos.Y == s.nodePos.Y)
+                    {
+                        //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
+                        if (s.col.checkPoint(pos))
+                        {
+                            s.damage(damage, direction);
+                            game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                            collided = true;
                         }
                     }
                 }
@@ -129,13 +158,12 @@ namespace MoonCow
                 {
                     if (nodePos.X == a.nodePos.X && nodePos.Y == a.nodePos.Y)
                     {
+                        //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
                         if (a.col.checkPoint(pos))
                         {
                             a.damage(damage, pos);
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
-                            if (!sentFail)
-                                enemy.missedShip();
                         }
                     }
                 }
@@ -144,13 +172,7 @@ namespace MoonCow
 
             if (collided)
             {
-                for (int i = 0; i < 10; i++)
-                    game.modelManager.addEffect(new DotParticle(game, pos));
-                for (int i = 0; i < 5; i++)
-                    game.modelManager.addEffect(new ElecParticle(pos, game, Color.Red, Color.Orange));
-
-                    game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Red));
-
+                onImpact();
                 deleteProjectile();
             }
         }
@@ -158,8 +180,7 @@ namespace MoonCow
         protected override void deleteProjectile()
         {
             game.modelManager.removeEffect(model);
-            game.enemyManager.pToDelete.Add(this);
-            delete = true;
+            wep.toDelete.Add(this);
             model.Dispose();
         }
     }

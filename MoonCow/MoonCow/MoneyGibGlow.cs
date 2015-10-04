@@ -7,13 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class MoneyGibGlow:BasicModel
+    public class MoneyGibGlow:BasicModel
     {
         Game1 game;
         MoneyGib gib;
         Texture2D tex;
         RenderTarget2D rTarg;
         SpriteBatch sb;
+        Color col;
 
         public MoneyGibGlow(Model model, MoneyGib gib, Game1 game):base(model)
         {
@@ -25,19 +26,20 @@ namespace MoonCow
             sb = new SpriteBatch(game.GraphicsDevice);
             rTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
             rot.Z = Utilities.nextFloat() * MathHelper.PiOver2;
+
+            col = gib.color;
+
+            game.GraphicsDevice.SetRenderTarget(rTarg);
+            sb.Begin();
+            sb.Draw(tex, Vector2.Zero, col);
+            sb.End();
+            game.GraphicsDevice.SetRenderTarget(null);
         }
 
         public override void Update(GameTime gameTime)
         {
             pos = gib.pos;
             base.Update(gameTime);
-
-            game.GraphicsDevice.SetRenderTarget(rTarg);
-            sb.Begin();
-            sb.Draw(tex, Vector2.Zero, Color.Red);
-            sb.End();
-            game.GraphicsDevice.SetRenderTarget(null);
-
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)

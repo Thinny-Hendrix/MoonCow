@@ -68,11 +68,16 @@ namespace MoonCow
             ammo--;
         }
 
-        public virtual void addAmmo(int amount)
+        public virtual float addAmmo(float amount)
         {
             ammo += amount;
             if (ammo > ammoMax)
+            {
+                float difference = ammo - ammoMax;
                 ammo = ammoMax;
+                return amount - difference;
+            }
+            return amount;
         }
 
         public virtual void addExp(float amount)
@@ -82,8 +87,9 @@ namespace MoonCow
                 exp += amount;
                 if (exp >= EXPMAX)
                 {
-                    levelUp();
+                    level++;
                     exp -= EXPMAX;
+                    levelUp();
                 }
             }
         }

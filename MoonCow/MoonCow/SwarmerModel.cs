@@ -20,7 +20,7 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             pos = enemy.pos;
-            pos.Y -= 0.7f;
+            //pos.Y -= 0.7f;
             rot = enemy.rot;
 
             rot.Y -= MathHelper.Pi;

@@ -39,6 +39,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AmmoGib.cs" />
     <Compile Include="AstBig.cs" />
     <Compile Include="Asteroid.cs" />
     <Compile Include="AsteroidGenerator.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="HeavyModel.cs" />
     <Compile Include="JunkShip.cs" />
     <Compile Include="JunkShipModel.cs" />
+    <Compile Include="LaserProjectile.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuAssets.cs" />
     <Compile Include="MenuButton.cs" />
@@ -447,6 +449,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\Electro\elecL4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Electro\elecRound.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Electro\elecRound64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Electro\elecTrail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Electro\elecTrail64.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\gibglow.png">

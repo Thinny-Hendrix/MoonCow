@@ -75,6 +75,7 @@ namespace MoonCow
             if (displayTime > 3)
                 display = false;
         }
+
         public void addMoney(float amount)
         {
             difference += amount;
@@ -95,9 +96,23 @@ namespace MoonCow
             return false;
         }
 
+        public void addAmmoGib(Vector3 pos)
+        {
+            int type = game.ship.weapons.getAmmoType();
+            if (type >= 0)
+                game.modelManager.addObject(new AmmoGib(this, game.ship, pos, game, type));
+        }
+
+        public void addGib(float amount, Vector3 position, int type)
+        {
+            MoneyGib g = new MoneyGib(amount, moneyGib1, this, ((Game1)Game).ship, position, (Game1)game, type);
+            //moneyGibs.Add(g);
+            game.modelManager.addObject(g);
+        }
+
         public void addGib(float amount, Vector3 position)
         {
-            MoneyGib g = new MoneyGib(amount, moneyGib1, this, ((Game1)Game).ship, position, (Game1)game);
+            MoneyGib g = new MoneyGib(amount, moneyGib1, this, ((Game1)Game).ship, position, (Game1)game, 0);
             //moneyGibs.Add(g);
             ((Game1)Game).modelManager.addObject(g);
         }

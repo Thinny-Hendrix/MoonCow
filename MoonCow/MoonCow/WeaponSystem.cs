@@ -119,6 +119,37 @@ namespace MoonCow
                 activeWeapon.Fire();
             }
         }
+
+        public int getAmmoType()
+        {
+            int lowestWep = -1;
+            float lowestAmount = 1;
+            foreach (Weapon w in weapons)
+            {
+                if (w.ammo < w.ammoMax)
+                {
+                    float amount = w.ammo / w.ammoMax;
+                    if(amount < lowestAmount)
+                    {
+                        lowestAmount = amount;
+                        lowestWep = weapons.IndexOf(w);
+                    }
+                }
+            }
+
+            float activeAmount = activeWeapon.ammo / activeWeapon.ammoMax;
+            if (activeAmount < 0.4f)
+                lowestWep = weapons.IndexOf(activeWeapon);
+
+            return lowestWep;
+        }
+
+        public void addAmmo(int i)
+        {
+            Weapon wep = weapons.ElementAt(i);
+            float added = wep.addAmmo((float)Math.Floor(wep.ammoMax / 4));
+            //trigger message
+        }
     
     }
 }
