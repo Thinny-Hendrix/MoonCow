@@ -13,6 +13,7 @@ namespace MoonCow
         public Vector2 pos;
         public float scale;
         public float alpha;
+        public float rot;
 
         public SpriteParticle(Vector2 pos)
         {
@@ -25,7 +26,7 @@ namespace MoonCow
 
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, (int)(tex.Bounds.Width*scale), (int)(tex.Bounds.Height*scale)), null, Color.White * alpha, 0, new Vector2(tex.Bounds.Width / 2, tex.Bounds.Height / 2), SpriteEffects.None, 0);
+            sb.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, (int)(tex.Bounds.Width*scale), (int)(tex.Bounds.Height*scale)), null, Color.White * alpha, rot, new Vector2(tex.Bounds.Width / 2, tex.Bounds.Height / 2), SpriteEffects.None, 0);
         }
 
         public virtual void Dispose()

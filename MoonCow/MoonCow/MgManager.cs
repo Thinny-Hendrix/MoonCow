@@ -13,6 +13,7 @@ namespace MoonCow
         Game1 game;
         Minigame minigame;
         MgInstance instance;
+        public MgScreen screen;
 
         List<MgMarker> upMark;
         List<MgMarker> downMark;
@@ -20,8 +21,7 @@ namespace MoonCow
         List<MgMarker> rightMark;
         public List<MgMarker> mToDelete;
 
-        public List<SpriteParticle> particles;
-        public List<SpriteParticle> pToDelete;
+        
 
         public float speed;
 
@@ -39,9 +39,11 @@ namespace MoonCow
 
         float time;
         float nextMarker;
-        int markerMax;
-        int markerCount;
-        int missCount;
+        public int markerMax;
+        public int markerCount;
+        public int missCount;
+        public int hitCount;
+        bool fail;
 
         MgKey upKey;
         MgKey downKey;
@@ -66,11 +68,8 @@ namespace MoonCow
             rightMark = new List<MgMarker>();
             mToDelete = new List<MgMarker>();
 
-            particles = new List<SpriteParticle>();
-            pToDelete = new List<SpriteParticle>();
-
-            bg = game.Content.Load<Texture2D>(@"Minigame/mgbg");
-            markerSprite = game.Content.Load<Texture2D>(@"Minigame/mgMark");
+            bg = game.Content.Load<Texture2D>(@"Minigame/mgbg2");
+            markerSprite = game.Content.Load<Texture2D>(@"Minigame/mgMarker2");
             font = game.Content.Load<SpriteFont>(@"Hud/Venera40");
 
             rTarg = new RenderTarget2D(game.GraphicsDevice, 1024, 1024);
@@ -90,6 +89,7 @@ namespace MoonCow
             markerCount = 0;
             nextMarker = 1;
             speed = 650;
+            fail = false;
         }
 
         void checkInputs()
@@ -160,18 +160,37 @@ namespace MoonCow
             }
             mToDelete.Clear();
 
-            foreach (SpriteParticle p in particles)
-                p.Update();
-            foreach (SpriteParticle p in pToDelete)
-                particles.Remove(p);
-            pToDelete.Clear();
-
-            Draw();
+            if(fail)
+            {
+                onFail();
+            }
 
             if(markerCount == markerMax && upMark.Count()+downMark.Count()+leftMark.Count()+rightMark.Count() == 0)
             {
                 success();
             }
+        }
+
+        void onFail()
+        {
+            foreach (MgMarker m in upMark)
+                addParticle(new SpDot(m.pos, speed / 500, screen.pToDelete), 1);
+            foreach (MgMarker m in downMark)
+                addParticle(new SpDot(m.pos, speed / 500, screen.pToDelete), 1);
+            foreach (MgMarker m in leftMark)
+                addParticle(new SpDot(m.pos, speed / 500, screen.pToDelete), 1);
+            foreach (MgMarker m in rightMark)
+                addParticle(new SpDot(m.pos, speed / 500, screen.pToDelete), 1);
+
+            upMark.Clear();
+            downMark.Clear();
+            leftMark.Clear();
+            rightMark.Clear();
+        }
+
+        public void addMessage(string s)
+        {
+            screen.addMessage(s);
         }
 
         void addMarker()
@@ -209,9 +228,6 @@ namespace MoonCow
             //sb.Draw(markerSprite, new Rectangle((int)leftGoal.centre.X, (int)leftGoal.centre.Y, markerSprite.Bounds.Width, markerSprite.Bounds.Height), null, Color.White, 0, new Vector2(77), SpriteEffects.None, 0);
             //sb.Draw(markerSprite, new Rectangle((int)rightGoal.centre.X, (int)rightGoal.centre.Y, markerSprite.Bounds.Width, markerSprite.Bounds.Height), null, Color.White, 0, new Vector2(77), SpriteEffects.None, 0);
 
-            foreach (SpriteParticle p in particles)
-                p.Draw(sb);
-
             foreach (MgMarker m in upMark)
                 m.Draw(sb);
             foreach (MgMarker m in downMark)
@@ -229,20 +245,50 @@ namespace MoonCow
         {
             missCount++;
             if (missCount >= 3)
-                minigame.abort();
+            {
+                fail = true;
+                minigame.addMoney(0);
+                minigame.close();
+            }
+
+            addMessage("Miss...");
+        }
+
+        public void hit(float amount)
+        {
+            minigame.addMoney(amount);
+            hitCount++;
         }
 
         public void success()
         {
             minigame.successCount++;
             minigame.attempts++;
-            minigame.abort();
+            minigame.close();
             minigame.updateStats(true);
         }
 
         public void loadInstance(MgInstance instance)
         {
             this.instance = instance;
+        }
+
+        public void addParticle(SpriteParticle p)
+        {
+            screen.particles.Add(p);
+        }
+
+        public void addParticle(SpriteParticle p, int i)
+        {
+            switch(i)
+            {
+                default:
+                    screen.particles.Add(p);
+                    break;
+                case 1:
+                    screen.frontParticles.Add(p);
+                    break;
+            }
         }
 
         public void reset()
@@ -252,13 +298,14 @@ namespace MoonCow
             leftMark.Clear();
             rightMark.Clear();
             mToDelete.Clear();
-            particles.Clear();
-            pToDelete.Clear();
 
             markerCount = 0;
             nextMarker = 1;
             markerMax = instance.markTypes.Count();
             missCount = 0;
+            hitCount = 0;
+
+            fail = false;
         }
     }
 }

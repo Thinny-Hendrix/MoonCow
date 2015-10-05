@@ -54,6 +54,10 @@ namespace MoonCow
         public static Texture2D turBase;
         public static Texture2D elecTurTex;
 
+        //minigame
+        public static Texture2D mgLines;
+        public static Texture2D rbowRing;
+        public static Texture2D mgPulse;
 
 
         //weapon effects
@@ -138,6 +142,11 @@ namespace MoonCow
             //turret model textures
             turBase = game.Content.Load<Texture2D>(@"Models/Turrets/turrBase_0");
             elecTurTex = game.Content.Load<Texture2D>(@"Models/Turrets/elecTurt_0");
+
+            //minigame
+            mgLines = game.Content.Load<Texture2D>(@"Minigame/mgRimLines");
+            rbowRing = game.Content.Load<Texture2D>(@"Minigame/rBowRing");
+            mgPulse = game.Content.Load<Texture2D>(@"Minigame/pulse");
 
             //weapon effects
             bombRing = game.Content.Load<Texture2D>(@"Models/Weapons/sploring");

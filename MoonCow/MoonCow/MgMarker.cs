@@ -10,7 +10,7 @@ namespace MoonCow
 {
     public class MgMarker
     {
-        Vector2 pos;
+        public Vector2 pos;
         CircleCollider col;
         Vector2 dir;
         enum Type{up, down, left, right}
@@ -74,10 +74,11 @@ namespace MoonCow
                 if (!goalCol.checkCircle(col))
                     passedGoal = true;
             }
-            if (passedGoal && goalCol.distFrom(pos) > 20)
+            if (passedGoal && goalCol.distFrom(pos) > 100)
             {
                 manager.miss();
                 manager.mToDelete.Add(this);
+                manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
             }
         }
 
@@ -88,27 +89,42 @@ namespace MoonCow
             if (dist < 200)
             {
                 if (dist > 150)
+                {
                     manager.miss();
+                    manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
+                }
                 else if (dist > 100)
                 {
                     //okay
-                    manager.particles.Add(new SpRing(pos, 1, manager));
+                    manager.addParticle(new SpRing(pos, manager.speed / 500, manager.screen.pToDelete));
+                    manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
+                    manager.hit(5);
+                    manager.addMessage("okay");
                 }
                 else if (dist > 75)
                 {
                     //good
-                    manager.particles.Add(new SpRing(pos, 2, manager));
+                    manager.addParticle(new SpRing(pos, manager.speed / 500 * 2, manager.screen.pToDelete));
+                    manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
+                    manager.hit(10);
+                    manager.addMessage("good");
                 }
                 else if (dist > 40)
                 {
                     //great
-                    manager.particles.Add(new SpRing(pos, 3, manager));
+                    manager.addParticle(new SpRing(pos, manager.speed / 500 * 3, manager.screen.pToDelete));
+                    manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
+                    manager.hit(15);
+                    manager.addMessage("great");
                 }
                 else //dist <= 40
                 {
                     //perfect
-                    manager.particles.Add(new SpRing(goalCol.centre, manager.speed/500*7, manager));
-                    manager.particles.Add(new SpRing(goalCol.centre, manager.speed / 500 * 14, manager));
+                    manager.addParticle(new SpRing(goalCol.centre, manager.speed / 500 * 7, manager.screen.pToDelete, 1));
+                    manager.addParticle(new SpRing(goalCol.centre, manager.speed / 500 * 14, manager.screen.pToDelete, 1));
+                    manager.addParticle(new SpDot(goalCol.centre, manager.speed / 500, manager.screen.pToDelete), 1);
+                    manager.hit(25);
+                    manager.addMessage("perfect!");
                 }
                 manager.mToDelete.Add(this);
             }

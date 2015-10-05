@@ -66,16 +66,16 @@ namespace MoonCow
             switch(i)
             {
                 default:
-                    color = Color.Red;
+                    color = new Color(255,0,55);
                     break;
                 case 1:
-                    color = Color.Aqua;
+                    color = new Color(0,255,255);
                     break;
                 case 2:
-                    color = Color.Magenta;
+                    color = new Color(255,0,162);
                     break;
                 case 3:
-                    color = Color.Orange;
+                    color = new Color(255,185,0);
                     break;
             }
         }

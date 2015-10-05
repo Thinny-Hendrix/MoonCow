@@ -9,20 +9,36 @@ namespace MoonCow
 {
     public class SpRing:SpriteParticle
     {
-        float scaleSpeed;
-        MgManager manager;
-        public SpRing(Vector2 pos, float speed, MgManager manager):base(pos)
+        float speed;
+        List<SpriteParticle> toDelete;
+        public SpRing(Vector2 pos, float speed, List<SpriteParticle> toDelete):base(pos)
         {
-            this.manager = manager;
+            this.toDelete = toDelete;
             tex = TextureManager.particle2;
-            scaleSpeed = speed;
+            this.speed = speed;
+            scale = 0.4f;
+            rot = Utilities.nextFloat() * MathHelper.Pi * 2;
+            alpha = 1;
+        }
+
+        public SpRing(Vector2 pos, float speed, List<SpriteParticle> toDelete, int type)
+            : base(pos)
+        {
+            this.toDelete = toDelete;
+            if (type == 1)
+                tex = TextureManager.rbowRing;
+            else
+                tex = TextureManager.particle2;
+            this.speed = speed;
             scale = 0.4f;
             alpha = 1;
+            rot = Utilities.nextFloat() * MathHelper.Pi * 2;
         }
 
         public override void Update()
         {
-            scale += scaleSpeed*Utilities.deltaTime;
+            //rot += Utilities.deltaTime * speed * MathHelper.PiOver4/4;
+            scale += speed*Utilities.deltaTime;
             alpha -= Utilities.deltaTime;
             if (alpha <= 0)
                 Dispose();
@@ -30,7 +46,7 @@ namespace MoonCow
 
         public override void Dispose()
         {
-            manager.pToDelete.Add(this);
+            toDelete.Add(this);
         }
 
 

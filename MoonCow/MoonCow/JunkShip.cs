@@ -50,7 +50,7 @@ namespace MoonCow
                             successAtActivate = minigame.successCount;
                         }
                         minigame.manager.loadInstance(instance);
-                        minigame.activate();
+                        minigame.activate(pos, Vector3.Cross(dir, Vector3.Up));
                         Vector3 camPos = pos+Vector3.Cross(dir, Vector3.Up)*10;
                         camPos.Y += 5;
                         game.camera.setStaticTarg(camPos, pos);

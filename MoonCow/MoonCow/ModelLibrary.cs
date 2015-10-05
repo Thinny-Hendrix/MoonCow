@@ -55,7 +55,7 @@ namespace MoonCow
 
         //Asteroid field
         public static Model ast1;
-
+        public static Model mgScreen;
 
         //Ships
 
@@ -114,7 +114,7 @@ namespace MoonCow
 
             //Asteroid field
             ast1 = game.Content.Load<Model>(@"Models/AstField/ast1");
-
+            mgScreen = game.Content.Load<Model>(@"Models/Misc/mgScreen");
         }
     }
 }
