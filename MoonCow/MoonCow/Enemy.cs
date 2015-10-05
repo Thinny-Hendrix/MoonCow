@@ -49,11 +49,12 @@ namespace MoonCow
 
         //special damage types
         public ElectroDamage electroDamage;
-
+        public PyroDamage pyroDamage;
 
         public Enemy(Game1 game)
         {
             electroDamage = new ElectroDamage(this, game);
+            pyroDamage = new PyroDamage(this, game);
         }
 
         protected float makeCentreCoordinate(float c)
@@ -69,6 +70,7 @@ namespace MoonCow
         public virtual void Update(GameTime gameTime)
         {
             electroDamage.Update();
+            pyroDamage.Update();
         }
 
         public virtual void knockbackDamage(float damage, Vector3 source)
@@ -89,6 +91,12 @@ namespace MoonCow
         public void addElectroDamage(float damage)
         {
             electroDamage.activate(damage);
+        }
+
+        public void addPyroDamage(float damage)
+        {
+            health -= damage;
+            pyroDamage.activate();
         }
 
         public virtual void freezeDamage(float damage)

@@ -148,7 +148,8 @@ namespace MoonCow
         {
             Weapon wep = weapons.ElementAt(i);
             float added = wep.addAmmo((float)Math.Floor(wep.ammoMax / 4));
-            //trigger message
+
+            game.hud.hudMessage.setAmmoMessage(wep, added);
         }
     
     }

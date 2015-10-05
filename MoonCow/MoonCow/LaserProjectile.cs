@@ -45,7 +45,7 @@ namespace MoonCow
             {
                 c1 = Color.Red;
                 c2 = Color.Purple;
-                model = new ProjectileModel(this, TextureManager.elecRound64, TextureManager.elecRound64, TextureManager.elecTrail64, c1, c2, game);
+                model = new ProjectileModel(this, TextureManager.elecRound64, TextureManager.elecRound64, TextureManager.elecTrail64, c1, c2, new Color(1, 0.4f, 0), game);
             }
             game.modelManager.addEffect(model);
         }
@@ -71,9 +71,9 @@ namespace MoonCow
                 game.modelManager.addEffect(new DotParticle(game, pos));
 
             game.modelManager.addEffect(new LaserHitEffect(game, pos, c1));
-            game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Orange));
             if (type == 3)
             {
+                game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Orange));
                 for (int i = 0; i < 5; i++)
                     game.modelManager.addEffect(new ElecParticle(pos, game, c1, c2));
             }

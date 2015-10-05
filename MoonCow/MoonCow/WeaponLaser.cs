@@ -13,6 +13,7 @@ namespace MoonCow
         {
             icon = TextureManager.icoPew;
             name = "Laser Cutters";
+            ammoName = "Charge";
 
             damage = 0.3f;
             rateOfFire = 0.9f;

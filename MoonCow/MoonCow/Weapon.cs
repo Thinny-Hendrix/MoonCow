@@ -11,6 +11,7 @@ namespace MoonCow
     {
         //general info used for hud
         public string name { get; protected set; }
+        public string ammoName { get; protected set; }
         public Texture2D icon { get; protected set; }
         //these three are values out of 1, displayed on quick select as a bar
         public float rateOfFire { get; protected set; }

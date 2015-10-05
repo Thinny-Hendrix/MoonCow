@@ -25,6 +25,7 @@ namespace MoonCow
         public HudHealth hudHealth;
         public HudState hudState;
         public HudMap hudMap;
+        public HudMessage hudMessage;
 
         public QuickSelect quickSelect;
 
@@ -73,7 +74,7 @@ namespace MoonCow
             hudHealth = new HudHealth(this, font, game);
             hudState = new HudState(this, font, game);
             hudMap = new HudMap(this, font, game);
-
+            hudMessage = new HudMessage(this, font, game);
 
             viewportW = game.GraphicsDevice.Viewport.Width;
             viewportH = game.GraphicsDevice.Viewport.Height;
@@ -166,6 +167,7 @@ namespace MoonCow
             hudHealth.Update();
             hudState.Update();
             hudMap.Update();
+            hudMessage.Update();
 
         }
 
@@ -222,6 +224,7 @@ namespace MoonCow
             hudHealth.Draw(spriteBatch);
             hudState.Draw(spriteBatch);
             hudMap.Draw(spriteBatch);
+            hudMessage.Draw(spriteBatch);
             spriteBatch.End();
 
 

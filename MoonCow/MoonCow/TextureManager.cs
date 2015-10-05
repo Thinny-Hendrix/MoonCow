@@ -79,6 +79,9 @@ namespace MoonCow
         public static Texture2D elecTrail;
         public static Texture2D elecTrail64;
 
+        //fire
+        public static Texture2D pyroFlame;
+
         //enemies
         //sentry
         public static Texture2D sentryBod;
@@ -159,6 +162,9 @@ namespace MoonCow
             elecRound64 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecRound64");
             elecTrail = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecTrail");
             elecTrail64 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecTrail64");
+
+            //fire
+            pyroFlame = game.Content.Load<Texture2D>(@"Models/Effects/Pyro/fire1");
 
             //enemies
             //sentry

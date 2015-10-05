@@ -72,7 +72,6 @@ namespace MoonCow
                         alpha = (float)((Math.Cos(life)) + 1) / 2;
                     else
                         alpha = (float)((Math.Cos(life)) + 1) * 0.6f + 0.4f;
-
                 }
 
                 game.GraphicsDevice.SetRenderTarget(rTarg);

@@ -33,13 +33,41 @@ namespace MoonCow
 
         Color c1;
         Color c2;
+        Color c3;
 
         float endRot;
 
         public float tipRot1;
         public float tipRot2;
 
+        public ProjectileModel(Projectile projectile, Texture2D t1, Texture2D t2, Texture2D t3, Color c1, Color c2, Color c3, Game1 game)
+            : base()
+        {
+            model = ModelLibrary.projectile;
+            this.game = game;
+            this.projectile = projectile;
+            pos = projectile.pos;
+            tex = t1;
+            tex2 = t2;
+            tex3 = t3;
+            this.c1 = c1;
+            this.c2 = c2;
+            this.c3 = c3;
 
+            scale = new Vector3(.1f, .1f, .1f);
+
+            texPos1 = new Vector2(0, 0);
+
+            tip = model.Bones["tip1"];
+            tipMatrix = Matrix.Identity;
+
+            tipTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
+            trailTarg = new RenderTarget2D(game.GraphicsDevice, 64, 172);
+            endTarg = new RenderTarget2D(game.GraphicsDevice, 64, 64);
+            sb = new SpriteBatch(game.GraphicsDevice);
+
+            updateRots();
+        }
         public ProjectileModel(Projectile projectile, Texture2D t1, Texture2D t2, Texture2D t3, Color c1, Color c2, Game1 game):base()
         {
             model = ModelLibrary.projectile;
@@ -51,6 +79,7 @@ namespace MoonCow
             tex3 = t3;
             this.c1 = c1;
             this.c2 = c2;
+            this.c3 = c1;
 
             scale = new Vector3(.1f, .1f, .1f);
 
@@ -136,20 +165,20 @@ namespace MoonCow
             game.GraphicsDevice.SetRenderTarget(trailTarg);
 
             sb.Begin();
-            sb.Draw(tex3, texPos1, c1);
-            sb.Draw(tex3, texPos2, c1);
-            sb.Draw(tex3, texPos3, c1);
-            sb.Draw(tex3, texPos4, c1);
+            sb.Draw(tex3, texPos1, c3);
+            sb.Draw(tex3, texPos2, c3);
+            sb.Draw(tex3, texPos3, c3);
+            sb.Draw(tex3, texPos4, c3);
 
-            sb.Draw(tex3, texPos1, c1);
-            sb.Draw(tex3, texPos2, c1);
-            sb.Draw(tex3, texPos3, c1);
-            sb.Draw(tex3, texPos4, c1);
+            sb.Draw(tex3, texPos1, c3);
+            sb.Draw(tex3, texPos2, c3);
+            sb.Draw(tex3, texPos3, c3);
+            sb.Draw(tex3, texPos4, c3);
 
-            sb.Draw(tex3, texPos1, c1);
-            sb.Draw(tex3, texPos2, c1);
-            sb.Draw(tex3, texPos3, c1);
-            sb.Draw(tex3, texPos4, c1);
+            sb.Draw(tex3, texPos1, c3);
+            sb.Draw(tex3, texPos2, c3);
+            sb.Draw(tex3, texPos3, c3);
+            sb.Draw(tex3, texPos4, c3);
 
             sb.End();
 

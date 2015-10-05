@@ -20,7 +20,7 @@ namespace MoonCow
             col = new CircleCollider(pos, 20);
             turretModel = new GattleTurretModel(this, game);
             game.modelManager.addObject(turretModel);
-            cooldownMax = 0.25f;
+            cooldownMax = 1f;
 
             origY = (float)Math.Atan2(targetDir.X, targetDir.Z);
             origZ = (float)Math.Atan2(targetDir.Y, targetDir.Z);
@@ -76,7 +76,7 @@ namespace MoonCow
                 targetDir.Y = pos.Y+2 - target.pos.Y;
                 targetDir.Normalize();*/
                 currentDir = Vector3.Lerp(currentDir, targetDir, Utilities.deltaTime * 10);
-                game.modelManager.addEffect(new FireParticle(pos, -currentDir, game));
+                game.modelManager.addEffect(new FireStreamParticle(pos, -currentDir, game));
 
                 if (cooldown == 0)
                     fire();
@@ -120,9 +120,10 @@ namespace MoonCow
 
         public override void fire()
         {
+            target.addPyroDamage(4);
             turretModel.fire();
             cooldown = cooldownMax;
-            projectiles.Add(new GattleProjectile(pos + new Vector3(targetDir.X * -4, 1.5f, targetDir.Z * -4), targetDir * -1, game, this));
+            //projectiles.Add(new GattleProjectile(pos + new Vector3(targetDir.X * -4, 1.5f, targetDir.Z * -4), targetDir * -1, game, this));
         }
 
         public override void setTarget()
