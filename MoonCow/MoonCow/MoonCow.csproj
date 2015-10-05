@@ -48,6 +48,7 @@
     <Compile Include="AstMid.cs" />
     <Compile Include="AstSmall.cs" />
     <Compile Include="Attack.cs" />
+    <Compile Include="AudioLibrary.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="BasicModel.cs" />
     <Compile Include="BloomComponent.cs" />

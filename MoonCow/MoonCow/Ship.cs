@@ -359,6 +359,9 @@ namespace MoonCow
 
             frameDiff.X += direction.X * moveSpeed;
             frameDiff.Z += direction.Z * moveSpeed;
+
+
+            game.audioManager.shipSpaceEngine.Pitch = moveSpeed * 1.6f;
         }
 
         void updateBarrelRoll()
@@ -500,7 +503,7 @@ namespace MoonCow
             else    // Otherwise do not play sound and stop if already playing sound
             {
                 justHitWall = false;
-                game.audioManager.wallScrapeStop();
+                game.audioManager.shipMetallicWallScrape.Stop();
             }
         }
 
@@ -561,11 +564,12 @@ namespace MoonCow
             if (!justHitWall)  //plays the wallHit noise only if a collision is occurring
             {
                 justHitWall = true;
-                game.audioManager.wallHit();
+                game.audioManager.shipMetallicWallHit.Stop();
+                game.audioManager.shipMetallicWallHit.Play();
             }
             if (moveSpeed > 0.1f)
             {
-                game.audioManager.wallScrape();
+                game.audioManager.shipMetallicWallScrape.Play();
             }
         }
 

@@ -30,13 +30,17 @@ namespace MoonCow
                 {
                     projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, game, this, 2));
                     laserPos = 1;
-                    game.audioManager.shootLaser();
+
+                    game.audioManager.shipShootLaser.Stop();
+                    game.audioManager.shipShootLaser.Play();
                 }
                 else
                 {
                     projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, game, this, 2));
                     laserPos = 0;
-                    game.audioManager.shootLaser2();
+
+                    game.audioManager.shipShootLaser2.Stop();
+                    game.audioManager.shipShootLaser2.Play();
                 }
                 cooldown = coolMax;
             }

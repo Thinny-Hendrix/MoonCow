@@ -96,7 +96,8 @@ namespace MoonCow
         {
             TextureManager.initialize(this);
             ModelLibrary.initialize(this);
-
+            AudioLibrary.initialize(this);
+            
             modelManager = new ModelManager(this);
             ship = new Ship(this);
 
