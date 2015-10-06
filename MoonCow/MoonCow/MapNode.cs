@@ -30,6 +30,7 @@ namespace MoonCow
         public float playerDamage;     //How much damage the player can currently do to this node
 
         public List<OOBB> collisionBoxes = new List<OOBB>();    //A list of all the collision boxes in this node
+        public OOBB asteroidBox;
         public CircleCollider coreCollider;                     //The collision for the core
         public int type;               //What node type this node is
         private BasicModel model;       //The model for this node
@@ -657,6 +658,8 @@ namespace MoonCow
 
             position = pos;
             this.type = type;
+            damage = 0;
+            playerDamage = 0;
             neighbors = new MapNode[4];
             if (model != null)
             {

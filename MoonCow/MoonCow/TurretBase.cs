@@ -63,6 +63,8 @@ namespace MoonCow
                                 turret = new GattleTurret(pos, dir, game);
                                 turretType = TurretType.gattle;
                                 baseModel.changeColor(turretType, game);
+                                game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
+                                game.enemyManager.turretPlaced();
                             }
                         }
                     }
@@ -76,6 +78,8 @@ namespace MoonCow
                                 turret = new ElectroTurret(pos, dir, game);
                                 turretType = TurretType.electro;
                                 baseModel.changeColor(turretType, game);
+                                game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 5;
+                                game.enemyManager.turretPlaced();
                             }
                         }
                     }
@@ -89,6 +93,8 @@ namespace MoonCow
                                 turret = new PyroTurret(pos, dir, game);
                                 turretType = TurretType.pyro;
                                 baseModel.changeColor(turretType, game);
+                                game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
+                                game.enemyManager.turretPlaced();
                             }
                         }
                     }

@@ -30,7 +30,7 @@ namespace MoonCow
         {
             this.game = game;
             waitTime = 0f;
-            inAttack = 1; 
+            inAttack = 0; 
             attackNumber = attackNo;
             active = true;
             generateAttackNumbers();
@@ -47,11 +47,9 @@ namespace MoonCow
                     if (active)
                     {
                         spawnState = Utilities.SpawnState.waiting;
-                        inAttack++;
                         //game.hud.hudAttackDisplayer.endAttackMessage();
                         waitTime = 15; // 20 seconds between waves
                         createWave(); // create next attack
-                        waves.Add(activeWave);
                     }
                     else
                     {
@@ -83,8 +81,45 @@ namespace MoonCow
 
         public void createWave()
         {
-            activeWave = new Wave(game, attackNumber, inAttack, 5, 1); // temp to keep the game going
-            waves.Add(activeWave);
+            inAttack++;
+            int inWave = 0;
+
+            //Hardcoded bullshit to make the game work for now
+            if(attackNumber ==1)
+            {
+                switch(inAttack)
+                {
+                    case 1:
+                        inWave = maxSwarmer / 3;
+                        activeWave = new Wave(game, attackNumber, inAttack, inWave, 1);
+                        waves.Add(activeWave);
+                        maxSwarmer -= inWave;
+                        break;
+                    case 2:
+                        inWave = maxGunner;
+                        activeWave = new Wave(game, attackNumber, inAttack, inWave, 2);
+                        waves.Add(activeWave);
+                        maxGunner -= inWave;
+                        break;
+                    case 3:
+                        inWave = maxSwarmer;
+                        activeWave = new Wave(game, attackNumber, inAttack, inWave, 1);
+                        waves.Add(activeWave);
+                        maxSwarmer -= inWave;
+                        break;
+                }
+            }
+            else
+            {
+                // attacks 2 onwards, do shit here.
+            }
+
+
+            // This part works and is fine for gold release
+            if(maxGunner == 0 && maxSwarmer == 0 && maxSneaker == 0 && maxHeavy == 0)
+            {
+                active = false;
+            }
         }
 
         public void endWave()
@@ -140,6 +175,23 @@ namespace MoonCow
                     }
                     break;
                 case 4:
+                    maxHeavy = (int)((2f / 15f) * maxEnemies);
+                    if (maxHeavy <= 0)
+                    {
+                        maxHeavy = 1;
+                    }
+                    maxSneaker = (int)((3f / 15f) * maxEnemies);
+                    if (maxSneaker <= 0)
+                    {
+                        maxSneaker = 1;
+                    }
+                    maxGunner = (int)((4f / 15f) * maxEnemies);
+                    if (maxGunner <= 0)
+                    {
+                        maxGunner = 1;
+                    }
+                    break;
+                default:
                     maxHeavy = (int)((2f / 15f) * maxEnemies);
                     if (maxHeavy <= 0)
                     {

@@ -72,5 +72,10 @@ namespace MoonCow
         {
             sentries.Add(new Sentry(game, this, pos));
         }
+
+        public void turretPlaced()
+        {
+            // make all gunners recalculate their path
+        }
     }
 }
