@@ -17,7 +17,8 @@ namespace MoonCow
         int waveMax;
         int waveNumber;
         int attackNumber;
-        int enemyType;
+        public int enemyType;
+        public bool started;
 
         public Wave(Game1 game, int attackNo, int waveNo, int enemies, int eType)
         {
@@ -28,10 +29,12 @@ namespace MoonCow
             attackNumber = attackNo;
             waveMax = enemies;
             enemyType = eType;
+            started = false;
         }
 
         public void spawn()
         {
+            started = true;
             countDown -= Utilities.deltaTime;
             if (countDown <= 0)
             {
