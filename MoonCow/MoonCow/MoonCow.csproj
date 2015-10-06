@@ -98,6 +98,7 @@
     <Compile Include="MgScreen.cs" />
     <Compile Include="Minigame.cs" />
     <Compile Include="PathfinderGunner.cs" />
+    <Compile Include="PathfinderSneaker.cs" />
     <Compile Include="PyroDamage.cs" />
     <Compile Include="PyroTurret.cs" />
     <Compile Include="Settings.cs" />

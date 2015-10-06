@@ -15,6 +15,7 @@ namespace MoonCow
         List<Wave> waves = new List<Wave>();
         Wave activeWave;
         int inAttack;
+        int currentWaveNumber;
         int attackNumber;
         public bool active;
         public Utilities.SpawnState spawnState;
@@ -24,18 +25,19 @@ namespace MoonCow
         int maxSneaker;
         int maxHeavy;
         int maxSwarmer;
-        bool attackDone;
 
         public Attack(Game1 game, int attackNo)
         {
             this.game = game;
             waitTime = 0f;
-            inAttack = 0; 
+            currentWaveNumber = 0; 
             attackNumber = attackNo;
             active = true;
             generateAttackNumbers();
             spawnState = Utilities.SpawnState.waiting;
-            createWave();
+            //createWaves();
+            tempWaveCreator();
+            activeWave = waves[currentWaveNumber];
         }
 
         public void update()
@@ -44,12 +46,13 @@ namespace MoonCow
             {
                 if (spawnState == Utilities.SpawnState.idle) // An wave just finished spawning, so transition into waiting state
                 {
-                    if (active)
+                    if (currentWaveNumber < inAttack - 1)
                     {
                         spawnState = Utilities.SpawnState.waiting;
                         //game.hud.hudAttackDisplayer.endAttackMessage();
                         waitTime = 15; // 20 seconds between waves
-                        createWave(); // create next attack
+                        currentWaveNumber++;
+                        activeWave = waves[currentWaveNumber];
                     }
                     else
                     {
@@ -79,145 +82,36 @@ namespace MoonCow
 
         }
 
-        public void createWave()
-        {
-            inAttack++;
-            int inWave = 0;
-
-            //Hardcoded bullshit to make the game work for now
-            if(attackNumber ==1)
-            {
-                switch(inAttack)
-                {
-                    case 1:
-                        inWave = maxSwarmer / 3;
-                        activeWave = new Wave(game, attackNumber, inAttack, inWave, 1);
-                        waves.Add(activeWave);
-                        maxSwarmer -= inWave;
-                        break;
-                    case 2:
-                        inWave = maxGunner;
-                        activeWave = new Wave(game, attackNumber, inAttack, inWave, 2);
-                        waves.Add(activeWave);
-                        maxGunner -= inWave;
-                        break;
-                    case 3:
-                        inWave = maxSwarmer;
-                        activeWave = new Wave(game, attackNumber, inAttack, inWave, 1);
-                        waves.Add(activeWave);
-                        maxSwarmer -= inWave;
-                        break;
-                }
-            }
-            else
-            {
-                // attacks 2 onwards, do shit here.
-                activeWave = new Wave(game, attackNumber, inAttack, 10, 2);
-            }
-
-
-            // This part works and is fine for gold release
-            if(maxGunner == 0 && maxSwarmer == 0 && maxSneaker == 0 && maxHeavy == 0)
-            {
-                active = false;
-            }
-        }
-
         public void endWave()
         {
             spawnState = Utilities.SpawnState.idle;
             //startMessageTriggered = false;
         }
 
+        private void tempWaveCreator()
+        {
+            // Purely to fill in while I get the actual dynamic system working
+            inAttack = 8;
+            waves.Add(new Wave(game, attackNumber, 1, 5, 1));
+            waves.Add(new Wave(game, attackNumber, 2, 5, 2));
+            waves.Add(new Wave(game, attackNumber, 3, 4, 3));
+            waves.Add(new Wave(game, attackNumber, 4, 10, 1));
+            waves.Add(new Wave(game, attackNumber, 5, 1, 4));
+            waves.Add(new Wave(game, attackNumber, 6, 5, 2));
+            waves.Add(new Wave(game, attackNumber, 7, 5, 1));
+            waves.Add(new Wave(game, attackNumber, 8, 4, 3));
+        }
+
+        public void createWaves()
+        {
+            // calculate how many waves will be needed, set inAttack to equal this number
+            // set up each wave and add it to the list
+
+        }
+
         private void generateAttackNumbers()
         {
-
-            maxEnemies = (20 * attackNumber) + (5 * (4 * (int)Settings.difficulty)); // + dynamic thingy
-
-            switch (attackNumber)
-            {
-                case 1:
-                    maxHeavy = 0;
-                    maxSneaker = 0;
-                    maxGunner = (int)(0.25f * maxEnemies);
-                    if (maxGunner <= 0)
-                    {
-                        maxGunner = 1;
-                    }
-                    break;
-                case 2:
-                    maxHeavy = 0;
-                    maxSneaker = (int)((1f / 9f) * maxEnemies);
-                    if (maxSneaker <= 0)
-                    {
-                        maxSneaker = 1;
-                    }
-                    maxGunner = (int)((2f / 9f) * maxEnemies);
-                    if (maxGunner <= 0)
-                    {
-                        maxGunner = 1;
-                    }
-                    break;
-                case 3:
-                    maxHeavy = (int)((1f / 13f) * maxEnemies);
-                    if (maxHeavy <= 0)
-                    {
-                        maxHeavy = 1;
-                    }
-                    maxSneaker = (int)((2f / 13f) * maxEnemies);
-                    if (maxSneaker <= 0)
-                    {
-                        maxSneaker = 1;
-                    }
-                    maxGunner = (int)((4f / 13f) * maxEnemies);
-                    if (maxGunner <= 0)
-                    {
-                        maxGunner = 1;
-                    }
-                    break;
-                case 4:
-                    maxHeavy = (int)((2f / 15f) * maxEnemies);
-                    if (maxHeavy <= 0)
-                    {
-                        maxHeavy = 1;
-                    }
-                    maxSneaker = (int)((3f / 15f) * maxEnemies);
-                    if (maxSneaker <= 0)
-                    {
-                        maxSneaker = 1;
-                    }
-                    maxGunner = (int)((4f / 15f) * maxEnemies);
-                    if (maxGunner <= 0)
-                    {
-                        maxGunner = 1;
-                    }
-                    break;
-                default:
-                    maxHeavy = (int)((2f / 15f) * maxEnemies);
-                    if (maxHeavy <= 0)
-                    {
-                        maxHeavy = 1;
-                    }
-                    maxSneaker = (int)((3f / 15f) * maxEnemies);
-                    if (maxSneaker <= 0)
-                    {
-                        maxSneaker = 1;
-                    }
-                    maxGunner = (int)((4f / 15f) * maxEnemies);
-                    if (maxGunner <= 0)
-                    {
-                        maxGunner = 1;
-                    }
-                    break;
-            }
-            maxSwarmer = maxEnemies - maxGunner - maxSneaker - maxHeavy;
-
-            System.Diagnostics.Debug.WriteLine("Attack Number = " + attackNumber);
-            System.Diagnostics.Debug.WriteLine("Max enemies in attack = " + maxEnemies);
-            System.Diagnostics.Debug.WriteLine("Swarmers in attack = " + maxSwarmer);
-            System.Diagnostics.Debug.WriteLine("Gunners in attack = " + maxGunner);
-            System.Diagnostics.Debug.WriteLine("Sneakers in attack = " + maxSneaker);
-            System.Diagnostics.Debug.WriteLine("Heavies in attack = " + maxHeavy);
+            //could be a useful function for calculating some numbers separate from wave creation - may not be needed, do not know yet
         }
 
     }
