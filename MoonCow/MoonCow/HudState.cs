@@ -34,15 +34,10 @@ namespace MoonCow
 
         public override void Update()
         {
-            stateTimer = "2:30";
-            if (waveManager.spawnState == Utilities.SpawnState.deploying)
-            {
+            stateTimer = Utilities.formattedTime(waveManager.waitTime);
+
                 stateTimer = "" + (int)waveManager.activeAttack.waitTime / 60 + ":" + (int)waveManager.activeAttack.waitTime % 60;
-            }
-            else
-            {
-                stateTimer = "" + (int)waveManager.waitTime / 60 + ":" + (int)waveManager.waitTime % 60;
-            }
+            
             if (game.waveManager.spawnState == MoonCow.Utilities.SpawnState.deploying)
                 gameState = "defend";
             else
@@ -58,7 +53,8 @@ namespace MoonCow
             sb.DrawString(font, gameState, hud.scaledCoords(statNamePos), hud.contSecondary, 0,
                     new Vector2(font.MeasureString(gameState).X / 2, font.MeasureString(gameState).Y / 2), hud.scale * (28.0f / 40), SpriteEffects.None, 0);
 
-            sb.DrawString(font, stateTimer, hud.scaledCoords(statTimePos), hud.contSecondary, 0,
+            if(game.waveManager.spawnState != Utilities.SpawnState.deploying)
+                sb.DrawString(font, stateTimer, hud.scaledCoords(statTimePos), hud.contSecondary, 0,
                     new Vector2(font.MeasureString(stateTimer).X / 2, font.MeasureString(stateTimer).Y / 2), hud.scale * (32.0f / 40), SpriteEffects.None, 0);
         }
 

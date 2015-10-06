@@ -14,57 +14,69 @@ namespace MoonCow
         Game1 game;
         float countDown;
         int inWave;
-        int waveMax;
+        public int waveMax;
         int waveNumber;
         int attackNumber;
         public int enemyType;
-        public bool started;
+        public float cDownThresh;
+        WaveManager manager;
 
-        public Wave(Game1 game, int attackNo, int waveNo, int enemies, int eType)
+        public Wave(Game1 game, WaveManager manager, int attackNo, int waveNo, int enemies, int eType)
         {
             this.game = game;
-            countDown = 0f;
+            this.manager = manager;
             inWave = 0;
             waveNumber = waveNo;
             attackNumber = attackNo;
             waveMax = enemies;
             enemyType = eType;
-            started = false;
+            setTime();
+            countDown = 0;
         }
 
-        public void spawn()
+        void setTime()
         {
-            started = true;
-            countDown -= Utilities.deltaTime;
-            if (countDown <= 0)
+            switch(enemyType)
             {
-                countDown = 0.6f;
-                if (inWave < waveMax)
+                default:
+                    cDownThresh = manager.swaSpawnTime;
+                    break;
+                case 1:
+                    cDownThresh = manager.sneSpawnTime;
+                    break;
+                case 2:
+                    cDownThresh = manager.gunSpawnTime;
+                    break;
+                case 3:
+                    cDownThresh = manager.hevSpawnTime;
+                    break;
+            }
+        }
+
+        public void update()
+        {
+            if(inWave < waveMax)
+            { 
+                countDown -= Utilities.deltaTime;
+                if (countDown <= 0)
                 {
+                    countDown = cDownThresh;
                     inWave++;
-                    switch(enemyType)
+                    switch (enemyType)
                     {
-                        case 1:
+                        default:
                             game.enemyManager.addEnemy(new Swarmer(game));
+                            break;
+                        case 1:
+                            game.enemyManager.addEnemy(new Sneaker(game));
                             break;
                         case 2:
                             game.enemyManager.addEnemy(new Gunner(game));
                             break;
                         case 3:
-                            game.enemyManager.addEnemy(new Sneaker(game));
-                            break;
-                        case 4:
                             game.enemyManager.addEnemy(new Heavy(game));
                             break;
                     }
-
-                }
-
-                if (inWave == waveMax)
-                {
-                    inWave = 0;
-                    countDown = 0;
-                    game.waveManager.activeAttack.endWave();
                 }
             }
         }

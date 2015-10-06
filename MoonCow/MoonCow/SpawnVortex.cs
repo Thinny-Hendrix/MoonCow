@@ -31,7 +31,7 @@ namespace MoonCow
             {
                 try
                 {
-                    if (manager.activeAttack.spawnState == Utilities.SpawnState.deploying)
+                    if (manager.spawnState == Utilities.SpawnState.deploying)
                         isVisible = true;
                     else
                         isVisible = false;

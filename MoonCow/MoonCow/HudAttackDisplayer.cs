@@ -36,18 +36,26 @@ namespace MoonCow
         public Texture2D hevBig;
         public Texture2D hevSml;
 
-        Attack activeAttack;
+        public Attack activeAttack;
         List<HudWave> waveDisplays;
+        int displayedWaves;
+        int totalWaves;
 
         float flashTime;
         float fadeTime;
         float cosTime;
         float messageAlpha;
         float displayTime;
-        bool displayMessage;
+        public bool displayMessage;
         String startMessage;
         String endMessage;
         int waveNo = 0;
+        bool addNew;
+        public bool active;
+
+        int lastFlash;
+        float flashChainCool;
+        Vector2 spawnPos;
 
         SpriteFont bigFont;
         SpriteBatch sb;
@@ -102,9 +110,9 @@ namespace MoonCow
             currentWarnPos = warnMidPos;
         }
 
-        public void startAttackMessage(int wave, Attack a)
+        public void startAttackMessage(Attack a)
         {
-            waveNo = wave;
+            waveNo = a.inAttack;
             displayMessage = true;
             displayTime = 0;
             messageAlpha = 1;
@@ -112,12 +120,12 @@ namespace MoonCow
             messageType = MessageType.start;
 
             activeAttack = a;
-            Vector2 spawnPos = new Vector2(60,417);
-            foreach (Wave w in activeAttack.waves)
-            {
-                waveDisplays.Add(new HudWave(hud, this, spawnPos, w));
-                spawnPos.Y += 40;
-            }
+            spawnPos = new Vector2(60,417);
+            totalWaves = activeAttack.waves.Count();
+            displayedWaves = 0;
+            addNew = false;
+            flashChainCool = 0.1f;
+            active = true;
         }
 
         public void endAttackMessage()
@@ -127,14 +135,64 @@ namespace MoonCow
             messageAlpha = 1;
             messageType = MessageType.end;
 
+            displayedWaves = 0;
+            totalWaves = 0;
+
             waveDisplays.Clear();
+            active = false;
+        }
+
+        void startFlashChain()
+        {
+            lastFlash = waveDisplays.Count() - 1;
+            flashChainCool = 0.1f;
+            if (lastFlash != -1)
+                waveDisplays.ElementAt(lastFlash).flash();
+            else
+                flashTime = 1;
+        }
+
+        void updateFlashChain()
+        {
+            if (lastFlash > -1)
+            {
+                flashChainCool -= Utilities.deltaTime;
+                if (flashChainCool <= 0)
+                {
+                    flashChainCool = 0.1f;
+                    lastFlash--;
+                    if (lastFlash == -1)
+                    {
+                        flashTime = 1;
+                    }
+                    else
+                        waveDisplays.ElementAt(lastFlash).flash();
+                }
+            }
+        }
+
+        void spawnInitWaves()
+        {
+            flashChainCool -= Utilities.deltaTime;
+            if (flashChainCool <= 0)
+            {
+                waveDisplays.Add(new HudWave(hud, this, spawnPos, activeAttack.waves.ElementAt(displayedWaves)));
+                spawnPos.Y += 86;
+
+                if(displayedWaves == 0)
+                    waveDisplays.ElementAt(0).firstInList = true;
+
+                displayedWaves++;
+                flashChainCool = 0.1f;
+            }
+            
         }
 
         public void Update()
         {
             if (flashTime != 0)
             {
-                flashTime -= Utilities.deltaTime*6;
+                flashTime -= Utilities.deltaTime*4;
                 if (flashTime < 0)
                     flashTime = 0;
             }
@@ -160,22 +218,48 @@ namespace MoonCow
                             currentWarnPos = warnSidePos;
                         }
                     }
-                }
-
-                foreach (HudWave w in waveDisplays)
-                {
-                    w.Update();
-                }
+                }                
+            }
+            else
+            {
+                if (active && displayedWaves < 4)
+                    spawnInitWaves();
             }
 
-            
-        }
-        void updateWaves()
-        {
-            waveDisplays.RemoveAt(0);
-            waveDisplays.ElementAt(0).firstInList = true;
             foreach (HudWave w in waveDisplays)
-                w.nudge(new Vector2(0, 40));
+            {
+                w.Update();
+            }
+
+            if (addNew && !waveDisplays.ElementAt(0).moving)
+            {
+                if (displayedWaves < totalWaves)
+                {
+                    waveDisplays.Add(new HudWave(hud, this, new Vector2(60, 417 + 86 * 3), activeAttack.waves.ElementAt(displayedWaves)));
+                    displayedWaves++;
+                }
+
+                addNew = false;
+                startFlashChain();
+            }
+
+            updateFlashChain();            
+        }
+        public void updateWaves()
+        {
+            if (waveDisplays.Count() != 0)
+            {
+                waveDisplays.RemoveAt(0);
+                if(waveDisplays.Count() != 0)
+                    waveDisplays.ElementAt(0).firstInList = true;
+            }
+            foreach (HudWave w in waveDisplays)
+                w.nudge(new Vector2(0, -86));
+
+            if (waveDisplays.Count() != 0)
+                addNew = true;
+            else
+                startFlashChain();
             //if number of displayed waves is less than total attack waves, add the next wave to the list
         }
 

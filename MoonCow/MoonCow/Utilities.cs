@@ -68,6 +68,16 @@ namespace MoonCow
 
             return b;
         }
+        
+        public static string formattedTime(float time)
+        {
+            string s = (int)time / 60 + ":";
+            if ((int)time % 60 < 10)
+                s += "0";
+            s += (int)time % 60;
+
+            return s;
+        }
 
         public static float hypotenuseOf(float x, float y)
         {

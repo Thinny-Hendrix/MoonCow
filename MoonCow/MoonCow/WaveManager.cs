@@ -24,6 +24,11 @@ namespace MoonCow
         bool endMessageTriggered;
         bool startMessageTriggered;
 
+        public float swaSpawnTime;
+        public float sneSpawnTime;
+        public float gunSpawnTime;
+        public float hevSpawnTime;
+
         public WaveManager(Game1 game) : base(game)
         {
             this.game = game;
@@ -32,8 +37,16 @@ namespace MoonCow
             spawnState = Utilities.SpawnState.waiting;
             endMessageTriggered = true;
             startMessageTriggered = false;
-            activeAttack = new Attack(game, attackCount);
+
+            swaSpawnTime = 0.6f;
+            sneSpawnTime = 1;
+            gunSpawnTime = 1.5f;
+            hevSpawnTime = 3;
+
+            activeAttack = new Attack(game, this, attackCount);
             attacks.Add(activeAttack);
+
+            waitTime = 30;
         }
 
         //  The next wave is created when the wave before it is killed, in this way the wave data exists during the waiting time for statistics about upcoming wave to be accessed and displayed
@@ -46,7 +59,7 @@ namespace MoonCow
                     spawnState = Utilities.SpawnState.waiting;
                     game.hud.hudAttackDisplayer.endAttackMessage();
                     waitTime = 30; // 150 seconds = 2.5 minutes between attacks
-                    activeAttack = new Attack(game, attackCount); // create next attack
+                    activeAttack = new Attack(game, this, attackCount); // create next attack
                     attacks.Add(activeAttack);
                 }
 
@@ -64,7 +77,7 @@ namespace MoonCow
                 {
                     if(!startMessageTriggered)
                     {
-                        game.hud.hudAttackDisplayer.startAttackMessage(attackCount, activeAttack);
+                        game.hud.hudAttackDisplayer.startAttackMessage(activeAttack);
                         startMessageTriggered = true;
                         attackCount++;
                     }
