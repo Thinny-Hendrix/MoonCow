@@ -15,7 +15,7 @@ namespace MoonCow
             model = ModelLibrary.mgBgPoly;
             pos = new Vector3(0, -3, 10);
             scale = new Vector3(0.6f);
-            scale.Y = 0.1f;
+            scale.Y = 0.3f;
             rot = Vector3.Zero;
         }
 
@@ -29,13 +29,13 @@ namespace MoonCow
         {
             rot.Y += Utilities.deltaTime * MathHelper.Pi/6;
 
-            scale.Y = MathHelper.Lerp(scale.Y, 0.1f, Utilities.deltaTime*4);
+            scale.Y = MathHelper.Lerp(scale.Y, 0.3f, Utilities.deltaTime*4);
 
             if (rot.Y > MathHelper.Pi * 2)
                 rot.Y -= MathHelper.Pi * 2;
         }
 
-        public override void Draw(GraphicsDevice device, MgCamera camera)
+        void drawPoly(GraphicsDevice device, MgCamera camera, int type)
         {
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
@@ -44,18 +44,27 @@ namespace MoonCow
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.World = mesh.ParentBone.Transform * GetWorld();
+                    if(type == 0)
+                        effect.World = mesh.ParentBone.Transform * GetWorld();
+                    else
+                        effect.World = mesh.ParentBone.Transform * Matrix.CreateScale(5) * GetWorld();
+
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
-                    effect.Alpha = 1;
-                    effect.Texture = TextureManager.mgGrid;
+                    if (type == 0)
+                    {
+                        effect.Texture = TextureManager.mgBlue;
+                        effect.Alpha = 0.8f;
+                    }
+                    else
+                    {
+                        effect.Texture = TextureManager.mgPink;
+                        effect.Alpha = 0.8f;
+                    }
 
                     effect.LightingEnabled = true;
 
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.1f, 0.1f, 0.1f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
-                    effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
-                    effect.DirectionalLight0.SpecularColor = Vector3.One;
                     effect.AmbientLightColor = new Vector3(0.9f);
                     effect.EmissiveColor = new Vector3(0.3f, 0.3f, 0.3f);
                     effect.PreferPerPixelLighting = true;
@@ -63,6 +72,12 @@ namespace MoonCow
                 }
                 mesh.Draw();
             }
+        }
+
+        public override void Draw(GraphicsDevice device, MgCamera camera)
+        {
+            drawPoly(device, camera, 1);
+            drawPoly(device, camera, 0);
         }
     }
 }

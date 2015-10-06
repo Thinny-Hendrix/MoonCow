@@ -65,6 +65,7 @@ namespace MoonCow
         void addModels()
         {
             additive.Add(new MgPolyBg());
+            additive.Add(new MgGridModel());
         }
 
         public void Update()

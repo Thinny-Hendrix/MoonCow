@@ -15,9 +15,9 @@ namespace MoonCow
         public SpDot(Vector2 pos, float speed, List<SpriteParticle> toDelete):base(pos)
         {
             this.toDelete = toDelete;
-            tex = TextureManager.particle1;
+            tex = TextureManager.mgMarkWhite;
             this.speed = speed;
-            scale = 0.6f;
+            scale = 1;
             rot = Utilities.nextFloat() * MathHelper.Pi * 2;
             alpha = 1;
         }
