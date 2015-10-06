@@ -24,6 +24,9 @@ namespace MoonCow
         
         Model moneyGib1;
 
+        float moneyTransTime;
+        float prevMoney;
+
         public MoneyManager(Game game):base(game)
         {
             balance = 0;
@@ -34,6 +37,7 @@ namespace MoonCow
 
             moneyGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/gib1");
 
+            moneyTransTime = 0;
 
 
         }
@@ -45,18 +49,19 @@ namespace MoonCow
 
             if (changing)
             {
-                displayNo = MathHelper.Lerp(displayNo, balance, Utilities.deltaTime*3);
+                displayNo = MathHelper.Lerp(displayNo, balance, (float)Math.Sin(moneyTransTime));
+                moneyTransTime += Utilities.deltaTime*MathHelper.PiOver4;
                 game.hud.hudMoney.Wake();
 
-                if (difference >= 0)
+                if (moneyTransTime >= MathHelper.PiOver2)
                 {
-                    if (displayNo >= balance - 0.5f)
                     {
                         displayNo = balance;
                         changing = false;
                         difference = 0;
                     }
                 }
+                    /*
                 else
                 {
                     if (displayNo <= balance + 0.5f)
@@ -65,7 +70,7 @@ namespace MoonCow
                         changing = false;
                         difference = 0;
                     }
-                }
+                }*/
 
             }
             if(display && !changing)
@@ -82,7 +87,9 @@ namespace MoonCow
             balance += amount;
             changing = true;
             game.hud.hudMoney.Wake();
+            moneyTransTime = 0;
             displayTime = 0;
+            prevMoney = displayNo;
 
         }
 

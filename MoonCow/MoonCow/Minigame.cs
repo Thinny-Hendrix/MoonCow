@@ -25,6 +25,8 @@ namespace MoonCow
         MgInstance defaultInstance;
         MgDisplayer displayer;
         public MgScreen screen;
+        public MgModelManager models;
+        public HudMg hudMg;
 
         public float holdTime;
         public float holdThresh;
@@ -37,6 +39,7 @@ namespace MoonCow
             manager = new MgManager(this, game);
             screen = new MgScreen(this, manager, game);
             manager.screen = screen;
+            hudMg = game.hud.hudMg;
 
             active = false;
 
@@ -48,6 +51,8 @@ namespace MoonCow
             displayer = new MgDisplayer(this, manager, game);
             game.modelManager.addEffect(displayer);
 
+            models = new MgModelManager(game, this);
+
             defaultInstance = new MgInstance(game, this);
             defaultInstance.generateNew();
             manager.loadInstance(defaultInstance);
@@ -58,7 +63,7 @@ namespace MoonCow
         {
             if(active)
             {
-                if (holdTime > holdThresh)
+                if (holdTime > holdThresh && !hudMg.active)
                 {
                     if (start)
                         manager.Update();
@@ -68,6 +73,7 @@ namespace MoonCow
                 else
                     holdTime += Utilities.deltaTime;
 
+                models.Update();
                 manager.Draw();
                 screen.Update();
                 screen.Draw();
@@ -104,6 +110,7 @@ namespace MoonCow
             start = true;
             holdTime = 0;
             holdThresh = 2;
+            hudMg.trigger(manager.speed);
             manager.reset();
             moneyEarned = 0;
         }

@@ -21,16 +21,6 @@ namespace MoonCow
         Vector3 goalDirection;
         public Vector3 currentDirection;
 
-        int xTurnValue;
-        int yTurnValue;
-
-        float height = 5;       //values can be changed to suit player proportions relative to environment
-        double gravity = 0.1;
-        double jumpSpeed = 2;
-        double verticalSpeed = 0;
-        double runSpeed = 0.4;
-        int turnRadius = 10; //this is the distance from the camera to the player (lookAt)
-
         //these are so the camera can change position when ship is boosting
         float standardFov = MathHelper.Pi/3;
         float boostFov = MathHelper.PiOver2;

@@ -19,7 +19,6 @@ namespace MoonCow
         Texture2D hudMonB;
         Texture2D hudMonF;
 
-
         public HudMoney(Hud hud, SpriteFont font, Game1 game):base(hud, font, game)
         {
             monPos = new Vector2(1450, 45);

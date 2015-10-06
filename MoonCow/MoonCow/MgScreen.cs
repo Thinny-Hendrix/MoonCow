@@ -88,7 +88,10 @@ namespace MoonCow
             if (moneyTransTime < 1)
             {
                 displayMoney = MathHelper.Lerp(oldMoney, minigame.moneyEarned, moneyTransTime);
-                moneyTransTime += Utilities.deltaTime * 4;
+                if(minigame.moneyEarned != 0)
+                    moneyTransTime += Utilities.deltaTime * 4;
+                else
+                    moneyTransTime += Utilities.deltaTime;
             }
             else
                 displayMoney = minigame.moneyEarned;
@@ -116,7 +119,9 @@ namespace MoonCow
         {
             game.GraphicsDevice.SetRenderTarget(rTarg);
 
-            game.GraphicsDevice.Clear(Color.Black * 0.5f);
+            rTarg.GraphicsDevice.Clear(Color.Black * 0.5f);
+
+            minigame.models.Draw();
 
             game.GraphicsDevice.BlendState = BlendState.Additive;
             sb.Begin();

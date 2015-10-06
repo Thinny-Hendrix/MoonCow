@@ -26,6 +26,7 @@ namespace MoonCow
         public HudState hudState;
         public HudMap hudMap;
         public HudMessage hudMessage;
+        public HudMg hudMg;
 
         public QuickSelect quickSelect;
 
@@ -75,6 +76,7 @@ namespace MoonCow
             hudState = new HudState(this, font, game);
             hudMap = new HudMap(this, font, game);
             hudMessage = new HudMessage(this, font, game);
+            hudMg = new HudMg(this, game.Content.Load<SpriteFont>(@"Hud/Venera900big"), game);
 
             viewportW = game.GraphicsDevice.Viewport.Width;
             viewportH = game.GraphicsDevice.Viewport.Height;
@@ -168,6 +170,7 @@ namespace MoonCow
             hudState.Update();
             hudMap.Update();
             hudMessage.Update();
+            hudMg.Update();
 
         }
 
@@ -225,6 +228,7 @@ namespace MoonCow
             hudState.Draw(spriteBatch);
             hudMap.Draw(spriteBatch);
             hudMessage.Draw(spriteBatch);
+            hudMg.Draw(spriteBatch);
             spriteBatch.End();
 
 
