@@ -29,6 +29,7 @@ namespace MoonCow
 
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             enemyModel = new GunnerModel(this);
+            enemyType = 2;
 
             game.modelManager.addEnemy(enemyModel);
 
@@ -41,7 +42,7 @@ namespace MoonCow
 
             pos = new Vector3(makeCentreCoordinate(spawn.X), 4.5f, makeCentreCoordinate(spawn.Y));
 
-            pathfinder = new Pathfinder(game.map);
+            pathfinder = new PathfinderGunner(game.map);
 
             coreLocation = new Point((int)game.map.getCoreLocation().X, (int)game.map.getCoreLocation().Y);
 

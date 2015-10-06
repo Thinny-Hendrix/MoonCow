@@ -29,6 +29,7 @@ namespace MoonCow
 
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             enemyModel = new SwarmerModel(this);
+            enemyType = 1;
 
             game.modelManager.addEnemy(enemyModel);
 

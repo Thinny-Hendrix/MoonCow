@@ -8,7 +8,7 @@ namespace MoonCow
 {
     class Pathfinder
     {
-        private Map map;
+        protected Map map;
         private MapNode[,] searchNodes;     //May replace with pointer to map, need to see how it works more closely
         private int levelWidth;             //The width of the level
         private int levelHeight;            //The height of the level
@@ -50,7 +50,7 @@ namespace MoonCow
         /// <summary>
         /// Returns the theorectical distance between two points
         /// </summary>
-        private float heuristic(Point point1, Point point2)
+        protected virtual float heuristic(Point point1, Point point2)
         {
             return Math.Abs(point1.X - point2.X) + Math.Abs(point1.Y - point2.Y);
         }

@@ -75,7 +75,13 @@ namespace MoonCow
 
         public void turretPlaced()
         {
-            // make all gunners recalculate their path
+            foreach(Enemy enemy in enemies)
+            {
+                if(enemy.enemyType == 2)
+                {
+                    enemy.updatePath();
+                }
+            }
         }
     }
 }

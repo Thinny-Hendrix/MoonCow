@@ -46,6 +46,7 @@ namespace MoonCow
         protected int pathPosition = 0;
 
         public EnemyModel enemyModel;
+        public int enemyType;
 
         //special damage types
         public ElectroDamage electroDamage;

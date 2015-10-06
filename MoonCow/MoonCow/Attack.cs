@@ -112,6 +112,7 @@ namespace MoonCow
             else
             {
                 // attacks 2 onwards, do shit here.
+                activeWave = new Wave(game, attackNumber, inAttack, 10, 2);
             }
 
 
@@ -131,7 +132,7 @@ namespace MoonCow
         private void generateAttackNumbers()
         {
 
-            maxEnemies = (20 * attackNumber) + (5 * (4 * Settings.difficulty)); // + dynamic thingy
+            maxEnemies = (20 * attackNumber) + (5 * (4 * (int)Settings.difficulty)); // + dynamic thingy
 
             switch (attackNumber)
             {
