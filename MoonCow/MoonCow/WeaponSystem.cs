@@ -63,7 +63,7 @@ namespace MoonCow
                         currentWeapon = 1;
                 }*/
 
-                bool wake = false;
+                //bool wake = false;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D1))
                 {

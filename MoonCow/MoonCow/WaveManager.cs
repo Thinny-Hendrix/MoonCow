@@ -64,7 +64,7 @@ namespace MoonCow
                 {
                     if(!startMessageTriggered)
                     {
-                        game.hud.hudAttackDisplayer.startAttackMessage(attackCount);
+                        game.hud.hudAttackDisplayer.startAttackMessage(attackCount, activeAttack);
                         startMessageTriggered = true;
                         attackCount++;
                     }

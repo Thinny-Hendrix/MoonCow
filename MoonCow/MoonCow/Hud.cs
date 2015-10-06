@@ -13,7 +13,7 @@ namespace MoonCow
     {
         float viewportW;
         float viewportH;
-        SpriteFont font;
+        public SpriteFont font;
         Game1 game;
         Ship ship;
         public SpriteBatch spriteBatch;
@@ -37,8 +37,6 @@ namespace MoonCow
         float boostDrawAlpha;
 
         String frameRate;
-        String roundStart;
-        String message;
 
         public Color contPrimary;
         public Color contSecondary;
@@ -52,15 +50,6 @@ namespace MoonCow
         Texture2D whiteTex;
         public float flashTime;
         public float scale;
-
-
-
-        /*
-        Rectangle healthRect;
-        Rectangle wepRect;
-        Rectangle statRect;
-        Rectangle monRect;
-        Rectangle mapRect;*/
 
         public Hud(Game1 game, SpriteFont font, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice) : base(game)
         {

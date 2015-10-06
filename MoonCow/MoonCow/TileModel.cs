@@ -49,7 +49,7 @@ namespace MoonCow
          * 
          * */
 
-        Texture2D tex;
+        //Texture2D tex;
 
         public TileModel(Model model, Vector3 pos, float rotation, float scale) : base(model, pos, rotation, scale)
         {

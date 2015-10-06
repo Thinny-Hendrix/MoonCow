@@ -12,7 +12,7 @@ namespace MoonCow
     {
         Game1 game;
         public float waitTime;
-        List<Wave> waves = new List<Wave>();
+        public List<Wave> waves = new List<Wave>();
         Wave activeWave;
         int inAttack;
         int currentWaveNumber;

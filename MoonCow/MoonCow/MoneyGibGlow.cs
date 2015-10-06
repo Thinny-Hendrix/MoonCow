@@ -70,7 +70,7 @@ namespace MoonCow
             return Matrix.CreateScale(scale) * Matrix.CreateRotationZ(rot.Z) * Matrix.CreateBillboard(pos, game.camera.cameraPosition, game.camera.tiltUp, null);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             sb.Dispose();
             rTarg.Dispose();

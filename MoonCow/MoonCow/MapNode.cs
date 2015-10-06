@@ -35,7 +35,6 @@ namespace MoonCow
         public int type;               //What node type this node is
         private BasicModel model;       //The model for this node
         private BasicModel stationModel;
-        bool asteroidNode = false;
         
 
         /// <summary>

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 namespace MoonCow
 {
     // Still needs a way of randomly spawining different enemy types to the correct ratios (see gogole doc)
-    class Wave
+    public class Wave
     {
         Game1 game;
         float countDown;

@@ -78,6 +78,7 @@
     <Compile Include="HeavyModel.cs" />
     <Compile Include="HudMessage.cs" />
     <Compile Include="HudMg.cs" />
+    <Compile Include="HudWave.cs" />
     <Compile Include="JunkShip.cs" />
     <Compile Include="JunkShipModel.cs" />
     <Compile Include="LaserProjectile.cs" />
