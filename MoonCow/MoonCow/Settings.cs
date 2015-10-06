@@ -11,5 +11,8 @@ namespace MoonCow
         public static int difficulty;
         public static bool fullScreen;
         public static Vector2 resolution;
+        public static float masterVolume;
+        public static float musicVolume;
+        public static float effectsVolume;
     }
 }
