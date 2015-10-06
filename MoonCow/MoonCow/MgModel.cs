@@ -12,10 +12,19 @@ namespace MoonCow
         public Vector3 pos;
         public Vector3 rot;
         public Vector3 scale;
+        float speed;
 
         public Model model;
 
         public MgModel()
+        { }
+
+        public virtual void setSpeed(float speed)
+        {
+            this.speed = speed;
+        }
+
+        public virtual void Pulse(float size)
         { }
 
         public virtual void Update()

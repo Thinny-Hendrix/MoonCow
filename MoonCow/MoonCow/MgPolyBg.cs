@@ -9,17 +9,27 @@ namespace MoonCow
 {
     public class MgPolyBg:MgModel
     {
+        float time;
         public MgPolyBg():base()
         {
-            model = ModelLibrary.sneaker;
-            pos = new Vector3(0, 0, 10);
-            scale = new Vector3(0.3f);
+            model = ModelLibrary.mgBgPoly;
+            pos = new Vector3(0, -3, 10);
+            scale = new Vector3(0.6f);
+            scale.Y = 0.1f;
             rot = Vector3.Zero;
         }
 
+        public override void Pulse(float size)
+        {
+            scale.Y = size/10;
+        }
+
+
         public override void Update()
         {
-            rot.Y += Utilities.deltaTime * MathHelper.Pi;
+            rot.Y += Utilities.deltaTime * MathHelper.Pi/6;
+
+            scale.Y = MathHelper.Lerp(scale.Y, 0.1f, Utilities.deltaTime*4);
 
             if (rot.Y > MathHelper.Pi * 2)
                 rot.Y -= MathHelper.Pi * 2;
@@ -39,6 +49,7 @@ namespace MoonCow
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
                     effect.Alpha = 1;
+                    effect.Texture = TextureManager.mgGrid;
 
                     effect.LightingEnabled = true;
 

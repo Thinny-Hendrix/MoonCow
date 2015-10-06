@@ -57,6 +57,9 @@ namespace MoonCow
         public static Model ast1;
         public static Model mgScreen;
 
+        //Minigame
+        public static Model mgBgPoly;
+
         //Ships
 
         //Money gibs
@@ -115,6 +118,9 @@ namespace MoonCow
             //Asteroid field
             ast1 = game.Content.Load<Model>(@"Models/AstField/ast1");
             mgScreen = game.Content.Load<Model>(@"Models/Misc/mgScreen");
+
+            //minigame
+            mgBgPoly = game.Content.Load<Model>(@"Minigame/mgBgModel");
         }
     }
 }

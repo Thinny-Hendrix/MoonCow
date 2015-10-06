@@ -58,6 +58,7 @@ namespace MoonCow
         public static Texture2D mgLines;
         public static Texture2D rbowRing;
         public static Texture2D mgPulse;
+        public static Texture2D mgGrid;
 
 
         //weapon effects
@@ -147,6 +148,7 @@ namespace MoonCow
             mgLines = game.Content.Load<Texture2D>(@"Minigame/mgRimLines");
             rbowRing = game.Content.Load<Texture2D>(@"Minigame/rBowRing");
             mgPulse = game.Content.Load<Texture2D>(@"Minigame/pulse");
+            mgGrid = game.Content.Load<Texture2D>(@"Minigame/grid");
 
             //weapon effects
             bombRing = game.Content.Load<Texture2D>(@"Models/Weapons/sploring");

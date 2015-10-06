@@ -120,6 +120,7 @@ namespace MoonCow
             game.GraphicsDevice.SetRenderTarget(rTarg);
 
             rTarg.GraphicsDevice.Clear(Color.Black * 0.5f);
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             minigame.models.Draw();
 

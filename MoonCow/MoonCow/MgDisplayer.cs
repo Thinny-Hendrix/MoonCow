@@ -24,6 +24,8 @@ namespace MoonCow
 
         Vector2 linePos;
 
+        Color blue;
+
         public MgDisplayer(Minigame minigame, MgManager manager, Game1 game):base()
         {
             this.minigame = minigame;
@@ -42,6 +44,8 @@ namespace MoonCow
             visible = false;
 
             linePos = Vector2.Zero;
+
+            blue = new Color(179, 235, 255);
         }
 
         public void wake(Vector3 pos, Vector3 dir)
@@ -65,11 +69,11 @@ namespace MoonCow
             if (linePos.Y > 64)
                 linePos.Y -= 64;
             game.GraphicsDevice.SetRenderTarget(rTarg);
-            game.GraphicsDevice.Clear(Color.Aqua * 0.5f);
+            game.GraphicsDevice.Clear(blue * 0.5f);
             sb.Begin();
             //sb.Draw(TextureManager.mgLines, Vector2.Zero, Color.White);
-            sb.Draw(TextureManager.mgLines, linePos, Color.Aqua);
-            sb.Draw(TextureManager.mgLines, new Vector2(0, linePos.Y-64), Color.Aqua);
+            sb.Draw(TextureManager.mgLines, linePos, blue);
+            sb.Draw(TextureManager.mgLines, new Vector2(0, linePos.Y-64), blue);
             sb.End();
             game.GraphicsDevice.SetRenderTarget(null);
         }

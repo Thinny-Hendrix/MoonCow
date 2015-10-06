@@ -305,6 +305,8 @@ namespace MoonCow
             missCount = 0;
             hitCount = 0;
 
+            minigame.models.setSpeed(speed / 650);
+
             fail = false;
         }
     }
