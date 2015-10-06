@@ -12,6 +12,7 @@ namespace MoonCow
     {
         //background music
         public SoundEffectInstance bgmSpacePanic_base = AudioLibrary.bgmSpacePanic_base.CreateInstance();
+        public SoundEffectInstance bgmSpacePanic_spawn = AudioLibrary.bgmSpacePanic_spawn.CreateInstance();
 
         //ship
         public SoundEffectInstance shipSpaceEngine = AudioLibrary.shipSpaceEngine.CreateInstance();
@@ -20,10 +21,12 @@ namespace MoonCow
         public SoundEffectInstance shipShootLaser = AudioLibrary.shipShootLaser.CreateInstance();
         public SoundEffectInstance shipShootLaser2 = AudioLibrary.shipShootLaser.CreateInstance();
 
+        WaveManager waveManager;
+
 
         public AudioManager(Game1 game) : base(game)
         {
-
+            waveManager = game.waveManager;
         }
 
         public override void Initialize()
@@ -33,6 +36,10 @@ namespace MoonCow
             bgmSpacePanic_base.IsLooped = true;
             bgmSpacePanic_base.Volume = 0.5f;
             bgmSpacePanic_base.Play();
+
+            bgmSpacePanic_spawn.IsLooped = true;
+            bgmSpacePanic_spawn.Volume = 0;
+            bgmSpacePanic_spawn.Play();
 
             shipSpaceEngine.IsLooped = true;
             shipSpaceEngine.Volume = 0.1f;
@@ -48,6 +55,22 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
+            if (waveManager.spawnState == Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume < 0.5f)
+            {
+                bgmSpacePanic_spawn.Volume += 0.001f;
+            }
+
+            if (waveManager.spawnState != Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume > 0)
+            {
+                try
+                {
+                    bgmSpacePanic_spawn.Volume -= 0.001f;
+                } catch (ArgumentOutOfRangeException)
+                {
+                    bgmSpacePanic_spawn.Volume = 0;
+                }
+            }
+
             base.Update(gameTime);
         }
     }

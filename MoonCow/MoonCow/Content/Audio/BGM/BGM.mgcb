@@ -19,3 +19,9 @@
 /processorParam:Quality=Best
 /build:Space Panic (base).wav
 
+#begin Space Panic (spawn).wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Space Panic (spawn).wav
+
