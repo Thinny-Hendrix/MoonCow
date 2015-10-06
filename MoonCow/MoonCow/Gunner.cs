@@ -185,9 +185,11 @@ namespace MoonCow
 
         public override void updatePath()
         {
-            path = pathfinder.findPath(new Point((int)makePointCoordinate(nextPosition.X), (int)makePointCoordinate(nextPosition.Y)), coreLocation);
-            pathPosition = 0;
-            atCore = false;
+            if(atCore == false)
+            {
+                path = pathfinder.findPath(new Point((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f)), coreLocation);
+                pathPosition = 0;
+            } 
         }
     }
 }

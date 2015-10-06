@@ -15,6 +15,7 @@ namespace MoonCow
         protected Point coreLocation;
         protected Vector3 target;
         Vector3 frameDiff = new Vector3(0, 0, 0);
+        float pathTimer;
 
         public Sneaker(Game1 game)
             : base(game)
@@ -42,7 +43,7 @@ namespace MoonCow
 
             pos = new Vector3(makeCentreCoordinate(spawn.X), 4.5f, makeCentreCoordinate(spawn.Y));
 
-            pathfinder = new Pathfinder(game.map);
+            pathfinder = new PathfinderSneaker(game.map);
 
             coreLocation = new Point((int)game.map.getCoreLocation().X, (int)game.map.getCoreLocation().Y);
 
@@ -56,6 +57,7 @@ namespace MoonCow
             agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 4f);
 
             health = 15;
+            pathTimer = 10;
 
             //weapons = new WeaponSystem(this);
         }
@@ -149,6 +151,13 @@ namespace MoonCow
             {
                 death();
             }
+
+            pathTimer -= Utilities.deltaTime;
+            if(pathTimer <= 0)
+            {
+                updatePath();
+                pathTimer = 10;
+            }
         }
 
         protected override void death()
@@ -185,9 +194,11 @@ namespace MoonCow
 
         public override void updatePath()
         {
-            path = pathfinder.findPath(new Point((int)makePointCoordinate(nextPosition.X), (int)makePointCoordinate(nextPosition.Y)), coreLocation);
-            pathPosition = 0;
-            atCore = false;
+            if (atCore == false)
+            {
+                path = pathfinder.findPath(new Point((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f)), coreLocation);
+                pathPosition = 0;
+            }
         }
     }
 }
