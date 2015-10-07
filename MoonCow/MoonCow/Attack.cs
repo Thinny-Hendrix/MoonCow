@@ -107,7 +107,7 @@ namespace MoonCow
             {
                 case 1:
                     swarm = true;
-                    gun = false;
+                    gun = true;
                     sneak = false;
                     heavy = false;
                     break;
@@ -143,7 +143,8 @@ namespace MoonCow
                 int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 2) + 1;
                 for(int i = 0; i < waveCount; i++)
                 {
-                    waves.Add(new Wave(game, manager, attackNumber, 1, 1, 0));
+                    int enemyCount = (attackNumber / 2) + (i + 1) + 7; // +/- dynamic thingy
+                    waves.Add(new Wave(game, manager, attackNumber, 1, enemyCount, 0));
                 }
             }
             if (gun)
@@ -151,7 +152,8 @@ namespace MoonCow
                 int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 3);
                 for (int i = 0; i < waveCount; i++)
                 {
-                    waves.Add(new Wave(game, manager, attackNumber, 1, 1, 2));
+                    int enemyCount = (attackNumber / 4) + (i + 1) + 3; // +/- dynamic thingy
+                    waves.Add(new Wave(game, manager, attackNumber, 1, enemyCount, 2));
                 }
             }
             if (sneak)
@@ -159,7 +161,8 @@ namespace MoonCow
                 int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 4);
                 for (int i = 0; i < waveCount; i++)
                 {
-                    waves.Add(new Wave(game, manager, attackNumber, 1, 1, 1));
+                    int enemyCount = (attackNumber / 4) + (i + 1) + 2; // +/- dynamic thingy
+                    waves.Add(new Wave(game, manager, attackNumber, 1, enemyCount, 1));
                 }
             }
             if (heavy)
@@ -167,11 +170,17 @@ namespace MoonCow
                 int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 5);
                 for (int i = 0; i < waveCount; i++)
                 {
-                    waves.Add(new Wave(game, manager, attackNumber, 1, 1, 3));
+                    int enemyCount = i + 1; // +/- dynamic thingy
+                    waves.Add(new Wave(game, manager, attackNumber, 1, enemyCount, 3));
                 }
             }
-            shuffleList();
+            
             inAttack = waves.Count();
+
+            if(attackNumber != 1)
+            {
+                shuffleList();
+            }
         }
 
         private void shuffleList()

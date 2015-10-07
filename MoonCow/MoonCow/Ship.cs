@@ -53,6 +53,8 @@ namespace MoonCow
 
         bool justHitWall = false;
 
+        float damagePotential;
+
         
 
         enum RollDir { left, right };
@@ -154,6 +156,7 @@ namespace MoonCow
 
                 //########### Collision detection and final movement application #########
                 updateMovement();
+                updateDamagePotential();
             }
 
             if(Keyboard.GetState().IsKeyDown(Keys.I))
@@ -504,6 +507,27 @@ namespace MoonCow
             {
                 justHitWall = false;
                 game.audioManager.shipMetallicWallScrape.Stop();
+            }
+        }
+
+        private void updateDamagePotential()
+        {
+            damagePotential = 1;
+            foreach(Weapon pew in weapons.weapons)
+            {
+                damagePotential += pew.level;
+            }
+
+            damagePotential /= 2;
+
+            game.map.map[(int)nodePos.X, (int)nodePos.Y].playerDamage = damagePotential;
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i] != null)
+                {
+                    game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i].playerDamage = 0;
+                }
             }
         }
 
