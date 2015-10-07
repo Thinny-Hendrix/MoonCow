@@ -225,7 +225,8 @@ namespace MoonCow
         {
             manager.sToDelete.Add(this);
             game.modelManager.removeEnemy(model);
-            ship.moneyManager.addGib(20, pos);
+            for (int i = 0; i < 3; i++)
+                ship.moneyManager.addGib(20, pos, -1);
         }
     }
 }

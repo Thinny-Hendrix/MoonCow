@@ -18,6 +18,7 @@ namespace MoonCow
         public Vector3 currentDirection;
         public Vector3 targetDirection;
         public Vector3 frameDiff;
+        Texture2D tex;
         public float changeDirectionSpeed { get; protected set; }
         public float speed { get; protected set; }
         public float speedMax { get; protected set; }
@@ -62,20 +63,28 @@ namespace MoonCow
 
         void setColor(int i)
         {
-            //red, aqua, pink, orange, gold
+            //red, pink-red, aqua, pink, orange, gold
             switch(i)
             {
+                case -1: //sentry
+                    color = Color.Red;
+                    tex = TextureManager.gib1_s;
+                    break;
                 default:
                     color = new Color(255,0,55);
+                    tex = TextureManager.gib1_0;
                     break;
                 case 1:
                     color = new Color(0,255,255);
+                    tex = TextureManager.gib1_1;
                     break;
                 case 2:
                     color = new Color(255,0,162);
+                    tex = TextureManager.gib1_2;
                     break;
                 case 3:
                     color = new Color(255,185,0);
+                    tex = TextureManager.gib1_3;
                     break;
             }
         }
@@ -121,6 +130,7 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
+                    effect.Texture = tex;
                     effect.Alpha = 1;
 
                     //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader

@@ -90,6 +90,13 @@ namespace MoonCow
         //fire
         public static Texture2D pyroFlame;
 
+        //money gibs
+        public static Texture2D gib1_0;
+        public static Texture2D gib1_1;
+        public static Texture2D gib1_2;
+        public static Texture2D gib1_3;
+        public static Texture2D gib1_s;
+
         //enemies
         //sentry
         public static Texture2D sentryBod;
@@ -182,6 +189,13 @@ namespace MoonCow
 
             //fire
             pyroFlame = game.Content.Load<Texture2D>(@"Models/Effects/Pyro/fire1");
+
+            //money gibs
+            gib1_0 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-0");
+            gib1_1 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-1");
+            gib1_2 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-2");
+            gib1_3 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-3");
+            gib1_s = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-s");
 
             //enemies
             //sentry
