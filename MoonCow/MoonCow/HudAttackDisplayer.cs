@@ -56,6 +56,7 @@ namespace MoonCow
         int lastFlash;
         float flashChainCool;
         Vector2 spawnPos;
+        int initWaves;
 
         SpriteFont bigFont;
         SpriteBatch sb;
@@ -126,6 +127,11 @@ namespace MoonCow
             addNew = false;
             flashChainCool = 0.1f;
             active = true;
+
+            if (activeAttack.waves.Count() < 4)
+                initWaves = activeAttack.waves.Count();
+            else
+                initWaves = 4;
         }
 
         public void endAttackMessage()
@@ -222,7 +228,7 @@ namespace MoonCow
             }
             else
             {
-                if (active && displayedWaves < 2) // 2 used to be 4 but would cause a crash
+                if (active && displayedWaves < initWaves) // 2 used to be 4 but would cause a crash
                     spawnInitWaves();
             }
 
