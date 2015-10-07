@@ -120,12 +120,6 @@ namespace MoonCow
                 case 3:
                     swarm = true;
                     gun = true;
-                    sneak = false;
-                    heavy = false;
-                    break;
-                case 4:
-                    swarm = true;
-                    gun = true;
                     sneak = true;
                     heavy = false;
                     break;
@@ -140,7 +134,7 @@ namespace MoonCow
             // Will eventually decide upon how many enemies to put in the wave based on: enemyType, attack, wave and dynamic modifier
             if(swarm)
             {
-                int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 2) + 1;
+                int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 3) + 1;
                 for(int i = 0; i < waveCount; i++)
                 {
                     int enemyCount = (attackNumber / 2) + (i + 1) + 7; // +/- dynamic thingy

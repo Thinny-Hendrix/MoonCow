@@ -9,12 +9,12 @@ namespace MoonCow
     class Pathfinder
     {
         protected Map map;
-        private MapNode[,] searchNodes;     //May replace with pointer to map, need to see how it works more closely
-        private int levelWidth;             //The width of the level
-        private int levelHeight;            //The height of the level
+        protected MapNode[,] searchNodes;     //May replace with pointer to map, need to see how it works more closely
+        protected int levelWidth;             //The width of the level
+        protected int levelHeight;            //The height of the level
 
-        private List<MapNode> openList = new List<MapNode>();       //The Open List for pathfinding
-        private List<MapNode> closedList = new List<MapNode>();     //The Closed List for pathfinding
+        protected List<MapNode> openList = new List<MapNode>();       //The Open List for pathfinding
+        protected List<MapNode> closedList = new List<MapNode>();     //The Closed List for pathfinding
 
         public Pathfinder(Map level)
         {
@@ -29,7 +29,7 @@ namespace MoonCow
         /// As the traversable state of the nodes is not changed by our game during play, this only needs to be called once per enemy, per level
         /// If we add the function to be able to block off paths or otherwise change the traversable bool of a node, then this will need to be called again for each enemy
         /// </summary>
-        private void initializeSearchNodes()
+        protected void initializeSearchNodes()
         {
             // Fill the searchNode array with only the traversable mapNodes in the map
             levelWidth = map.getWidth();
@@ -50,7 +50,7 @@ namespace MoonCow
         /// <summary>
         /// Returns the theorectical distance between two points
         /// </summary>
-        protected virtual float heuristic(Point point1, Point point2)
+        protected float heuristic(Point point1, Point point2)
         {
             return Math.Abs(point1.X - point2.X) + Math.Abs(point1.Y - point2.Y);
         }
@@ -58,7 +58,7 @@ namespace MoonCow
         /// <summary>
         /// Reset the state of the searchNodes so that a new path may be found if required
         /// </summary>
-        private void resetSearchNodes()
+        protected void resetSearchNodes()
         {
             openList.Clear();
             closedList.Clear();
@@ -85,7 +85,7 @@ namespace MoonCow
         /// <summary>
         /// Finds the node with the shortest distance to goal
         /// </summary>
-        private MapNode findBestNode()
+        protected MapNode findBestNode()
         {
             MapNode currentNode = openList[0];
 
@@ -106,7 +106,7 @@ namespace MoonCow
         /// <summary>
         /// Use the parent field of the search nodes to trace a path from the end node to the start node.
         /// </summary>
-        private List<Vector2> findFinalPath(MapNode startNode, MapNode endNode)
+        protected List<Vector2> findFinalPath(MapNode startNode, MapNode endNode)
         {
             closedList.Add(endNode);
             MapNode parentTile = endNode.parent;
@@ -131,7 +131,7 @@ namespace MoonCow
         /// <summary>
         /// Finds the optimal path from one point to another.
         /// </summary>
-        public List<Vector2> findPath(Point startPoint, Point endPoint)
+        public virtual List<Vector2> findPath(Point startPoint, Point endPoint)
         {
             if (startPoint == endPoint)
             {
