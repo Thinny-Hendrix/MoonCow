@@ -15,7 +15,7 @@ namespace MoonCow
         float countDown;
         int inWave;
         public int waveMax;
-        int waveNumber;
+        public int waveNumber;
         int attackNumber;
         public int enemyType;
         public float cDownThresh;

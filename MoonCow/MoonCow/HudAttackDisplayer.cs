@@ -222,7 +222,7 @@ namespace MoonCow
             }
             else
             {
-                if (active && displayedWaves < 4)
+                if (active && displayedWaves < 2) // 2 used to be 4 but would cause a crash
                     spawnInitWaves();
             }
 

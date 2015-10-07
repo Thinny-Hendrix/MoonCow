@@ -20,12 +20,6 @@ namespace MoonCow
         int attackNumber;
         public bool active;
 
-        int maxEnemies;
-        int maxGunner;
-        int maxSneaker;
-        int maxHeavy;
-        int maxSwarmer;
-
         public Attack(Game1 game, WaveManager manager, int attackNo)
         {
             this.game = game;
@@ -34,9 +28,8 @@ namespace MoonCow
             currentWaveNumber = -1; 
             attackNumber = attackNo;
             active = true;
-            generateAttackNumbers();
-            //createWaves();
-            tempWaveCreator();
+            createWaves();
+            //tempWaveCreator();
             //activeWave = waves[currentWaveNumber];
         }
 
@@ -58,8 +51,12 @@ namespace MoonCow
                     }
                 }
                 else
-                    if (game.enemyManager.enemies.Count() == 0)//once all waves have been activated, wait until all enemies have been killed before ending the attack
+                {
+                    if (game.enemyManager.enemies.Count() == 0)//once all waves have been activated, wait until all enemies have been killed before ending the attack         
+                    {
                         manager.endAttack();
+                    }
+                }
             }
 
         }
@@ -100,11 +97,101 @@ namespace MoonCow
             // calculate how many waves will be needed, set inAttack to equal this number
             // set up each wave and add it to the list
 
+            // Define which enemies are available in the attack based on attack number
+            bool swarm = false;
+            bool gun = false;
+            bool sneak = false;
+            bool heavy = false;
+
+            switch(attackNumber)
+            {
+                case 1:
+                    swarm = true;
+                    gun = false;
+                    sneak = false;
+                    heavy = false;
+                    break;
+                case 2:
+                    swarm = true;
+                    gun = true;
+                    sneak = false;
+                    heavy = false;
+                    break;
+                case 3:
+                    swarm = true;
+                    gun = true;
+                    sneak = false;
+                    heavy = false;
+                    break;
+                case 4:
+                    swarm = true;
+                    gun = true;
+                    sneak = true;
+                    heavy = false;
+                    break;
+                default:
+                    swarm = true;
+                    gun = true;
+                    sneak = true;
+                    heavy = true;
+                    break;
+            }
+            // Currently does not populate waves correctly, onle one enemy each wave
+            // Will eventually decide upon how many enemies to put in the wave based on: enemyType, attack, wave and dynamic modifier
+            if(swarm)
+            {
+                int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 2) + 1;
+                for(int i = 0; i < waveCount; i++)
+                {
+                    waves.Add(new Wave(game, manager, attackNumber, 1, 1, 0));
+                }
+            }
+            if (gun)
+            {
+                int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 3);
+                for (int i = 0; i < waveCount; i++)
+                {
+                    waves.Add(new Wave(game, manager, attackNumber, 1, 1, 2));
+                }
+            }
+            if (sneak)
+            {
+                int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 4);
+                for (int i = 0; i < waveCount; i++)
+                {
+                    waves.Add(new Wave(game, manager, attackNumber, 1, 1, 1));
+                }
+            }
+            if (heavy)
+            {
+                int waveCount = (int)((attackNumber + (int)Settings.difficulty) / 5);
+                for (int i = 0; i < waveCount; i++)
+                {
+                    waves.Add(new Wave(game, manager, attackNumber, 1, 1, 3));
+                }
+            }
+            shuffleList();
+            inAttack = waves.Count();
         }
 
-        private void generateAttackNumbers()
+        private void shuffleList()
         {
-            //could be a useful function for calculating some numbers separate from wave creation - may not be needed, do not know yet
+            //shuffle the list then give each wave the right wave number
+            Random rng = new Random();
+            List<Wave> tempList = new List<Wave>();
+            int c = waves.Count();
+            for(int i = 0; i < c; i++)
+            {
+                int randomNumber = rng.Next(0, waves.Count());
+                tempList.Add(waves[randomNumber]);
+                waves.RemoveAt(randomNumber);
+            }
+
+            waves = tempList;
+            for(int i = 0; i < waves.Count(); i++)
+            {
+                waves[i].waveNumber = i + 1;
+            }
         }
 
     }
