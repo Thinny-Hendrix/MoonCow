@@ -46,8 +46,10 @@ namespace MoonCow
                 {
                     if(type == 0)
                         effect.World = mesh.ParentBone.Transform * GetWorld();
-                    else
+                    else if(type == 1)
                         effect.World = mesh.ParentBone.Transform * Matrix.CreateScale(5) * GetWorld();
+                    else
+                        effect.World = mesh.ParentBone.Transform * Matrix.CreateScale(10) * GetWorld();
 
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
@@ -55,12 +57,17 @@ namespace MoonCow
                     if (type == 0)
                     {
                         effect.Texture = TextureManager.mgBlue;
-                        effect.Alpha = 0.8f;
+                        effect.Alpha = 0.6f;
+                    }
+                    else if(type == 1)
+                    {
+                        effect.Texture = TextureManager.mgPink;
+                        effect.Alpha = 0.5f;
                     }
                     else
                     {
-                        effect.Texture = TextureManager.mgPink;
-                        effect.Alpha = 0.8f;
+                        effect.Texture = TextureManager.pureWhite;
+                        effect.Alpha = 0.3f;
                     }
 
                     effect.LightingEnabled = true;
@@ -78,6 +85,7 @@ namespace MoonCow
         {
             drawPoly(device, camera, 1);
             drawPoly(device, camera, 0);
+            //drawPoly(device, camera, 3);
         }
     }
 }

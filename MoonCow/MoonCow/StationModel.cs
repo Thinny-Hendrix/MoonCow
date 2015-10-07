@@ -119,10 +119,10 @@ namespace MoonCow
 
                         //effect.EnableDefaultLighting(); //did not work
                         effect.LightingEnabled = true;
-                        effect.DirectionalLight0.DiffuseColor = new Vector3(0.8f, 0.8f, 0.8f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                        effect.DirectionalLight0.DiffuseColor = new Vector3(0.2f, 0.2f, 0.2f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                         effect.DirectionalLight0.Direction = Vector3.Normalize(new Vector3(1, -0.2f, 1));
-                        effect.DirectionalLight0.SpecularColor = Vector3.One;
-                        effect.AmbientLightColor = new Vector3(0.4f, .4f, .4f);
+                        effect.DirectionalLight0.SpecularColor = new Vector3(0.3f);
+                        effect.AmbientLightColor = new Vector3(0.6f);
                         effect.EmissiveColor = new Vector3(.2f, .2f, .2f);
                         effect.PreferPerPixelLighting = true;
 

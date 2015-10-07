@@ -62,6 +62,7 @@ namespace MoonCow
         public static Texture2D mgBlue;
         public static Texture2D mgPink;
         public static Texture2D mgMarkWhite;
+        public static Texture2D mgBack;
 
 
         //weapon effects
@@ -162,6 +163,7 @@ namespace MoonCow
             mgBlue = game.Content.Load<Texture2D>(@"Minigame/bluePoly");
             mgPink = game.Content.Load<Texture2D>(@"Minigame/pinkPoly");
             mgMarkWhite = game.Content.Load<Texture2D>(@"Minigame/mgMarkerW");
+            mgBack = game.Content.Load<Texture2D>(@"Minigame/mgBack");
 
             //weapon effects
             bombRing = game.Content.Load<Texture2D>(@"Models/Weapons/sploring");

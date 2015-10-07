@@ -94,6 +94,7 @@ namespace MoonCow
             active = false;
             game.camera.followShip();
             displayer.shut();
+            hudMg.reset();
         }
 
         public void close()

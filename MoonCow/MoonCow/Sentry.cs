@@ -31,11 +31,19 @@ namespace MoonCow
         bool visorLock;
         float agroFireCount;
 
+        EnemyShotTelegraph telegraph;
+        bool triggeredTele;
+
         public Vector2 nodePos;
 
         public float emoteTime;
         public float distFromShip;
         public CircleCollider col;
+
+        float cannonTransTime;
+        Vector3 prevCannon;
+        float visorTransTime;
+        Vector3 prevVisor;
 
         float cannonTurnSpeed;
         float cannonAngle;
@@ -63,6 +71,11 @@ namespace MoonCow
             health = 25;
             agroFireCount = 0;
 
+            triggeredTele = false;
+
+            telegraph = new EnemyShotTelegraph(game, pos - targetDir*2, targetDir, 1);
+            game.modelManager.addEffect(telegraph);
+
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
         }
 
@@ -76,6 +89,10 @@ namespace MoonCow
                 {
                     state = State.wake;
                     model.wake();
+                    prevCannon = cannonDir;
+                    prevVisor = eyeDir;
+                    cannonTransTime = 0;
+                    visorTransTime = 0;
                 }
             }
             if(state == State.wake)
@@ -97,6 +114,11 @@ namespace MoonCow
                 {
                     shockTime = 0;
                     state = State.agro;
+
+                    prevCannon = cannonDir;
+                    prevVisor = eyeDir;
+                    cannonTransTime = 0;
+                    visorTransTime = 0;
                 }
             }
             if(state == State.active)
@@ -107,10 +129,22 @@ namespace MoonCow
 
 
                 cooldownTime -= Utilities.deltaTime;
+
+                if (cooldownTime <= 0.4f)
+                {
+                    telegraph.setPos(pos - targetDir * 1.5f, targetDir);
+                    if (!triggeredTele)
+                    {
+                        telegraph.wake();
+                        triggeredTele = true;
+                    }
+                }
+
                 if (cooldownTime <= 0)
                 {
                     fire();
                     cooldownTime = 2;
+                    triggeredTele = false;
                 }
 
                 if (!sleepRange.checkPoint(ship.pos))
@@ -147,7 +181,13 @@ namespace MoonCow
             {
                 emoteTime += Utilities.deltaTime;
                 if (emoteTime >= 1)
+                {
+                    prevCannon = cannonDir;
+                    prevVisor = eyeDir;
+                    cannonTransTime = 0;
+                    visorTransTime = 0; 
                     state = State.active;
+                }
             }
         }
 
@@ -162,12 +202,12 @@ namespace MoonCow
 
         void updateCannon()
         {
-            if (!cannonLock)
+            if (cannonTransTime != 1)
             {
-                cannonDir = Vector3.Lerp(cannonDir, targetDir, Utilities.deltaTime * 4);
-                if (cannonDir.X < targetDir.X + 0.1f && cannonDir.X > targetDir.X - 0.1f &&
-                    cannonDir.Z < targetDir.Z + 0.1f && cannonDir.Z > targetDir.Z - 0.1f)
-                    cannonLock = true;
+                cannonDir = Vector3.SmoothStep(prevCannon, targetDir, cannonTransTime);
+                cannonTransTime += Utilities.deltaTime * 2;
+                if (cannonTransTime > 1)
+                    cannonTransTime = 1;
             }
             else
                 cannonDir = targetDir;
@@ -175,27 +215,37 @@ namespace MoonCow
 
         void updateVisor()
         {
-            eyeDir = Vector3.Lerp(eyeDir, targetDir, Utilities.deltaTime * 8);
+            if (visorTransTime != 1)
+            {
+                eyeDir = Vector3.SmoothStep(prevVisor, targetDir, visorTransTime);
+                visorTransTime += Utilities.deltaTime * 4;
+                if (visorTransTime > 1)
+                    visorTransTime = 1;
+            }
+            else
+                eyeDir = targetDir;
         }
 
         public void hitShip()
         {
-            if (state != State.agro)
+            if (state != State.agro || state != State.hit)
                 state = State.success;
             else
                 nextState = State.success;
             emoteTime = 0;
             cannonLock = false;
+            triggeredTele = false;
         }
 
         public void missedShip()
         {
-            if (state != State.agro)
+            if (state != State.agro || state != State.hit)
                 state = State.fail;
             else
                 nextState = State.fail;
             emoteTime = 0;
             cannonLock = false;
+            triggeredTele = false;
         }
 
         void fire()
@@ -219,6 +269,7 @@ namespace MoonCow
             model.hit(dir);
             shockTime = 0;
             model.wake();
+            triggeredTele = false;
         }
 
         void onDeath()

@@ -50,14 +50,14 @@ namespace MoonCow
 
                     if (mesh.Name.Contains("glow"))
                     {
-                        effect.AmbientLightColor = Vector3.One;
+                        effect.AmbientLightColor = new Vector3(0.8f);
                     }
                     else
                     {
-                        effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                        effect.DirectionalLight0.DiffuseColor = new Vector3(0.2f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                         effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
-                        effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
-                        effect.SpecularColor = Vector3.One;
+                        effect.AmbientLightColor = new Vector3(0.7f);
+                        effect.SpecularColor = new Vector3(0.3f);
                         effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
                     }
                     effect.PreferPerPixelLighting = true;

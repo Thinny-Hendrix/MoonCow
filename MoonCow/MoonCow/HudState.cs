@@ -24,8 +24,8 @@ namespace MoonCow
         public HudState(Hud hud, SpriteFont font, Game1 game):base(hud, font, game)
         {
             statPos = new Vector2(45, 884);
-            statNamePos = new Vector2(200, 980);
-            statTimePos = new Vector2(250, 1000);
+            statNamePos = new Vector2(330, 970);
+            statTimePos = new Vector2(330, 1010);
             waveManager = game.waveManager;
 
             hudStatF = game.Content.Load<Texture2D>(@"Hud/hudStatF");
@@ -36,7 +36,7 @@ namespace MoonCow
         {
             stateTimer = Utilities.formattedTime(waveManager.waitTime);
 
-                stateTimer = "" + (int)waveManager.activeAttack.waitTime / 60 + ":" + (int)waveManager.activeAttack.waitTime % 60;
+//                stateTimer = "" + (int)waveManager.activeAttack.waitTime / 60 + ":" + (int)waveManager.activeAttack.waitTime % 60;
             
             if (game.waveManager.spawnState == MoonCow.Utilities.SpawnState.deploying)
                 gameState = "defend";
@@ -50,12 +50,19 @@ namespace MoonCow
             sb.Draw(hudStatB, hud.scaledRect(statPos, 425, 151), Color.White);
             sb.Draw(hudStatF, hud.scaledRect(statPos, 425, 151), Color.White);
 
-            sb.DrawString(font, gameState, hud.scaledCoords(statNamePos), hud.contSecondary, 0,
-                    new Vector2(font.MeasureString(gameState).X / 2, font.MeasureString(gameState).Y / 2), hud.scale * (28.0f / 40), SpriteEffects.None, 0);
+            if (game.waveManager.spawnState != Utilities.SpawnState.deploying)
+            {
+                sb.DrawString(font, gameState, hud.scaledCoords(statNamePos), hud.contSecondary, 0,
+                    new Vector2(font.MeasureString(gameState).X / 2, font.MeasureString(gameState).Y / 2), hud.scale * (20.0f / 40), SpriteEffects.None, 0);
 
-            if(game.waveManager.spawnState != Utilities.SpawnState.deploying)
-                sb.DrawString(font, stateTimer, hud.scaledCoords(statTimePos), hud.contSecondary, 0,
+                sb.DrawString(font, stateTimer, hud.scaledCoords(statTimePos), Color.White, 0,
                     new Vector2(font.MeasureString(stateTimer).X / 2, font.MeasureString(stateTimer).Y / 2), hud.scale * (32.0f / 40), SpriteEffects.None, 0);
+            }
+            else
+            {
+                sb.DrawString(font, gameState, hud.scaledCoords(new Vector2(330,990)), Color.White, 0,
+                    new Vector2(font.MeasureString(gameState).X / 2, font.MeasureString(gameState).Y / 2), hud.scale * (24.0f / 40), SpriteEffects.None, 0);
+            }
         }
 
 

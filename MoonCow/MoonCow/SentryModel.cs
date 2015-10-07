@@ -58,25 +58,26 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            visorRot = (float)Math.Atan2(sentry.eyeDir.X, sentry.eyeDir.Z);
-            cannonRot = (float)Math.Atan2(sentry.cannonDir.X, sentry.cannonDir.Z);
-
-            updateEyes();
-
-            topOffset.Y = 0;
-
-            if(waking)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                topOffset.Y = ((-(float)Math.Cos(sentry.shockTime * MathHelper.Pi*2)-1)+2)*1.5f;
+                visorRot = (float)Math.Atan2(sentry.eyeDir.X, sentry.eyeDir.Z);
+                cannonRot = (float)Math.Atan2(sentry.cannonDir.X, sentry.cannonDir.Z);
+
+                updateEyes();
+
+                topOffset.Y = 0;
+
+                if (waking)
+                {
+                    topOffset.Y = ((-(float)Math.Cos(sentry.shockTime * MathHelper.Pi * 2) - 1) + 2) * 1.5f;
+                }
+
+                if (shaking)
+                {
+                    updateShake();
+                    shakeOffset = shakeDir * shakeAmount;
+                }
             }
-
-            if(shaking)
-            {
-                updateShake();
-                shakeOffset = shakeDir * shakeAmount;
-            }
-
-
         }
 
         void updateShake()
