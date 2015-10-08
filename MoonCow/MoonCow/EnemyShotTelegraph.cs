@@ -44,6 +44,7 @@ namespace MoonCow
             if (active)
             {
                 game.GraphicsDevice.SetRenderTarget(rTarg);
+                game.GraphicsDevice.Clear(Color.Transparent);
                 sb.Begin();
                 sb.Draw(TextureManager.mgPulse, new Rectangle((int)texPos.X, (int)texPos.Y, 128, 64), col);
                 sb.End();

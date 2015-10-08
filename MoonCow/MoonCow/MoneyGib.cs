@@ -173,7 +173,7 @@ namespace MoonCow
             catch (IndexOutOfRangeException){}
         }
 
-        void collectGib()
+        protected virtual void collectGib()
         {
             moneyManager.addMoney(value);
             moneyManager.toDelete.Add(this);

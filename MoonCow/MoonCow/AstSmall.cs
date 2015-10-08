@@ -25,7 +25,7 @@ namespace MoonCow
         public override void onDeath()
         {
             for (int i = 0; i < 4; i++)
-                game.ship.moneyManager.addGib(20, pos);
+                game.ship.moneyManager.addOreGib(20, pos, 0);
             base.onDeath();
         }
     }

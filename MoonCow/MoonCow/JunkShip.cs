@@ -40,7 +40,7 @@ namespace MoonCow
             if(interactRange.checkPoint(ship.pos))
             {
                 //display message
-                if (!minigame.active)
+                if (!minigame.active && !game.camera.transitioning)
                 {
                     if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
                     {

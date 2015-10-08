@@ -105,6 +105,7 @@ namespace MoonCow
             this.projectile = projectile;
             this.c1 = c1;
             this.c2 = c2;
+            this.c3 = c1;
             tex = TextureManager.particle1small;
             tex2 = TextureManager.particle2small;
             tex3 = TextureManager.particle3small;

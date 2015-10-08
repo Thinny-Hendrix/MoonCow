@@ -160,14 +160,16 @@ namespace MoonCow
             }
             mToDelete.Clear();
 
-            if(fail)
+            if (fail)
             {
                 onFail();
             }
-
-            if(markerCount == markerMax && upMark.Count()+downMark.Count()+leftMark.Count()+rightMark.Count() == 0)
+            else
             {
-                success();
+                if (markerCount == markerMax && upMark.Count() + downMark.Count() + leftMark.Count() + rightMark.Count() == 0)
+                {
+                    success();
+                }
             }
         }
 
@@ -262,6 +264,7 @@ namespace MoonCow
 
         public void success()
         {
+            minigame.success = true;
             minigame.successCount++;
             minigame.attempts++;
             minigame.close();

@@ -82,5 +82,10 @@ namespace MoonCow
             //make projectile
             //send message to model
         }
+
+        public virtual void Dispose()
+        {
+            game.modelManager.removeObject(turretModel);
+        }
     }
 }

@@ -46,6 +46,7 @@ namespace MoonCow
 
         //asteroid field
         public static Texture2D ast1;
+        public static Texture2D skyBox2;
 
         //weapon model textures
         public static Texture2D bombTex1;
@@ -146,6 +147,7 @@ namespace MoonCow
             warnSign2 = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnSign");
 
             //ast field
+            skyBox2 = game.Content.Load<Texture2D>(@"Models/Misc/Skybox/skybox-2");
             ast1 = game.Content.Load<Texture2D>(@"Models/AstField/ast1tex_0");
 
             //weapon model textures

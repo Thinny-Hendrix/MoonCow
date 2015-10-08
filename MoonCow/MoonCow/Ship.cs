@@ -158,7 +158,7 @@ namespace MoonCow
                 updateMovement();
                 updateDamagePotential();
             }
-
+            /*
             if(Keyboard.GetState().IsKeyDown(Keys.I))
                 moneyManager.addMoney(8);
             if (Keyboard.GetState().IsKeyDown(Keys.U))
@@ -166,7 +166,7 @@ namespace MoonCow
             if (Keyboard.GetState().IsKeyDown(Keys.J))
                 moneyManager.addMoney(-35);
             if (Keyboard.GetState().IsKeyDown(Keys.K))
-                moneyManager.addMoney(-1329);
+                moneyManager.addMoney(-1329);*/
 
             if (Keyboard.GetState().IsKeyDown(Keys.L))
                 shipHealth.onHit(3);

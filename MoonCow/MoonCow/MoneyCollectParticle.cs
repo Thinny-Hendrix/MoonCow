@@ -44,6 +44,8 @@ namespace MoonCow
             direction.Normalize();
             speed = 4.5f + Utilities.nextFloat();
             alpha = 1;
+
+            life = Utilities.nextFloat();
         }
 
         public override void Update(GameTime gameTime)

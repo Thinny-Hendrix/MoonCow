@@ -63,7 +63,7 @@ namespace MoonCow
         //Ships
 
         //Money gibs
-
+        public static Model oreGib1;
 
 
 
@@ -121,6 +121,11 @@ namespace MoonCow
 
             //minigame
             mgBgPoly = game.Content.Load<Model>(@"Minigame/mgBgModel");
+
+            //ship
+
+            //money gibs
+            oreGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/ore1");
         }
     }
 }

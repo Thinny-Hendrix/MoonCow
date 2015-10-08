@@ -15,9 +15,14 @@ namespace MoonCow
         Game1 game;
         Ship ship;
         TurretBaseModel baseModel;
-        int time = 0;
         Vector2 nodePos;
         CircleCollider col;
+
+        float coolDown;
+
+        float gattPrice;
+        float pyroPrice;
+        float elecPrice;
 
         public enum TurretType { none, gattle, pyro, electro}
         public TurretType turretType;
@@ -33,17 +38,110 @@ namespace MoonCow
             ship = game.ship;
             turretType = TurretType.none;
 
+            gattPrice = 1250;
+            pyroPrice = 2000;
+            elecPrice = 3500;
+
             col = new CircleCollider(pos, 5);
+
+            coolDown = 0;
         }
 
         public void Update()
         {
+            if (!Utilities.paused && !Utilities.softPaused)
+            {
+                if (coolDown != 0)
+                {
+                    coolDown -= Utilities.deltaTime;
+                    if (coolDown < 0)
+                        coolDown = 0;
+                }
+            }
+
             checkCollision();
 
             if(turret != null)
             {
                 turret.Update();
             }
+        }
+
+        void spawnEffect()
+        {
+            for (int i = 0; i < 10; i++)
+                game.modelManager.addEffect(new SpawnParticle(game, pos, new Vector2(1, 4), Color.White, 1));
+        }
+
+        public bool setTurret(int i)
+        {
+            bool returnVal = false;
+
+            switch(i)
+            {
+                default:
+                    turret.Dispose();
+                    turret = null;
+
+                    switch((int)turretType)
+                    {
+                        default:
+                            break;
+                        case 1:
+                            game.ship.moneyManager.addMoney(gattPrice);
+                            break;
+                        case 2:
+                            game.ship.moneyManager.addMoney(pyroPrice);
+                            break;
+                        case 3:
+                            game.ship.moneyManager.addMoney(elecPrice);
+                            break;
+                    }
+
+
+
+                    turretType = TurretType.none;
+                    returnVal = true;
+                    baseModel.changeColor(turretType, game);
+                    break;
+                case 1:
+                    if (ship.moneyManager.canPurchase(gattPrice))
+                    {
+                        turret = new GattleTurret(pos, dir, game);
+                        turretType = TurretType.gattle;
+                        baseModel.changeColor(turretType, game);
+                        game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
+                        game.enemyManager.turretPlaced();
+                        spawnEffect();
+                        returnVal = true;
+                    }
+                    break;
+                case 2:
+                    if (ship.moneyManager.canPurchase(pyroPrice))
+                    {
+                        turret = new PyroTurret(pos, dir, game);
+                        turretType = TurretType.pyro;
+                        baseModel.changeColor(turretType, game);
+                        game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
+                        game.enemyManager.turretPlaced();
+                        spawnEffect();
+                        returnVal = true;
+                    }
+                    break;
+                case 3:
+                    if (ship.moneyManager.canPurchase(elecPrice))
+                    {
+                        turret = new ElectroTurret(pos, dir, game);
+                        turretType = TurretType.electro;
+                        baseModel.changeColor(turretType, game);
+                        game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 5;
+                        game.enemyManager.turretPlaced();
+                        spawnEffect();
+                        returnVal = true;
+                    }
+                    break;
+            }
+            return returnVal;
         }
 
         void checkCollision()
@@ -53,49 +151,15 @@ namespace MoonCow
                 if(col.checkPoint(ship.pos))
                 {
                     //future - will activate hud dialogue box
-
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    if (coolDown == 0)
                     {
-                        if (turret == null)
+                        if (Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
                         {
-                            if (ship.moneyManager.canPurchase(0))
-                            {
-                                turret = new GattleTurret(pos, dir, game);
-                                turretType = TurretType.gattle;
-                                baseModel.changeColor(turretType, game);
-                                game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
-                                game.enemyManager.turretPlaced();
-                            }
-                        }
-                    }
-
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.RightShift))
-                    {
-                        if (turret == null)
-                        {
-                            if (ship.moneyManager.canPurchase(0))
-                            {
-                                turret = new ElectroTurret(pos, dir, game);
-                                turretType = TurretType.electro;
-                                baseModel.changeColor(turretType, game);
-                                game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 5;
-                                game.enemyManager.turretPlaced();
-                            }
-                        }
-                    }
-
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.OemComma))
-                    {
-                        if (turret == null)
-                        {
-                            if (ship.moneyManager.canPurchase(0))
-                            {
-                                turret = new PyroTurret(pos, dir, game);
-                                turretType = TurretType.pyro;
-                                baseModel.changeColor(turretType, game);
-                                game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
-                                game.enemyManager.turretPlaced();
-                            }
+                            coolDown = 1;
+                            if (turretType == TurretType.none)
+                                game.hud.turSelect.activate(this, 0);
+                            else
+                                game.hud.turSelect.activate(this, 1);
                         }
                     }
                 }

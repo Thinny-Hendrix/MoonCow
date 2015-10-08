@@ -143,6 +143,8 @@ namespace MoonCow
                     time -= MathHelper.Pi * 2;
             }
 
+            base.Update(gameTime);
+
             if (health <= 0)
             {
                 death();

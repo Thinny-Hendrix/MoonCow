@@ -72,6 +72,7 @@
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
     <Compile Include="EnemyShotTelegraph.cs" />
+    <Compile Include="ExpSelect.cs" />
     <Compile Include="FireParticle.cs" />
     <Compile Include="FireStreamParticle.cs" />
     <Compile Include="Gunner.cs" />
@@ -100,6 +101,8 @@
     <Compile Include="MgPolyBg.cs" />
     <Compile Include="MgScreen.cs" />
     <Compile Include="Minigame.cs" />
+    <Compile Include="OreGib.cs" />
+    <Compile Include="OreGibGlow.cs" />
     <Compile Include="PathfinderGunner.cs" />
     <Compile Include="PathfinderSneaker.cs" />
     <Compile Include="PyroDamage.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Sneaker.cs" />
     <Compile Include="SneakerModel.cs" />
+    <Compile Include="SpawnParticle.cs" />
     <Compile Include="SpDot.cs" />
     <Compile Include="SpRing.cs" />
     <Compile Include="SentryProjectile.cs" />
@@ -166,6 +170,7 @@
     <Compile Include="TurretBaseModel.cs" />
     <Compile Include="TurretManager.cs" />
     <Compile Include="TurretModel.cs" />
+    <Compile Include="TurretSelect.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Wave.cs" />
     <Compile Include="WaveManager.cs" />
@@ -639,6 +644,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Misc\Rbow\rbowTunnelt.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Misc\Skybox\skybox-2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\MoneyGibs\gib1-0.png">
@@ -1386,6 +1394,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Misc\mgScreen.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\MoneyGibs\ore1.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

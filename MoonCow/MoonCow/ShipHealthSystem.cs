@@ -29,23 +29,26 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if(shieldState == ShieldState.idle)
+            if (!Utilities.softPaused && !Utilities.paused)
             {
-                shieldIdleTime -= Utilities.deltaTime;
-                if(shieldIdleTime < 0)
+                if (shieldState == ShieldState.idle)
                 {
-                    shieldIdleTime = 0;
-                    shieldState = ShieldState.recharging;
+                    shieldIdleTime -= Utilities.deltaTime;
+                    if (shieldIdleTime < 0)
+                    {
+                        shieldIdleTime = 0;
+                        shieldState = ShieldState.recharging;
+                    }
                 }
-            }
 
-            if(shieldState == ShieldState.recharging)
-            {
-                shieldVal += Utilities.deltaTime * 40;
-                if(shieldVal >= shieldMax)
+                if (shieldState == ShieldState.recharging)
                 {
-                    shieldVal = shieldMax;
-                    shieldState = ShieldState.max;
+                    shieldVal += Utilities.deltaTime * 40;
+                    if (shieldVal >= shieldMax)
+                    {
+                        shieldVal = shieldMax;
+                        shieldState = ShieldState.max;
+                    }
                 }
             }
         }

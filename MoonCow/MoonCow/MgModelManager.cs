@@ -71,16 +71,19 @@ namespace MoonCow
 
         public void Update()
         {
-            time += Utilities.deltaTime * speed;
-            if(time > 1)
+            if (!Utilities.softPaused && !Utilities.paused)
             {
-                time = 0;
-                Pulse(4);
+                time += Utilities.deltaTime * speed;
+                if (time > 1)
+                {
+                    time = 0;
+                    Pulse(4);
+                }
+                foreach (MgModel m in solid)
+                    m.Update();
+                foreach (MgModel m in additive)
+                    m.Update();
             }
-            foreach (MgModel m in solid)
-                m.Update();
-            foreach (MgModel m in additive)
-                m.Update();
         }
 
         public void Draw()

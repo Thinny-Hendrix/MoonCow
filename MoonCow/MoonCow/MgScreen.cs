@@ -142,8 +142,12 @@ namespace MoonCow
             sb.DrawString(font, moneyDesc, new Vector2(1340, 102), Color.White, 0,
                 new Vector2(font.MeasureString(moneyDesc).X, font.MeasureString(moneyDesc).Y / 2), 12.0f / 40, SpriteEffects.None, 0);
 
-            sb.DrawString(font, money, new Vector2(1340, 132), Color.White, 0,
-                new Vector2(font.MeasureString(money).X, font.MeasureString(money).Y / 2), 24.0f / 40, SpriteEffects.None, 0);
+            if(minigame.start == false && minigame.moneyEarned == 0)
+                sb.DrawString(font, money, new Vector2(1340, 132), red, 0,
+                    new Vector2(font.MeasureString(money).X, font.MeasureString(money).Y / 2), 24.0f / 40, SpriteEffects.None, 0);
+            else
+                sb.DrawString(font, money, new Vector2(1340, 132), Color.White, 0,
+                    new Vector2(font.MeasureString(money).X, font.MeasureString(money).Y / 2), 24.0f / 40, SpriteEffects.None, 0);
 
             foreach (MgMessage m in messages)
                 m.Draw(sb, font);

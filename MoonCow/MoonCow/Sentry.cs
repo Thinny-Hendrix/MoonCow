@@ -228,7 +228,7 @@ namespace MoonCow
 
         public void hitShip()
         {
-            if (state != State.agro || state != State.hit)
+            if (state != State.agro && state != State.hit)
                 state = State.success;
             else
                 nextState = State.success;
@@ -239,7 +239,7 @@ namespace MoonCow
 
         public void missedShip()
         {
-            if (state != State.agro || state != State.hit)
+            if (state != State.agro && state != State.hit)
                 state = State.fail;
             else
                 nextState = State.fail;
@@ -274,6 +274,8 @@ namespace MoonCow
 
         void onDeath()
         {
+            telegraph.Dispose();
+            game.modelManager.removeEffect(telegraph);
             manager.sToDelete.Add(this);
             game.modelManager.removeEnemy(model);
             for (int i = 0; i < 3; i++)

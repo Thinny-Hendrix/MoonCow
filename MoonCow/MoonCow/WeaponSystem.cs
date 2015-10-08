@@ -104,6 +104,11 @@ namespace MoonCow
             activeWeapon = (Weapon)weapons.ElementAt(wep);
         }
 
+        public void addExp(int i, float exp)
+        {
+            weapons.ElementAt(i).addExp(exp);
+        }
+
         public void swapWeapons()
         {
             Weapon temp = activeWeapon;

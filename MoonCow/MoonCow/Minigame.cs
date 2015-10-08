@@ -13,6 +13,7 @@ namespace MoonCow
         public MgManager manager;
         public bool active;
         public bool start; //true when beginning game, false when pause on end;
+        public bool success;
 
         public float maxBeats;
         public float maxDubs;
@@ -57,6 +58,8 @@ namespace MoonCow
             defaultInstance.generateNew();
             manager.loadInstance(defaultInstance);
             manager.reset();
+
+            game.hud.expSelect.setMinigame(this);
         }
 
         public override void Update(GameTime gameTime)
@@ -68,7 +71,16 @@ namespace MoonCow
                     if (start)
                         manager.Update();
                     else
-                        abort();
+                    {
+                        if(success)
+                        {
+                            game.hud.expSelect.activate();
+                        }
+                        else
+                        {
+                            abort();
+                        }
+                    }
                 }
                 else
                     holdTime += Utilities.deltaTime;
@@ -91,6 +103,8 @@ namespace MoonCow
 
         public void abort()
         {
+            if (success)
+                game.ship.moneyManager.makeMoney(moneyEarned, -1, displayer.pos);
             active = false;
             game.camera.followShip();
             displayer.shut();
@@ -114,6 +128,7 @@ namespace MoonCow
             hudMg.trigger(manager.speed);
             manager.reset();
             moneyEarned = 0;
+            success = false;
         }
 
         public void addMoney(float amount)

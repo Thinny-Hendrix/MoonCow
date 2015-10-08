@@ -33,7 +33,7 @@ namespace MoonCow
             this.game = game;
             screen = minigame.screen;
 
-            scale = new Vector3(0.3f);
+            scale = new Vector3(0.25f);
 
             model = ModelLibrary.mgScreen;
             rot.X = MathHelper.Pi / 2.8f;

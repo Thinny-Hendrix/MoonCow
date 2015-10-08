@@ -70,7 +70,7 @@ namespace MoonCow
                     break;
                 case 4:
                     text = "start!";
-                    scale = 60;
+                    scale = 40;
                     alpha = 1;
                     break;
 

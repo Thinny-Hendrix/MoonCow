@@ -27,7 +27,8 @@ namespace MoonCow
         public HudMap hudMap;
         public HudMessage hudMessage;
         public HudMg hudMg;
-
+        public ExpSelect expSelect;
+        public TurretSelect turSelect;
         public QuickSelect quickSelect;
 
         Vector2 position;
@@ -72,6 +73,8 @@ namespace MoonCow
 
             hudAttackDisplayer = new HudAttackDisplayer(game, this);
             quickSelect = new QuickSelect(this, game, font);
+            expSelect = new ExpSelect(this, game, font);
+            turSelect = new TurretSelect(this, game, font);
 
             position = new Vector2(0, 0);
             contPrimary = Color.White;
@@ -160,7 +163,8 @@ namespace MoonCow
             hudMap.Update();
             hudMessage.Update();
             hudMg.Update();
-
+            expSelect.Update();
+            turSelect.Update();
         }
 
         public void makeFlash()
@@ -222,6 +226,8 @@ namespace MoonCow
 
 
             quickSelect.Draw(spriteBatch);
+            turSelect.Draw(spriteBatch);
+            expSelect.Draw(spriteBatch);
 
             hudAttackDisplayer.Draw();
 

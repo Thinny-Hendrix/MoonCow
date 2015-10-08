@@ -25,11 +25,11 @@ namespace MoonCow
 
         Texture2D solidWhite;
 
-        Texture2D out4;
-        Texture2D out4_1;
-        Texture2D out4_2;
-        Texture2D out4_3;
-        Texture2D out4_4;
+        public Texture2D out4;
+        public Texture2D out4_1;
+        public Texture2D out4_2;
+        public Texture2D out4_3;
+        public Texture2D out4_4;
 
         Texture2D out5;
         Texture2D out5_1;
@@ -38,14 +38,14 @@ namespace MoonCow
         Texture2D out5_4;
         Texture2D out5_5;
 
-        Texture2D fill4;
+        public Texture2D fill4;
         Texture2D fill5;
 
-        Texture2D hi1;
-        Texture2D hi2;
-        Texture2D hi3;
-        Texture2D hi4;
-        Texture2D hi5;
+        public Texture2D hi1;
+        public Texture2D hi2;
+        public Texture2D hi3;
+        public Texture2D hi4;
+        public Texture2D hi5;
 
         Texture2D currentOut;
         Texture2D currentFill;
@@ -102,13 +102,16 @@ namespace MoonCow
         {
             if(!active)
             {
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
+                if (!hud.expSelect.active && !hud.turSelect.active && !game.minigame.active)
                 {
-                    yHold += Utilities.deltaTime * 60;
-                    if (yHold > HOLD_THRESH)
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
                     {
-                        active = true;
-                        Utilities.softPaused = true;
+                        yHold += Utilities.deltaTime * 60;
+                        if (yHold > HOLD_THRESH)
+                        {
+                            active = true;
+                            Utilities.softPaused = true;
+                        }
                     }
                 }
             }
