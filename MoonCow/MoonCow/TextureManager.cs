@@ -119,6 +119,8 @@ namespace MoonCow
         public static Texture2D sEye3;
         public static Texture2D sEye4;
         public static Texture2D sEye5;
+        public static Texture2D sEye6;
+
 
 
         public static Texture2D pureWhite;
@@ -161,7 +163,7 @@ namespace MoonCow
             warnSign2 = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnSign");
 
             //ast field
-            skyBox2 = game.Content.Load<Texture2D>(@"Models/Misc/Skybox/skybox-2");
+            skyBox2 = game.Content.Load<Texture2D>(@"Models/Misc/Skybox/skybox6");
             ast1 = game.Content.Load<Texture2D>(@"Models/AstField/ast1tex_0");
 
             //weapon model textures
@@ -233,6 +235,8 @@ namespace MoonCow
             sEye3 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes3");
             sEye4 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes4");
             sEye5 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes5");
+            sEye6 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes6");
+
 
 
 

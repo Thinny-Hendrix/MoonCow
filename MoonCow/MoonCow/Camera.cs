@@ -65,6 +65,9 @@ namespace MoonCow
             CreateLookAt();
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.Pi/3, (float)Game.Window.ClientBounds.Width /
                 (float)Game.Window.ClientBounds.Height, 1, 3000);
+
+            shakeTime = 0;
+            shakeConstant = 1;
         }
 
         public override void Initialize()
@@ -271,6 +274,25 @@ namespace MoonCow
             }
         }
 
+        public void setYShake(float amount)
+        {
+            shakeStrength = amount;
+            shaking = true;
+        }
+
+        public void makeYShake()
+        {
+            shakeTime = 0;
+            shaking = true;
+            shakeStrength = 0.15f;
+
+            if (Utilities.random.Next(0, 10) < 5) //this just chooses the starting direction for the tilt angle so it's not the same every single time
+            {
+                shakeConstant = -1;
+            }
+            else
+                shakeConstant = 1;
+        }
         public void makeShake()
         {
             tiltStrength = MathHelper.PiOver4 / 6;
@@ -296,7 +318,9 @@ namespace MoonCow
                 shakeOffset.Y = shakeConstant * (float)Math.Sin(shakeTime) * shakeStrength * 1;
                 shakeStrength = MathHelper.Lerp(shakeStrength, 0, Utilities.deltaTime * 3f);
                 shakeTime += MathHelper.Pi * Utilities.deltaTime * 12;
-                if (shakeTime >= MathHelper.Pi * 15)
+                if (shakeTime > MathHelper.Pi * 2)
+                    shakeTime -= MathHelper.Pi * 2;
+                if (shakeStrength <= 0.001)
                 {
                     shakeTime = 0;
                     shakeOffset.Y = 0;

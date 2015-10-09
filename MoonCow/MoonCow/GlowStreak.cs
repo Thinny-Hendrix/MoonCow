@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace MoonCow
 {
-    public class SpawnParticle:BasicModel
+    public class GlowStreak:BasicModel
     {
         Game1 game;
         float time;
@@ -18,7 +18,8 @@ namespace MoonCow
         Vector2 maxScale;
         float alpha;
         Vector3 dir;
-        public SpawnParticle(Game1 game, Vector3 pos, Vector2 scale, Color col, int type)
+
+        public GlowStreak(Game1 game, Vector3 pos, Vector2 scale, float speed, Color col, int type)
         {
             this.game = game;
             this.model = TextureManager.dirSquare;
@@ -26,6 +27,8 @@ namespace MoonCow
             this.col = col;
             this.scale = Vector3.One;
             this.maxScale = scale;
+            this.speed = (Utilities.nextFloat() * 0.2f + 0.9f) * speed;
+            this.speed = speed;
             alpha = 1;
 
             setDir(type);
@@ -58,7 +61,7 @@ namespace MoonCow
                 scale.Y = MathHelper.Lerp(0, maxScale.Y, (float)(Math.Sin(time) + 1) / 2);
                 scale.X = MathHelper.Lerp(0, maxScale.X, (float)(Math.Sin(time) + 1) / 2);
 
-                time += Utilities.deltaTime * MathHelper.Pi;
+                time += Utilities.deltaTime * MathHelper.Pi * speed;
 
                 if (time > MathHelper.Pi)
                 {

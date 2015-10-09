@@ -18,7 +18,7 @@ namespace MoonCow
         public PyroTurret(Vector3 pos, Vector3 targetDir, Game1 game):base(pos, targetDir,game)
         {
             col = new CircleCollider(pos, 20);
-            turretModel = new GattleTurretModel(this, game);
+            turretModel = new PyroTurretModel(this, game);
             game.modelManager.addObject(turretModel);
             cooldownMax = 1f;
 

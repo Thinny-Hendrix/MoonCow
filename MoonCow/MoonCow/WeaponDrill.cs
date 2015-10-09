@@ -28,6 +28,7 @@ namespace MoonCow
             ammoMax = 16;
             ammo = ammoMax;
             col = new CircleCollider(ship.pos+ship.direction, 0.3f);
+            active = false;
         }
 
         public override void activate()
@@ -35,12 +36,20 @@ namespace MoonCow
             active = true;
         }
 
+        public override void disable()
+        {
+            active = false;
+        }
+
         public override void Update()
         {
             if (active)
             {
+                if (ship.boosting)
+                    game.hud.hudWeapon.Wake();
+
                 col.Update(ship.pos + ship.direction);
-                if (ship.moving)
+                if (ship.moving && ship.colliding)
                     checkCollision();
             }
             base.Update();
@@ -48,13 +57,34 @@ namespace MoonCow
 
         void checkCollision()
         {
+            bool colliding = false;
             foreach (Asteroid a in game.asteroidManager.asteroids)
             {
                 if (a.col.checkCircle(col))
                 {
                     a.damage(1, ship.pos);
-                    game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction));
+                    game.camera.setYShake(0.03f);
+                    colliding = true;
                 }
+            }
+
+            foreach(Sentry s in game.enemyManager.sentries)
+            {
+                if(s.col.checkCircle(col))
+                {
+                    s.drillDamage(Utilities.deltaTime * 31.25f, ship.direction, ship.boosting);
+                    colliding = true;
+                }
+            }
+
+            foreach (Enemy e in game.enemyManager.enemies)
+            {
+            }
+
+            if (colliding)
+            {
+                game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction*0.8f, 0.15f));
+                game.hud.hudWeapon.Wake();
             }
         }
 
@@ -64,10 +94,6 @@ namespace MoonCow
             {
                 if (cooldown == 0 || (projectiles.Count() == 0 && softCooldown == 0))
                 {
-                    projectiles.Add(new Projectile(ship.pos + new Vector3(0, 0, ship.direction.Z * 0.25f), ship.direction, game, this, 0));
-
-                    game.audioManager.shipShootLaser2.Stop();
-                    game.audioManager.shipShootLaser2.Play();
                     cooldown = coolMax;
                     softCooldown = softCoolmax;
                     base.Fire();

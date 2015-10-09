@@ -69,6 +69,9 @@ namespace MoonCow
                         sb.DrawString(font, moneyDif, hud.scaledCoords(monDifPos.X, monDifPos.Y), hud.contSecondary, 0,
                             new Vector2(font.MeasureString(moneyDif).X, font.MeasureString(moneyDif).Y / 2), hud.scale * (28.0f / 40), SpriteEffects.None, 0);
                 }
+
+                sb.Draw(TextureManager.icoMon, hud.scaledRect(monPos + new Vector2(335,70), 90, 90),
+                        null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
             }
         }
     }

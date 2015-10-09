@@ -41,6 +41,7 @@ namespace MoonCow
         float totaluTurn;
 
         public bool finishingMove;
+        public bool colliding;
 
         public Vector2 nodePos;
 
@@ -486,20 +487,20 @@ namespace MoonCow
 
         void updateMovement()
         {
-            bool collision = false; // Used for determining if sound needs playing, holds true if collision in either X or Z component of movement
+            colliding = false; // Used for determining if sound needs playing, holds true if collision in either X or Z component of movement
             pos.X += frameDiff.X;   // Update the ship movment with X component of direction * speed
             if (checkCollision())   // See if that caused a collision
             {
                 pos.X -= frameDiff.X;   // Undo movment if so
-                collision = true;       // Also play the sound
+                colliding = true;       // Also play the sound
             }
             pos.Z += frameDiff.Z;   // Now update the Z component
             if (checkCollision())   // See if that caused collision
             {
                 pos.Z -= frameDiff.Z;   // Undo movement if so
-                collision = true;       // Also play the sound
+                colliding = true;       // Also play the sound
             }
-            if (collision)  // If sound needs playing
+            if (colliding)  // If sound needs playing
             {
                 collisionSound();   // Play sound
             }
@@ -562,6 +563,20 @@ namespace MoonCow
                 {
                     if (boundingBox.intersects(box))
                     {
+                        collision = true;
+                    }
+                }
+            }
+
+            foreach(Sentry s in game.enemyManager.sentries)
+            {
+                if (nodePos.X == s.nodePos.X && nodePos.Y == s.nodePos.Y)
+                {
+                    //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
+                    if (s.col.checkPoint(pos))
+                    {
+                        //c.push(moveSpeed, pos, 4.0f);
+                        //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                         collision = true;
                     }
                 }

@@ -44,6 +44,7 @@ namespace MoonCow
         //turrets
         public static Model turretBase;
         public static Model turretGatt;
+        public static Model turretPyro;
         public static Model turretElec;
         public static Model turretHolo;
 
@@ -107,6 +108,7 @@ namespace MoonCow
             //Turrets
             turretBase = game.Content.Load<Model>(@"Models/Turrets/turretBase");
             turretGatt = game.Content.Load<Model>(@"Models/Turrets/turretGatt");
+            turretPyro = game.Content.Load<Model>(@"Models/Turrets/pyroTurret");
             turretElec = game.Content.Load<Model>(@"Models/Turrets/electroTurret");
             turretHolo = game.Content.Load<Model>(@"Models/Turrets/turrHolo");
 

@@ -33,6 +33,7 @@ namespace MoonCow
 
         public OOBB boundingBox;
         public CircleCollider agroSphere;
+        public CircleCollider col;
         public float health;
 
         public Vector2 nodePos;
@@ -72,6 +73,11 @@ namespace MoonCow
         {
             electroDamage.Update();
             pyroDamage.Update();
+        }
+
+        public virtual void drillDamage(float damage, Vector3 dir, bool boosting)
+        {
+
         }
 
         public virtual void knockbackDamage(float damage, Vector3 source)

@@ -46,8 +46,9 @@ namespace MoonCow
 
         public virtual void activate()
         {
-
         }
+
+        public virtual void disable() { }
 
         public virtual void Update()
         {

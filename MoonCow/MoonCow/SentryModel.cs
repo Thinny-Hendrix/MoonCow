@@ -25,6 +25,8 @@ namespace MoonCow
         Vector3 topOffset;
         bool waking;
         Vector3 shakeOffset;
+        float tiltRot;
+        float spinRot;
 
         float shakeSize;
         float shakeAmount;
@@ -53,13 +55,20 @@ namespace MoonCow
             botCap = model.Bones["botCap"];
 
             topOffset = Vector3.Zero;
-
+            tiltRot = 0;
+            spinRot = 0;
         }
 
         public override void Update(GameTime gameTime)
         {
             if (!Utilities.paused && !Utilities.softPaused)
             {
+                if (sentry.state == Sentry.State.knockBack)
+                {
+                    pos = sentry.pos;
+                    tiltRot = -MathHelper.PiOver4/2;
+                    rot.Y += Utilities.deltaTime * MathHelper.Pi * 4;
+                }
                 visorRot = (float)Math.Atan2(sentry.eyeDir.X, sentry.eyeDir.Z);
                 cannonRot = (float)Math.Atan2(sentry.cannonDir.X, sentry.cannonDir.Z);
 
@@ -77,6 +86,7 @@ namespace MoonCow
                     updateShake();
                     shakeOffset = shakeDir * shakeAmount;
                 }
+
             }
         }
 
@@ -108,7 +118,7 @@ namespace MoonCow
 
         void updateEyes()
         {
-            //idle, wake, active, fail, success, agro, hit
+            //idle, wake, active, fail, success, agro, hit, knockback
             switch((int)sentry.state)
             {
                 default:
@@ -132,8 +142,20 @@ namespace MoonCow
                     else
                         visorTex = TextureManager.sEye4;
                     break;
+                case 7:
+                    visorTex = TextureManager.sEye6;
+                    break;
+
 
             }
+        }
+
+        protected override Matrix GetWorld()
+        {
+            if (sentry.state == Sentry.State.knockBack)
+                return Matrix.CreateFromAxisAngle(Vector3.Cross(sentry.knockDir, Vector3.Up), tiltRot) * base.GetWorld();
+            else
+                return base.GetWorld();
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)

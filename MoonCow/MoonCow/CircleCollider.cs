@@ -54,6 +54,15 @@ namespace MoonCow
             return dist <= radius;
         }
 
+        public Vector3 directionFrom(Vector3 point)
+        {
+            float x = centre.X - point.X;
+            float z = centre.Y - point.Z;
+            Vector3 dir = new Vector3(x, 0, z);
+            dir.Normalize();
+            return dir;
+        }
+
         public float distFrom(Vector2 point)
         {
             return (float)Math.Sqrt(Math.Pow(point.X - centre.X, 2) + Math.Pow(point.Y - centre.Y, 2));

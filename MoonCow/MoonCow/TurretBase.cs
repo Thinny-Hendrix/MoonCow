@@ -19,6 +19,7 @@ namespace MoonCow
         bool triggeredHoloClose;
         Vector2 nodePos;
         CircleCollider col;
+        bool triggeredHud;
 
         float coolDown;
 
@@ -76,7 +77,7 @@ namespace MoonCow
         void spawnEffect()
         {
             for (int i = 0; i < 10; i++)
-                game.modelManager.addEffect(new SpawnParticle(game, pos, new Vector2(1, 4), Color.White, 1));
+                game.modelManager.addEffect(new GlowStreak(game, pos, new Vector2(1, 4), 1,Color.White, 1));
         }
 
         public bool setTurret(int i)
@@ -161,7 +162,12 @@ namespace MoonCow
                         holo.close();
                         triggeredHoloClose = true;
                     }
-                    game.hud.hudPrompt.activate("purchase turret");
+                    if(turretType == TurretType.none)
+                        game.hud.hudPrompt.activate("purchase turret");
+                    else
+                        game.hud.hudPrompt.activate("sell turret");
+                    triggeredHud = true;
+
                     //future - will activate hud dialogue box
                     if (coolDown == 0)
                     {
@@ -177,21 +183,31 @@ namespace MoonCow
                 }
                 else
                 {
+                    if (triggeredHud)
+                    {
+                        game.hud.hudPrompt.close();
+                        triggeredHud = false;
+                    }
+
                     if (triggeredHoloClose && turretType == TurretType.none)
                     {
                         holo.wake();
                         triggeredHoloClose = false;
-                        game.hud.hudPrompt.close();
                     }
                 }
             }
             else
             {
+                if (triggeredHud)
+                {
+                    game.hud.hudPrompt.close();
+                    triggeredHud = false;
+                }
+
                 if (triggeredHoloClose && turretType == TurretType.none)
                 {
                     holo.wake();
                     triggeredHoloClose = false;
-                    game.hud.hudPrompt.close();
                 }
             }
         }

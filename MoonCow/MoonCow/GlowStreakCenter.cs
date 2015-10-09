@@ -7,40 +7,46 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class ImpactParticleModel:BasicModel
+    class GlowStreakCenter:BasicModel
     {
         Texture2D tex;
         Game1 game;
         float fScale;
-
-        public ImpactParticleModel(Game1 game, Vector3 pos, float scale)
+        float time;
+        float maxScale;
+        float alpha;
+        float speed;
+        public GlowStreakCenter(Game1 game, Vector3 pos, float maxScale, float speed)
             : base()
         {
             this.game = game;
             this.pos = pos;
-            fScale = scale;
-
-            rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
-            tex = TextureManager.whiteBurst;
-            model = TextureManager.square;
-        }
-        public ImpactParticleModel(Game1 game, Vector3 pos):base()
-        {
-            this.game = game;
-            this.pos = pos;
             fScale = 0.25f;
+            this.maxScale = maxScale * 0.1f;
+            this.speed = speed;
 
             rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
-            tex = TextureManager.whiteBurst;
+            tex = TextureManager.particle1;
             model = TextureManager.square;
+            alpha = 1;
         }
 
         public override void Update(GameTime gameTime)
         {
-            fScale -= Utilities.deltaTime*2.5f;
+            if (!Utilities.paused && !Utilities.softPaused)
+            {
+                fScale = MathHelper.Lerp(0, maxScale, (float)(Math.Sin(time) + 1) / 2);
 
-            if (fScale < 0)
-                game.modelManager.toDeleteModel(this);
+                time += Utilities.deltaTime * MathHelper.Pi * 0.9f * speed;
+
+                if (time > MathHelper.Pi)
+                {
+                    alpha = MathHelper.Lerp(1, 0, (time - MathHelper.Pi) / MathHelper.PiOver2);
+                }
+
+                if (time > MathHelper.Pi * 1.5f)
+                    game.modelManager.toDeleteModel(this);
+            }
 
         }
 
