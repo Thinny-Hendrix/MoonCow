@@ -30,6 +30,7 @@ namespace MoonCow
         public ExpSelect expSelect;
         public TurretSelect turSelect;
         public QuickSelect quickSelect;
+        public HudPrompt hudPrompt;
 
         Vector2 position;
         
@@ -75,6 +76,7 @@ namespace MoonCow
             quickSelect = new QuickSelect(this, game, font);
             expSelect = new ExpSelect(this, game, font);
             turSelect = new TurretSelect(this, game, font);
+            hudPrompt = new HudPrompt(this, game, font);
 
             position = new Vector2(0, 0);
             contPrimary = Color.White;
@@ -161,6 +163,7 @@ namespace MoonCow
             hudHealth.Update();
             hudState.Update();
             hudMap.Update();
+            hudPrompt.Update();
             hudMessage.Update();
             hudMg.Update();
             expSelect.Update();
@@ -222,6 +225,7 @@ namespace MoonCow
             hudMap.Draw(spriteBatch);
             hudMessage.Draw(spriteBatch);
             hudMg.Draw(spriteBatch);
+            hudPrompt.Draw(spriteBatch);
             spriteBatch.End();
 
 

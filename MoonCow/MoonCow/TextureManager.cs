@@ -14,6 +14,8 @@ namespace MoonCow
         public static Texture2D particle1;
         public static Texture2D particle2;
         public static Texture2D particle3;
+        public static Texture2D glowStreak1;
+        public static Texture2D glowStreak2;
 
         public static Texture2D particle1small;
         public static Texture2D particle2small;
@@ -54,6 +56,8 @@ namespace MoonCow
         //Turret model textures
         public static Texture2D turBase;
         public static Texture2D elecTurTex;
+        public static Texture2D turLogoIn;
+        public static Texture2D turLogoOut;
 
         //minigame
         public static Texture2D mgLines;
@@ -75,9 +79,15 @@ namespace MoonCow
         //weapon icons
         public static Texture2D icoPew;
         public static Texture2D icoBomb;
-        public static Texture2D icoMiss;
+        public static Texture2D icoAst;
         public static Texture2D icoWave;
         public static Texture2D icoDrill;
+        public static Texture2D icoGat;
+        public static Texture2D icoPyr;
+        public static Texture2D icoEle;
+        public static Texture2D icoX;
+        public static Texture2D icoMon;
+
 
         //electricity
         public static Texture2D elecL1;
@@ -98,6 +108,7 @@ namespace MoonCow
         public static Texture2D gib1_2;
         public static Texture2D gib1_3;
         public static Texture2D gib1_s;
+        public static Texture2D gibOre1;
 
         //enemies
         //sentry
@@ -127,6 +138,9 @@ namespace MoonCow
             particle1 = game.Content.Load<Texture2D>(@"Models/Effects/tex1");
             particle2 = game.Content.Load<Texture2D>(@"Models/Effects/tex2");
             particle3 = game.Content.Load<Texture2D>(@"Models/Effects/tex3");
+            glowStreak1 = game.Content.Load<Texture2D>(@"Models/Effects/glowStreak");
+            glowStreak2 = game.Content.Load<Texture2D>(@"Models/Effects/glowStreak2");
+
 
             particle1small = game.Content.Load<Texture2D>(@"Models/Effects/tex1-64");
             particle2small = game.Content.Load<Texture2D>(@"Models/Effects/tex2-64");
@@ -156,6 +170,8 @@ namespace MoonCow
             //turret model textures
             turBase = game.Content.Load<Texture2D>(@"Models/Turrets/turrBase_0");
             elecTurTex = game.Content.Load<Texture2D>(@"Models/Turrets/elecTurt_0");
+            turLogoIn = game.Content.Load<Texture2D>(@"Models/Turrets/tLogIn");
+            turLogoOut = game.Content.Load<Texture2D>(@"Models/Turrets/tLogOut");
 
             //minigame
             mgLines = game.Content.Load<Texture2D>(@"Minigame/mgRimLines");
@@ -177,9 +193,15 @@ namespace MoonCow
             //weapon icons
             icoPew = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoPew");
             icoBomb = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoBomb");
-            icoMiss = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoMiss");
+            icoAst = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoAst");
             icoWave = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoWave");
             icoDrill = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoDrill");
+
+            icoEle = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoEle");
+            icoPyr = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoPyr");
+            icoX = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoX");
+            icoMon = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoMon");
+
 
             //electricity textures
             elecL1 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL1");
@@ -200,6 +222,7 @@ namespace MoonCow
             gib1_2 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-2");
             gib1_3 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-3");
             gib1_s = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-s");
+            gibOre1 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/oreGold");
 
             //enemies
             //sentry

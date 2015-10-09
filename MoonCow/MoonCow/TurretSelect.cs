@@ -106,7 +106,10 @@ namespace MoonCow
                 else
                 {
                     if (angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2 || Keyboard.GetState().IsKeyDown(Keys.D1))
+                    {
                         selectedWep = 0;
+                        selecting = true;
+                    }
                 }
 
                 if(Keyboard.GetState().IsKeyDown(Keys.Back) || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.B))
@@ -245,14 +248,20 @@ namespace MoonCow
                 sb.Draw(currentOut, hud.scaledRect(new Vector2(960, 540), imgW, imgH),
                     null, Color.White, 0, new Vector2(imgW / 2, imgH / 2), SpriteEffects.None, 0);
 
-                sb.Draw(TextureManager.icoMiss, hud.scaledRect(new Vector2(850, 515), 90, 90),
-                    null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
-                sb.Draw(TextureManager.icoWave, hud.scaledRect(new Vector2(850, 650), 90, 90),
-                    null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
-                sb.Draw(TextureManager.icoPew, hud.scaledRect(new Vector2(1070, 515), 90, 90),
-                    null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
-                sb.Draw(TextureManager.icoBomb, hud.scaledRect(new Vector2(1070, 650), 90, 90),
-                    null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
+                if (!newTurr)
+                {
+                    sb.Draw(TextureManager.icoX, hud.scaledRect(new Vector2(850, 515), 90, 90),
+                        null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
+                }
+                else
+                {
+                    sb.Draw(TextureManager.icoPew, hud.scaledRect(new Vector2(850, 650), 90, 90),
+                        null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
+                    sb.Draw(TextureManager.icoPyr, hud.scaledRect(new Vector2(1070, 515), 90, 90),
+                        null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
+                    sb.Draw(TextureManager.icoEle, hud.scaledRect(new Vector2(1070, 650), 90, 90),
+                        null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
+                }
 
                 if (selecting)
                     drawStats(sb);

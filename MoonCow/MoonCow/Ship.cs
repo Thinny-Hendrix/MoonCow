@@ -158,10 +158,10 @@ namespace MoonCow
                 updateMovement();
                 updateDamagePotential();
             }
-            /*
+            
             if(Keyboard.GetState().IsKeyDown(Keys.I))
-                moneyManager.addMoney(8);
-            if (Keyboard.GetState().IsKeyDown(Keys.U))
+                moneyManager.addMoney(80);
+            /*if (Keyboard.GetState().IsKeyDown(Keys.U))
                 moneyManager.addMoney(1024);
             if (Keyboard.GetState().IsKeyDown(Keys.J))
                 moneyManager.addMoney(-35);

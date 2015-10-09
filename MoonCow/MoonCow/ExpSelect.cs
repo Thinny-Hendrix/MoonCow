@@ -208,7 +208,7 @@ namespace MoonCow
                 sb.Draw(currentOut, hud.scaledRect(new Vector2(960, 540), imgW, imgH),
                     null, Color.White, 0, new Vector2(imgW / 2, imgH / 2), SpriteEffects.None, 0);
 
-                sb.Draw(TextureManager.icoMiss, hud.scaledRect(new Vector2(850, 515), 90, 90),
+                sb.Draw(TextureManager.icoAst, hud.scaledRect(new Vector2(850, 515), 90, 90),
                     null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
                 sb.Draw(TextureManager.icoWave, hud.scaledRect(new Vector2(850, 650), 90, 90),
                     null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);

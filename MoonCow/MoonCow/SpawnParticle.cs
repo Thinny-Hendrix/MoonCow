@@ -11,8 +11,9 @@ namespace MoonCow
         Game1 game;
         float time;
         float speed;
-        SpriteBatch sb;
-        RenderTarget2D rTarg;
+        //SpriteBatch sb;
+        //RenderTarget2D rTarg;
+        Texture2D tex;
         Color col;
         Vector2 maxScale;
         float alpha;
@@ -35,11 +36,13 @@ namespace MoonCow
             switch (type)
             {
                 default:
+                    tex = TextureManager.glowStreak1;
                     dir.X = Utilities.nextFloat() * 2 - 1;
                     dir.Z = Utilities.nextFloat() * 2 - 1;
                     dir.Y = Utilities.nextFloat() * 2 - 1;
                     break;
                 case 1:
+                    tex = TextureManager.glowStreak2;
                     dir.X = Utilities.nextFloat() * 2 - 1;
                     dir.Z = Utilities.nextFloat() * 2 - 1;
                     dir.Y = Utilities.nextFloat();
@@ -50,18 +53,21 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            scale.Y = MathHelper.Lerp(0, maxScale.Y, (float)(Math.Sin(time)+1)/2);
-            scale.X = MathHelper.Lerp(0, maxScale.X, (float)(Math.Sin(time) + 1) / 2);
-
-            time += Utilities.deltaTime * MathHelper.Pi;
-
-            if(time > MathHelper.Pi)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                alpha = MathHelper.Lerp(1, 0, (time - MathHelper.Pi) / MathHelper.PiOver2);
-            }
+                scale.Y = MathHelper.Lerp(0, maxScale.Y, (float)(Math.Sin(time) + 1) / 2);
+                scale.X = MathHelper.Lerp(0, maxScale.X, (float)(Math.Sin(time) + 1) / 2);
 
-            if (time > MathHelper.Pi * 1.5f)
-                Dispose();
+                time += Utilities.deltaTime * MathHelper.Pi;
+
+                if (time > MathHelper.Pi)
+                {
+                    alpha = MathHelper.Lerp(1, 0, (time - MathHelper.Pi) / MathHelper.PiOver2);
+                }
+
+                if (time > MathHelper.Pi * 1.5f)
+                    Dispose();
+            }
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -80,7 +86,7 @@ namespace MoonCow
 
 
                     effect.TextureEnabled = true;
-                    effect.Texture = TextureManager.particle1;
+                    effect.Texture = tex;
 
                     effect.Alpha = alpha;
 

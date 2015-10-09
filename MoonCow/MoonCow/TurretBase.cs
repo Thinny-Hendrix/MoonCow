@@ -15,6 +15,8 @@ namespace MoonCow
         Game1 game;
         Ship ship;
         TurretBaseModel baseModel;
+        TurretHolo holo;
+        bool triggeredHoloClose;
         Vector2 nodePos;
         CircleCollider col;
 
@@ -45,6 +47,10 @@ namespace MoonCow
             col = new CircleCollider(pos, 5);
 
             coolDown = 0;
+
+            holo = new TurretHolo(pos, game);
+            game.modelManager.addEffect(holo);
+            triggeredHoloClose = false;
         }
 
         public void Update()
@@ -148,8 +154,14 @@ namespace MoonCow
         {
             if(ship.nodePos.X == nodePos.X && ship.nodePos.Y == nodePos.Y)
             {
-                if(col.checkPoint(ship.pos))
+                if (col.checkPoint(ship.pos))
                 {
+                    if (!triggeredHoloClose)
+                    {
+                        holo.close();
+                        triggeredHoloClose = true;
+                    }
+                    game.hud.hudPrompt.activate("purchase turret");
                     //future - will activate hud dialogue box
                     if (coolDown == 0)
                     {
@@ -162,6 +174,24 @@ namespace MoonCow
                                 game.hud.turSelect.activate(this, 1);
                         }
                     }
+                }
+                else
+                {
+                    if (triggeredHoloClose && turretType == TurretType.none)
+                    {
+                        holo.wake();
+                        triggeredHoloClose = false;
+                        game.hud.hudPrompt.close();
+                    }
+                }
+            }
+            else
+            {
+                if (triggeredHoloClose && turretType == TurretType.none)
+                {
+                    holo.wake();
+                    triggeredHoloClose = false;
+                    game.hud.hudPrompt.close();
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace MoonCow
         int laserPos;
         public WeaponMissiles(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
-            icon = TextureManager.icoMiss;
+            icon = TextureManager.icoAst;
             name = "Homing Spears";
 
             damage = 0.6f;

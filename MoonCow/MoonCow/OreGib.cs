@@ -54,7 +54,7 @@ namespace MoonCow
 
         void setColor(int i)
         {
-            color = Color.Tan;
+            color = Color.Gold;
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -70,7 +70,7 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
-                    effect.Texture = TextureManager.gib1_0;
+                    effect.Texture = TextureManager.gibOre1;
                     effect.Alpha = 1;
 
                     //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader

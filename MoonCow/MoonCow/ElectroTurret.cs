@@ -15,11 +15,13 @@ namespace MoonCow
         List<Enemy> targets;
         CircleCollider wakeRange;
         Vector3 shotPos;
+        ElectroTurretModel electroModel;
         public ElectroTurret(Vector3 pos, Vector3 targetDir, Game1 game):base(pos, targetDir,game)
         {
             col = new CircleCollider(pos, 20);
             wakeRange = new CircleCollider(pos, 25);
-            game.modelManager.addObject(new ElectroTurretModel(this, game));
+            electroModel = new ElectroTurretModel(this, game);
+            game.modelManager.addObject(electroModel);
             cooldownMax = 0.25f;
             chargeState = ChargeState.idle;
             chargeTime = 2;
@@ -122,6 +124,11 @@ namespace MoonCow
             }
             catch (IndexOutOfRangeException)
             {}
+        }
+
+        public override void Dispose()
+        {
+            game.modelManager.removeObject(electroModel);
         }
     }
 }
