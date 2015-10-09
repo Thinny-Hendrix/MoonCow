@@ -11,6 +11,9 @@ namespace MoonCow
     {
         float softCooldown;
         float softCoolmax;
+        public CircleCollider col;
+        public bool active;
+
         public WeaponDrill(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
             icon = TextureManager.icoDrill;
@@ -24,17 +27,35 @@ namespace MoonCow
             softCoolmax = 60;
             ammoMax = 16;
             ammo = ammoMax;
+            col = new CircleCollider(ship.pos+ship.direction, 0.3f);
+        }
+
+        public override void activate()
+        {
+            active = true;
         }
 
         public override void Update()
         {
-            if (softCooldown != 0)
+            if (active)
             {
-                softCooldown -= Utilities.deltaTime * 60;
-                if (softCooldown < 0)
-                    softCooldown = 0;
+                col.Update(ship.pos + ship.direction);
+                if (ship.moving)
+                    checkCollision();
             }
             base.Update();
+        }
+
+        void checkCollision()
+        {
+            foreach (Asteroid a in game.asteroidManager.asteroids)
+            {
+                if (a.col.checkCircle(col))
+                {
+                    a.damage(1, ship.pos);
+                    game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction));
+                }
+            }
         }
 
         public override void Fire()

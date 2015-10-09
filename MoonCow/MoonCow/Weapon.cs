@@ -44,6 +44,11 @@ namespace MoonCow
             toDelete = new List<Projectile>();
         }
 
+        public virtual void activate()
+        {
+
+        }
+
         public virtual void Update()
         {
             if(cooldown != 0)

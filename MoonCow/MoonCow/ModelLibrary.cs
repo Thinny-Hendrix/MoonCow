@@ -62,6 +62,8 @@ namespace MoonCow
         public static Model mgBgPoly;
 
         //Ships
+        public static Model pewShip;
+        public static Model drillShip;
 
         //Money gibs
         public static Model oreGib1;
@@ -125,6 +127,8 @@ namespace MoonCow
             mgBgPoly = game.Content.Load<Model>(@"Minigame/mgBgModel");
 
             //ship
+            pewShip = game.Content.Load<Model>(@"Models/Ship/PewProto/shipPewfbx");
+            drillShip = game.Content.Load<Model>(@"Models/Ship/drillShipTEMP");
 
             //money gibs
             oreGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/ore1");

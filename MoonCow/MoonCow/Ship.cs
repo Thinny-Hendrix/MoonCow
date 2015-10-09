@@ -61,7 +61,7 @@ namespace MoonCow
         RollDir rollDir = RollDir.left;
         float rollRecoverTime = MathHelper.PiOver2;
 
-        ShipModel shipModel;
+        public ShipModel shipModel;
         SkyboxModel skyboxModel;
         SpeedCylModel speedCyl;
         RainbowTunnelModel rbowTun;
@@ -86,7 +86,7 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f); // Need to be changed to be actual ship dimentions
 
-            shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Ship/PewProto/shipPewfbx"), this);
+            shipModel = new ShipModel(this);
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/guncube"), this);
             skyboxModel = new SkyboxModel(game.Content.Load<Model>(@"Models/Misc/Skybox/skybox"), this);
             speedCyl = new SpeedCylModel(game.Content.Load<Model>(@"Models/Misc/speedCyl"), this, ((Game1)Game));

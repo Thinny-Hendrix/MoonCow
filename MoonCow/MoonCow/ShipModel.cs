@@ -10,12 +10,14 @@ namespace MoonCow
     public class ShipModel:BasicModel
     {
         Ship ship;
+        int currentModel;
 
-        public ShipModel(Model model, Ship ship):base(model)
+        public ShipModel(Ship ship):base()
         {
-            this.model = model;
+            this.model = ModelLibrary.pewShip;
             this.ship = ship;
             scale = new Vector3(.06f,.06f,.06f);
+            currentModel = 0;
         }
         public override void Update(GameTime gameTime)
         {
@@ -23,6 +25,20 @@ namespace MoonCow
             rot = ship.rot;
             //rot.Y = -rot.Y + MathHelper.PiOver2;
                 //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
+        }
+
+        public void setShipModel(int i)
+        {
+            currentModel = i;
+            switch(i)
+            {
+                default:
+                    model = ModelLibrary.pewShip;
+                    break;
+                case 4:
+                    model = ModelLibrary.drillShip;
+                    break;
+            }
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -39,6 +55,8 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
+                    if(currentModel == 4)
+                        effect.Texture = TextureManager.gib1_s;
                     effect.Alpha = 1;
 
                     //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader

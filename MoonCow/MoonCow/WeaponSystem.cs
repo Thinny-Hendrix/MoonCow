@@ -42,7 +42,7 @@ namespace MoonCow
 
             activeWeapon = (Weapon)weapons.ElementAt(2);
 
-            hasDrill = false;
+            hasDrill = true;
 
 
         }
@@ -69,26 +69,32 @@ namespace MoonCow
                 {
                     activeWeapon = (Weapon)weapons.ElementAt(2);
                     game.hud.hudWeapon.Wake();
+                    ship.shipModel.setShipModel(0);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D2))
                 {
                     activeWeapon = (Weapon)weapons.ElementAt(3);
                     game.hud.hudWeapon.Wake();
+                    ship.shipModel.setShipModel(1);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D3))
                 {
                     activeWeapon = (Weapon)weapons.ElementAt(0);
                     game.hud.hudWeapon.Wake();
+                    ship.shipModel.setShipModel(2);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D4))
                 {
                     activeWeapon = (Weapon)weapons.ElementAt(1);
                     game.hud.hudWeapon.Wake();
+                    ship.shipModel.setShipModel(3);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D5) && hasDrill)
                 {
                     activeWeapon = (Weapon)weapons.ElementAt(4);
+                    activeWeapon.activate();
                     game.hud.hudWeapon.Wake();
+                    ship.shipModel.setShipModel(4);
                 }
 
                 foreach (Weapon w in weapons)
@@ -102,6 +108,7 @@ namespace MoonCow
         {
             prevWeapon = activeWeapon;
             activeWeapon = (Weapon)weapons.ElementAt(wep);
+            ship.shipModel.setShipModel(wep);
         }
 
         public void addExp(int i, float exp)
