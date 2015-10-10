@@ -38,6 +38,8 @@ namespace MoonCow
             {
                 int points = 0;
 
+                System.Diagnostics.Debug.WriteLine("ASteroid node at " + node.pos);
+
                 if (Utilities.random.Next(4) == 0)
                 {
                     if (Utilities.random.Next(2) == 0)

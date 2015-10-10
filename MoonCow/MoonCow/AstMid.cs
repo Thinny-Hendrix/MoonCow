@@ -15,7 +15,7 @@ namespace MoonCow
             rot.Y = Utilities.nextFloat() * MathHelper.Pi * 2;
             rot.Z = Utilities.nextFloat() * MathHelper.Pi * 2;
 
-            mass = 25; //go ahead and change this to something which makes sense for physics
+            mass = 10; //go ahead and change this to something which makes sense for physics
 
             health = 50;
             col = new CircleCollider(pos, 4.5f);
@@ -54,7 +54,7 @@ namespace MoonCow
                     dir.Normalize();
                     Asteroid a = new AstSmall(pos + (dir * 2), game);
                     manager.addAsteroid(a);
-                    a.push(10, pos, mass);
+                    //a.push(10, pos, mass);
                     angle += MathHelper.Pi*2 / 3;
                 }
             }

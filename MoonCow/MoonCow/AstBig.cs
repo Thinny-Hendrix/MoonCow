@@ -15,7 +15,7 @@ namespace MoonCow
             rot.Y = Utilities.nextFloat() * MathHelper.Pi * 2;
             rot.Z = Utilities.nextFloat() * MathHelper.Pi * 2;
 
-            mass = 25; //go ahead and change this to something which makes sense for physics
+            mass = 15; //go ahead and change this to something which makes sense for physics
 
             health = 50;
             col = new CircleCollider(pos, 10);

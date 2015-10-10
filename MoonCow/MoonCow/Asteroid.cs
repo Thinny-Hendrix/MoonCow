@@ -14,6 +14,7 @@ namespace MoonCow
         public Vector3 rot;
         public Vector3 dir;
         public Vector2 nodePos;
+        public float moveSpeed;
         public float mass { get; protected set; }
         public float health { get; protected set; }
         public CircleCollider col { get; protected set; }
@@ -25,29 +26,103 @@ namespace MoonCow
             this.pos = pos;
             this.game = game;
             manager = game.asteroidManager;
+            Random rng = Utilities.random;
             dir = Vector3.Zero;
+            moveSpeed = 0f;
+            
         }
         public virtual void Update()
         {
+            // if movespeed drops below a certain threshold stop doing movement and collision checks
             updateNodePos();
+
+            if(moveSpeed >= 0.1)
+            {
+                updateMovement();
+            }    
         }
 
-        public virtual void checkCollisions()
+        public virtual void updateMovement()
         {
+            moveSpeed -= moveSpeed * (0.01f * Utilities.deltaTime);
+            Vector3 frameDiff = Vector3.Zero;
+            frameDiff += dir * moveSpeed * Utilities.deltaTime;
 
+            pos.X += frameDiff.X;   // Update the ship movment with X component of direction * speed
+            if (checkCollisions())   // See if that caused a collision
+            {
+                pos.X -= frameDiff.X;   // Undo movment if so
+            }
+            pos.Z += frameDiff.Z;   // Now update the Z component
+            if (checkCollisions())   // See if that caused collision
+            {
+                pos.Z -= frameDiff.Z;   // Undo movement if so
+            }
+            col.Update(pos);
         }
 
-        public virtual void push(float speed, Vector3 point, float objectMass)
+        public virtual bool checkCollisions()
         {
-            // F = MA
-            Vector3 impactDir = pos - point;
-            float impactForce = speed * objectMass;
 
-            // Need to divide the impact force by this.mass to get accerleration caused by impact
-            // Multiply this by normalised impactDir and add to current velocity - this way allows for unlimited speed probably not the best
+            col.Update(pos);
+            bool collision = false;
 
-            // Could get acceleration caused by impact and use as a ratio to affect current dir by impact dir
-            // ratio of two masses would probably be better for this
+            // Make a list containing current node and all neighbor nodes including diagonals
+            List<MapNode> currentNodes = new List<MapNode>();
+
+            for(int y = (int)nodePos.Y - 1; y <= nodePos.Y + 1; y++)
+            {
+                for(int x = (int)nodePos.X - 1; x <= nodePos.X + 1; x++)
+                {
+                    if(game.map.map[x,y] != null)
+                    {
+                        currentNodes.Add(game.map.map[x, y]);
+                    }
+                }
+            }
+
+            // For the current node check if you collide with anything
+            foreach (MapNode node in currentNodes)
+            {
+                foreach (OOBB box in node.collisionBoxes)
+                {
+                    if (col.checkOOBB(box))
+                    {
+                        collision = true;
+                        //System.Diagnostics.Debug.WriteLine("I am colliding with a wall");
+                    }
+                }
+                if (node.asteroidBox != null)
+                {
+                    if (col.checkOOBB(node.asteroidBox))
+                    {
+                        collision = true;
+                        //System.Diagnostics.Debug.WriteLine("I am colliding with a force field");
+                    }
+                }
+                foreach (Asteroid a in game.asteroidManager.asteroids)
+                {
+                    if (!a.Equals(this)) // Do not check collisions with yourself
+                    {
+                        if (node.position.X == a.nodePos.X && node.position.Y == a.nodePos.Y)
+                        {
+                            if (a.col.checkPoint(pos))
+                            {
+                                //a.push(moveSpeed, pos, 4.0f);
+                                //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                                collision = true;
+                                //System.Diagnostics.Debug.WriteLine("I am colliding with an asteroid");
+                            }
+                        }
+                    }
+                }
+            } 
+            return collision;
+        }
+
+        public virtual void push(float speed, Vector3 point, Vector3 direction, float objectMass)
+        {
+            // Modify dir and moveSpeed, please ensure movespeed has a max value else things get icky
         }
 
         public virtual void damage(float value, Vector3 point)
@@ -69,7 +144,13 @@ namespace MoonCow
 
         public virtual void updateNodePos()
         {
-            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+            nodePos = new Vector2((int)((pos.X / 30f) + 0.5f), (int)((pos.Z / 30f) + 0.5f));
+
+            // If asteroid is out of map - delete it - should never happen, but causes indexRangeException when it does, so remove before it can cause such problems
+            if(nodePos.X < 0 || nodePos.X > game.map.getWidth() || nodePos.Y < 0 || nodePos.Y > game.map.getHeight())
+            {
+                onDeath();
+            }
         }
     }
 }
