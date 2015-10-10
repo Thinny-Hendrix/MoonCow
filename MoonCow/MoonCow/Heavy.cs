@@ -93,7 +93,22 @@ namespace MoonCow
                         {
                             // How do I get the enemies to surround the core without going through it?
                             // Answering this question will be post alpha
-                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                            if (prevPosition.X < nextPosition.X)
+                            {
+                                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                            }
+                            else if (prevPosition.X > nextPosition.X)
+                            {
+                                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                            }
+                            else if (prevPosition.Y < nextPosition.Y)
+                            {
+                                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-10 + Utilities.nextFloat() * 20), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-14 + Utilities.nextFloat() * 3));
+                            }
+                            else if (prevPosition.Y > nextPosition.Y)
+                            {
+                                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-10 + Utilities.nextFloat() * 20), 4.5f, makeCentreCoordinate(nextPosition.Y) + (14 + Utilities.nextFloat() * 3));
+                            }
                         }
                     }
                     else
