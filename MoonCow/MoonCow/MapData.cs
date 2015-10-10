@@ -24,6 +24,17 @@ namespace MoonCow
             read(fileName);
 	    }
 
+        public MapData(int id, String name, String creator, int width, int length, int[,] map)
+        {
+            this.id = id;
+            this.name = name;
+            this.creator = creator;
+            this.width = width;
+            this.length = length;
+            this.map = map;
+            fileName = @"Content/MapXml/" + name + ".xml";
+        }
+
         private void read(String fileName) //using xpath
         {
             List<int> nodes = new List<int>();
@@ -126,6 +137,52 @@ namespace MoonCow
                 }
             }
             return map;
+        }
+
+        public void writeMap()
+        {
+            XmlWriter xmlWriter = XmlWriter.Create(fileName);
+            xmlWriter.WriteStartDocument();
+            xmlWriter.WriteStartElement("map");
+
+            xmlWriter.WriteStartElement("data");
+            xmlWriter.WriteStartElement("id");
+            xmlWriter.WriteString(id + "");
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("name");
+            xmlWriter.WriteString(name + "");
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("creator");
+            xmlWriter.WriteString(creator + "");
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("width");
+            xmlWriter.WriteString(width + "");
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("length");
+            xmlWriter.WriteString(length + "");
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteStartElement("tiles");
+
+            for (int i = 0; i < length; i++)
+            {
+                for (int q = 0; q < width; q++)
+                {
+                    xmlWriter.WriteStartElement("tile");
+                    xmlWriter.WriteString(map[q, i] + "");
+                    xmlWriter.WriteEndElement();
+                }
+            }
+
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteEndDocument();
+            xmlWriter.Close();
         }
 
         public int[,] getNodes()

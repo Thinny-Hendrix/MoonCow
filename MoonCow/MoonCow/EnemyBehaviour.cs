@@ -23,15 +23,15 @@ namespace MoonCow
         public static void load() //using xpath
         {
             XPathDocument file = new XPathDocument(@"Content/Settings/enemyBehaviours.xml");
-            XPathNavigator nav = file.CreateNavigator();
-            
+            XPathNavigator nav = file.CreateNavigator(); 
             XPathNodeIterator iterator = nav.Select("//swarmer"); // Look at the swarmer tag?
+            
             if (iterator.Count > 0)
             {
-                string behaviour = "";
+                String behaviour = "";
                 while (iterator.MoveNext())
                 {
-                    //behaviour = whatever is in the tag value
+                    behaviour = iterator.Current.Value;
                 }
 
                 System.Diagnostics.Debug.WriteLine("Swarmer behaviour  = " + behaviour); // read out what is ebing read from the xml file for debug purposes
@@ -70,11 +70,11 @@ namespace MoonCow
             iterator = nav.Select("//gunner");
             if (iterator.Count > 0)
             {
-                string behaviour = "";
+                String behaviour = "";
+
                 while (iterator.MoveNext())
                 {
-                    //char value = char.Parse(iterator.Current.Value);
-                    //behaviour += value;
+                    behaviour = iterator.Current.Value;
                 }
 
                 System.Diagnostics.Debug.WriteLine("Gunner behaviour  = " + behaviour);
@@ -104,11 +104,11 @@ namespace MoonCow
             iterator = nav.Select("//sneaker");
             if (iterator.Count > 0)
             {
-                string behaviour = "";
+                String behaviour = "";
+
                 while (iterator.MoveNext())
                 {
-                    //char value = char.Parse(iterator.Current.Value);
-                    //behaviour += value;
+                    behaviour = iterator.Current.Value;
                 }
 
                 System.Diagnostics.Debug.WriteLine("Sneaker behaviour  = " + behaviour);
@@ -138,11 +138,11 @@ namespace MoonCow
             iterator = nav.Select("//heavy");
             if (iterator.Count > 0)
             {
-                string behaviour = "";
+                String behaviour = "";
+
                 while (iterator.MoveNext())
                 {
-                    //char value = char.Parse(iterator.Current.Value);
-                    //behaviour += value;
+                    behaviour = iterator.Current.Value;
                 }
 
                 System.Diagnostics.Debug.WriteLine("Heavy behaviour  = " + behaviour);
