@@ -89,7 +89,8 @@ namespace MoonCow
         void loadSettings()
         {
             // Read in the XML settings file and set values in static class, hardcoded for now
-            Settings.difficulty = 2;
+            Settings.initialize();
+            EnemyBehaviour.load();
         }
 
         void initializeGame()

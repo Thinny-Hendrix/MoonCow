@@ -69,6 +69,7 @@
     <Compile Include="ElectroTurret.cs" />
     <Compile Include="ElectroTurretModel.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyBehaviour.cs" />
     <Compile Include="EnemyManager.cs" />
     <Compile Include="EnemyModel.cs" />
     <Compile Include="EnemyShotTelegraph.cs" />
@@ -105,8 +106,8 @@
     <Compile Include="Minigame.cs" />
     <Compile Include="OreGib.cs" />
     <Compile Include="OreGibGlow.cs" />
-    <Compile Include="PathfinderGunner.cs" />
-    <Compile Include="PathfinderSneaker.cs" />
+    <Compile Include="PathfinderTurretAvoid.cs" />
+    <Compile Include="PathfinderPlayerAvoid.cs" />
     <Compile Include="PyroDamage.cs" />
     <Compile Include="PyroTurret.cs" />
     <Compile Include="PyroTurretModel.cs" />
@@ -771,6 +772,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Weapons\sploring.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Settings\enemyBehaviours.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Settings\settings.xml">

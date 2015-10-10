@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class PathfinderGunner : Pathfinder
+    class PathfinderPlayerAvoid : Pathfinder
     {
-        public PathfinderGunner(Map level) :base(level)
+        public PathfinderPlayerAvoid(Map level) :base(level)
         {
             // Constructors are the same.
         }
@@ -16,7 +16,7 @@ namespace MoonCow
         /// <summary>
         /// Finds the optimal path from one point to another.
         /// </summary>
-        public override List<Vector2> findPath(Point startPoint, Point endPoint)
+        public virtual List<Vector2> findPath(Point startPoint, Point endPoint)
         {
             if (startPoint == endPoint)
             {
@@ -69,7 +69,7 @@ namespace MoonCow
                     }
 
                     // ii) Calculate a new G value for the neighbouring node.
-                    float distanceTraveled = currentNode.distanceSoFar + 1 + neighbor.damage;
+                    float distanceTraveled = currentNode.distanceSoFar + 1 + neighbor.damage + neighbor.playerDamage;
 
                     // An estimate of the distance from this node to the end node.
                     Point nPos = new Point((int)neighbor.position.X, (int)neighbor.position.Y);

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    This XML script file is used to control the behaviour of the enemy classes in the game.
+    Each enemy class is represented in a XML tag below (eg <swarmer>)
+    Each of these tags contains a keyword, this keyword is then used to determine which Pathfinding AI will be used
+    
+    The only recognised keywords are:
+    
+    ShortestPathFirst
+    AvoidTurretDamage
+    AvoidPlayerDamage
+    
+    If the keyword is not recognised, the default value (ShortestPathFirst) will be used.
+-->
+<behaviour>
+  <swarmer>ShortestPathFirst</swarmer>
+  <gunner>AvoidTurretDamage</gunner>
+  <sneaker>AvoidPlayerDamage</sneaker>
+  <heavy>ShortestPathFirst</heavy>
+</behaviour>

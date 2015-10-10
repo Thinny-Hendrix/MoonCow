@@ -22,7 +22,7 @@ namespace MoonCow
 
         public static void initialize()
         {
-            fileName = "../../Content/Settings/settings.xml";
+            fileName = @"Content/Settings/settings.xml";
             read(fileName);
         }
 
@@ -56,7 +56,7 @@ namespace MoonCow
                 Console.WriteLine("MusicVolume Error");
             }
 
-            iterator = nav.Select("//effectsVolume");
+            iterator = nav.Select("//effectsvolume");
             if (iterator.Count > 0)
             {
                 while (iterator.MoveNext())

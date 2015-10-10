@@ -42,7 +42,21 @@ namespace MoonCow
 
             pos = new Vector3(makeCentreCoordinate(spawn.X), 4.5f, makeCentreCoordinate(spawn.Y));
 
-            pathfinder = new Pathfinder(game.map);
+            switch (EnemyBehaviour.heavyBehaviour)
+            {
+                case EnemyBehaviour.Behaviour.ShortestPathFirst:
+                    pathfinder = new Pathfinder(game.map);
+                    break;
+                case EnemyBehaviour.Behaviour.AvoidTurretDamage:
+                    pathfinder = new PathfinderTurretAvoid(game.map);
+                    break;
+                case EnemyBehaviour.Behaviour.AvoidPlayerDamage:
+                    pathfinder = new PathfinderPlayerAvoid(game.map);
+                    break;
+                default:
+                    pathfinder = new Pathfinder(game.map);
+                    break;
+            }
 
             coreLocation = new Point((int)game.map.getCoreLocation().X, (int)game.map.getCoreLocation().Y);
 
