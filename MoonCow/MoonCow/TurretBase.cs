@@ -23,9 +23,9 @@ namespace MoonCow
 
         float coolDown;
 
-        float gattPrice;
-        float pyroPrice;
-        float elecPrice;
+        public float gattPrice;
+        public float pyroPrice;
+        public float elecPrice;
 
         public enum TurretType { none, gattle, pyro, electro}
         public TurretType turretType;

@@ -47,7 +47,7 @@ namespace MoonCow
 
         public void Draw(SpriteBatch sb)
         {
-            if (active)
+            if (active && !hud.quickSelect.active && !hud.turSelect.active && !game.minigame.active && !hud.expSelect.active)
             {
                 sb.Draw(promptFill, hud.scaledRect(hud.scaledCoords(pos), promptFill.Bounds.Width, promptFill.Bounds.Height), Color.White);
                 sb.Draw(promptOut, hud.scaledRect(hud.scaledCoords(pos), promptFill.Bounds.Width, promptFill.Bounds.Height), Color.White);

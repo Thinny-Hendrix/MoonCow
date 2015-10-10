@@ -20,6 +20,21 @@ namespace MoonCow
         QuickSelect qs;
         TurretBase activeTurr;
 
+        Texture2D out1;
+        Texture2D out1_1;
+
+        Texture2D out3;
+        Texture2D out3_1;
+        Texture2D out3_2;
+        Texture2D out3_3;
+
+        Texture2D fill1;
+        Texture2D fill3;
+
+        Texture2D hi1;
+        Texture2D hi2;
+        Texture2D hi3;
+
         Texture2D currentHi;
         Texture2D currentOut;
         bool selecting;
@@ -44,6 +59,29 @@ namespace MoonCow
 
             currentHi = hud.quickSelect.hi1;
             newTurr = true;
+
+            loadImages();
+        }
+
+        void loadImages()
+        {
+            out1 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsOut1");
+            out1_1 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsOut1-1");
+
+            out3 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsOut3");
+            out3_1 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsOut3-1");
+            out3_2 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsOut3-2");
+            out3_3 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsOut3-3");
+
+            fill1 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsFil1");
+            fill3 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsFil3");
+
+            hi1 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsHi1");
+            hi2 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsHi2");
+            hi3 = game.Content.Load<Texture2D>(@"Hud/TurretSelect/tsHi3");
+
+            imgW = out1.Bounds.Width;
+            imgH = out1.Bounds.Height;
         }
 
         public void setBase(TurretBase turBase)
@@ -80,24 +118,27 @@ namespace MoonCow
                 Vector2 coords = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left;
                 float angle = (float)Math.Atan2(coords.Y, coords.X);
 
-                if (!selecting && angle != 0)
+                if (!selecting && angle != 0 && angle < 0)
+                {
+                    if ((newTurr && angle < 0) || (!newTurr && (angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2)))
                     selecting = true;
+                }
 
                 if (newTurr)
                 {
-                    if (angle > MathHelper.PiOver2 || Keyboard.GetState().IsKeyDown(Keys.D1))
+                    if (angle < -(MathHelper.Pi / 3) * 2 || Keyboard.GetState().IsKeyDown(Keys.D1))
                     {
                         selectedWep = 1;
                         selecting = true;
                     }
 
-                    if (angle > 0 && angle < MathHelper.PiOver2 || Keyboard.GetState().IsKeyDown(Keys.D2))
+                    if ((angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2) || Keyboard.GetState().IsKeyDown(Keys.D2))
                     {
                         selectedWep = 2;
                         selecting = true;
                     }
 
-                    if (angle < -MathHelper.PiOver2 || Keyboard.GetState().IsKeyDown(Keys.D3))
+                    if ((angle < 0 && angle > -MathHelper.Pi / 3) || Keyboard.GetState().IsKeyDown(Keys.D3))
                     {
                         selectedWep = 3;
                         selecting = true;
@@ -105,7 +146,7 @@ namespace MoonCow
                 }
                 else
                 {
-                    if (angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2 || Keyboard.GetState().IsKeyDown(Keys.D1))
+                    if ((angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2) || Keyboard.GetState().IsKeyDown(Keys.D1))
                     {
                         selectedWep = 0;
                         selecting = true;
@@ -130,7 +171,6 @@ namespace MoonCow
                         Utilities.softPaused = false;
                         active = false;
                         selecting = false;
-                        wepSys.addExp(selectedWep, 200);
                     }
                     else
                     {
@@ -153,57 +193,85 @@ namespace MoonCow
 
         void changeImgs()
         {
-            if (selecting)
+            if (newTurr)
             {
-                switch (selectedWep)
+                if (selecting)
                 {
-                    default:
-                        currentOut = qs.out4_1;
-                        currentHi = qs.hi1;
-                        break;
-                    case 1:
-                        currentOut = qs.out4_2;
-                        currentHi = qs.hi2;
-                        break;
-                    case 2:
-                        currentOut = qs.out4_3;
-                        currentHi = qs.hi3;
-                        break;
-                    case 3:
-                        currentOut = qs.out4_4;
-                        currentHi = qs.hi4;
-                        break;
+                    switch (selectedWep)
+                    {
+                        default:
+                            currentOut = out3_1;
+                            currentHi = hi1;
+                            break;
+                        case 2:
+                            currentOut = out3_2;
+                            currentHi = hi2;
+                            break;
+                        case 3:
+                            currentOut = out3_3;
+                            currentHi = hi3;
+                            break;
+                    }
                 }
+                else
+                    currentOut = out3;
             }
             else
-                currentOut = qs.out4;
+            {
+                if (selecting)
+                {
+                    currentOut = out1_1;
+                    currentHi = hi2;
+                }
+                else
+                    currentOut = out1;
+            }
         }
 
         void drawStats(SpriteBatch sb)
         {
             Weapon wep = wepSys.weapons.ElementAt(selectedWep);
-            string name = wep.name;
-            string ammo = wep.formattedAmmo();
-            string level = wep.formattedLevel();
+            string name;
+            float price;
+
+            switch(selectedWep)
+            {
+                default:
+                    name = "dismantle Turret";
+                    price = 0;
+                    break;
+                case 1:
+                    name = "gattle turret";
+                    price = activeTurr.gattPrice;
+                    break;
+                case 2:
+                    name = "pyro turret";
+                    price = activeTurr.pyroPrice;
+                    break;
+                case 3:
+                    name = "electro turret";
+                    price = activeTurr.elecPrice;
+                    break;
+
+            }
 
             currentDam = MathHelper.Lerp(currentDam, wep.damage, Utilities.deltaTime * 8);
             currentRof = MathHelper.Lerp(currentRof, wep.rateOfFire, Utilities.deltaTime * 8);
             currentRan = MathHelper.Lerp(currentRan, wep.range, Utilities.deltaTime * 8);
 
             Color c;
-            if (wep.ammo > 0)
+            if (game.ship.moneyManager.checkPurchase(price))
                 c = hud.contSecondary;
             else
                 c = hud.redBody;
 
-            sb.DrawString(font, name, hud.scaledCoords(960, 325), Color.White, 0,
+            sb.DrawString(font, name, hud.scaledCoords(960, 576), Color.White, 0,
                 new Vector2(font.MeasureString(name).X / 2, font.MeasureString(name).Y / 2), hud.scale * 22.0f / 40, SpriteEffects.None, 0);
-            sb.DrawString(font, ammo, hud.scaledCoords(960, 350), c, 0,
-                new Vector2(font.MeasureString(ammo).X / 2, font.MeasureString(ammo).Y / 2), hud.scale * 18.0f / 40, SpriteEffects.None, 0);
+            sb.DrawString(font, "$"+price, hud.scaledCoords(960, 606), c, 0,
+                new Vector2(font.MeasureString("$" + price).X / 2, font.MeasureString("$" + price).Y / 2), hud.scale * 18.0f / 40, SpriteEffects.None, 0);
 
             //level
-            sb.DrawString(font, level, hud.scaledCoords(960, 500), hud.contSecondary, 0,
-                new Vector2(font.MeasureString(level).X / 2, font.MeasureString(level).Y / 2), hud.scale * 20.0f / 40, SpriteEffects.None, 0);
+            
             //stencil'd exp bar
 
             //statistics
@@ -211,8 +279,8 @@ namespace MoonCow
                 new Vector2(font.MeasureString("Damage").X, font.MeasureString("Damage").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
             sb.DrawString(font, "rate of fire", hud.scaledCoords(957, 409), Color.White, 0,
                 new Vector2(font.MeasureString("rate of fire").X, font.MeasureString("rate of fire").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
-            sb.DrawString(font, "range", hud.scaledCoords(957, 428), Color.White, 0,
-                new Vector2(font.MeasureString("range").X, font.MeasureString("range").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
+            sb.DrawString(font, "no. of targets", hud.scaledCoords(957, 428), Color.White, 0,
+                new Vector2(font.MeasureString("no. of targets").X, font.MeasureString("no. of targets").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
 
             //rect backs
             sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(963, 379), 150, 16),
@@ -236,8 +304,16 @@ namespace MoonCow
             if (active)
             {
                 sb.Begin();
-                sb.Draw(qs.fill4, hud.scaledRect(new Vector2(960, 540), imgW, imgH),
-                    null, Color.White, 0, new Vector2(imgW / 2, imgH / 2), SpriteEffects.None, 0);
+                if (newTurr)
+                {
+                    sb.Draw(fill3, hud.scaledRect(new Vector2(960, 540), imgW, imgH),
+                        null, Color.White, 0, new Vector2(imgW / 2, imgH / 2), SpriteEffects.None, 0);
+                }
+                else
+                {
+                    sb.Draw(fill1, hud.scaledRect(new Vector2(960, 540), imgW, imgH),
+                        null, Color.White, 0, new Vector2(imgW / 2, imgH / 2), SpriteEffects.None, 0);
+                }
 
                 if (selecting)
                 {
@@ -250,16 +326,16 @@ namespace MoonCow
 
                 if (!newTurr)
                 {
-                    sb.Draw(TextureManager.icoX, hud.scaledRect(new Vector2(850, 515), 90, 90),
+                    sb.Draw(TextureManager.icoX, hud.scaledRect(new Vector2(960, 830), 90, 90),
                         null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
                 }
                 else
                 {
-                    sb.Draw(TextureManager.icoPew, hud.scaledRect(new Vector2(850, 650), 90, 90),
+                    sb.Draw(TextureManager.icoPew, hud.scaledRect(new Vector2(840, 780), 90, 90),
                         null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
-                    sb.Draw(TextureManager.icoPyr, hud.scaledRect(new Vector2(1070, 515), 90, 90),
+                    sb.Draw(TextureManager.icoPyr, hud.scaledRect(new Vector2(960, 830), 90, 90),
                         null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
-                    sb.Draw(TextureManager.icoEle, hud.scaledRect(new Vector2(1070, 650), 90, 90),
+                    sb.Draw(TextureManager.icoEle, hud.scaledRect(new Vector2(1080, 780), 90, 90),
                         null, Color.White, 0, new Vector2(45, 45), SpriteEffects.None, 0);
                 }
 
