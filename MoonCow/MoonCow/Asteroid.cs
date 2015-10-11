@@ -74,9 +74,12 @@ namespace MoonCow
             {
                 for(int x = (int)nodePos.X - 1; x <= nodePos.X + 1; x++)
                 {
-                    if(game.map.map[x,y] != null)
+                    if(x >= 0 && x < game.map.getWidth() && y >= 0 && y < game.map.getHeight())
                     {
-                        currentNodes.Add(game.map.map[x, y]);
+                        if(game.map.map[x,y] != null)
+                        {
+                            currentNodes.Add(game.map.map[x, y]);
+                        }
                     }
                 }
             }
@@ -89,6 +92,7 @@ namespace MoonCow
                     if (col.checkOOBB(box))
                     {
                         collision = true;
+                        push(moveSpeed, dir * -2, mass);
                         //System.Diagnostics.Debug.WriteLine("I am colliding with a wall");
                     }
                 }
@@ -97,6 +101,7 @@ namespace MoonCow
                     if (col.checkOOBB(node.asteroidBox))
                     {
                         collision = true;
+                        push(moveSpeed, dir * -2, mass);
                         //System.Diagnostics.Debug.WriteLine("I am colliding with a force field");
                     }
                 }
@@ -108,7 +113,8 @@ namespace MoonCow
                         {
                             if (a.col.checkPoint(pos))
                             {
-                                //a.push(moveSpeed, pos, 4.0f);
+                                a.push(moveSpeed, dir, mass);
+                                push(moveSpeed, dir * -2, mass);
                                 //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                                 collision = true;
                                 //System.Diagnostics.Debug.WriteLine("I am colliding with an asteroid");
@@ -120,9 +126,18 @@ namespace MoonCow
             return collision;
         }
 
-        public virtual void push(float speed, Vector3 point, Vector3 direction, float objectMass)
+        public virtual void push(float speed, Vector3 direction, float objectMass)
         {
             // Modify dir and moveSpeed, please ensure movespeed has a max value else things get icky
+            dir += direction;
+            dir.Normalize();
+
+            float force = speed * objectMass;
+            moveSpeed += force;
+            if(moveSpeed > 20 - mass)
+            {
+                moveSpeed = 20 - mass;
+            }
         }
 
         public virtual void damage(float value, Vector3 point)
@@ -150,6 +165,7 @@ namespace MoonCow
             if(nodePos.X < 0 || nodePos.X > game.map.getWidth() || nodePos.Y < 0 || nodePos.Y > game.map.getHeight())
             {
                 onDeath();
+                System.Diagnostics.Debug.WriteLine("Asteroid outside of map? " + nodePos);
             }
         }
     }

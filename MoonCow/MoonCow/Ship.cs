@@ -608,7 +608,7 @@ namespace MoonCow
                     //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
                     if (a.col.checkPoint(pos))
                     {
-                        //a.push(moveSpeed, pos, 1.5f);
+                        a.push(moveSpeed, direction, 2f);
                         //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                         collision = true;
                     }
