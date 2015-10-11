@@ -336,7 +336,7 @@ namespace MoonCow
                     break;
                 case 24:
                     traversable = true;
-                    game.modelManager.addAdditive(new CoreSphereModel(ModelLibrary.core, new Vector3(pos.X * 30, 0, pos.Y * 30), game));
+                    game.core.setPos(new Vector3(pos.X * 30, 0, pos.Y * 30));
                     coreCollider = new CircleCollider(pos, 7.38f);
                     break;
                 case 25:

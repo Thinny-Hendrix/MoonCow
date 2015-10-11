@@ -25,9 +25,9 @@ namespace MoonCow
         DepthStencilState depthStencilState;
         float yRot;
 
-        public CoreSphereModel(Model model, Vector3 pos, Game game):base(model)
+        public CoreSphereModel(Vector3 pos, Game game):base()
         {
-            this.model = model;
+            this.model = ModelLibrary.core;
             this.game = game;
             this.pos = pos;
             scale = new Vector3(100, 100, 100);

@@ -51,6 +51,7 @@ namespace MoonCow
         RollState rollState;
 
         public OOBB boundingBox;
+        public CircleCollider circleCol;
 
         bool justHitWall = false;
 
@@ -86,6 +87,7 @@ namespace MoonCow
             maxTurnSpeed = MathHelper.PiOver4 / 30;
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f); // Need to be changed to be actual ship dimentions
+            circleCol = new CircleCollider(pos, 0.75f);
 
             shipModel = new ShipModel(this);
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/guncube"), this);
@@ -540,6 +542,7 @@ namespace MoonCow
 
             // Move the bounding box to new pos
             boundingBox.Update(pos, direction);
+            circleCol.Update(pos);
 
             // Get current node co-ordinates
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
@@ -568,6 +571,11 @@ namespace MoonCow
                         collision = true;
                     }
                 }
+            }
+
+            if(game.core.col.checkCircle(circleCol))
+            {
+                collision = true;
             }
 
             foreach(Enemy e in game.enemyManager.enemies)

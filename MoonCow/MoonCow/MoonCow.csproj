@@ -50,6 +50,7 @@
     <Compile Include="Attack.cs" />
     <Compile Include="AudioLibrary.cs" />
     <Compile Include="AudioManager.cs" />
+    <Compile Include="BaseCore.cs" />
     <Compile Include="BasicModel.cs" />
     <Compile Include="BloomComponent.cs" />
     <Compile Include="BloomSettings.cs" />

@@ -33,6 +33,7 @@ namespace MoonCow
         public Ship ship;
         private MapData layout;
         public Hud hud;
+        public BaseCore core;
 
         BloomComponent bloom;
         int bloomSettingsIndex = 0;
@@ -101,7 +102,7 @@ namespace MoonCow
             
             modelManager = new ModelManager(this);
             ship = new Ship(this);
-
+            core = new BaseCore(this);
             camera = new Camera(this, new Vector3(40, 150, 10), Vector3.Zero, Vector3.Up);
             turretManager = new TurretManager(this);
             asteroidManager = new AsteroidManager(this);
@@ -123,6 +124,7 @@ namespace MoonCow
             Components.Add(audioManager);
             Components.Add(enemyManager);
             Components.Add(waveManager);
+            Components.Add(core);
             Components.Add(turretManager);
             Components.Add(asteroidManager);
             Components.Add(minigame);
