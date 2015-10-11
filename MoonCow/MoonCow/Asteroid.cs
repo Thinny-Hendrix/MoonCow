@@ -111,7 +111,7 @@ namespace MoonCow
                     {
                         if (node.position.X == a.nodePos.X && node.position.Y == a.nodePos.Y)
                         {
-                            if (a.col.checkPoint(pos))
+                            if (a.col.checkCircle(col))
                             {
                                 a.push(moveSpeed, dir, mass);
                                 push(moveSpeed, dir * -1.5f, mass);
@@ -122,8 +122,20 @@ namespace MoonCow
                         }
                     }
                 }
-            } 
+            }
+ 
+            if(col.checkCircle(game.ship.circleCol))
+            {
+                collision = true;
+                
+            }
+
             return collision;
+        }
+
+        public virtual void stop()
+        {
+            moveSpeed = 0;
         }
 
         public virtual void push(float speed, Vector3 direction, float objectMass)
@@ -138,6 +150,15 @@ namespace MoonCow
             {
                 moveSpeed = 15 - mass;
             }
+        }
+
+        public virtual void drillDamage(float value, Vector3 pos, bool boosting)
+        {
+            health -= value;
+            game.camera.setYShake(0.03f);
+
+            if (health <= 0)
+                onDeath();
         }
 
         public virtual void damage(float value, Vector3 point)

@@ -276,7 +276,8 @@ namespace MoonCow
 
         public void setYShake(float amount)
         {
-            shakeStrength = amount;
+            if(amount > shakeStrength)
+                shakeStrength = amount;
             shaking = true;
         }
 

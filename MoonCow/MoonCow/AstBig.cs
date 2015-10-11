@@ -18,7 +18,7 @@ namespace MoonCow
             mass = 15; //go ahead and change this to something which makes sense for physics
 
             health = 50;
-            col = new CircleCollider(pos, 10);
+            col = new CircleCollider(pos, 10f);
             model = new AsteroidModel(this, new Vector3(1.2f), game, ModelLibrary.ast1);
             game.modelManager.addObject(model);
         }

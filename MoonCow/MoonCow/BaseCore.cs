@@ -9,7 +9,7 @@ namespace MoonCow
 {
     public class BaseCore:GameComponent
     {
-        float health;
+        public float health;
         Game1 game;
         Vector3 pos;
         public CircleCollider col;
@@ -29,6 +29,11 @@ namespace MoonCow
             col = new CircleCollider(pos, 8);
             model = new CoreSphereModel(pos, game);
             game.modelManager.addAdditive(model);
+        }
+
+        public void damage(float amount)
+        {
+            health -= amount;
         }
 
         public override void Update(GameTime gameTime)

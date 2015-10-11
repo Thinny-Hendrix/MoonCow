@@ -72,7 +72,7 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
             agroSphere = new CircleCollider(pos, 10f);
-            cols.Add(new CircleCollider(pos, 1f));
+            cols.Add(new CircleCollider(pos, 0.6f));
 
             health = 15;
 
@@ -92,6 +92,12 @@ namespace MoonCow
                 {
                     goToBase();
                 }
+
+                if(state == State.atCore)
+                {
+                    game.core.damage(0.1f);
+                }
+
                 agroSphere.Update(pos);
 
 
@@ -171,6 +177,7 @@ namespace MoonCow
                 else
                 {
                     atCore = true;
+                    state = State.atCore;
                     target = new Vector3(makeCentreCoordinate(nextPosition.X), 4.5f, makeCentreCoordinate(nextPosition.Y));
                 }
             }

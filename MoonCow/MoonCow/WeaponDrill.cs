@@ -28,7 +28,7 @@ namespace MoonCow
             softCoolmax = 60;
             ammoMax = 16;
             ammo = ammoMax;
-            col = new CircleCollider(ship.pos+ship.direction, 0.3f);
+            col = new CircleCollider(ship.pos+ship.direction, 0.5f);
             active = false;
 
             dome = new DrillDome(game, this);
@@ -78,8 +78,7 @@ namespace MoonCow
             {
                 if (a.col.checkCircle(col))
                 {
-                    a.damage(1, ship.pos);
-                    game.camera.setYShake(0.03f);
+                    a.drillDamage(60*Utilities.deltaTime, ship.pos, ship.boosting);
                     colliding = true;
                 }
             }

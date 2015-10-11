@@ -17,9 +17,22 @@ namespace MoonCow
             mass = 5; //go ahead and change this to something which makes sense for physics
 
             health = 20;
-            col = new CircleCollider(pos, 2.5f);
+            col = new CircleCollider(pos, 2f);
             model = new AsteroidModel(this, new Vector3(0.2f), game, ModelLibrary.ast1);
             game.modelManager.addObject(model);
+        }
+
+        public override void drillDamage(float value, Vector3 pos, bool boosting)
+        {
+            if (boosting)
+            {
+                onDeath();
+                game.camera.setYShake(0.1f);
+            }
+            else
+            {
+                base.drillDamage(value, pos, boosting);
+            }
         }
 
         public override void onDeath()

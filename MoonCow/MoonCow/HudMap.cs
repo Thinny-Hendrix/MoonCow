@@ -14,6 +14,7 @@ namespace MoonCow
         bool mToggle;
         bool bigMap;
         public Minimap minimap;
+        string coreHealth;
 
         Texture2D hudMapB;
         Texture2D hudMapF;
@@ -33,6 +34,8 @@ namespace MoonCow
         public override void Update()
         {
             minimap.update();
+
+            coreHealth = game.core.health + "/1000";
 
             if (!mToggle && Keyboard.GetState().IsKeyDown(Keys.M))
             {
@@ -64,6 +67,8 @@ namespace MoonCow
                 sb.Draw(hudMapB, hud.scaledRect(mapPos, 541, 283), Color.White);
                 sb.Draw(minimap.displayMap, hud.scaledRect(new Vector2(1675, 930), minimap.map.Bounds.Width, minimap.map.Bounds.Height), null, Color.White, -minimap.shipRot, minimap.shipPos, SpriteEffects.None, 1);
                 sb.Draw(hudMapF, hud.scaledRect(mapPos, 541, 283), Color.White);
+                sb.DrawString(font, coreHealth, hud.scaledCoords(new Vector2(1750, 1030)), hud.redBody, 0,
+                    new Vector2(font.MeasureString(coreHealth).X, font.MeasureString(coreHealth).Y / 2), hud.scale * (16.0f / 40), SpriteEffects.None, 0);
             }
 
         }

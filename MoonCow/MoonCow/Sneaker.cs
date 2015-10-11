@@ -16,6 +16,8 @@ namespace MoonCow
         protected Vector3 target;
         Vector3 frameDiff = new Vector3(0, 0, 0);
         float pathTimer;
+        public enum State { goToBase, atBase, atCore, attackCore, noticedPlayer, chargePlayer, coolDown, strongHit, knockBack, hitByDrill }
+
 
         public Sneaker(Game1 game)
             : base(game)

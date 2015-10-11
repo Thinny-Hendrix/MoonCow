@@ -15,6 +15,7 @@ namespace MoonCow
         protected Point coreLocation;
         protected Vector3 target;
         Vector3 frameDiff = new Vector3(0, 0, 0);
+        public enum State { goToBase, playerInRange, atBase, strongHit, knockBack, hitByDrill }
 
         public Gunner(Game1 game)
             : base(game)

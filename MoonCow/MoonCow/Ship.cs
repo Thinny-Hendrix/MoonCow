@@ -87,7 +87,7 @@ namespace MoonCow
             maxTurnSpeed = MathHelper.PiOver4 / 30;
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f); // Need to be changed to be actual ship dimentions
-            circleCol = new CircleCollider(pos, 0.75f);
+            circleCol = new CircleCollider(pos, 0.65f);
 
             shipModel = new ShipModel(this);
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/guncube"), this);
@@ -600,7 +600,7 @@ namespace MoonCow
                 if (nodePos.X == s.nodePos.X && nodePos.Y == s.nodePos.Y)
                 {
                     //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                    if (s.col.checkPoint(pos))
+                    if (s.col.checkCircle(circleCol))
                     {
                         //c.push(moveSpeed, pos, 4.0f);
                         //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
@@ -614,9 +614,12 @@ namespace MoonCow
                 if (nodePos.X == a.nodePos.X && nodePos.Y == a.nodePos.Y)
                 {
                     //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                    if (a.col.checkPoint(pos))
+                    if (a.col.checkCircle(circleCol))
                     {
-                        a.push(moveSpeed, direction, 2f);
+                        if (!(((WeaponDrill)weapons.weapons.ElementAt(4)).active && moving))
+                            a.push(moveSpeed, direction, 2f);
+                        else
+                            a.stop();
                         //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                         collision = true;
                     }
