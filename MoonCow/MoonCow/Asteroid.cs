@@ -36,7 +36,7 @@ namespace MoonCow
             // if movespeed drops below a certain threshold stop doing movement and collision checks
             updateNodePos();
 
-            if(moveSpeed >= 0.1)
+            if(moveSpeed >= 0.1 && dir != Vector3.Zero)
             {
                 updateMovement();
             }    
@@ -44,9 +44,9 @@ namespace MoonCow
 
         public virtual void updateMovement()
         {
-            moveSpeed -= moveSpeed * (0.01f * Utilities.deltaTime);
+            moveSpeed -= moveSpeed * (0.05f * Utilities.deltaTime);
             Vector3 frameDiff = Vector3.Zero;
-            frameDiff += dir * moveSpeed * Utilities.deltaTime;
+            frameDiff += dir * (moveSpeed * Utilities.deltaTime);
 
             pos.X += frameDiff.X;   // Update the ship movment with X component of direction * speed
             if (checkCollisions())   // See if that caused a collision
@@ -92,7 +92,7 @@ namespace MoonCow
                     if (col.checkOOBB(box))
                     {
                         collision = true;
-                        push(moveSpeed, dir * -2, mass);
+                        push(moveSpeed, dir * -1.5f, mass);
                         //System.Diagnostics.Debug.WriteLine("I am colliding with a wall");
                     }
                 }
@@ -101,7 +101,7 @@ namespace MoonCow
                     if (col.checkOOBB(node.asteroidBox))
                     {
                         collision = true;
-                        push(moveSpeed, dir * -2, mass);
+                        push(moveSpeed, dir * -1.5f, mass);
                         //System.Diagnostics.Debug.WriteLine("I am colliding with a force field");
                     }
                 }
@@ -114,7 +114,7 @@ namespace MoonCow
                             if (a.col.checkPoint(pos))
                             {
                                 a.push(moveSpeed, dir, mass);
-                                push(moveSpeed, dir * -2, mass);
+                                push(moveSpeed, dir * -1.5f, mass);
                                 //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                                 collision = true;
                                 //System.Diagnostics.Debug.WriteLine("I am colliding with an asteroid");
@@ -134,9 +134,9 @@ namespace MoonCow
 
             float force = speed * objectMass;
             moveSpeed += force;
-            if(moveSpeed > 20 - mass)
+            if(moveSpeed > 15 - mass)
             {
-                moveSpeed = 20 - mass;
+                moveSpeed = 15 - mass;
             }
         }
 
@@ -165,7 +165,7 @@ namespace MoonCow
             if(nodePos.X < 0 || nodePos.X > game.map.getWidth() || nodePos.Y < 0 || nodePos.Y > game.map.getHeight())
             {
                 onDeath();
-                System.Diagnostics.Debug.WriteLine("Asteroid outside of map? " + nodePos);
+                System.Diagnostics.Debug.WriteLine("Asteroid outside of map? " + nodePos + " " + pos + " " + moveSpeed + " " + dir);
             }
         }
     }
