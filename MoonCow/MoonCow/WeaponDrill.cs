@@ -7,12 +7,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class WeaponDrill:Weapon
+    public class WeaponDrill:Weapon
     {
         float softCooldown;
         float softCoolmax;
         public CircleCollider col;
         public bool active;
+        public DrillDome dome;
 
         public WeaponDrill(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
@@ -29,6 +30,9 @@ namespace MoonCow
             ammo = ammoMax;
             col = new CircleCollider(ship.pos+ship.direction, 0.3f);
             active = false;
+
+            dome = new DrillDome(game, this);
+            game.modelManager.addEffect(dome);
         }
 
         public override void activate()
@@ -46,11 +50,23 @@ namespace MoonCow
             if (active)
             {
                 if (ship.boosting)
+                {
                     game.hud.hudWeapon.Wake();
+                }
 
                 col.Update(ship.pos + ship.direction);
                 if (ship.moving && ship.colliding)
                     checkCollision();
+                else
+                {
+                    if (dome.active)
+                        dome.disable();
+                }
+            }
+            else
+            {
+                if (dome.active)
+                    dome.disable();
             }
             base.Update();
         }
@@ -79,12 +95,27 @@ namespace MoonCow
 
             foreach (Enemy e in game.enemyManager.enemies)
             {
+                foreach(CircleCollider c in e.cols)
+                {
+                    if(c.checkCircle(col))
+                    {
+                        e.drillDamage(Utilities.deltaTime * 31.25f, ship.direction, ship.boosting);
+                        colliding = true;
+                    }
+                }
             }
 
             if (colliding)
             {
                 game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction*0.8f, 0.15f));
                 game.hud.hudWeapon.Wake();
+                if (!dome.active)
+                    dome.activate();
+            }
+            else
+            {
+                if (dome.active)
+                    dome.disable();
             }
         }
 

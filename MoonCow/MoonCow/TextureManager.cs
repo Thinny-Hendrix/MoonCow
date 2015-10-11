@@ -76,6 +76,13 @@ namespace MoonCow
         public static Texture2D bombRipple;
         public static Texture2D bombCenter;
 
+        public static Texture2D drawLine0;
+        public static Texture2D drawLine1;
+        public static Texture2D drawLine2;
+        public static Texture2D drawLine3;
+        public static Texture2D drawLine4;
+        public static Texture2D drillMask;
+
         //weapon icons
         public static Texture2D icoPew;
         public static Texture2D icoBomb;
@@ -156,7 +163,7 @@ namespace MoonCow
             smallDot = game.Content.Load<Texture2D>(@"Models/Effects/smallDot");
             shotBlip = game.Content.Load<Texture2D>(@"Models/Effects/shotBlip");
 
-            station1 = game.Content.Load<Texture2D>(@"Models/StationTiles/station4");
+            station1 = game.Content.Load<Texture2D>(@"Models/StationTiles/station5");
 
             windowLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/screenlines");
             warnLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnLines");
@@ -190,6 +197,14 @@ namespace MoonCow
             bombBlip = game.Content.Load<Texture2D>(@"Models/Weapons/sploblip");
             bombRipple = game.Content.Load<Texture2D>(@"Models/Weapons/bombRipple");
             bombCenter = game.Content.Load<Texture2D>(@"Models/Weapons/bombcenter");
+
+            drawLine0 = game.Content.Load<Texture2D>(@"Models/Weapons/Drill/drawLine0");
+            drawLine1 = game.Content.Load<Texture2D>(@"Models/Weapons/Drill/drawLine1");
+            drawLine2 = game.Content.Load<Texture2D>(@"Models/Weapons/Drill/drawLine2");
+            drawLine3 = game.Content.Load<Texture2D>(@"Models/Weapons/Drill/drawLine3");
+            drawLine4 = game.Content.Load<Texture2D>(@"Models/Weapons/Drill/drawLine4");
+            drillMask = game.Content.Load<Texture2D>(@"Models/Weapons/Drill/drillMask");
+
 
 
             //weapon icons

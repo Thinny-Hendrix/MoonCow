@@ -108,6 +108,8 @@ namespace MoonCow
             game.Components.Add(particles);
             game.Components.Add(shipHealth);
 
+            ((WeaponDrill)weapons.weapons.ElementAt(4)).dome.setShip(this);
+
         }
 
         public override void Initialize()
@@ -564,6 +566,23 @@ namespace MoonCow
                     if (boundingBox.intersects(box))
                     {
                         collision = true;
+                    }
+                }
+            }
+
+            foreach(Enemy e in game.enemyManager.enemies)
+            {
+                if (nodePos.X == e.nodePos.X && nodePos.Y == e.nodePos.Y)
+                {
+                    //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
+                    foreach (CircleCollider c in e.cols)
+                    {
+                        if (c.checkOOBB(boundingBox))
+                        {
+                            //c.push(moveSpeed, pos, 4.0f);
+                            //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                            collision = true;
+                        }
                     }
                 }
             }

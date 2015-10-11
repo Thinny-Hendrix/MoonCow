@@ -65,6 +65,7 @@ namespace MoonCow
         //Ships
         public static Model pewShip;
         public static Model drillShip;
+        public static Model drillDome;
 
         //Money gibs
         public static Model oreGib1;
@@ -131,6 +132,8 @@ namespace MoonCow
             //ship
             pewShip = game.Content.Load<Model>(@"Models/Ship/PewProto/shipPewfbx");
             drillShip = game.Content.Load<Model>(@"Models/Ship/drillShipTEMP");
+            drillDome = game.Content.Load<Model>(@"Models/Weapons/Drill/drillDome");
+
 
             //money gibs
             oreGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/ore1");

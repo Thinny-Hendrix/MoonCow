@@ -15,6 +15,9 @@ namespace MoonCow
         protected Point coreLocation;
         protected Vector3 target;
         Vector3 frameDiff = new Vector3(0, 0, 0);
+        public enum State { goToBase, atBase, atCore, attackCore, noticedPlayer, goToPlayer, atPlayer, attackPlayer, strongHit, knockBack, hitByDrill}
+        public State state;
+        public State nextState;
 
         public Swarmer(Game1 game)
             : base(game)
@@ -26,6 +29,7 @@ namespace MoonCow
             rot = direction;
             currentTurnSpeed = 0;
             maxTurnSpeed = MathHelper.PiOver4 / (59f + Utilities.nextFloat() * 62f);
+            state = State.goToBase;
 
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             enemyModel = new SwarmerModel(this);
@@ -67,7 +71,8 @@ namespace MoonCow
             //System.Diagnostics.Debug.WriteLine(path);
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
-            agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 4f);
+            agroSphere = new CircleCollider(pos, 10f);
+            cols.Add(new CircleCollider(pos, 1f));
 
             health = 15;
 
@@ -76,93 +81,31 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            float yAngle;
-            Vector3 targetDirection = Vector3.Zero;
+            
             //target = game.ship.pos;
             //target = new Vector3(makeCentreCoordinate(coreLocation.X), 4.5f, makeCentreCoordinate(coreLocation.Y));
 
             //Agro stuff and attacks
             if (!electroDamage.active)
             {
+                if(state == State.goToBase)
+                {
+                    goToBase();
+                }
                 agroSphere.Update(pos);
-                if (agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))
+
+
+                if(state == State.hitByDrill)
                 {
-                    //Agro mode active, begin doing collision checks on player and chase
-                    //System.Diagnostics.Debug.WriteLine("Enemy now aggressive");
+                    pos += knockDir * Utilities.deltaTime * 40;
+                    checkCollisions();
                 }
 
-                if ((pos.X < target.X + 1 && pos.X > target.X - 1) && (pos.Z < target.Z + 1 && pos.Z > target.Z - 1))
-                {
-                    if (path.Count > pathPosition)
-                    {
-                        prevPosition = nextPosition;
-                        nextPosition = path[pathPosition];
-                        pathPosition += 1;
-
-                        if (path.Count > pathPosition)
-                        {
-                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-5 + Utilities.nextFloat() * 10), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-5 + Utilities.nextFloat() * 10));
-                        }
-                        else if (path.Count == pathPosition)
-                        {
-                            // How do I get the enemies to surround the core without going through it?
-                            // Answering this question will be post alpha
-                            if (prevPosition.X < nextPosition.X)
-                            {
-                                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
-                            }
-                            else if (prevPosition.X > nextPosition.X)
-                            {
-                                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
-                            }
-                            else if (prevPosition.Y < nextPosition.Y)
-                            {
-                                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-10 + Utilities.nextFloat() * 20), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-14 + Utilities.nextFloat() * 3));
-                            }
-                            else if (prevPosition.Y > nextPosition.Y)
-                            {
-                                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-10 + Utilities.nextFloat() * 20), 4.5f, makeCentreCoordinate(nextPosition.Y) + (14 + Utilities.nextFloat() * 3));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        atCore = true;
-                        target = new Vector3(makeCentreCoordinate(nextPosition.X), 4.5f, makeCentreCoordinate(nextPosition.Y));
-                    }
-                }
-
-                //Turning Code
-                yAngle = (float)Math.Atan2(pos.X - target.X, pos.Z - target.Z);
-                targetDirection.X = -(float)Math.Sin(yAngle);
-                targetDirection.Z = -(float)Math.Cos(yAngle);
-                targetDirection.Normalize();
-
-                direction = Vector3.Lerp(direction, targetDirection, Utilities.deltaTime * 4.5f);
-                rot.Y = (float)Math.Atan2(direction.X, direction.Z) + MathHelper.Pi;
-
-                //Movement Code
-                if (!atCore)
-                {
-                    frameDiff += direction * moveSpeed * Utilities.deltaTime;
-
-                    if (moveSpeed < maxSpeed)
-                    {
-                        moveSpeed += Utilities.deltaTime * 6;
-                    }
-
-                    checkCollision();
-                    frameDiff = Vector3.Zero;
-                }
-                else
-                {
-                    //need slowdown code
-                    moveSpeed = 0;
-
-                }
 
                 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
                 boundingBox.Update(pos, direction);
+                foreach (CircleCollider c in cols)
+                    c.Update(pos);
 
                 pos.Y = 4.5f + (float)Math.Sin(time) * 0.2f;
 
@@ -178,6 +121,118 @@ namespace MoonCow
             {
                 death();
             }
+        }
+
+        void goToBase()
+        {
+            float yAngle;
+            Vector3 targetDirection = Vector3.Zero;
+
+            if (agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))
+            {
+                //Agro mode active, begin doing collision checks on player and chase
+                //System.Diagnostics.Debug.WriteLine("Enemy now aggressive");
+            }
+
+            if ((pos.X < target.X + 1 && pos.X > target.X - 1) && (pos.Z < target.Z + 1 && pos.Z > target.Z - 1))
+            {
+                if (path.Count > pathPosition)
+                {
+                    prevPosition = nextPosition;
+                    nextPosition = path[pathPosition];
+                    pathPosition += 1;
+
+                    if (path.Count > pathPosition)
+                    {
+                        target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-5 + Utilities.nextFloat() * 10), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-5 + Utilities.nextFloat() * 10));
+                    }
+                    else if (path.Count == pathPosition)
+                    {
+                        // How do I get the enemies to surround the core without going through it?
+                        // Answering this question will be post alpha
+                        if (prevPosition.X < nextPosition.X)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                        }
+                        else if (prevPosition.X > nextPosition.X)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                        }
+                        else if (prevPosition.Y < nextPosition.Y)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-10 + Utilities.nextFloat() * 20), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-14 + Utilities.nextFloat() * 3));
+                        }
+                        else if (prevPosition.Y > nextPosition.Y)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-10 + Utilities.nextFloat() * 20), 4.5f, makeCentreCoordinate(nextPosition.Y) + (14 + Utilities.nextFloat() * 3));
+                        }
+                    }
+                }
+                else
+                {
+                    atCore = true;
+                    target = new Vector3(makeCentreCoordinate(nextPosition.X), 4.5f, makeCentreCoordinate(nextPosition.Y));
+                }
+            }
+
+            //Turning Code
+            yAngle = (float)Math.Atan2(pos.X - target.X, pos.Z - target.Z);
+            targetDirection.X = -(float)Math.Sin(yAngle);
+            targetDirection.Z = -(float)Math.Cos(yAngle);
+            targetDirection.Normalize();
+
+            direction = Vector3.Lerp(direction, targetDirection, Utilities.deltaTime * 4.5f);
+            rot.Y = (float)Math.Atan2(direction.X, direction.Z) + MathHelper.Pi;
+
+            //Movement Code
+            if (!atCore)
+            {
+                frameDiff += direction * moveSpeed * Utilities.deltaTime;
+
+                if (moveSpeed < maxSpeed)
+                {
+                    moveSpeed += Utilities.deltaTime * 6;
+                }
+
+                checkCollision();
+                frameDiff = Vector3.Zero;
+            }
+            else
+            {
+                //need slowdown code
+                moveSpeed = 0;
+
+            }
+        }
+
+        public override void drillDamage(float damage, Vector3 dir, bool boosting)
+        {
+            health -= damage;
+            if (health <= 0)
+                death();
+
+            if (boosting)
+            {
+                game.camera.setYShake(0.1f);
+                state = State.hitByDrill;
+                knockDir = dir + cols.ElementAt(0).directionFrom(game.ship.pos);
+                knockDir.Normalize();
+            }
+            else
+            {
+                game.camera.setYShake(0.03f);
+                //state = State.hit;
+            }
+
+            /*if (timeSinceLastDrill <= 0)
+            {
+                timeSinceLastDrill = 0.2f;
+                model.hit(dir);
+                shockTime = 0;
+                model.wake();
+            }
+            triggeredTele = false;
+            cooldownTime = 2;*/
         }
 
         protected override void death()

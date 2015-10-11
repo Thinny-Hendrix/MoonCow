@@ -15,8 +15,7 @@ namespace MoonCow
         public Vector3 rot;
         public Vector3 scale;
         public Vector3 direction;
-
-        public Vector3 knockbackDirection;
+        public Vector3 knockDir;
 
         public float moveSpeed;
         public float maxSpeed;
@@ -26,6 +25,7 @@ namespace MoonCow
         public float currentTurnSpeed;
         public float maxTurnSpeed;
         protected bool atCore = false;
+        public bool atBase;
         protected Vector3 nodeDirection = new Vector3(0, 0, 1);
         protected bool turnDirection = false; //false = left, true = right
         protected char isFacing = 'S'; //North, South, East, West
@@ -33,7 +33,7 @@ namespace MoonCow
 
         public OOBB boundingBox;
         public CircleCollider agroSphere;
-        public CircleCollider col;
+        public List<CircleCollider> cols = new List<CircleCollider>();
         public float health;
 
         public Vector2 nodePos;
@@ -110,6 +110,47 @@ namespace MoonCow
         {
             //kind of like knockback except enemy stays in place, this will be used for the drill
             //prolly needs its own enum
+        }
+
+        public virtual void checkCollisions()
+        {
+            bool collided = false;
+            //pos += frameDiff;
+            foreach (CircleCollider c in cols)
+            {
+                c.Update(pos);
+
+
+                nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+                // Make a list containing current node and all neighbor nodes
+                List<MapNode> currentNodes = new List<MapNode>();
+                currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y]);
+                for (int i = 0; i < 4; i++)
+                {
+                    if (game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i] != null)
+                    {
+                        currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i]);
+                    }
+                }
+
+                //For the current node check if your X component will make you collide with wall
+                foreach (MapNode node in currentNodes)
+                {
+                    foreach (OOBB box in node.collisionBoxes)
+                    {
+                        if (c.checkOOBB(box))
+                        {
+                            collided = true;
+                        }
+                    }
+                }
+            }
+
+            if (collided)
+            {
+                death();
+            }
         }
 
         protected virtual void death()

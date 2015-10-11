@@ -15,6 +15,7 @@ namespace MoonCow
         public float alpha;
         public float rot;
 
+        public SpriteParticle() { }
         public SpriteParticle(Vector2 pos)
         {
             this.pos = pos;

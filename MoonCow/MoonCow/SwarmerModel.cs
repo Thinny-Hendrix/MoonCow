@@ -10,9 +10,12 @@ namespace MoonCow
     class SwarmerModel:EnemyModel
     {
         //AnimationPlayer animPlayer;
+        Swarmer swarmer;
+        float knockSpin;
 
         public SwarmerModel(Swarmer enemy):base(enemy)
         {
+            this.swarmer = enemy;
             model = ModelLibrary.swarmer;
             scale = new Vector3(.07f);
         }
@@ -23,8 +26,23 @@ namespace MoonCow
             //pos.Y -= 0.7f;
             rot = enemy.rot;
 
+            if(swarmer.state == Swarmer.State.hitByDrill)
+            {
+                knockSpin -= Utilities.deltaTime * MathHelper.Pi * 3;
+                if (knockSpin < -MathHelper.Pi * 2)
+                    knockSpin += MathHelper.Pi * 2;
+            }
+
             rot.Y -= MathHelper.Pi;
                 //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
+        }
+
+        protected override Matrix GetWorld()
+        {
+            if (swarmer.state == Swarmer.State.hitByDrill)
+                return Matrix.CreateFromAxisAngle(Vector3.Cross(enemy.knockDir, Vector3.Up), knockSpin) * base.GetWorld();
+            else
+                return base.GetWorld();
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
