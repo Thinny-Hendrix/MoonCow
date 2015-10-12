@@ -19,6 +19,9 @@ namespace MoonCow
         public static SoundEffect shipMetallicWallScrape;
         public static SoundEffect shipShootLaser;
 
+        //sentry
+        public static SoundEffect sentryHit0;
+
         public static void initialize(Game game)
         {
             //background music
@@ -30,6 +33,10 @@ namespace MoonCow
             shipMetallicWallHit = game.Content.Load<SoundEffect>(@"Audio/SFX/Metallic Wall Hit");
             shipMetallicWallScrape = game.Content.Load<SoundEffect>(@"Audio/SFX/Metallic Wall Scrape");
             shipShootLaser = game.Content.Load<SoundEffect>(@"Audio/SFX/Shoot Laser");
+
+            //sentry
+            //sentryHit0 = game.Content.Load<SoundEffect>(@"Audio/SFX/Enemies/Sentry/sentHit1");
+
         }
     }
 }

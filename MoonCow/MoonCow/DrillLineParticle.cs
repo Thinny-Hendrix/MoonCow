@@ -48,7 +48,7 @@ namespace MoonCow
             if (!Utilities.paused && !Utilities.softPaused)
             {
                 setTex();
-                pos.Y += Utilities.deltaTime * 400;
+                pos.Y += Utilities.deltaTime * 512;
                 if (pos.Y > 256)
                     Dispose();
             }

@@ -41,11 +41,13 @@
   <ItemGroup>
     <Compile Include="AmmoGib.cs" />
     <Compile Include="AstBig.cs" />
+    <Compile Include="AstCloudParticle.cs" />
     <Compile Include="Asteroid.cs" />
     <Compile Include="AsteroidGenerator.cs" />
     <Compile Include="AsteroidManager.cs" />
     <Compile Include="AsteroidModel.cs" />
     <Compile Include="AstMid.cs" />
+    <Compile Include="AstShrapnel.cs" />
     <Compile Include="AstSmall.cs" />
     <Compile Include="Attack.cs" />
     <Compile Include="AudioLibrary.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="CircleCollider.cs" />
     <Compile Include="CoreSphereModel.cs" />
+    <Compile Include="DisposableSoundEffect.cs" />
     <Compile Include="DotParticle.cs" />
     <Compile Include="DrillDome.cs" />
     <Compile Include="DrillLineParticle.cs" />
@@ -182,6 +185,8 @@
     <Compile Include="Utilities.cs" />
     <Compile Include="Wave.cs" />
     <Compile Include="WaveManager.cs" />
+    <Compile Include="WaveProjectile.cs" />
+    <Compile Include="WaveProjectileModel.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="WeaponBomb.cs" />
     <Compile Include="WeaponDrill.cs" />
@@ -202,6 +207,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Audio\BGM\Space Panic %28spawn%29.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\SFX\Enemies\Sentry\sentHit1wma.wma">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Audio\SFX\Metallic Wall Hit.wav">
@@ -607,6 +615,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Minigame\rBowRing.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\AstField\astCloud.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\AstField\astCloud2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\boostFlame.png">
@@ -1362,6 +1376,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Audio\BGM\Space Panic %28spawn%29.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Audio\SFX\Enemies\Sentry\sentHit1.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Content\Models\Enemies\Swarmer\swarmerAlpha.fbx" />

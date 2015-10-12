@@ -10,6 +10,8 @@ namespace MoonCow
 {
     public class AudioManager : Microsoft.Xna.Framework.GameComponent
     {
+        public List<DisposableSoundEffect> soundEffects;
+        public List<DisposableSoundEffect> sToDelete;
         //background music
         public SoundEffectInstance bgmSpacePanic_base = AudioLibrary.bgmSpacePanic_base.CreateInstance();
         public SoundEffectInstance bgmSpacePanic_spawn = AudioLibrary.bgmSpacePanic_spawn.CreateInstance();
@@ -27,6 +29,8 @@ namespace MoonCow
         public AudioManager(Game1 game) : base(game)
         {
             waveManager = game.waveManager;
+            soundEffects = new List<DisposableSoundEffect>();
+            sToDelete = new List<DisposableSoundEffect>();
         }
 
         public override void Initialize()
@@ -53,6 +57,11 @@ namespace MoonCow
             base.Initialize();
         }
 
+        public void addSoundEffect(SoundEffect e, float vol)
+        {
+            soundEffects.Add(new DisposableSoundEffect(e.CreateInstance(), vol, sToDelete));
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (waveManager.spawnState == Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume < 0.5f)
@@ -71,7 +80,15 @@ namespace MoonCow
                 }
             }
 
-            base.Update(gameTime);
+            foreach (DisposableSoundEffect e in soundEffects)
+            {
+                e.Update();
+            }
+            foreach (DisposableSoundEffect e in sToDelete)
+            {
+                soundEffects.Remove(e);
+            }
+            sToDelete.Clear();
         }
     }
 }

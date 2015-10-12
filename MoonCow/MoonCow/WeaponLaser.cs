@@ -38,15 +38,18 @@ namespace MoonCow
                     {
                         addProjectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
                         laserPos = 1;
-                        game.audioManager.shipShootLaser.Stop();
-                        game.audioManager.shipShootLaser.Play();
+                        game.audioManager.addSoundEffect(AudioLibrary.shipShootLaser, 0.1f);
+                        //game.audioManager.shipShootLaser.Stop();
+                        //game.audioManager.shipShootLaser.Play();
                     }
                     else
                     {
                         addProjectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
                         laserPos = 0;
-                        game.audioManager.shipShootLaser2.Stop();
-                        game.audioManager.shipShootLaser2.Play();
+                        game.audioManager.addSoundEffect(AudioLibrary.shipShootLaser, 0.1f);
+
+                        //game.audioManager.shipShootLaser2.Stop();
+                        //game.audioManager.shipShootLaser2.Play();
                     }
                 }
                 else

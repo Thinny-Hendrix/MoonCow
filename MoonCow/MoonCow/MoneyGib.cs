@@ -165,7 +165,7 @@ namespace MoonCow
             //For the current node check if your X component will make you collide with wall
             try
             {
-                if (col.checkOOBB(ship.boundingBox))
+                if (col.checkCircle(ship.circleCol))
                 {
                     collectGib();
                 }

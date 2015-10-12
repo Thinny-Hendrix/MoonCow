@@ -64,7 +64,7 @@ namespace MoonCow
                     if (timer <= 0)
                     {
                         particles.Add(new DrillLineParticle(toDelete));
-                        timer = 0.15f;
+                        timer = 0.1f;
                     }
                 }
 

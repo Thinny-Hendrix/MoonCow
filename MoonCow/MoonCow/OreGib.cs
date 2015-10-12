@@ -11,6 +11,8 @@ namespace MoonCow
     {
         float initDist;
         float coreDist;
+        Vector3 initScale;
+        Vector3 smallScale;
         public OreGib(float value, MoneyManager moneyManager, Ship ship, Vector3 pos, Game1 game, int type) : base()
         {
             this.value = value;
@@ -20,6 +22,8 @@ namespace MoonCow
             this.ship = ship;
             this.game = game;
             scale = new Vector3(.05f);
+            initScale = scale;
+            smallScale = new Vector3(.01f);
 
             setColor(type);
 
@@ -50,6 +54,10 @@ namespace MoonCow
             base.Update(gameTime);
 
             coreDist = ((float)-Math.Cos(1 - (col.distFrom(ship.pos) / initDist)))+1.2f;
+            if (col.distFrom(ship.pos) < initDist)
+                scale = Vector3.Lerp(smallScale, initScale, col.distFrom(ship.pos) / initDist);
+            else
+                scale = initScale;
         }
 
         void setColor(int i)

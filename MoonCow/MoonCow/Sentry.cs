@@ -326,6 +326,8 @@ namespace MoonCow
             model.wake();
             triggeredTele = false;
             cooldownTime = 2;
+
+            game.audioManager.addSoundEffect(AudioLibrary.shipMetallicWallHit, 0.1f);
         }
 
         void checkCollisions()
