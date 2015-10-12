@@ -92,7 +92,7 @@ namespace MoonCow
                     if (col.checkOOBB(box))
                     {
                         collision = true;
-                        push(moveSpeed, dir * -1.5f, mass);
+                        push(moveSpeed, (dir * -0.8f) + (dir * -1), mass);
                         //System.Diagnostics.Debug.WriteLine("I am colliding with a wall");
                     }
                 }
@@ -101,7 +101,7 @@ namespace MoonCow
                     if (col.checkOOBB(node.asteroidBox))
                     {
                         collision = true;
-                        push(moveSpeed, dir * -1.5f, mass);
+                        push(moveSpeed, (dir * -0.8f) + (dir * -1), mass);
                         //System.Diagnostics.Debug.WriteLine("I am colliding with a force field");
                     }
                 }
@@ -114,7 +114,7 @@ namespace MoonCow
                             if (a.col.checkCircle(col))
                             {
                                 a.push(moveSpeed, dir, mass);
-                                push(moveSpeed, dir * -1.5f, mass);
+                                push(moveSpeed, (dir * -0.8f) + (dir * -1) , mass);
                                 //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                                 collision = true;
                                 //System.Diagnostics.Debug.WriteLine("I am colliding with an asteroid");
