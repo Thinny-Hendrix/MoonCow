@@ -25,6 +25,7 @@ namespace MoonCow
             if(instance.State == SoundState.Stopped)
             {
                 toDelete.Add(this);
+                instance.Dispose();
             }
         }
     }

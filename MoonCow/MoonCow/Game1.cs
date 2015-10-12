@@ -94,6 +94,7 @@ namespace MoonCow
             EnemyBehaviour.load();
         }
 
+
         void initializeGame()
         {
             TextureManager.initialize(this);
@@ -114,7 +115,6 @@ namespace MoonCow
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
             map = new Map(this, layout.getNodes());
-
 
             //bloom = new BloomComponent(this);
 
