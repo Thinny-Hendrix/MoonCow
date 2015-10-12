@@ -87,7 +87,7 @@ namespace MoonCow
             maxTurnSpeed = MathHelper.PiOver4 / 30;
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f); // Need to be changed to be actual ship dimentions
-            circleCol = new CircleCollider(pos, 0.65f);
+            circleCol = new CircleCollider(pos, 0.75f);
 
             shipModel = new ShipModel(this);
             //shipModel = new ShipModel(game.Content.Load<Model>(@"Models/Enemies/Cubes/guncube"), this);
@@ -491,6 +491,35 @@ namespace MoonCow
 
         void updateMovement()
         {
+            colliding = false; // Used for determining if sound needs playing - does not seem to work 100% with new code. Will need reworking anyway when new audio system is implimented
+            pos += frameDiff;
+            List<Vector3> normals = checkCollision();
+            if(normals.Count > 0)
+            {
+                colliding = true;
+                foreach(Vector3 normal in normals)
+                {
+                    Vector3 normalForce = Vector3.Zero;
+                    
+                    // calculate how much to take off from movement here
+                    normalForce = normal * Vector3.Dot(frameDiff, normal);
+
+                    pos -= normalForce;
+                }
+            }
+
+            if (colliding)  // If sound needs playing
+            {
+                collisionSound();   // Play sound
+            }
+            else    // Otherwise do not play sound and stop if already playing sound
+            {
+                justHitWall = false;
+                game.audioManager.shipMetallicWallScrape.Stop();
+            }
+
+            /* Old movement code, remove when finsihed porting to new collision system
+             * 
             colliding = false; // Used for determining if sound needs playing, holds true if collision in either X or Z component of movement
             pos.X += frameDiff.X;   // Update the ship movment with X component of direction * speed
             if (checkCollision())   // See if that caused a collision
@@ -513,6 +542,7 @@ namespace MoonCow
                 justHitWall = false;
                 game.audioManager.shipMetallicWallScrape.Stop();
             }
+            */
         }
 
         private void updateDamagePotential()
@@ -536,6 +566,109 @@ namespace MoonCow
             }
         }
 
+        List<Vector3> checkCollision()
+        {
+            // Move the bounding circle to new position
+            circleCol.Update(pos);
+            boundingBox.Update(pos, direction); // legacy, need to update everything to use the new circle collider
+            List<Vector3> normals = new List<Vector3>();
+
+            // Get current node co-ordinates
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+            // Make a list containing current node and all neighbor nodes
+            List<MapNode> currentNodes = new List<MapNode>();
+            currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y]);
+            for (int i = 0; i < 4; i++)
+            {
+                if (game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i] != null)
+                {
+                    currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i]);
+                }
+            }
+
+            //For the current node check if your X component will make you collide with wall
+            foreach (MapNode node in currentNodes)
+            {
+                // Check map collision boxes
+                foreach (OOBB box in node.collisionBoxes)
+                {
+                    Vector3 normal = circleCol.boxCollide(box);
+                    if(!(normal.Equals(Vector3.Zero)))
+                    {
+                        normals.Add(normal);
+                    }
+
+                }
+
+                // Check enemies within spatial partitioning
+                foreach (Enemy e in game.enemyManager.enemies)
+                {
+                    if (node.position.X == e.nodePos.X && node.position.Y == e.nodePos.Y)
+                    {
+                        foreach (CircleCollider c in e.cols)
+                        {
+                            Vector3 normal = circleCol.circleCollide(c);
+                            if (!(normal.Equals(Vector3.Zero)))
+                            {
+                                //c.push(moveSpeed, pos, 4.0f);
+                                //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                                normals.Add(normal);
+                            }
+                        }
+                    }
+                }
+
+                // Check asteroids within spatial partitioning
+                foreach (Asteroid a in game.asteroidManager.asteroids)
+                {
+                    if (node.position.X == a.nodePos.X && node.position.Y == a.nodePos.Y)
+                    {
+                        Vector3 normal = circleCol.circleCollide(a.col);
+                        if (!(normal.Equals(Vector3.Zero)))
+                        {
+                            if (!(((WeaponDrill)weapons.weapons.ElementAt(4)).active && moving))
+                                a.push(moveSpeed, direction, 2f);
+                            else
+                                a.stop();
+                            //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                            normals.Add(normal);
+                        }
+                    }
+                }
+
+                // Check sentries within spatial partitioning
+                foreach (Sentry s in game.enemyManager.sentries)
+                {
+                    if (node.position.X == s.nodePos.X && node.position.Y == s.nodePos.Y)
+                    {
+                        Vector3 normal = circleCol.circleCollide(s.col);
+                        if (!(normal.Equals(Vector3.Zero)))
+                        {
+                            //c.push(moveSpeed, pos, 4.0f);
+                            //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                            normals.Add(normal);
+                        }
+                    }
+                }
+
+            }
+
+            // Check collision with core
+            Vector3 coreNormal = circleCol.circleCollide(game.core.col);
+            if (!(coreNormal.Equals(Vector3.Zero)))
+            {
+                normals.Add(coreNormal);
+            }
+
+            return normals;
+        }
+
+        /// <summary>
+        /// Old collisions code, remove when fishied porting to new code
+        /// </summary>
+        /// <returns></returns>
+        /*
         bool checkCollision()
         {
             //## COLLISIONS WHOOO! ##
@@ -627,6 +760,7 @@ namespace MoonCow
             }
             return collision;
         }
+        */
 
         void collisionSound()
         {
