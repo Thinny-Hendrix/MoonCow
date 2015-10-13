@@ -87,7 +87,7 @@ namespace MoonCow
                     effect.Projection = camera.projection;
                     effect.Texture = TextureManager.swarmerTex;
                     effect.Alpha = 1;
-
+                    effect.WeightsPerVertex = 1;
                     //effect.LightingEnabled = true;
 
                     if (mesh.Name.Contains("glow"))

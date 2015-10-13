@@ -7,13 +7,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class AstGunProjectile:Projectile
+    public class AstGunProjectile:Projectile
     {
         WeaponMissiles wep;
         int type;
         Color c1;
         Color c2;
         float emitterTime;
+        public bool active;
+        BasicModel trailModel;
 
         public AstGunProjectile(Vector3 pos, Vector3 direction, Game1 game, WeaponMissiles weapons, int type)
             : base()
@@ -28,27 +30,32 @@ namespace MoonCow
             speed = 50;
             life = 200;
             damage = 5;
+            active = true;
 
             col = new CircleCollider(pos, 0.2f);
             if (type == 1)
             {
-                c1 = Color.Green;
-                c2 = Color.CornflowerBlue;
-                model = new AstGunTip(this, game);
+                c1 = Color.White;
+                c2 = Color.Aquamarine;
+                model = new AstGunTip(this, game, c2);
 
             }
             else if (type == 2)
             {
-                c1 = Color.Blue;
-                c2 = Color.Aqua;
-                model = new AstGunTip(this, game);
+                c1 = Color.White;
+                c2 = Color.Purple;
+                model = new AstGunTip(this, game, c2);
             }
             else
             {
-                c1 = Color.Red;
-                c2 = Color.Purple;
-                model = new AstGunTip(this, game);
+                c1 = Color.White;
+                c2 = Color.Red;
+                model = new AstGunTip(this, game, c2);
+                trailModel = new AstGunElecTrail(this, game, c1, c2);
+                game.modelManager.addEffect(trailModel);
             }
+
+            
             game.modelManager.addEffect(model);
         }
 
@@ -64,7 +71,7 @@ namespace MoonCow
             if (emitterTime <= 0)
             {
                 emitterTime = 0.05f;
-                game.modelManager.addEffect(new AstGunRing(this, game));
+                game.modelManager.addEffect(new AstGunRing(this, game, c1, c2));
             }
 
             life -= Utilities.deltaTime * 60;
@@ -79,10 +86,10 @@ namespace MoonCow
             for (int i = 0; i < 10; i++)
                 game.modelManager.addEffect(new DotParticle(game, pos));
 
-            game.modelManager.addEffect(new LaserHitEffect(game, pos, c1));
+            game.modelManager.addEffect(new LaserHitEffect(game, pos, c2));
             if (type == 3)
             {
-                game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.Orange));
+                game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.White));
                 for (int i = 0; i < 5; i++)
                     game.modelManager.addEffect(new ElecParticle(pos, game, c1, c2));
             }
@@ -191,6 +198,12 @@ namespace MoonCow
             game.modelManager.removeEffect(model);
             wep.toDelete.Add(this);
             model.Dispose();
+            if (trailModel != null)
+            {
+                trailModel.Dispose();
+                game.modelManager.removeEffect(trailModel);
+            }
+            active = false;
         }
     }
 }

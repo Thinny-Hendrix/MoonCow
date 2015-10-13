@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class WeaponMissiles:Weapon
+    public class WeaponMissiles:Weapon
     {
         int laserPos;
         public WeaponMissiles(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
@@ -20,6 +20,7 @@ namespace MoonCow
 
             coolMax = 15;
             laserPos = 0;
+            EXPMAX = 250;
         }
 
         public override void Fire()
@@ -58,7 +59,7 @@ namespace MoonCow
                     game.audioManager.shipShootLaser.Play();
                 }
                 cooldown = coolMax;
-                base.Fire();
+                //base.Fire();
             }
         }
 
@@ -85,11 +86,11 @@ namespace MoonCow
                 default: //level 2
                     coolMax = 10;
                     EXPMAX = 500;
-                    ammoMax = 400;
+                    //ammoMax = 400;
                     break;
                 case 3:
-                    coolMax = 8;
-                    ammoMax = 500;
+                    coolMax = 10;
+                    //ammoMax = 500;
                     break;
             }
             ammo = ammoMax;
