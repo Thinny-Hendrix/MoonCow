@@ -123,7 +123,6 @@ namespace MoonCow
             EnemyBehaviour.load();
         }
 
-<<<<<<< HEAD
         void initializeMenu()
         {
             MenuAssets.Initialize(this);
@@ -133,10 +132,6 @@ namespace MoonCow
         }
 
         public void initializeGame()
-=======
-
-        void initializeGame()
->>>>>>> origin/master
         {
             if (!loadedGameContent)
             {
