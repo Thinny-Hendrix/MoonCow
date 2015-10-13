@@ -20,6 +20,8 @@ namespace MoonCow
         Texture2D gameDraw;
         public RenderTarget2D worldRender;
         DepthStencilState depthState;
+        bool justLoadedContent;
+        bool loadedGameContent;
 
         public Map map;
         public Camera camera;
@@ -35,11 +37,16 @@ namespace MoonCow
         public Hud hud;
         public BaseCore core;
 
+        //menu
+        public MainMenu mainMenu;
+
         BloomComponent bloom;
         int bloomSettingsIndex = 0;
 
         public enum RunState { MainMenu, MainGame, StatScreen }
         public RunState runState;
+
+        MapData testMap;
 
         public Game1()
         {
@@ -56,7 +63,25 @@ namespace MoonCow
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
 
+            
+            int[,] listofnodes = new int[13,21] {
+            { 35,42,42,42,38,8,15,1,15,1,1,1,15,1,15,10,35,42,42,42,38},
+            { 39,59,59,59,41,60,2,60,2,60,60,60,2,60,2,60,39,59,59,59,41},
+            { 39,59,59,59,41,60,2,60,2,60,60,60,2,60,2,60,39,59,59,59,41},
+            { 39,59,59,59,41,16,13,15,18,60,60,60,17,15,13,19,39,59,59,59,41},
+            { 39,59,59,59,41,2,60,2,60,60,3,60,60,2,60,2,39,59,59,59,41},
+            { 39,59,59,59,45,14,60,17,15,1,13,1,15,18,60,12,43,59,59,59,41},
+            { 39,59,59,59,41,2,60,60,2,60,60,60,2,60,60,2,39,59,59,59,41},
+            { 39,59,59,59,41,17,1,15,13,19,60,16,13,15,1,18,39,59,59,59,41},
+            { 39,59,59,59,50,42,42,55,60,2,60,2,60,51,42,42,47,59,59,59,41},
+            { 39,59,59,59,59,59,59,41,60,20,21,22,60,39,59,59,59,59,59,59,41},
+            { 39,59,59,59,59,59,59,41,60,23,24,25,60,39,59,59,59,59,59,59,41},
+            { 39,59,59,59,59,59,59,41,60,26,27,28,60,39,59,59,59,59,59,59,41},
+            { 36,40,40,40,40,40,40,37,60,60,60,60,60,36,40,40,40,40,40,40,37},
+            };
 
+            testMap = new MapData(1, "Level2", "jason", 21, 13, listofnodes);
+            testMap.writeMap();
         }
 
         /// <summary>
@@ -82,9 +107,13 @@ namespace MoonCow
 
             loadSettings();
 
+            //initializeMenu();
             initializeGame();
+            runState = RunState.MainGame;
 
             base.Initialize();
+            Utilities.setScale(this);
+
         }
 
         void loadSettings()
@@ -94,11 +123,24 @@ namespace MoonCow
             EnemyBehaviour.load();
         }
 
-        void initializeGame()
+        void initializeMenu()
         {
-            TextureManager.initialize(this);
-            ModelLibrary.initialize(this);
-            AudioLibrary.initialize(this);
+            MenuAssets.Initialize(this);
+            mainMenu = new MainMenu(this);
+
+            Components.Add(mainMenu);
+        }
+
+        public void initializeGame()
+        {
+            if (!loadedGameContent)
+            {
+                TextureManager.initialize(this);
+                ModelLibrary.initialize(this);
+                AudioLibrary.initialize(this);
+                loadedGameContent = true;
+            }
+
             
             modelManager = new ModelManager(this);
             ship = new Ship(this);
@@ -113,6 +155,7 @@ namespace MoonCow
             minigame = new Minigame(this);
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
+            //layout = new MapData(@"Content/MapXml/Level2.xml");
             map = new Map(this, layout.getNodes());
 
 
@@ -135,6 +178,8 @@ namespace MoonCow
 
             modelManager.makeStarField();
             turretManager.Initialize();
+
+            justLoadedContent = true;
         }
 
         /// <summary>
@@ -172,7 +217,10 @@ namespace MoonCow
 
             base.Update(gameTime);
 
-            TextureManager.Update(this);
+            if(runState == RunState.MainGame)
+            {
+                TextureManager.Update(this);
+            }
 
             //hud.update(gameTime, spriteBatch);
         }
@@ -183,6 +231,12 @@ namespace MoonCow
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            if (justLoadedContent)
+            {
+                Update(gameTime);
+                justLoadedContent = false;
+            }
+
             Utilities.frameCount++;
             GraphicsDevice.Clear(new Color(0.2f,0.2f,0.2f));
 
@@ -195,7 +249,6 @@ namespace MoonCow
             base.Draw(gameTime);
             //hud.Draw(gameTime);
         }
-
         
     }
 }

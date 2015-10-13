@@ -139,6 +139,14 @@ namespace MoonCow
             return false;
         }
 
+        public void resize(float width, float height)
+        {
+            originCorners[0] = new Vector2(0 - (width / 2), 0 - (height / 2));
+            originCorners[1] = new Vector2(0 + (width / 2), 0 - (height / 2));
+            originCorners[2] = new Vector2(0 + (width / 2), 0 + (height / 2));
+            originCorners[3] = new Vector2(0 - (width / 2), 0 + (height / 2));
+        }
+
         /// <summary>
         /// Checks if a point is inside the box
         /// </summary>

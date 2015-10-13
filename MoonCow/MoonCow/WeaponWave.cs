@@ -6,9 +6,8 @@ using Microsoft.Xna.Framework;
 
 namespace MoonCow
 {
-    class WeaponWave:Weapon
+    public class WeaponWave:Weapon
     {
-        int laserPos;
         public WeaponWave(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
             icon = TextureManager.icoWave;
@@ -19,29 +18,16 @@ namespace MoonCow
             range = 0.3f;
 
             coolMax = 15;
-            laserPos = 0;
         }
 
         public override void Fire()
         {
             if(cooldown == 0)
             {
-                if (laserPos == 0)
-                {
-                    projectiles.Add(new Projectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, game, this, 2));
-                    laserPos = 1;
+                projectiles.Add(new WaveProjectile(ship.pos + ship.direction * 0.1f, ship.direction, game, this, 2));
 
-                    game.audioManager.shipShootLaser.Stop();
-                    game.audioManager.shipShootLaser.Play();
-                }
-                else
-                {
-                    projectiles.Add(new Projectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction, game, this, 2));
-                    laserPos = 0;
+                game.audioManager.addSoundEffect(AudioLibrary.shipShootLaser, 0.1f);
 
-                    game.audioManager.shipShootLaser2.Stop();
-                    game.audioManager.shipShootLaser2.Play();
-                }
                 cooldown = coolMax;
             }
         }

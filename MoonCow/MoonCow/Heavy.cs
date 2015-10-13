@@ -72,6 +72,11 @@ namespace MoonCow
 
             health = 50;
 
+            cols.Add(new CircleCollider(pos, 2.5f));
+            cols.Add(new CircleCollider(pos + Vector3.Cross(direction, Vector3.Up)*3, 2.5f));
+            cols.Add(new CircleCollider(pos + Vector3.Cross(direction, Vector3.Up) * -3, 2.5f));
+
+
             //weapons = new WeaponSystem(this);
         }
 
@@ -202,6 +207,11 @@ namespace MoonCow
             //## COLLISIONS WHOOO! ##
             // Move the bounding box to new pos
             boundingBox.Update(pos, direction);
+
+            cols.ElementAt(0).Update(pos);
+            cols.ElementAt(1).Update(pos + Vector3.Cross(direction, Vector3.Up) * 3);
+            cols.ElementAt(2).Update(pos + Vector3.Cross(direction, Vector3.Up) * -3);
+
             // Get current node co-ordinates
             Vector2 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
@@ -210,6 +220,9 @@ namespace MoonCow
             pos.Z += frameDiff.Z;
 
             boundingBox.Update(pos, direction);
+            cols.ElementAt(0).Update(pos);
+            cols.ElementAt(1).Update(pos + Vector3.Cross(direction, Vector3.Up) * 3);
+            cols.ElementAt(2).Update(pos + Vector3.Cross(direction, Vector3.Up) * -3);
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
         }
 

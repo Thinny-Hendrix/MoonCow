@@ -7,13 +7,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
-    class WaveProjectile:Projectile
+    public class WaveProjectile:Projectile
     {
         WeaponWave wep;
         int type;
         Color c1;
         Color c2;
-        WaveProjectileModel model;
+        OOBB boundBox;
+        public float scale;
+        float maxScale;
+        public float time;
 
         public WaveProjectile(Vector3 pos, Vector3 direction, Game1 game, WeaponWave wep, int type)
             : base()
@@ -26,30 +29,16 @@ namespace MoonCow
             this.type = type;
 
             speed = 50;
-            life = 200;
+            life = 30;
             damage = 5;
+            scale = 1;
+            maxScale = 10;
+            time = 0;
 
-            col = new CircleCollider(pos, 0.2f);
-            if (type == 1)
-            {
-                c1 = Color.Green;
-                c2 = Color.CornflowerBlue;
-                //model = new ProjectileModel(ModelLibrary.projectile, pos, this, c1, c2, game);
+            model = new WaveProjectileModel(this, game);
+            boundBox = new OOBB(pos, this.direction, 0.1f, 10f);
 
-            }
-            else if (type == 2)
-            {
-                c1 = Color.Blue;
-                c2 = Color.Aqua;
-                //model = new ProjectileModel(ModelLibrary.projectile, pos, this, c1, c2, game);
-            }
-            else
-            {
-                c1 = Color.Red;
-                c2 = Color.Purple;
-                //model = new ProjectileModel(this, TextureManager.elecRound64, TextureManager.elecRound64, TextureManager.elecTrail64, c1, c2, new Color(1, 0.4f, 0), game);
-            }
-            //game.modelManager.addEffect(model);
+            game.modelManager.addEffect(model);
         }
 
         public override void Update()
@@ -57,7 +46,19 @@ namespace MoonCow
             frameDiff = Vector3.Zero;
 
             frameDiff += direction * speed * Utilities.deltaTime;
-            col.Update(pos);
+
+            if (time < 1)
+            {
+                time += Utilities.deltaTime * 3;
+                if (time > 1)
+                    time = 1;
+            }
+            scale = MathHelper.SmoothStep(1, maxScale, time);
+
+            boundBox.resize(1, 1f * scale);
+            boundBox.Update(pos, direction);
+
+
             checkCollision();
 
             life -= Utilities.deltaTime * 60;
@@ -99,16 +100,15 @@ namespace MoonCow
             {
                 foreach (OOBB box in game.map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
                 {
-                    if (col.checkOOBB(box))
+                    if (boundBox.intersects(box))
                     {
-                        pos.X -= frameDiff.X;
-                        collided = true;
+                        //collided = true;
                     }
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                deleteProjectile();
+                //deleteProjectile();
             }
 
             try
@@ -118,19 +118,22 @@ namespace MoonCow
                     if (nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
                     {
                         //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if (col.checkOOBB(enemy.boundingBox))
+                        foreach (CircleCollider c in enemy.cols)
                         {
-                            enemy.health -= damage;
-                            game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                            wep.addExp(5);
-                            collided = true;
+                            if (c.checkOOBB(boundBox))
+                            {
+                                enemy.health -= damage;
+                                game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                                wep.addExp(5);
+                                //collided = true;
+                            }
                         }
                     }
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                deleteProjectile();
+                //deleteProjectile();
             }
 
             try
@@ -140,18 +143,18 @@ namespace MoonCow
                     if (nodePos.X == s.nodePos.X && nodePos.Y == s.nodePos.Y)
                     {
                         //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if (s.col.checkPoint(pos))
+                        if (s.col.checkOOBB(boundBox))
                         {
                             s.damage(damage, direction);
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                            collided = true;
+                            //collided = true;
                         }
                     }
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                deleteProjectile();
+                //deleteProjectile();
             }
 
             try
@@ -161,11 +164,11 @@ namespace MoonCow
                     if (nodePos.X == a.nodePos.X && nodePos.Y == a.nodePos.Y)
                     {
                         //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if (a.col.checkPoint(pos))
+                        if (a.col.checkOOBB(boundBox))
                         {
                             a.damage(damage, pos);
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                            collided = true;
+                            //collided = true;
                         }
                     }
                 }
@@ -181,9 +184,9 @@ namespace MoonCow
 
         protected override void deleteProjectile()
         {
-            //game.modelManager.removeEffect(model);
             wep.toDelete.Add(this);
-            //model.Dispose();
+            model.Dispose();
+            game.modelManager.removeEffect(model);
         }
     }
 }

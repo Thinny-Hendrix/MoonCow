@@ -47,7 +47,7 @@ namespace MoonCow
             }
             for (int i = 0; i < 3; i++)
             {
-                game.modelManager.addObject(new AstShrapnel(pos, 0.08f, dir, game));
+                game.modelManager.addObject(new AstShrapnel(pos, 0.12f, dir, game));
             }
         }
     }

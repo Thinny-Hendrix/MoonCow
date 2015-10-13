@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MoonCow
 {
@@ -17,7 +18,17 @@ namespace MoonCow
         public static bool paused = false;
         public static bool softPaused = false;
         public static Random random = new Random();
+
+        public static float windowScale;
+
         public enum SpawnState { idle, deploying, waiting }
+
+        public static void setScale(Game1 game)
+        {
+            windowScale = (float)game.GraphicsDevice.Viewport.Bounds.Width / 1920.0f;
+        }
+
+
 
         public static void Update(GameTime gameTime)
         {
@@ -110,6 +121,38 @@ namespace MoonCow
         {
             float a = (float)Math.Sqrt(pos.X * pos.X + pos.Z * pos.Z);
             return (float)Math.Tan(pos.Y / a);
+        }
+
+        public static Rectangle scaledRect(Vector2 pos, float x, float y)
+        {
+            int scaledX = (Int32)(pos.X * windowScale);
+            int scaledY = (Int32)(pos.Y * windowScale);
+
+            return new Rectangle(
+                scaledX,
+                scaledY,
+                (Int32)Math.Round(x * windowScale),
+                (Int32)Math.Round(y * windowScale)
+                );
+        }
+
+        public static Vector2 scaledCoords(Vector2 vector)
+        {
+            Vector2 returnVect;
+            returnVect.X = vector.X * windowScale;
+            returnVect.Y = vector.Y * windowScale;
+
+            return returnVect;
+        }
+
+        public static Vector2 scaledCoords(float x, float y)
+        {
+            Vector2 returnVect;
+
+            returnVect.X = x * windowScale;
+            returnVect.Y = y * windowScale;
+
+            return returnVect;
         }
     }
 }

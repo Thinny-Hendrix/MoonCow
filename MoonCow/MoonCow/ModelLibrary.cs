@@ -40,6 +40,7 @@ namespace MoonCow
         public static Model bombRipples;
         public static Model bombRings;
         public static Model bombProjectile;
+        public static Model shockWave;
 
         //turrets
         public static Model turretBase;
@@ -105,6 +106,8 @@ namespace MoonCow
             bombRipples = game.Content.Load<Model>(@"Models/Weapons/bombImplode");
             bombRings = game.Content.Load<Model>(@"Models/Weapons/bombSploRings");
             bombProjectile = game.Content.Load<Model>(@"Models/Weapons/bombModel");
+            shockWave = game.Content.Load<Model>(@"Models/Weapons/shockWave");
+
 
             //Turrets
             turretBase = game.Content.Load<Model>(@"Models/Turrets/turretBase");

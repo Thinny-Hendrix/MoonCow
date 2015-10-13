@@ -28,6 +28,8 @@ namespace MoonCow
 
             hudMonF = game.Content.Load<Texture2D>(@"Hud/hudMonF");
             hudMonB = game.Content.Load<Texture2D>(@"Hud/hudMonB");
+            moneyTot = "";
+            moneyDif = "";
         }
 
         public override void Update()

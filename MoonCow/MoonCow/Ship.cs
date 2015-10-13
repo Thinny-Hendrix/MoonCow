@@ -42,6 +42,7 @@ namespace MoonCow
 
         public bool finishingMove;
         public bool colliding;
+        public bool freezeCollide;
 
         public Vector2 nodePos;
 
@@ -568,6 +569,8 @@ namespace MoonCow
 
         List<Vector3> checkCollision()
         {
+            freezeCollide = false;
+
             // Move the bounding circle to new position
             circleCol.Update(pos);
             boundingBox.Update(pos, direction); // legacy, need to update everything to use the new circle collider
@@ -611,9 +614,13 @@ namespace MoonCow
                             Vector3 normal = circleCol.circleCollide(c);
                             if (!(normal.Equals(Vector3.Zero)))
                             {
+                                if ((((WeaponDrill)weapons.weapons.ElementAt(4)).active && moving))
+                                {
+                                    freezeCollide = true;
+                                }
+                                normals.Add(normal);
                                 //c.push(moveSpeed, pos, 4.0f);
                                 //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                                normals.Add(normal);
                             }
                         }
                     }
@@ -628,11 +635,16 @@ namespace MoonCow
                         if (!(normal.Equals(Vector3.Zero)))
                         {
                             if (!(((WeaponDrill)weapons.weapons.ElementAt(4)).active && moving))
+                            {
                                 a.push(moveSpeed, direction, 2f);
+                            }
                             else
+                            {
                                 a.stop();
-                            //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                                freezeCollide = true;
+                            }
                             normals.Add(normal);
+                            //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                         }
                     }
                 }

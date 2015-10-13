@@ -169,9 +169,9 @@ namespace MoonCow
 
             xmlWriter.WriteStartElement("tiles");
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < width; i++)
             {
-                for (int q = 0; q < width; q++)
+                for (int q = 0; q < length; q++)
                 {
                     xmlWriter.WriteStartElement("tile");
                     xmlWriter.WriteString(map[q, i] + "");

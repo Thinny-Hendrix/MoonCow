@@ -181,6 +181,8 @@ namespace MoonCow
             sb.Draw(tex3, texPos3, c3);
             sb.Draw(tex3, texPos4, c3);
 
+            sb.Draw(TextureManager.mgPulse, new Rectangle(0, 128, 64, 128), Color.Black);
+
             sb.End();
 
             game.GraphicsDevice.SetRenderTarget(endTarg);
