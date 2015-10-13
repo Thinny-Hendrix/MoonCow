@@ -207,7 +207,7 @@ namespace MoonCow
                         float B = endPoint.X - p3.X;
                         float C = -1f * ((A * p3.X) + (B * endPoint.Y));
 
-                        float D = (A * centre.Y) + (B * centre.Y) + C;
+                        float D = (A * centre.X) + (B * centre.Y) + C;
 
                         if(D >= 0)
                         {
@@ -233,7 +233,7 @@ namespace MoonCow
                         {
                             float E = (A * p2.X) + (B * p2.Y) + C;
                             Vector2 faceDir = Vector2.Zero;
-                            if (E > 0)
+                            if (E < 0)
                             {
                                 faceDir = p4 - p1;
                             }
