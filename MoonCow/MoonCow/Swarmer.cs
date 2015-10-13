@@ -44,7 +44,7 @@ namespace MoonCow
             Vector2 spawn = new Vector2(spawns[value].X, spawns[value].Y);
             prevPosition = spawn;
 
-            pos = new Vector3(makeCentreCoordinate(spawn.X), 4.5f, makeCentreCoordinate(spawn.Y));
+            pos = new Vector3(makeCentreCoordinate(spawn.X), 3.5f, makeCentreCoordinate(spawn.Y));
 
             switch (EnemyBehaviour.swarmerBehaviour)
             {
@@ -113,12 +113,13 @@ namespace MoonCow
                 foreach (CircleCollider c in cols)
                     c.Update(pos);
 
+                /*
                 pos.Y = 4.5f + (float)Math.Sin(time) * 0.2f;
 
                 time += Utilities.deltaTime * MathHelper.Pi * 2.4f;
 
                 if (time > MathHelper.Pi * 2)
-                    time -= MathHelper.Pi * 2;
+                    time -= MathHelper.Pi * 2;*/
             }
 
             base.Update(gameTime);
@@ -250,6 +251,7 @@ namespace MoonCow
             if (Utilities.random.Next(5) == 0)
                 game.ship.moneyManager.addAmmoGib(pos);
 
+            enemyModel.Dispose();
             game.modelManager.removeEnemy(enemyModel);
             game.enemyManager.toDelete.Add(this);
         }

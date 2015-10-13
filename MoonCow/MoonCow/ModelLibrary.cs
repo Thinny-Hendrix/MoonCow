@@ -56,6 +56,8 @@ namespace MoonCow
         public static Model gunner;
         public static Model heavy;
 
+        public static Model swarmerAnim;
+
         //Asteroid field
         public static Model ast1;
         public static Model mgScreen;
@@ -124,6 +126,8 @@ namespace MoonCow
             sneaker = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneakProto");
             gunner = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunProto");
             heavy = game.Content.Load<Model>(@"Models/Enemies/Heavy/hevProto3");
+
+            swarmerAnim = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swarmAnimProto");
 
             //Asteroid field
             ast1 = game.Content.Load<Model>(@"Models/AstField/ast1");

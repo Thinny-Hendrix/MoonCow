@@ -4,24 +4,42 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SkinnedModel;
 
 namespace MoonCow
 {
     class SwarmerModel:EnemyModel
     {
-        //AnimationPlayer animPlayer;
+        AnimationPlayer animPlayer;
         Swarmer swarmer;
         float knockSpin;
+
 
         public SwarmerModel(Swarmer enemy):base(enemy)
         {
             this.swarmer = enemy;
-            model = ModelLibrary.swarmer;
+            model = ModelLibrary.swarmerAnim;
             scale = new Vector3(.07f);
+
+            // Look up our custom skinning information.
+            SkinningData skinningData = model.Tag as SkinningData;
+
+            if (skinningData == null)
+                throw new InvalidOperationException
+                    ("This model does not contain a SkinningData tag.");
+
+            // Create an animation player, and start decoding an animation clip.
+            animPlayer = new AnimationPlayer(skinningData);
+
+            AnimationClip clip = skinningData.AnimationClips["Take 001"];
+
+            animPlayer.StartClip(clip);
         }
 
         public override void Update(GameTime gameTime)
         {
+            animPlayer.Update(gameTime.ElapsedGameTime, true, GetWorld());
+
             pos = enemy.pos;
             //pos.Y -= 0.7f;
             rot = enemy.rot;
@@ -45,23 +63,32 @@ namespace MoonCow
                 return base.GetWorld();
         }
 
+        public override void Dispose()
+        {
+        }
+
         public override void Draw(GraphicsDevice device, Camera camera)
         {
 
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
+            Matrix[] bones = animPlayer.GetSkinTransforms();
+
+
             foreach (ModelMesh mesh in model.Meshes)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+                foreach (SkinnedEffect effect in mesh.Effects)
                 {
-                    effect.World = mesh.ParentBone.Transform * GetWorld();
+                    effect.SetBoneTransforms(bones);
+
+                    //effect.World = mesh.ParentBone.Transform * GetWorld();
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
-                    effect.TextureEnabled = true;
+                    effect.Texture = TextureManager.swarmerTex;
                     effect.Alpha = 1;
 
-                    effect.LightingEnabled = true;
+                    //effect.LightingEnabled = true;
 
                     if (mesh.Name.Contains("glow"))
                     {

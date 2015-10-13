@@ -120,6 +120,8 @@ namespace MoonCow
         public static Texture2D gibOre1;
 
         //enemies
+        public static Texture2D swarmerTex;
+
         //sentry
         public static Texture2D sentryBod;
         public static Texture2D sEye0;
@@ -247,6 +249,9 @@ namespace MoonCow
             gibOre1 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/oreGold");
 
             //enemies
+            swarmerTex = game.Content.Load<Texture2D>(@"Models/Enemies/Swarmer/swat_0");
+
+
             //sentry
             sentryBod = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentryt");
             sEye0 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes0");
