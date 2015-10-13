@@ -498,14 +498,21 @@ namespace MoonCow
             if(normals.Count > 0)
             {
                 colliding = true;
-                foreach(Vector3 normal in normals)
+                for (int i = 0; i < normals.Count(); i++)
                 {
                     Vector3 normalForce = Vector3.Zero;
-                    
+
                     // calculate how much to take off from movement here
-                    normalForce = normal * Vector3.Dot(frameDiff, normal);
+                    normalForce = normals[i] * Vector3.Dot(frameDiff, normals[i]);
 
                     pos -= normalForce;
+
+                    List<Vector3> test = checkCollision();
+                    if (test.Count() == 0)
+                    {
+                        // Maybe need to do something else here
+                        break;
+                    }
                 }
             }
 

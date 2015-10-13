@@ -170,26 +170,103 @@ namespace MoonCow
              * Need to write code here that will determine the normal if just a corner of the box is in the circle
              * This may not be easy
              */
-
-                for(int i = 0; i < 4; i++)
+                for(int i = 0; i < 4; i++) // foreach Vector2 corner in other.corners
                 {
                     if(checkPoint(other.corners[i]))
                     {
                         // corner is inside circle
-                        //System.Diagnostics.Debug.WriteLine("Problem Collision Detected!");
+                        System.Diagnostics.Debug.WriteLine("Problem Collision Detected!");
+
+                        Vector2 p1 = other.corners[i];
+                        Vector2 p2 = Vector2.Zero;
+                        Vector2 p3 = Vector2.Zero;
+                        Vector2 p4 = Vector2.Zero;
+                        if (distance(other.corners[i], other.corners[(i + 1) % 4]) < distance(other.corners[i], other.corners[(i + 3) % 4]))
+                        {
+                            p2 = other.corners[(i + 1) % 4];
+                            Vector2 longDir = other.corners[(i + 2) % 4] - p2;
+                            longDir.Normalize();
+                            p3 = p2 + (longDir * distance(p1, p2));
+                            p4 = p1 + (longDir * distance(p1, p4));
+                        }
+                        else
+                        {
+                            p2 = other.corners[(i + 1) % 4];
+                            Vector2 longDir = other.corners[(i + 2) % 4] - p2;
+                            longDir.Normalize();
+                            p3 = p2 + (longDir * distance(p1, p2));
+                            p4 = p1 + (longDir * distance(p1, p2));
+                        }
+
+                        Vector2 lineDir = p1 - p3;
+                        lineDir.Normalize();
+
+                        Vector2 endPoint = p3 + (lineDir * distance(p1, p2));
+
+                        float A = -1f * (endPoint.Y - p3.Y);
+                        float B = endPoint.X - p3.X;
+                        float C = -1f * ((A * p3.X) + (B * endPoint.Y));
+
+                        float D = (A * centre.Y) + (B * centre.Y) + C;
+
+                        if(D >= 0)
+                        {
+                            float E = (A * p2.X) + (B * p2.Y) + C;
+                            Vector2 faceDir = Vector2.Zero;
+                            if(E < 0)
+                            {
+                                faceDir = p2 - p1;
+                            }
+                            else
+                            {
+                                faceDir = p4 - p1;
+                            }
+                            
+                            Vector3 normal = new Vector3(faceDir.Y, 0, faceDir.X * -1f);
+                            normal.Normalize();
+                            normal.Y = 0;
+                            normal *= -1;
+                            System.Diagnostics.Debug.WriteLine("Complex normal = " + normal + " D > 0");
+                            return normal;
+                        }
+                        else
+                        {
+                            float E = (A * p2.X) + (B * p2.Y) + C;
+                            Vector2 faceDir = Vector2.Zero;
+                            if (E > 0)
+                            {
+                                faceDir = p4 - p1;
+                            }
+                            else
+                            {
+                                faceDir = p2 - p1;
+                            }
+
+                            Vector3 normal = new Vector3(faceDir.Y, 0, faceDir.X * -1f);
+                            normal.Normalize();
+                            normal.Y = 0;
+                            normal *= -1;
+                            System.Diagnostics.Debug.WriteLine("Complex normal = " + normal + " D < 0");
+                            return normal;
+                        }
+
+
+                        /*  Attempt 1
                         List<OOBB> quadrants = new List<OOBB>();
-                        quadrants.Add(new OOBB(centre, perpendicularPoints[1], perpendicularPoints[0] + (perpendicularPoints[1] - centre), perpendicularPoints[0]));
-                        quadrants.Add(new OOBB(centre, perpendicularPoints[2], perpendicularPoints[1] + (perpendicularPoints[2] - centre), perpendicularPoints[1]));
-                        quadrants.Add(new OOBB(centre, perpendicularPoints[3], perpendicularPoints[2] + (perpendicularPoints[3] - centre), perpendicularPoints[2]));
-                        quadrants.Add(new OOBB(centre, perpendicularPoints[0], perpendicularPoints[3] + (perpendicularPoints[0] - centre), perpendicularPoints[3]));
+                        quadrants.Add(new OOBB(centre, perpendicularPoints[0], perpendicularPoints[0] + (perpendicularPoints[1] - centre), perpendicularPoints[1]));
+                        quadrants.Add(new OOBB(centre, perpendicularPoints[1], perpendicularPoints[1] + (perpendicularPoints[2] - centre), perpendicularPoints[2]));
+                        quadrants.Add(new OOBB(centre, perpendicularPoints[2], perpendicularPoints[2] + (perpendicularPoints[3] - centre), perpendicularPoints[3]));
+                        quadrants.Add(new OOBB(centre, perpendicularPoints[3], perpendicularPoints[3] + (perpendicularPoints[0] - centre), perpendicularPoints[0]));
                         
                         foreach(OOBB quad in quadrants)
                         {
                             if (quad.pointInBox(other.corners[i]))
                             {
+                                System.Diagnostics.Debug.WriteLine("Quad found!");
                                 return cornerNormal(quad, other, i);
                             }
                         }
+                         * */
 
                     }
                 }
@@ -200,8 +277,10 @@ namespace MoonCow
             return Vector3.Zero;
         }
 
+        /* part of attempt 1
         private Vector3 cornerNormal(OOBB quad, OOBB box, int corner)
         {
+            System.Diagnostics.Debug.WriteLine("Complex Corner Normal Called");
 
             bool magicPoint1Set = false;
             bool magicPoint2Set = false;
@@ -292,6 +371,7 @@ namespace MoonCow
                     Vector3 normal = new Vector3(dir.Y, 0, dir.X * -1);
                     normal.Normalize();
                     normal *= -1;
+                    System.Diagnostics.Debug.WriteLine("Complex normal = " + normal);
                     return normal;
                 }
                 else
@@ -299,7 +379,8 @@ namespace MoonCow
                     Vector2 dir = magicPoint2 - box.corners[corner];
                     Vector3 normal = new Vector3(dir.Y, 0, dir.X * -1);
                     normal.Normalize();
-                    normal *= -1;
+                    //normal *= -1;
+                    System.Diagnostics.Debug.WriteLine("Complex normal = " + normal);
                     return normal;
                 }
             }
@@ -308,6 +389,7 @@ namespace MoonCow
                 return Vector3.Zero;
             }
         }
+         */
 
         private float crossProduct(Vector2 a, Vector2 b)
         {
