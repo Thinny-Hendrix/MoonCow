@@ -46,6 +46,9 @@
     <Compile Include="AsteroidGenerator.cs" />
     <Compile Include="AsteroidManager.cs" />
     <Compile Include="AsteroidModel.cs" />
+    <Compile Include="AstGunProjectile.cs" />
+    <Compile Include="AstGunRing.cs" />
+    <Compile Include="AstGunTip.cs" />
     <Compile Include="AstMid.cs" />
     <Compile Include="AstShrapnel.cs" />
     <Compile Include="AstSmall.cs" />

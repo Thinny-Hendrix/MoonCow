@@ -154,8 +154,8 @@ namespace MoonCow
             audioManager = new AudioManager(this);
             minigame = new Minigame(this);
 
-            layout = new MapData(@"Content/MapXml/map1-revis.xml");
-            //layout = new MapData(@"Content/MapXml/Level2.xml");
+            //layout = new MapData(@"Content/MapXml/map1-revis.xml");
+            layout = new MapData(@"Content/MapXml/Level2.xml");
             map = new Map(this, layout.getNodes());
 
             //bloom = new BloomComponent(this);
