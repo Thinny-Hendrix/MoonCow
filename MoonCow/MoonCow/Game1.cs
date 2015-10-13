@@ -123,6 +123,7 @@ namespace MoonCow
             EnemyBehaviour.load();
         }
 
+<<<<<<< HEAD
         void initializeMenu()
         {
             MenuAssets.Initialize(this);
@@ -132,6 +133,10 @@ namespace MoonCow
         }
 
         public void initializeGame()
+=======
+
+        void initializeGame()
+>>>>>>> origin/master
         {
             if (!loadedGameContent)
             {
@@ -157,7 +162,6 @@ namespace MoonCow
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
             //layout = new MapData(@"Content/MapXml/Level2.xml");
             map = new Map(this, layout.getNodes());
-
 
             //bloom = new BloomComponent(this);
 
