@@ -124,6 +124,7 @@ namespace MoonCow
         {
 
             Vector2 collisionPoint = Vector2.Zero;
+            Vector2[] perpendicularPoints = new Vector2[4];
 
             for (int i = 0; i < 2; i++) // Loop through two perpendicular sides of the box
             {
@@ -138,6 +139,9 @@ namespace MoonCow
                 Vector2 circlePoint = centre + (radius * PerpAB);
                 Vector2 otherCirclePoint = centre + (radius * (-1 * PerpAB));
 
+                perpendicularPoints[i] = circlePoint;
+                perpendicularPoints[i + 2] = otherCirclePoint;
+
                 // See if either of those points is inisde the box, save them if so
                 if(other.pointInBox(circlePoint))
                 {
@@ -149,14 +153,6 @@ namespace MoonCow
                 }
             }
 
-            /*
-             * The problem now is detecting the corners of the box
-             * If there is a convex join between two boxes the normal will not be correct
-             * This is due to the perpenducular point no longer being on the side of the box
-             * Need to write code here that will determine the normal if just a corner of the box is in the circle
-             * This may not be easy
-            */
-
             // If any of the circle points are inside the box
             if (!(collisionPoint.Equals(Vector2.Zero)))
             {
@@ -164,6 +160,25 @@ namespace MoonCow
                 normal.Normalize();
                 normal.Y = 0;
                 return normal;
+            }
+            else
+            {
+             /*
+             * The problem now is detecting the corners of the box
+             * If there is a convex join between two boxes the normal will not be correct
+             * This is due to the perpenducular point no longer being on the side of the box
+             * Need to write code here that will determine the normal if just a corner of the box is in the circle
+             * This may not be easy
+             */
+
+                foreach(Vector2 corner in other.corners)
+                {
+                    if(checkPoint(corner))
+                    {
+                        // corner is inside circle
+                        System.Diagnostics.Debug.WriteLine("Problem Collision Detected!");
+                    }
+                }
             }
 
             //return false;
