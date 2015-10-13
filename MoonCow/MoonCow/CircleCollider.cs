@@ -171,12 +171,26 @@ namespace MoonCow
              * This may not be easy
              */
 
-                foreach(Vector2 corner in other.corners)
+                for(int i = 0; i < 4; i++)
                 {
-                    if(checkPoint(corner))
+                    if(checkPoint(other.corners[i]))
                     {
                         // corner is inside circle
-                        System.Diagnostics.Debug.WriteLine("Problem Collision Detected!");
+                        //System.Diagnostics.Debug.WriteLine("Problem Collision Detected!");
+                        List<OOBB> quadrants = new List<OOBB>();
+                        quadrants.Add(new OOBB(centre, perpendicularPoints[1], perpendicularPoints[0] + (perpendicularPoints[1] - centre), perpendicularPoints[0]));
+                        quadrants.Add(new OOBB(centre, perpendicularPoints[2], perpendicularPoints[1] + (perpendicularPoints[2] - centre), perpendicularPoints[1]));
+                        quadrants.Add(new OOBB(centre, perpendicularPoints[3], perpendicularPoints[2] + (perpendicularPoints[3] - centre), perpendicularPoints[2]));
+                        quadrants.Add(new OOBB(centre, perpendicularPoints[0], perpendicularPoints[3] + (perpendicularPoints[0] - centre), perpendicularPoints[3]));
+                        
+                        foreach(OOBB quad in quadrants)
+                        {
+                            if (quad.pointInBox(other.corners[i]))
+                            {
+                                return cornerNormal(quad, other, i);
+                            }
+                        }
+
                     }
                 }
             }
@@ -185,5 +199,126 @@ namespace MoonCow
 
             return Vector3.Zero;
         }
+
+        private Vector3 cornerNormal(OOBB quad, OOBB box, int corner)
+        {
+
+            bool magicPoint1Set = false;
+            bool magicPoint2Set = false;
+            Vector2 magicPoint1 = Vector2.Zero;
+            Vector2 magicPoint2 = Vector2.Zero;
+            float t;
+            float u;
+
+            // First find magic point 1 with top line
+            Vector2 p = quad.corners[3];
+            Vector2 p2 = quad.corners[2];
+
+            Vector2 r = p2 - p;
+
+            // First try and see if it intersects one side of the box
+            Vector2 q = box.corners[corner];
+            Vector2 q2 = box.corners[(corner + 1) % 4];
+
+            Vector2 s = q2 - q;
+
+            float rxs = crossProduct(r, s);
+
+            if(rxs != 0)
+            {
+                t = crossProduct(q - p, s) / rxs;
+                u = crossProduct(q - p, r) / rxs;
+                magicPoint1 = p + (t * r);
+                magicPoint1Set = true;
+            }
+            else // Then try the other side of the box
+            {
+                q2 = box.corners[(corner + 3) % 4];
+                s = q2 - q;
+                rxs = crossProduct(r, s);
+
+                if (rxs != 0)
+                {
+                    t = crossProduct(q - p, s) / rxs;
+                    u = crossProduct(q - p, r) / rxs;
+                    magicPoint1 = p + (t * r);
+                    magicPoint1Set = true;
+                }
+            }
+
+            // Now find magic point 2
+            // reset side of quad to be looking at
+            p = quad.corners[1];
+            p2 = quad.corners[2];
+
+            r = p2 - p;
+
+            // Try first side of box
+            q = box.corners[corner];
+            q2 = box.corners[(corner + 1) % 4];
+
+            s = q2 - q;
+
+            rxs = crossProduct(r, s);
+
+            if (rxs != 0)
+            {
+                t = crossProduct(q - p, s) / rxs;
+                u = crossProduct(q - p, r) / rxs;
+                magicPoint2 = p + (t * r);
+                magicPoint2Set = true;
+            }
+            else // Then try the other side of the box
+            {
+                q2 = box.corners[(corner + 3) % 4];
+                s = q2 - q;
+                rxs = crossProduct(r, s);
+
+                if (rxs != 0)
+                {
+                    t = crossProduct(q - p, s) / rxs;
+                    u = crossProduct(q - p, r) / rxs;
+                    magicPoint2 = p + (t * r);
+                    magicPoint2Set = true;
+                }
+            }
+
+
+            if(magicPoint1Set && magicPoint2Set)
+            {
+                if(distance(box.corners[corner], magicPoint1) >= distance(box.corners[corner], magicPoint2))
+                {
+                    Vector2 dir = magicPoint1 - box.corners[corner];
+                    Vector3 normal = new Vector3(dir.Y, 0, dir.X * -1);
+                    normal.Normalize();
+                    normal *= -1;
+                    return normal;
+                }
+                else
+                {
+                    Vector2 dir = magicPoint2 - box.corners[corner];
+                    Vector3 normal = new Vector3(dir.Y, 0, dir.X * -1);
+                    normal.Normalize();
+                    normal *= -1;
+                    return normal;
+                }
+            }
+            else
+            {
+                return Vector3.Zero;
+            }
+        }
+
+        private float crossProduct(Vector2 a, Vector2 b)
+        {
+            return (a.X * b.Y - a.Y * b.X);
+        }
+
+        private float distance(Vector2 a, Vector2 b)
+        {
+            return (float)Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2));
+        }
+
     }
+
 }
