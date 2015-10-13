@@ -158,7 +158,7 @@ namespace MoonCow
             layout = new MapData(@"Content/MapXml/Level2.xml");
             map = new Map(this, layout.getNodes());
 
-            //bloom = new BloomComponent(this);
+            bloom = new BloomComponent(this);
 
             Components.Add(ship);
             Components.Add(camera);
@@ -172,7 +172,7 @@ namespace MoonCow
             Components.Add(minigame);
 
             //make sure the post process effects go second last, and the hud is absolute last
-            //Components.Add(bloom);
+            Components.Add(bloom);
             Components.Add(hud);
 
             modelManager.makeStarField();

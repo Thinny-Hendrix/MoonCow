@@ -34,6 +34,8 @@ namespace MoonCow
             AnimationClip clip = skinningData.AnimationClips["Take 001"];
 
             animPlayer.StartClip(clip);
+
+            SetupEffects();
         }
 
         public override void Update(GameTime gameTime)
@@ -67,24 +69,13 @@ namespace MoonCow
         {
         }
 
-        public override void Draw(GraphicsDevice device, Camera camera)
+        private void SetupEffects()
         {
-
-            Matrix[] transforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(transforms);
-
-            Matrix[] bones = animPlayer.GetSkinTransforms();
-
-
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (SkinnedEffect effect in mesh.Effects)
                 {
-                    effect.SetBoneTransforms(bones);
-
                     //effect.World = mesh.ParentBone.Transform * GetWorld();
-                    effect.View = camera.view;
-                    effect.Projection = camera.projection;
                     effect.Texture = TextureManager.swarmerTex;
                     effect.Alpha = 1;
                     effect.WeightsPerVertex = 1;
@@ -103,7 +94,28 @@ namespace MoonCow
                         effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
                     }
                     effect.PreferPerPixelLighting = true;
+                }
+            }
+        }
 
+        public override void Draw(GraphicsDevice device, Camera camera)
+        {
+
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(transforms);
+
+            Matrix[] bones = animPlayer.GetSkinTransforms();
+
+
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (SkinnedEffect effect in mesh.Effects)
+                {
+                    effect.SetBoneTransforms(bones);
+
+                    //effect.World = mesh.ParentBone.Transform * GetWorld();
+                    effect.View = camera.view;
+                    effect.Projection = camera.projection;
                 }
                 mesh.Draw();
             }

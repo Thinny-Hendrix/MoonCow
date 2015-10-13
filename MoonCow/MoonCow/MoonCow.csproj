@@ -1333,13 +1333,13 @@
     <Content Include="Content\Models\Effects\flameSquare.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Effects\BloomCombine.xnb">
+    <Content Include="Content\Effects\old\BloomCombine.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Effects\BloomExtract.xnb">
+    <Content Include="Content\Effects\old\BloomExtract.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Effects\GaussianBlur.xnb">
+    <Content Include="Content\Effects\old\GaussianBlur.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Enemies\SpawnPoint\vortex1.xnb">
@@ -1394,6 +1394,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Enemies\Swarmer\swarmAnimProto.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\BloomCombine.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\BloomExtract.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Effects\GaussianBlur.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Content\Models\Enemies\Swarmer\swarmerAlpha.fbx" />
