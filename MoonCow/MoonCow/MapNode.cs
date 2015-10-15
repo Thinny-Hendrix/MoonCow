@@ -642,7 +642,7 @@ namespace MoonCow
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
-                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10));
+                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1));
                     break;
                 case 52:
                     traversable = false;
@@ -654,7 +654,7 @@ namespace MoonCow
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
-                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
+                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0));
                     break;
                 case 53:
                     traversable = false;
@@ -666,7 +666,7 @@ namespace MoonCow
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
-                    asteroidBox = new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15));
+                    asteroidBox = new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0));
                     break;
                 case 54:
                     traversable = false;
@@ -678,7 +678,7 @@ namespace MoonCow
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
-                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
+                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1));
                     break;
                 case 55:
                     traversable = false;
@@ -690,7 +690,7 @@ namespace MoonCow
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
-                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10));
+                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1));
                     break;
                 case 56:
                     traversable = false;
@@ -702,7 +702,7 @@ namespace MoonCow
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
-                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
+                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0));
                     break;
                 case 57:
                     traversable = false;
@@ -714,7 +714,7 @@ namespace MoonCow
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
-                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
+                    asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1));
                     break;
                 case 58:
                     traversable = false;
@@ -726,7 +726,7 @@ namespace MoonCow
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
-                    asteroidBox = new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15));
+                    asteroidBox = new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0));
                     break;
                 case 59:
                     traversable = false;
