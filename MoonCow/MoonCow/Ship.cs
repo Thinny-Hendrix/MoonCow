@@ -503,7 +503,7 @@ namespace MoonCow
 
                     Vector3 normalForce = Vector3.Zero;
                     // calculate how much to take off from movement here
-                    normalForce += normals[i];// *Vector3.Dot(frameDiff, normals[i]);
+                    normalForce += normals[i] * Math.Abs(Vector3.Dot(frameDiff, normals[i]));
 
                     pos += normalForce;
 
