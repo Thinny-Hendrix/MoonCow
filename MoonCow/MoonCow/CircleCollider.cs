@@ -76,9 +76,9 @@ namespace MoonCow
         public bool checkOOBB(OOBB box)
         {
             // super maths here
-            bool[] pointInside = new bool[2];
+            bool[] pointInside = new bool[4];
 
-            for(int i = 0; i < 2; i++) // Loop through two perpendicular sides of the box
+            for(int i = 0; i < 4; i++) // Loop through two perpendicular sides of the box
             {
                 // Get normalised direction vector for box side
                 Vector2 ABdir = box.corners[(i + 1) % 4] - box.corners[i];
@@ -96,7 +96,7 @@ namespace MoonCow
             }
 
             // If any of the circle points are inside the box
-            if(pointInside[0] || pointInside[1])
+            if(pointInside[0] || pointInside[1] || pointInside[2] || pointInside[3])
             {
                 return true;
             }
@@ -115,6 +115,47 @@ namespace MoonCow
                 normal.Normalize();
                 normal.Y = 0;
                 return normal;
+            }
+
+            return Vector3.Zero;
+        }
+
+        public Vector3 wallCollide(OOBB box)
+        {
+            bool[] pointInside = new bool[2];
+
+            for (int i = 0; i < 2; i++) // Loop through two perpendicular sides of the box
+            {
+                // Get normalised direction vector for box side
+                Vector2 ABdir = box.corners[(i + 1) % 4] - box.corners[i];
+                ABdir.Normalize();
+
+                // Get perpendicular direction vector
+                Vector2 PerpAB = new Vector2(ABdir.Y, ABdir.X * -1);
+
+                // get the two points on the circle that intersect the perpendicular direction vector
+                Vector2 circlePoint = centre + (radius * PerpAB);
+                Vector2 otherCirclePoint = centre + (radius * (-1 * PerpAB));
+
+                // See if either of those points is inisde the box
+                pointInside[i] = box.pointInBox(circlePoint) || box.pointInBox(otherCirclePoint);
+            }
+
+            // If any of the circle points are inside the box
+            if (pointInside[0] || pointInside[1])
+            {
+                return box.wallNormal;
+            }
+            else
+            {
+                for (int i = 0; i < 4; i++) // foreach Vector2 corner in other.corners
+                {
+                    if (checkPoint(box.corners[i]))
+                    {
+                        // corner is inside circle
+                        return box.wallNormal;
+                    }
+                }
             }
 
             return Vector3.Zero;
@@ -209,7 +250,7 @@ namespace MoonCow
 
                         float D = (A * centre.X) + (B * centre.Y) + C;
 
-                        if(D >= 0)
+                        if(D > 0)
                         {
                             float E = (A * p2.X) + (B * p2.Y) + C;
                             Vector2 faceDir = Vector2.Zero;
@@ -225,29 +266,38 @@ namespace MoonCow
                             Vector3 normal = new Vector3(faceDir.Y, 0, faceDir.X * -1f);
                             normal.Normalize();
                             normal.Y = 0;
-                            normal *= -1;
-                            //System.Diagnostics.Debug.WriteLine("Complex normal = " + normal + " D > 0");
+                            //normal *= -1;
+                            System.Diagnostics.Debug.WriteLine("Complex normal = " + normal);
                             return normal;
                         }
                         else
                         {
-                            float E = (A * p2.X) + (B * p2.Y) + C;
-                            Vector2 faceDir = Vector2.Zero;
-                            if (E < 0)
+                            if (D == 0)
                             {
-                                faceDir = p4 - p1;
+                                Vector3 normal = new Vector3(lineDir.X, 0, lineDir.Y);
+                                System.Diagnostics.Debug.WriteLine("Complex normal = " + normal);
+                                return normal;
                             }
                             else
                             {
-                                faceDir = p2 - p1;
-                            }
+                                float E = (A * p2.X) + (B * p2.Y) + C;
+                                Vector2 faceDir = Vector2.Zero;
+                                if (E < 0)
+                                {
+                                    faceDir = p4 - p1;
+                                }
+                                else
+                                {
+                                    faceDir = p2 - p1;
+                                }
 
-                            Vector3 normal = new Vector3(faceDir.Y, 0, faceDir.X * -1f);
-                            normal.Normalize();
-                            normal.Y = 0;
-                            normal *= -1;
-                            //System.Diagnostics.Debug.WriteLine("Complex normal = " + normal + " D < 0");
-                            return normal;
+                                Vector3 normal = new Vector3(faceDir.Y, 0, faceDir.X * -1f);
+                                normal.Normalize();
+                                normal.Y = 0;
+                                normal *= -1;
+                                System.Diagnostics.Debug.WriteLine("Complex normal = " + normal);
+                                return normal;
+                            }
                         }
                     }
                 }

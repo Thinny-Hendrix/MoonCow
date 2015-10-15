@@ -9,6 +9,7 @@ namespace MoonCow
     public class OOBB
     {
         public Vector2[] corners;
+        public Vector3 wallNormal;
         private Vector2[] originCorners; // The corners set with inital rotation with origin as centre - used in updates
 
         public OOBB(Vector2 a, Vector2 b, Vector2 c, Vector2 d)
@@ -19,6 +20,18 @@ namespace MoonCow
             corners[2] = c;
             corners[3] = d;
             generateOriginCorners();
+            wallNormal = Vector3.Zero;
+        }
+
+        public OOBB(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Vector3 normal)
+        {
+            corners = new Vector2[4];
+            corners[0] = a;
+            corners[1] = b;
+            corners[2] = c;
+            corners[3] = d;
+            generateOriginCorners();
+            wallNormal = normal;
         }
 
         private void generateOriginCorners()
@@ -80,6 +93,7 @@ namespace MoonCow
             originCorners[3] = new Vector2(0 - (width / 2), 0 + (height / 2));
 
             Update(pos, direction);
+            wallNormal = Vector3.Zero;
         }
 
         /// <summary>

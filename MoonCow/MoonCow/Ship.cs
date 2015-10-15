@@ -500,17 +500,16 @@ namespace MoonCow
                 colliding = true;
                 for (int i = 0; i < normals.Count(); i++)
                 {
-                    Vector3 normalForce = Vector3.Zero;
 
+                    Vector3 normalForce = Vector3.Zero;
                     // calculate how much to take off from movement here
-                    normalForce = normals[i] * Vector3.Dot(frameDiff, normals[i]);
+                    normalForce += normals[i] * Vector3.Dot(frameDiff, normals[i]);
 
                     pos -= normalForce;
 
                     List<Vector3> test = checkCollision();
                     if (test.Count() == 0)
                     {
-                        // Maybe need to do something else here
                         break;
                     }
                 }
@@ -603,7 +602,7 @@ namespace MoonCow
                 // Check map collision boxes
                 foreach (OOBB box in node.collisionBoxes)
                 {
-                    Vector3 normal = circleCol.boxCollide(box);
+                    Vector3 normal = circleCol.wallCollide(box);
                     if(!(normal.Equals(Vector3.Zero)))
                     {
                         normals.Add(normal);

@@ -57,8 +57,10 @@ namespace MoonCow
                     game.turretManager.addTurret(new Vector3(pos.X * 30, 4, pos.Y * 30 + 11), Vector3.Backward);
 
                     // Using the constructor of the OOBB that just takes four corners create the bounding boxes for this node and store their positional data
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
                     break;
                 case 2:
                     traversable = true;
@@ -69,52 +71,66 @@ namespace MoonCow
                     game.turretManager.addTurret(new Vector3(pos.X * 30-11, 4, pos.Y * 30), Vector3.Left);
                     game.turretManager.addTurret(new Vector3(pos.X * 30+11, 4, pos.Y * 30), Vector3.Right);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     break;
                 case 3:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railDend, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //Diagonals
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long top left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector3(0.7071068f, 0f, 0.7071068f)));
+                    //Diagonal long top right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 4:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railDend, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //Diagonals
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector2((pos.X * 30) - 2, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 9, (pos.Y * 30))));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Diagonal long top left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector3(0.7071068f, 0f, 0.7071068f)));
+                    //Diagonal long bottom left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 5:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railDend, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //Diagonals
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) - 3, (pos.Y * 30) + 12), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 2)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long bottom left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector3(0.7071068f, 0f, -0.7071068f)));
+                    //Diagonal long bottom right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 6:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railDend, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //Diagonals
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 2, (pos.Y * 30) -13), new Vector2((pos.X * 30) + 12, (pos.Y * 30) - 3), new Vector2((pos.X * 30) + 9, (pos.Y * 30)), new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 12, (pos.Y * 30) + 3), new Vector2((pos.X * 30) + 2, (pos.Y * 30) + 13)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Diagonal long top right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector3(-0.7071068f, 0f, 0.7071068f)));
+                    //Diagonal long bottom right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 7:
                     traversable = true;
@@ -122,11 +138,14 @@ namespace MoonCow
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
                     game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30, 4.5f, pos.Y * 30+10), new Vector3(0,MathHelper.Pi,0),game));
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //Diagonals
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long top left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector3(0.7071068f, 0f, 0.7071068f)));
+                    //Diagonal long top right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 8:
                     traversable = true;
@@ -134,12 +153,14 @@ namespace MoonCow
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30+10, 4.5f, pos.Y * 30), new Vector3(0, MathHelper.Pi*1.5f, 0), game));
 
-
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //Diagonals
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector2((pos.X * 30) - 2, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 9, (pos.Y * 30))));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Diagonal long top left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector3(0.7071068f, 0f, 0.7071068f)));
+                    //Diagonal long bottom left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 9:
                     traversable = true;
@@ -147,12 +168,14 @@ namespace MoonCow
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
                     game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30, 4.5f, pos.Y * 30-10), new Vector3(0, 0, 0), game));
 
-
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //Diagonals
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) - 3, (pos.Y * 30) + 12), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 2)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long bottom left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector3(0.7071068f, 0f, -0.7071068f)));
+                    //Diagonal long bottom right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 10:
                     traversable = true;
@@ -160,12 +183,14 @@ namespace MoonCow
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     game.modelManager.addAdditive(new SpawnVortex(new Vector3(pos.X * 30-10, 4.5f, pos.Y * 30), new Vector3(0, 0, 0), game));
 
-
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //Diagonals
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 2, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 12, (pos.Y * 30) - 3), new Vector2((pos.X * 30) + 9, (pos.Y * 30)), new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 12, (pos.Y * 30) + 3), new Vector2((pos.X * 30) + 2, (pos.Y * 30) + 13)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Diagonal long top right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector3(-0.7071068f, 0f, 0.7071068f)));
+                    //Diagonal long bottom right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 11:
                     traversable = true;
@@ -173,166 +198,181 @@ namespace MoonCow
                     stationModel = new StationModel(ModelLibrary.stationTInt4, new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
 
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 12:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railTInt3, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
                     stationModel = new StationModel(ModelLibrary.stationTInt3, new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 13:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railTInt3, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
                     stationModel = new StationModel(ModelLibrary.stationTInt3, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    // Needs another 6 colliders for the rounded corner bits
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 14:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railTInt3, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
                     stationModel = new StationModel(ModelLibrary.stationTInt3, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 15:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railTInt3, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
                     stationModel = new StationModel(ModelLibrary.stationTInt3, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
+                    //bottom right little corner
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 16:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationCorner, new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    //top left big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) - 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Diagonal long top left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 17:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationCorner, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //bottom left big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 4, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Diagonal long bottom left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 18:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationCorner, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //bottom right big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) + 4, (pos.Y * 30)+ 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long bottom right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 19:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationCorner, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
 
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //top right big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long top right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 20:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 21:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railStraight1, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
                     break;
                 case 22:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 23:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railStraight1, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
                     break;
                 case 24:
                     traversable = true;
@@ -342,157 +382,179 @@ namespace MoonCow
                 case 25:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railStraight1, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     break;
                 case 26:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner1big, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //bottom left big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 4, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Diagonal long bottom left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 27:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railStraight1, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
                     game.ship.setRespawn(new Vector3(pos.X * 30, 4.5f, pos.Y * 30));
                     break;
                 case 28:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner1big, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //bottom right big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) + 4, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long bottom right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 29:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner1big, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    //top left big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) - 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Diagonal long top left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 30:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner1big, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //top right big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long top right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 31:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 32:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 33:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 34:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 35:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner1big, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    //top left big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) - 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Diagonal long top left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) - 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 1), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 36:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner1big, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //bottom left big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 4, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    //Diagonal long bottom left
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 9, (pos.Y * 30)), new Vector2((pos.X * 30) + 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 2, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 12, (pos.Y * 30) - 3), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 37:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner1big, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    //bottom right big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 4), new Vector2((pos.X * 30) + 4, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long bottom right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30), (pos.Y * 30) + 9), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 1), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 2), new Vector2((pos.X * 30) + 3, (pos.Y * 30) + 12), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 38:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner1big, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    //top right big corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 1, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 4, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 4), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    //Diagonal long top right
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 3, (pos.Y * 30) - 12), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 2), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 1), new Vector2((pos.X * 30), (pos.Y * 30) - 9), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 39:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railStraight1, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
                     break;
                 case 40:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railStraight1, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
                     break;
                 case 41:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railStraight1, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     break;
                 case 42:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railStraight1, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
                     break;
                 case 43:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
                     break;
@@ -500,13 +562,13 @@ namespace MoonCow
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
                     break;
@@ -514,13 +576,13 @@ namespace MoonCow
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15));
                     break;
@@ -528,13 +590,13 @@ namespace MoonCow
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10));
                     break;
@@ -542,119 +604,127 @@ namespace MoonCow
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner1small, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 48:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner1small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 49:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner1small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     break;
                 case 50:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorner1small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     break;
                 case 51:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10));
                     break;
                 case 52:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
                     break;
                 case 53:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15));
                     break;
                 case 54:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
                     break;
                 case 55:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
+                    //Right long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
                     //top left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 12), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) - 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 13), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector3(0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10));
                     break;
                 case 56:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10)));
+                    //Top long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
                     //bottom left little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) - 11, (pos.Y * 30) + 14), new Vector2((pos.X * 30) - 14, (pos.Y * 30) + 11), new Vector3(0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
                     break;
                 case 57:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Left long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
                     //bottom right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 13), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 14, (pos.Y * 30) + 11), new Vector2((pos.X * 30) + 11, (pos.Y * 30) + 14), new Vector3(-0.7071068f, 0f, -0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15));
                     break;
                 case 58:
                     traversable = false;
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15)));
+                    //Bottom long
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
                     //top right little corner
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10)));
-                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
+                    collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 11, (pos.Y * 30) - 14), new Vector2((pos.X * 30) + 14, (pos.Y * 30) - 11), new Vector2((pos.X * 30) + 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-0.7071068f, 0f, 0.7071068f)));
                     //asteroid force field
                     asteroidBox = new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15));
                     break;
