@@ -161,6 +161,7 @@ namespace MoonCow
             return Vector3.Zero;
         }
 
+        /*
         public Vector3 boxCollide(OOBB other)
         {
 
@@ -210,7 +211,7 @@ namespace MoonCow
              * This is due to the perpenducular point no longer being on the side of the box
              * Need to write code here that will determine the normal if just a corner of the box is in the circle
              * This may not be easy
-             */
+             * /
                 for(int i = 0; i < 4; i++) // foreach Vector2 corner in other.corners
                 {
                     if(checkPoint(other.corners[i]))
@@ -307,12 +308,14 @@ namespace MoonCow
 
             return Vector3.Zero;
         }
+        */
 
+        /*
         private float distance(Vector2 a, Vector2 b)
         {
             return (float)Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2));
         }
-
+        */
     }
 
 }
