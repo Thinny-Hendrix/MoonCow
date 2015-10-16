@@ -20,6 +20,7 @@ namespace MoonCow
         LcTilePlace selectedTile;
         LcMenuTile activeMenuTile;
         LcGridModifier activeGridModifier;
+        LcTextField activeText;
         Texture2D tex;
 
         Game1 game;
@@ -318,6 +319,8 @@ namespace MoonCow
             {
                 activeGridModifier.onClick();
             }
+
+            levelCreator.keyListener.setTextField(activeText);
         }
 
         void onLeftRelease()
@@ -488,6 +491,23 @@ namespace MoonCow
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     levelCreator.saveButton.onClick();
+            }
+
+            collided = false;
+            foreach (LcTextField t in levelCreator.textFields)
+            {
+                if (t.bounds.checkPoint(pos))
+                {
+                    collided = true;
+                        activeText = t;
+                }
+            }
+            if (activeText != null)
+            {
+                if (!collided)
+                {
+                    activeText = null;
+                }
             }
         }
 

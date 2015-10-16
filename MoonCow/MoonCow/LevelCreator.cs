@@ -22,6 +22,8 @@ namespace MoonCow
         public List<LcMenuTile> menuTiles;
         public List<LcGridModifier> gridModifiers;
         public LcSaveButton saveButton;
+        public List<LcTextField> textFields;
+        public LcKeyboardListener keyListener;
 
         public LevelCreator(Game1 game):base(game)
         {
@@ -34,9 +36,14 @@ namespace MoonCow
             cursor = new LcMouseCursor(game, this);
             menuTiles = new List<LcMenuTile>();
             gridModifiers = new List<LcGridModifier>();
+            textFields = new List<LcTextField>();
             initMenuTiles();
             addSizeButtons();
-            saveButton = new LcSaveButton(game, new Vector2(700, 35), this);
+            initTextFields();
+            keyListener = new LcKeyboardListener(game, this);
+            //keyListener.activeField = textFields.ElementAt(0);
+            //keyListener.activeField.activate();
+            saveButton = new LcSaveButton(game, new Vector2(1000, 35), this);
 
             topPos = new Vector2(100, 100);
 
@@ -54,6 +61,12 @@ namespace MoonCow
                 tempPos.Y += 30;
             }
             game.IsMouseVisible = true;
+        }
+
+        void initTextFields()
+        {
+            textFields.Add(new LcTextField(game, this, new Vector2(600, 20), "map name"));
+            textFields.Add(new LcTextField(game, this, new Vector2(600, 54), "creator"));
         }
 
         void addSizeButtons()
@@ -89,6 +102,11 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             cursor.Update();
+            keyListener.checkKeys();
+            foreach(LcTextField t in textFields)
+            {
+                t.Update();
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -127,6 +145,11 @@ namespace MoonCow
 
             saveButton.Draw(sb);
 
+            foreach(LcTextField t in textFields)
+            {
+                t.Draw(sb);
+            }
+
             cursor.Draw(sb);
             sb.End();
         }
@@ -143,7 +166,7 @@ namespace MoonCow
                 }
             }
 
-            MapData data = new MapData(88, "pac-man", "jason", width, height, intData);
+            MapData data = new MapData(88, textFields.ElementAt(0).text, textFields.ElementAt(1).text, width, height, intData);
             data.writeMap();
         }
     }

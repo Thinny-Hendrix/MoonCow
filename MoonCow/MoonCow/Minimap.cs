@@ -36,6 +36,7 @@ namespace MoonCow
             shipPos = new Vector2((int)game.ship.pos.X + 15, (int)game.ship.pos.Z+15);
             shipRot = -game.ship.rot.Y;
             game.GraphicsDevice.SetRenderTarget(itemMap);
+            game.GraphicsDevice.Clear(Color.Transparent);
             sb.Begin();
             sb.Draw(map, Vector2.Zero, Color.White);
             sb.Draw(player, new Rectangle((int)game.ship.pos.X+15, (int)game.ship.pos.Z+15, 20,20), null, Color.White, -game.ship.rot.Y, new Vector2(10,10), SpriteEffects.None, 1);
@@ -56,6 +57,7 @@ namespace MoonCow
             rTarg = new RenderTarget2D(game.GraphicsDevice, map.GetLength(0) * 30, map.GetLength(1)*30);
             itemMap = new RenderTarget2D(game.GraphicsDevice, map.GetLength(0)*30, map.GetLength(1)*30);
             game.GraphicsDevice.SetRenderTarget(rTarg);
+            game.GraphicsDevice.Clear(Color.Transparent);
             sb.Begin();
             foreach (MapNode m in map)
             {
@@ -64,24 +66,24 @@ namespace MoonCow
                 {
                         //straight
                     case 1:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/straight"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t1, mapPos * 30, Color.White);
                         break;
                     case 2:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/straight"), new Rectangle((int)mapPos.X*30+15, (int)mapPos.Y*30+15, 30, 30), null, Color.White, MathHelper.PiOver2,new Vector2(15,15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t1, new Rectangle((int)mapPos.X*30+15, (int)mapPos.Y*30+15, 30, 30), null, Color.White, MathHelper.PiOver2,new Vector2(15,15), SpriteEffects.None, 1);
                         break;
 
                         //dend
                     case 3:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/dend"), mapPos* 30, Color.White);
+                        sb.Draw(LcAssets.t3, mapPos * 30, Color.White);
                         break;
                     case 4:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/dend"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2*3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t3, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 5:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/dend"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t3, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 6:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/dend"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t3, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
                     //dend 2
@@ -99,64 +101,64 @@ namespace MoonCow
                         break;
 
                     case 11:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/tint4"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t11, mapPos * 30, Color.White);
                         break;
 
                     //tint3
                     case 12:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/tint3"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t12, mapPos * 30, Color.White);
                         break;
                     case 13:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/tint3"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t12, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 14:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/tint3"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t12, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 15:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/tint3"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t12, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
                     //corner
                     case 16:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corner"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t16, mapPos * 30, Color.White);
                         break;
                     case 17:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corner"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t16, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 18:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corner"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t16, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 19:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corner"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t16, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
                     //base tiles
                     case 20:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/20"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t20, mapPos * 30, Color.White);
                         break;
                     case 21:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/21"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t21, mapPos * 30, Color.White);
                         break;
                     case 22:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/22"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t22, mapPos * 30, Color.White);
                         break;
                     case 23:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/23"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t23, mapPos * 30, Color.White);
                         break;
                     case 24:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/24"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t24, mapPos * 30, Color.White);
                         break;
                     case 25:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/25"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t25, mapPos * 30, Color.White);
                         break;
                     case 26:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/26"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t26, mapPos * 30, Color.White);
                         break;
                     case 27:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/27"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t27, mapPos * 30, Color.White);
                         break;
                     case 28:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/28"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t28, mapPos * 30, Color.White);
                         break;
                     case 29:
                         sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/29"), mapPos * 30, Color.White);
@@ -179,95 +181,95 @@ namespace MoonCow
 
                     //ast corner
                     case 35:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor1big"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t35, mapPos * 30, Color.White);
                         break;
                     case 36:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor1big"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t35, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 37:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor1big"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t35, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 38:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor1big"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t35, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
                     //ast 1 straight
                     case 39:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/straight1"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t39, mapPos * 30, Color.White);
                         break;
                     case 40:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/straight1"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t39, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 41:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/straight1"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t39, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 42:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/straight1"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t39, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
                     //ast 2 cor
                     case 43:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor2small"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t43, mapPos * 30, Color.White);
                         break;
                     case 44:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor2small"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t43, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 45:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor2small"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t43, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 46:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor2small"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t43, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
                     //ast 1 cor
                     case 47:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor1small"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t47, mapPos * 30, Color.White);
                         break;
                     case 48:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor1small"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t47, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 49:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor1small"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t47, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 50:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/cor1small"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t47, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
                     //ast corst
                     case 51:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corst"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t51, mapPos * 30, Color.White);
                         break;
                     case 52:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corst"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t51, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 53:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corst"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t51, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 54:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corst"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t51, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
                     //ast corst flipped
                     case 55:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corstflip"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t55, mapPos * 30, Color.White);
                         break;
                     case 56:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corstflip"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t55, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2 * 3, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 57:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corstflip"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t55, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.Pi, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
                     case 58:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/corstflip"), new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
+                        sb.Draw(LcAssets.t55, new Rectangle((int)mapPos.X * 30 + 15, (int)mapPos.Y * 30 + 15, 30, 30), null, Color.White, MathHelper.PiOver2, new Vector2(15, 15), SpriteEffects.None, 1);
                         break;
 
 
                     case 59:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/59"), mapPos * 30, Color.White);
+                        sb.Draw(LcAssets.t59, mapPos * 30, Color.White);
                         break;
                     case 60:
                     default:
-                        sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/60"), mapPos * 30, Color.White);
+                        //sb.Draw(game.Content.Load<Texture2D>(@"Hud/Minimap/60"), mapPos * 30, Color.White);
                         break;
 
                 }

@@ -106,9 +106,11 @@
     <Compile Include="LaserProjectile.cs" />
     <Compile Include="LcAssets.cs" />
     <Compile Include="LcGridModifier.cs" />
+    <Compile Include="LcKeyboardListener.cs" />
     <Compile Include="LcMenuTile.cs" />
     <Compile Include="LcMouseCursor.cs" />
     <Compile Include="LcSaveButton.cs" />
+    <Compile Include="LcTextField.cs" />
     <Compile Include="LcTilePlace.cs" />
     <Compile Include="LevelCreator.cs" />
     <Compile Include="MainMenu.cs" />
@@ -750,6 +752,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\MapEditor\Tiles\softHi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\MapXml\broktes.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\MapXml\Level2.xml">

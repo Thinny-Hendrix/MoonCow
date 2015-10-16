@@ -67,8 +67,15 @@ namespace MoonCow
         public static Texture2D plus;
         public static Texture2D minus;
 
+        public static Texture2D pureWhite;
+
+
         public static void initialize(Game1 game)
         {
+            pureWhite = new Texture2D(game.GraphicsDevice, 1, 1);
+            pureWhite.SetData(new Color[] { Color.White });
+
+
             font = game.Content.Load<SpriteFont>(@"Hud/Venera40");
 
             t1 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/1");

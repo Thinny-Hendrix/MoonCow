@@ -91,7 +91,8 @@ namespace MoonCow
                     else
                     {
                         int oldWidth = lc.width;
-                        lc.width--;
+                        if(lc.width > 1)
+                            lc.width--;
 
                         LcTilePlace[,] tempArray = new LcTilePlace[lc.height, lc.width];
 
@@ -139,7 +140,8 @@ namespace MoonCow
                     }
                     else
                     {
-                        lc.height--;
+                        if(lc.height > 1)
+                            lc.height--;
 
                         LcTilePlace[,] tempArray = new LcTilePlace[lc.height, lc.width];
 

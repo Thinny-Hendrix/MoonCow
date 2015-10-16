@@ -108,6 +108,8 @@ namespace MoonCow
 
             loadSettings();
 
+            LcAssets.initialize(this);
+
             //initializeMenu();
             initializeGame();
             //initializeLevelCreator();
@@ -128,7 +130,6 @@ namespace MoonCow
 
         void initializeLevelCreator()
         {
-            LcAssets.initialize(this);
             levelCreator = new LevelCreator(this);
             Components.Add(levelCreator);
         }
@@ -164,9 +165,10 @@ namespace MoonCow
             audioManager = new AudioManager(this);
             minigame = new Minigame(this);
 
-            //layout = new MapData(@"Content/MapXml/map1-revis.xml");
+            layout = new MapData(@"Content/MapXml/map1-revis.xml");
             //layout = new MapData(@"Content/MapXml/Level2.xml");
-            layout = new MapData(@"Content/MapXml/pac-man.xml");
+            //layout = new MapData(@"Content/MapXml/pac-man.xml");
+            //layout = new MapData(@"Content/MapXml/broktes.xml");
 
             map = new Map(this, layout.getNodes());
 
