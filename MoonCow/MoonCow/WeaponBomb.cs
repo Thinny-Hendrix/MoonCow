@@ -22,8 +22,9 @@ namespace MoonCow
             range = 0.8f;
             coolMax = 90;
             softCoolmax = 60;
-            ammoMax = 16;
+            ammoMax = 8;
             ammo = ammoMax;
+            EXPMAX = 250;
 
             splos = new List<BombExplosion>();
             sploToDelete = new List<BombExplosion>();
@@ -44,6 +45,21 @@ namespace MoonCow
             foreach (BombExplosion b in sploToDelete)
                 splos.Remove(b);
             sploToDelete.Clear();
+        }
+
+        public override void levelUp()
+        {
+            switch (level)
+            {
+                default: //level 2
+                    EXPMAX = 500;
+                    ammoMax = 12;
+                    break;
+                case 3:
+                    ammoMax = 16;
+                    break;
+            }
+            ammo = ammoMax;
         }
 
         public override void Fire()

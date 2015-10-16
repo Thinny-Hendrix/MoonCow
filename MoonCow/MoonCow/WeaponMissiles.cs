@@ -49,10 +49,7 @@ namespace MoonCow
                 }
                 else
                 {
-                    //only shoots one projectile if there's only one ammo left
-                    if (ammo > 1)
-                        addProjectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
-
+                    addProjectile(ship.pos + new Vector3(Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
                     addProjectile(ship.pos + new Vector3(-Vector3.Cross(Vector3.Up, ship.direction).X * 0.25f, 0, -Vector3.Cross(Vector3.Up, ship.direction).Z * 0.25f), ship.direction);
 
                     game.audioManager.shipShootLaser.Stop();

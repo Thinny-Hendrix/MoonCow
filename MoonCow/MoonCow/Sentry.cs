@@ -255,7 +255,7 @@ namespace MoonCow
 
         public void hitShip()
         {
-            if (state != State.agro && state != State.hit)
+            if (state != State.agro && state != State.hit && state != State.knockBack)
                 state = State.success;
             else
                 nextState = State.success;
@@ -265,7 +265,7 @@ namespace MoonCow
 
         public void missedShip()
         {
-            if (state != State.agro && state != State.hit)
+            if (state != State.agro && state != State.hit && state != State.knockBack)
                 state = State.fail;
             else
                 nextState = State.fail;

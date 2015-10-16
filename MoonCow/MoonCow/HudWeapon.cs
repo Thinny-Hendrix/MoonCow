@@ -66,6 +66,8 @@ namespace MoonCow
                     sb.DrawString(font, level, hud.scaledCoords(225, 125), Color.White, 0,
                         new Vector2(0, font.MeasureString(level).Y / 2), hud.scale * 16.0f / 40, SpriteEffects.None, 0);
 
+                    //sb.Draw(TextureManager.pureWhite, hud.scaledRect(hud.scaledCoords(300,125),100,20),null, hud.redBody, 0, hud.scaledCoords(0,10), SpriteEffects.None, 0);
+
                     sb.DrawString(font, exp, hud.scaledCoords(300, 125), Color.White, 0,
                         new Vector2(0, font.MeasureString(exp).Y / 2), hud.scale * 16.0f / 40, SpriteEffects.None, 0);
                 }

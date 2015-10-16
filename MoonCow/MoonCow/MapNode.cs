@@ -35,6 +35,7 @@ namespace MoonCow
         public int type;               //What node type this node is
         private BasicModel model;       //The model for this node
         private BasicModel stationModel;
+        public bool hasAstItem; //used for ast nodes during asteroid field generation
         
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace MoonCow
                 case 2:
                     traversable = true;
                     model = new TileModel(ModelLibrary.railStraight, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+
                     stationModel = new StationModel(ModelLibrary.stationStraight, new Vector3(pos.X * 30, -3f, pos.Y * 30), 0, 1.0f);
 
                     //add turret bases
@@ -377,6 +379,7 @@ namespace MoonCow
                 case 24:
                     traversable = true;
                     game.core.setPos(new Vector3(pos.X * 30, 0, pos.Y * 30));
+                    model = new BaseModel(new Vector3(pos.X*30, 0, pos.Y*30));
                     coreCollider = new CircleCollider(pos, 7.38f);
                     break;
                 case 25:

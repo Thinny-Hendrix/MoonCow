@@ -67,6 +67,7 @@ namespace MoonCow
 
         public override void Draw(GraphicsDevice device, Camera camera)
         {
+            /*
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -94,7 +95,7 @@ namespace MoonCow
 
                 }
                 mesh.Draw();
-            }
+            }*/
         }
 
         protected override void collectGib()

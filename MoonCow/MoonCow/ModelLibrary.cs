@@ -31,6 +31,8 @@ namespace MoonCow
 
         //Base models
         public static Model core;
+        public static Model stationBase;
+        public static Model forceField;
 
         //Deco Nodes
         public static Model node60;
@@ -99,6 +101,8 @@ namespace MoonCow
 
             //Base models
             core = game.Content.Load<Model>(@"Models/Base/coreSphere");
+            stationBase = game.Content.Load<Model>(@"Models/Base/hullProto");
+
 
             //Deco Nodes
             node60 = game.Content.Load<Model>(@"Models/BgTiles/node60");

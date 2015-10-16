@@ -18,6 +18,7 @@ namespace MoonCow
     {
         #region Fields
 
+        Game1 game;
         SpriteBatch spriteBatch;
 
         Effect bloomExtractEffect;
@@ -64,9 +65,10 @@ namespace MoonCow
         #region Initialization
 
 
-        public BloomComponent(Game game)
+        public BloomComponent(Game1 game)
             : base(game)
         {
+            this.game = game;
             if (game == null)
                 throw new ArgumentNullException("game");
         }
@@ -86,8 +88,11 @@ namespace MoonCow
             // Look up the resolution and format of our main backbuffer.
             PresentationParameters pp = GraphicsDevice.PresentationParameters;
 
-            int width = pp.BackBufferWidth;
-            int height = pp.BackBufferHeight;
+            //int width = pp.BackBufferWidth;
+            //int height = pp.BackBufferHeight;
+
+            int width = game.worldRender.Bounds.Width;
+            int height = game.worldRender.Bounds.Height;
 
             SurfaceFormat format = pp.BackBufferFormat;
 
@@ -151,7 +156,7 @@ namespace MoonCow
             bloomExtractEffect.Parameters["BloomThreshold"].SetValue(
                 Settings.BloomThreshold);
 
-            DrawFullscreenQuad(sceneRenderTarget, renderTarget1,
+            DrawFullscreenQuad(game.worldRender, renderTarget1,
                                bloomExtractEffect,
                                IntermediateBuffer.PreBloom);
 

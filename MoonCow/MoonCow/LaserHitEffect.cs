@@ -16,12 +16,41 @@ namespace MoonCow
         RenderTarget2D rt;
         Color col;
         float alpha;
+        float maxScale;
+        float time;
+        BlendState state;
+        float speed;
+        public LaserHitEffect(Game1 game, Vector3 pos, Color col, float maxScale, BlendState state)
+            : base()
+        {
+            this.game = game;
+            this.pos = pos;
+            this.col = col;
+            this.maxScale = maxScale;
+            fScale = 0.01f;
+
+            this.state = state;
+
+            rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
+            tex = TextureManager.particle3;
+            model = TextureManager.square;
+
+            sb = new SpriteBatch(game.GraphicsDevice);
+            rt = new RenderTarget2D(game.GraphicsDevice, 256, 256);
+            alpha = 1;
+            speed = 2;
+        }
+
         public LaserHitEffect(Game1 game, Vector3 pos, Color col):base()
         {
             this.game = game;
             this.pos = pos;
             this.col = col;
             fScale = 0.01f;
+            maxScale = 0.3f;
+            speed = 4;
+
+            state = BlendState.Additive;
 
             rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
             tex = TextureManager.particle3;
@@ -36,21 +65,30 @@ namespace MoonCow
         {
             if (!Utilities.paused && !Utilities.softPaused)
             {
-                fScale += Utilities.deltaTime * 2.5f;
+                time += Utilities.deltaTime * speed;
+                if (time > 1)
+                    time = 1;
 
-                if (fScale > 0.1f)
-                    alpha = 1 - (fScale - 0.1f) * 5;
+                fScale = MathHelper.SmoothStep(0.01f, maxScale, time);
+
+                //fScale += Utilities.deltaTime * 2.5f;
+
+
+                if (time > 0.5f)
+                {
+                    alpha = MathHelper.Lerp(1, 0, (time - 0.5f) * 2);
+                }
 
                 game.GraphicsDevice.SetRenderTarget(rt);
-
+                game.GraphicsDevice.Clear(Color.Transparent);
                 sb.Begin();
-                sb.Draw(tex, Vector2.Zero, col * alpha);
+                sb.Draw(tex, Vector2.Zero, col);
                 sb.End();
                 game.GraphicsDevice.SetRenderTarget(null);
 
 
 
-                if (fScale > 0.3f)
+                if (time == 1)
                 {
                     sb.Dispose();
                     rt.Dispose();
@@ -62,7 +100,7 @@ namespace MoonCow
 
         public override void Draw(GraphicsDevice device, Camera camera)
         {
-            game.GraphicsDevice.BlendState = BlendState.Additive;
+            game.GraphicsDevice.BlendState = state;
 
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
@@ -77,7 +115,7 @@ namespace MoonCow
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
                     effect.Texture = (Texture2D)rt;
-                    effect.Alpha = 1;
+                    effect.Alpha = alpha;
 
                     //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
                     //effect.EnableDefaultLighting(); //did not work

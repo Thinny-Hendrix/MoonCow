@@ -16,6 +16,8 @@ namespace MoonCow
         SpriteBatch sb;
         RenderTarget2D rippleTex;
         Model ripple;
+        Texture2D ringTex;
+        Texture2D blipTex;
 
         float ringRot;
         float ringRot2;
@@ -26,7 +28,7 @@ namespace MoonCow
         float ringAlpha;
         bool triggeredShake;
 
-        public BombRings(Vector3 pos, Game1 game, BombExplosion splo):base()
+        public BombRings(Vector3 pos, Game1 game, BombExplosion splo, int type):base()
         {
             this.pos = pos;
             this.game = game;
@@ -43,6 +45,17 @@ namespace MoonCow
             rippleScale = 0.35f;
             ringAlpha = 1;
             triggeredShake = false;
+
+            if (type == 3)
+            {
+                ringTex = TextureManager.bombRing2;
+                blipTex = TextureManager.bombBlip2;
+            }
+            else
+            {
+                ringTex = TextureManager.bombRing;
+                blipTex = TextureManager.bombBlip;
+            }
 
             sb = new SpriteBatch(game.GraphicsDevice);
             rippleTex = new RenderTarget2D(game.GraphicsDevice, 512, 128);
@@ -82,31 +95,34 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            float frameTime = Utilities.deltaTime * 60;
-
-            if (time < 15)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                scale -= new Vector3(0.025f) * frameTime;
-                updateRipple();
-            }
-            else
-            {
+                float frameTime = Utilities.deltaTime * 60;
 
-                scale += new Vector3(0.05f) * frameTime;
-                if (ringAlpha != 0)
+                if (time < 15)
                 {
-                    ringAlpha -= Utilities.deltaTime * 1.3f;
-                    if (ringAlpha < 0)
-                        ringAlpha = 0;
+                    scale -= new Vector3(0.025f) * frameTime;
+                    updateRipple();
                 }
-            }
-            updateRingRots();
-            time += frameTime;
-            if (time > 120)
-            {
-                game.modelManager.toDeleteModel(this);
-                sb.Dispose();
-                rippleTex.Dispose();
+                else
+                {
+
+                    scale += new Vector3(0.05f) * frameTime;
+                    if (ringAlpha != 0)
+                    {
+                        ringAlpha -= Utilities.deltaTime * 1.3f;
+                        if (ringAlpha < 0)
+                            ringAlpha = 0;
+                    }
+                }
+                updateRingRots();
+                time += frameTime;
+                if (time > 120)
+                {
+                    game.modelManager.toDeleteModel(this);
+                    sb.Dispose();
+                    rippleTex.Dispose();
+                }
             }
         }
         
@@ -174,10 +190,10 @@ namespace MoonCow
             device.BlendState = BlendState.Additive;
             device.DepthStencilState = DepthStencilState.DepthRead;
 
-            drawRings(TextureManager.bombRing, camera);
+            drawRings(ringTex, camera);
             if (time < 15)
             {
-                drawRings(TextureManager.bombBlip, camera);
+                drawRings(blipTex, camera);
 
                 transforms = new Matrix[ripple.Bones.Count];
                 ripple.CopyAbsoluteBoneTransformsTo(transforms);

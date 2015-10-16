@@ -108,7 +108,8 @@ namespace MoonCow
                     if (nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
                     {
                         //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if (col.checkPoint(enemy.pos))
+                        foreach(CircleCollider c in enemy.cols)
+                        if (col.checkCircle(c))
                         {
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
@@ -121,12 +122,32 @@ namespace MoonCow
                 deleteProjectile();
             }
 
+            foreach (Sentry s in game.enemyManager.sentries)
+            {
+                if(col.checkCircle(s.col))
+                {
+                    collided = true;
+                    game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                }
+            }
+
+            foreach(Asteroid a in game.asteroidManager.asteroids)
+            {
+                if(col.checkCircle(a.col))
+                {
+                    collided = true;
+                }
+            }
+
+            if (col.checkCircle(game.core.col))
+                collided = true;
+
             if (collided)
             {
                 //for (int i = 0; i < 10; i++)
                   //  game.modelManager.addEffect(new DotParticle(game, pos));
 
-                wep.splos.Add(new BombExplosion(pos, game));
+                wep.splos.Add(new BombExplosion(pos, game, wep.level, wep));
                 deleteProjectile();
             }
         }

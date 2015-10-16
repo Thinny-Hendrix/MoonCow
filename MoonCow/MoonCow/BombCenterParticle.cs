@@ -13,15 +13,29 @@ namespace MoonCow
         Game1 game;
         float fScale;
         float alpha;
-        public BombCenterParticle(Game1 game, Vector3 pos):base()
+        public BombCenterParticle(Game1 game, Vector3 pos, int type):base()
         {
             this.game = game;
             this.pos = pos;
-            fScale = 1.2f;
             alpha = 1;
 
             rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 1.5f;
-            tex = TextureManager.bombCenter;
+
+            if(type == 1)
+            {
+                tex = TextureManager.bombCenter;
+                fScale = 0.7f;
+            }
+            else if (type == 3)
+            {
+                tex = TextureManager.bombCenter2;
+                fScale = 1.2f;
+            }
+            else
+            {
+                tex = TextureManager.bombCenter;
+                fScale = 1.2f;
+            }
             model = TextureManager.square;
         }
 
@@ -31,7 +45,7 @@ namespace MoonCow
             alpha -= Utilities.deltaTime;
             rot.Z += Utilities.deltaTime * MathHelper.PiOver4;
 
-            if (alpha < 0)
+            if (alpha < 0 || fScale < 0)
                 game.modelManager.toDeleteModel(this);
 
         }

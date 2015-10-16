@@ -77,6 +77,9 @@ namespace MoonCow
         public static Texture2D bombBlip;
         public static Texture2D bombRipple;
         public static Texture2D bombCenter;
+        public static Texture2D bombRing2;
+        public static Texture2D bombCenter2;
+        public static Texture2D bombBlip2;
 
         public static Texture2D drawLine0;
         public static Texture2D drawLine1;
@@ -84,6 +87,12 @@ namespace MoonCow
         public static Texture2D drawLine3;
         public static Texture2D drawLine4;
         public static Texture2D drillMask;
+        public static Texture2D spinL;
+        public static Texture2D spinM;
+        public static Texture2D spinS;
+        public static Texture2D spinL128;
+        public static Texture2D spinM128;
+        public static Texture2D spinS128;
 
         //weapon icons
         public static Texture2D icoPew;
@@ -103,6 +112,10 @@ namespace MoonCow
         public static Texture2D elecL2;
         public static Texture2D elecL3;
         public static Texture2D elecL4;
+        public static Texture2D elecE1;
+        public static Texture2D elecE2;
+        public static Texture2D elecE3;
+        public static Texture2D elecE4;
         public static Texture2D elecRound64;
         public static Texture2D elecRound;
         public static Texture2D elecTrail;
@@ -204,6 +217,17 @@ namespace MoonCow
             bombBlip = game.Content.Load<Texture2D>(@"Models/Weapons/sploblip");
             bombRipple = game.Content.Load<Texture2D>(@"Models/Weapons/bombRipple");
             bombCenter = game.Content.Load<Texture2D>(@"Models/Weapons/bombcenter");
+            bombRing2 = game.Content.Load<Texture2D>(@"Models/Weapons/bombRing");
+            bombCenter2 = game.Content.Load<Texture2D>(@"Models/Weapons/bombCenter2");
+            bombBlip2 = game.Content.Load<Texture2D>(@"Models/Weapons/bombBlip2");
+
+
+            spinL = game.Content.Load<Texture2D>(@"Models/Weapons/spinL");
+            spinM = game.Content.Load<Texture2D>(@"Models/Weapons/spinM");
+            spinS = game.Content.Load<Texture2D>(@"Models/Weapons/spinS");
+            spinL128 = game.Content.Load<Texture2D>(@"Models/Weapons/spinL128");
+            spinM128 = game.Content.Load<Texture2D>(@"Models/Weapons/spinM128");
+            spinS128 = game.Content.Load<Texture2D>(@"Models/Weapons/spinS128");
 
             drawLine0 = game.Content.Load<Texture2D>(@"Models/Weapons/Drill/drawLine0");
             drawLine1 = game.Content.Load<Texture2D>(@"Models/Weapons/Drill/drawLine1");
@@ -232,6 +256,10 @@ namespace MoonCow
             elecL2 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL2");
             elecL3 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL3");
             elecL4 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL4");
+            elecE1 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecE1");
+            elecE2 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecE2");
+            elecE3 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecE3");
+            elecE4 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecE4");
             elecRound = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecRound");
             elecRound64 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecRound64");
             elecTrail = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecTrail");

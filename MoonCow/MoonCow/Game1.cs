@@ -43,10 +43,11 @@ namespace MoonCow
         BloomComponent bloom;
         int bloomSettingsIndex = 0;
 
-        public enum RunState { MainMenu, MainGame, StatScreen }
+        public enum RunState { MainMenu, MainGame, StatScreen, LevelCreator }
         public RunState runState;
 
         MapData testMap;
+        LevelCreator levelCreator;
 
         public Game1()
         {
@@ -63,7 +64,7 @@ namespace MoonCow
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
 
-            
+            /*
             int[,] listofnodes = new int[13,21] {
             { 35,42,42,42,38,8,15,1,15,1,1,1,15,1,15,10,35,42,42,42,38},
             { 39,59,59,59,41,60,2,60,2,60,60,60,2,60,2,60,39,59,59,59,41},
@@ -81,7 +82,7 @@ namespace MoonCow
             };
 
             testMap = new MapData(1, "Level2", "jason", 21, 13, listofnodes);
-            testMap.writeMap();
+            testMap.writeMap();*/
         }
 
         /// <summary>
@@ -109,7 +110,9 @@ namespace MoonCow
 
             //initializeMenu();
             initializeGame();
+            //initializeLevelCreator();
             runState = RunState.MainGame;
+            //runState = RunState.LevelCreator;
 
             base.Initialize();
             Utilities.setScale(this);
@@ -121,6 +124,13 @@ namespace MoonCow
             // Read in the XML settings file and set values in static class, hardcoded for now
             Settings.initialize();
             EnemyBehaviour.load();
+        }
+
+        void initializeLevelCreator()
+        {
+            LcAssets.initialize(this);
+            levelCreator = new LevelCreator(this);
+            Components.Add(levelCreator);
         }
 
         void initializeMenu()
@@ -155,7 +165,9 @@ namespace MoonCow
             minigame = new Minigame(this);
 
             //layout = new MapData(@"Content/MapXml/map1-revis.xml");
-            layout = new MapData(@"Content/MapXml/Level2.xml");
+            //layout = new MapData(@"Content/MapXml/Level2.xml");
+            layout = new MapData(@"Content/MapXml/pac-man.xml");
+
             map = new Map(this, layout.getNodes());
 
             bloom = new BloomComponent(this);
@@ -172,7 +184,7 @@ namespace MoonCow
             Components.Add(minigame);
 
             //make sure the post process effects go second last, and the hud is absolute last
-            Components.Add(bloom);
+            //Components.Add(bloom);
             Components.Add(hud);
 
             modelManager.makeStarField();

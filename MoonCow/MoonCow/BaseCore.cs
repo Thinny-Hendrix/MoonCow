@@ -29,6 +29,7 @@ namespace MoonCow
             col = new CircleCollider(pos, 8);
             model = new CoreSphereModel(pos, game);
             game.modelManager.addAdditive(model);
+            game.modelManager.addEffect(new CoreRing(pos, game));
         }
 
         public void damage(float amount)

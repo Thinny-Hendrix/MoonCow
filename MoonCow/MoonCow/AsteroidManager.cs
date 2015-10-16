@@ -62,8 +62,27 @@ namespace MoonCow
         {
             asteroids.Add(new AstSmall(pos, game));
         }
+
+        public void addSmall(Vector3 pos, bool randomize)
+        {
+            if(randomize)
+            {
+                pos.X += Utilities.nextFloat() * 5;
+                pos.Z += Utilities.nextFloat() * 5;
+            }
+            asteroids.Add(new AstSmall(pos, game));
+        }
         public void addMid(Vector3 pos)
         {
+            asteroids.Add(new AstMid(pos, game));
+        }
+        public void addMid(Vector3 pos, bool randomize)
+        {
+            if (randomize)
+            {
+                pos.X += Utilities.nextFloat() * 5;
+                pos.Z += Utilities.nextFloat() * 5;
+            }
             asteroids.Add(new AstMid(pos, game));
         }
 

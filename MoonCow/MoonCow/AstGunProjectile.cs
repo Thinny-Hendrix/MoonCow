@@ -28,7 +28,7 @@ namespace MoonCow
             this.type = type;
 
             speed = 50;
-            life = 200;
+            life = 120;
             damage = 5;
             active = true;
 
@@ -134,9 +134,8 @@ namespace MoonCow
                         //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
                         if (col.checkOOBB(enemy.boundingBox))
                         {
-                            enemy.health -= damage;
-                            game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                            wep.addExp(5);
+                            enemy.health -= damage*0.5f;
+                            //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
                         }
                     }
@@ -159,6 +158,7 @@ namespace MoonCow
                             s.damage(damage, direction);
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
+                            wep.addExp(damage);
                         }
                     }
                 }
@@ -180,6 +180,7 @@ namespace MoonCow
                             a.damage(damage, pos);
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
+                            wep.addExp(damage/4);
                         }
                     }
                 }
