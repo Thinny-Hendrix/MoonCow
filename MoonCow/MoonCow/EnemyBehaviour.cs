@@ -18,6 +18,49 @@ namespace MoonCow
         public static Behaviour gunnerBehaviour;
         public static Behaviour sneakerBehaviour;
         public static Behaviour heavyBehaviour;
+        public static Behaviour sentryBehaviour;
+
+        //variables to hold player chase bool
+        public static bool swarmerPlayerChase;
+        public static bool gunnerPlayerChase;
+        public static bool sneakerPlayerChase;
+        public static bool heavyPlayerChase;
+        public static bool sentryPlayerChase;
+
+        //variables to hold player damage bool
+        public static bool swarmerPlayerAttack;
+        public static bool gunnerPlayerAttack;
+        public static bool sneakerPlayerAttack;
+        public static bool heavyPlayerAttack;
+        public static bool sentryPlayerAttack;
+
+        //variables to hold pathing follow bool
+        public static bool swarmerFollowPath;
+        public static bool gunnerFollowPath;
+        public static bool sneakerFollowPath;
+        public static bool heavyFollowPath;
+        public static bool sentryFollowPath;
+
+        //variables to hold core attack bool
+        public static bool swarmerAttackCore;
+        public static bool gunnerAttackCore;
+        public static bool sneakerAttackCore;
+        public static bool heavyAttackCore;
+        public static bool sentryAttackCore;
+
+        //variables to hold ranged attack bool
+        public static bool swarmerRanged;
+        public static bool gunnerRanged;
+        public static bool sneakerRanged;
+        public static bool heavyRanged;
+        public static bool sentryRanged;
+
+        //variables to hold melee attack bool
+        public static bool swarmerMelee;
+        public static bool gunnerMelee;
+        public static bool sneakerMelee;
+        public static bool heavyMelee;
+        public static bool sentryMelee;
 
 
         public static void load() //using xpath
@@ -169,6 +212,45 @@ namespace MoonCow
                 Console.WriteLine("Heavy Behaviour Settings Error");
             }
 
+
+            // This fucntions is going to be so fucking huge it makes me cry
+            // placeholder default hardcoded values
+
+            swarmerPlayerChase = true;
+            swarmerPlayerAttack = true;
+            swarmerFollowPath = true;
+            swarmerMelee = true;
+            swarmerRanged = false;
+            swarmerAttackCore = true;
+
+            gunnerAttackCore = true;
+            gunnerFollowPath = true;
+            gunnerMelee = true;
+            gunnerPlayerAttack = true;
+            gunnerPlayerChase = false;
+            gunnerRanged = true;
+
+            sneakerAttackCore = true;
+            sneakerFollowPath = true;
+            sneakerMelee = true;
+            sneakerPlayerAttack = true;
+            sneakerPlayerChase = false;
+            sneakerRanged = false;
+
+            heavyAttackCore = true;
+            heavyFollowPath = true;
+            heavyMelee = true;
+            heavyPlayerAttack = true;
+            heavyPlayerChase = false;
+            heavyRanged = false;
+
+            sentryAttackCore = false;
+            sentryBehaviour = Behaviour.ShortestPathFirst;
+            sentryFollowPath = false;
+            sentryMelee = false;
+            sentryPlayerAttack = true;
+            sentryPlayerChase = false;
+            sentryRanged = true;
         }
 
     }

@@ -10,6 +10,16 @@
     AvoidTurretDamage
     AvoidPlayerDamage
     
+    Bool for each enemy class for the following conditions:
+    Do they chase the player
+    Do they attack the player if in range of weapon
+    Do they follow pathfinding
+    Do they attack the core
+    Do they have a ranged attack
+    Do they have a melee attack
+    
+    Also add the sentry turret in as an entity in the settings
+    
     If the keyword is not recognised, the default value (ShortestPathFirst) will be used.
 -->
 <behaviour>
