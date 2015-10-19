@@ -74,6 +74,8 @@ namespace MoonCow
 
             cols.Add(new CircleCollider(pos, 0.7f));
 
+            frozen = false;
+
             //weapons = new WeaponSystem(this);
         }
 
@@ -85,7 +87,7 @@ namespace MoonCow
             //target = new Vector3(makeCentreCoordinate(coreLocation.X), 4.5f, makeCentreCoordinate(coreLocation.Y));
 
             //Agro stuff and attacks
-            if (!electroDamage.active)
+            if (!frozen)
             {
                 agroSphere.Update(pos);
                 if (agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))

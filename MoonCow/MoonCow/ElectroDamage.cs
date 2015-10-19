@@ -22,6 +22,7 @@ namespace MoonCow
             this.enemy = enemy;
             this.game = game;
             maxTime = 0.5f;
+            enemy.frozen = true;
         }
 
         public void Update()
@@ -34,6 +35,7 @@ namespace MoonCow
                 {
                     active = false;
                     enemy.health -= damage;
+                    enemy.frozen = false;
                     damage = 0;
                 }
             }

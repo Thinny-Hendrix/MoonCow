@@ -32,7 +32,7 @@ namespace MoonCow
 
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             enemyModel = new SneakerModel(this);
-            enemyType = 3;
+            enemyType = 1;
 
             game.modelManager.addEnemy(enemyModel);
 

@@ -19,7 +19,7 @@ namespace MoonCow
         float alpha;
         Vector3 dir;
 
-        public GlowStreak(Game1 game, Vector3 pos, Vector2 scale, float speed, Color col, int type)
+        public GlowStreak(Game1 game, Vector3 pos, Vector2 scale, float speed, Color col, int dirType, int texType)
         {
             this.game = game;
             this.model = TextureManager.dirSquare;
@@ -31,7 +31,34 @@ namespace MoonCow
             this.speed = speed;
             alpha = 1;
 
-            setDir(type);
+            setDir(dirType);
+            setTex(texType);
+        }
+
+        void setTex(int type)
+        {
+            switch(type)
+            {
+                case -2:
+                    tex = TextureManager.glowStreak2;
+                    break;
+                case -1:
+                    tex = TextureManager.glowStreak1;
+                    break;
+                default:
+                    tex = TextureManager.glowS_0;
+                    break;
+                case 1:
+                    tex = TextureManager.glowS_1;
+                    break;
+                case 2:
+                    tex = TextureManager.glowS_2;
+                    break;
+                case 3:
+                    tex = TextureManager.glowS_3;
+                    break;
+
+            }
         }
 
         void setDir(int type)
@@ -39,13 +66,11 @@ namespace MoonCow
             switch (type)
             {
                 default:
-                    tex = TextureManager.glowStreak1;
                     dir.X = Utilities.nextFloat() * 2 - 1;
                     dir.Z = Utilities.nextFloat() * 2 - 1;
                     dir.Y = Utilities.nextFloat() * 2 - 1;
                     break;
                 case 1:
-                    tex = TextureManager.glowStreak2;
                     dir.X = Utilities.nextFloat() * 2 - 1;
                     dir.Z = Utilities.nextFloat() * 2 - 1;
                     dir.Y = Utilities.nextFloat();

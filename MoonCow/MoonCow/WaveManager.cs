@@ -19,6 +19,7 @@ namespace MoonCow
         public Attack activeAttack;
         public float waitTime;
         int attackCount;
+        public float attackTime;
         
         public Utilities.SpawnState spawnState;
         bool endMessageTriggered;
@@ -58,7 +59,11 @@ namespace MoonCow
                 {
                     spawnState = Utilities.SpawnState.waiting;
                     game.hud.hudAttackDisplayer.endAttackMessage();
-                    waitTime = 30; // 150 seconds = 2.5 minutes between attacks
+                    waitTime = 120; // 150 seconds = 2.5 minutes between attacks
+
+                    //contact difficulty manager
+                    attackTime = 0;
+
                     activeAttack = new Attack(game, this, attackCount); // create next attack
                     attacks.Add(activeAttack);
                 }
@@ -80,6 +85,7 @@ namespace MoonCow
                         game.hud.hudAttackDisplayer.startAttackMessage(activeAttack);
                         startMessageTriggered = true;
                         attackCount++;
+                        attackTime += Utilities.deltaTime;
                     }
                     
                     // spawn enemies

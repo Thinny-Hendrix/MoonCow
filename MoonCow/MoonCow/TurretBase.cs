@@ -77,7 +77,7 @@ namespace MoonCow
         void spawnEffect()
         {
             for (int i = 0; i < 10; i++)
-                game.modelManager.addEffect(new GlowStreak(game, pos, new Vector2(1, 4), 1,Color.White, 1));
+                game.modelManager.addEffect(new GlowStreak(game, pos, new Vector2(1, 4), 1,Color.White, 1,-2));
         }
 
         public bool setTurret(int i)

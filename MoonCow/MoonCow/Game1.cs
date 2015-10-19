@@ -48,6 +48,8 @@ namespace MoonCow
 
         MapData testMap;
         LevelCreator levelCreator;
+        public string levelFileName;
+        public float loadPercentage;
 
         public Game1()
         {
@@ -63,6 +65,8 @@ namespace MoonCow
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
+
+            loadPercentage = 0;
 
             /*
             int[,] listofnodes = new int[13,21] {
@@ -144,11 +148,15 @@ namespace MoonCow
 
         public void initializeGame()
         {
+            loadPercentage = 0;
             if (!loadedGameContent)
             {
                 TextureManager.initialize(this);
+                loadPercentage = 0.1f;
                 ModelLibrary.initialize(this);
+                loadPercentage = 0.2f;
                 AudioLibrary.initialize(this);
+                loadPercentage = 0.25f;
                 loadedGameContent = true;
             }
 
@@ -164,8 +172,11 @@ namespace MoonCow
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera40"), spriteBatch, GraphicsDevice);
             audioManager = new AudioManager(this);
             minigame = new Minigame(this);
+            loadPercentage = 0.65f;
 
-            layout = new MapData(@"Content/MapXml/map1-revis.xml");
+            levelFileName = "map1-revis";
+            //levelFileName = "pac-man";
+            layout = new MapData(@"Content/MapXml/" + levelFileName + ".xml");
             //layout = new MapData(@"Content/MapXml/Level2.xml");
             //layout = new MapData(@"Content/MapXml/pac-man.xml");
             //layout = new MapData(@"Content/MapXml/broktes.xml");
@@ -188,6 +199,8 @@ namespace MoonCow
             //make sure the post process effects go second last, and the hud is absolute last
             //Components.Add(bloom);
             Components.Add(hud);
+
+            loadPercentage = 1f;
 
             modelManager.makeStarField();
             turretManager.Initialize();

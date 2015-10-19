@@ -16,7 +16,7 @@ namespace MoonCow
         float maxScale;
         float alpha;
         float speed;
-        public GlowStreakCenter(Game1 game, Vector3 pos, float maxScale, float speed)
+        public GlowStreakCenter(Game1 game, Vector3 pos, float maxScale, float speed, int type)
             : base()
         {
             this.game = game;
@@ -26,9 +26,35 @@ namespace MoonCow
             this.speed = speed;
 
             rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
-            tex = TextureManager.particle1;
             model = TextureManager.square;
             alpha = 1;
+            setTex(type);
+        }
+
+        void setTex(int type)
+        {
+            switch (type)
+            {
+                case -2:
+                    tex = TextureManager.particle1;
+                    break;
+                case -1:
+                    tex = TextureManager.particle1;;
+                    break;
+                default:
+                    tex = TextureManager.glowC_0;
+                    break;
+                case 1:
+                    tex = TextureManager.glowC_1;
+                    break;
+                case 2:
+                    tex = TextureManager.glowC_2;
+                    break;
+                case 3:
+                    tex = TextureManager.glowC_3;
+                    break;
+
+            }
         }
 
         public override void Update(GameTime gameTime)

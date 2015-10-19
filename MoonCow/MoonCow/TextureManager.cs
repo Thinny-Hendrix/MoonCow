@@ -16,6 +16,18 @@ namespace MoonCow
         public static Texture2D particle3;
         public static Texture2D glowStreak1;
         public static Texture2D glowStreak2;
+        public static Texture2D glowS_0;
+        public static Texture2D glowS_1;
+        public static Texture2D glowS_2;
+        public static Texture2D glowS_3;
+        public static Texture2D glowC_0;
+        public static Texture2D glowC_1;
+        public static Texture2D glowC_2;
+        public static Texture2D glowC_3;
+        public static Texture2D spinGlow;
+        public static Texture2D spinGlow_d;
+
+
 
         public static Texture2D particle1small;
         public static Texture2D particle2small;
@@ -166,6 +178,16 @@ namespace MoonCow
             particle3 = game.Content.Load<Texture2D>(@"Models/Effects/tex3");
             glowStreak1 = game.Content.Load<Texture2D>(@"Models/Effects/glowStreak");
             glowStreak2 = game.Content.Load<Texture2D>(@"Models/Effects/glowStreak2");
+            glowS_0 = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/glowStreak-0");
+            glowS_1 = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/glowStreak-1");
+            glowS_2 = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/glowStreak-2");
+            glowS_3 = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/glowStreak-3");
+            glowC_0 = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/glowCent_0");
+            glowC_1 = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/glowCent_1");
+            glowC_2 = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/glowCent_2");
+            glowC_3 = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/glowCent_3");
+            spinGlow = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/spinGlow256");
+            spinGlow_d = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/spinGlow_d");
 
 
             particle1small = game.Content.Load<Texture2D>(@"Models/Effects/tex1-64");

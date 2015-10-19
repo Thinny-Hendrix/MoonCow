@@ -22,6 +22,7 @@ namespace MoonCow
         public List<Weapon> weapons = new List<Weapon>();
         public Weapon activeWeapon;
         public Weapon prevWeapon;
+        public WeaponDrill drill;
 
 
         public WeaponSystem(Ship ship, Game game):base(game)
@@ -34,11 +35,13 @@ namespace MoonCow
             pew2 = Game.Content.Load<Texture2D>(@"Models/Effects/tex2");
             pew3 = Game.Content.Load<Texture2D>(@"Models/Effects/tex3");
 
+            drill = new WeaponDrill(this, ship, this.game);
+
             weapons.Add(new WeaponMissiles(this, ship, this.game));
             weapons.Add(new WeaponWave(this, ship, this.game));
             weapons.Add(new WeaponLaser(this, ship, this.game));
             weapons.Add(new WeaponBomb(this, ship, this.game));
-            weapons.Add(new WeaponDrill(this, ship, this.game));
+            weapons.Add(drill);
 
             activeWeapon = (Weapon)weapons.ElementAt(2);
 
@@ -106,6 +109,12 @@ namespace MoonCow
                     w.Update();
                 }
             }
+        }
+
+        public void gotDrill()
+        {
+            hasDrill = true;
+            changeWeapons(4);
         }
 
         public void changeWeapons(int wep)

@@ -82,6 +82,7 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(ModelLibrary.railDend, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
+                    game.modelManager.addObject(new CollectableDrill(new Vector3(pos.X * 30, 4.5f, pos.Y * 30), game));
 
                     //Left long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
@@ -96,6 +97,7 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(ModelLibrary.railDend, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2, 1.0f);
+                    game.modelManager.addObject(new CollectableDrill(new Vector3(pos.X * 30, 4.5f, pos.Y * 30), game));
 
                     //Top long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
@@ -110,6 +112,7 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(ModelLibrary.railDend, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.Pi, 1.0f);
+                    game.modelManager.addObject(new CollectableDrill(new Vector3(pos.X * 30, 4.5f, pos.Y * 30), game));
 
                     //Left long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
@@ -124,6 +127,7 @@ namespace MoonCow
                     traversable = true;
                     model = new TileModel(ModelLibrary.railDend, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     stationModel = new StationModel(ModelLibrary.stationDend, new Vector3(pos.X * 30, -3, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
+                    game.modelManager.addObject(new CollectableDrill(new Vector3(pos.X * 30, 4.5f, pos.Y * 30), game));
 
                     //Top long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));

@@ -33,7 +33,7 @@ namespace MoonCow
 
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             enemyModel = new SwarmerModel(this);
-            enemyType = 1;
+            enemyType = 0;
 
             game.modelManager.addEnemy(enemyModel);
 
@@ -245,6 +245,11 @@ namespace MoonCow
 
         protected override void death()
         {
+            for (int i = 0; i < 10; i++)
+                game.modelManager.addEffect(new GlowStreak(game, pos, new Vector2(2, 7), 2, Color.White, 0, 0));
+            game.modelManager.addEffect(new GlowStreakCenter(game, pos, 3, 2,0));
+
+
             for (int i = 0; i < 4; i++)
                 game.ship.moneyManager.addGib(5, pos);
 

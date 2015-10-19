@@ -50,6 +50,12 @@ namespace MoonCow
 
         }
 
+        public virtual void setEffect()
+        { 
+            //this is where to declare stuff about the effects that won't change
+        }
+
+
         public virtual void Draw(GraphicsDevice device, Camera camera)
         {
             Matrix[] transforms = new Matrix[model.Bones.Count];
