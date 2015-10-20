@@ -124,17 +124,18 @@ namespace MoonCow
                 }
                 if (state == State.chargePlayer)
                 {
+                    frameDiff = Vector3.Zero;
                     frameDiff += chargeDir * Utilities.deltaTime * 30;
-                    //checkCollision();
                     updateMovement();
                     agroSphere.Update(pos+direction*15);
                     //if passed the ship
                     if(!agroSphere.checkCircle(game.ship.circleCol) && cols.ElementAt(0).distFrom(game.ship.pos) > initDist+8)
                     {
                         cooldown = 10;
+                        updatePath();
+                        // set next node pos
                         state = State.goToBase;
-                    }
-                    frameDiff = Vector3.Zero;
+                    } 
                 }
                 if(state == State.atBase)
                 {
@@ -216,7 +217,22 @@ namespace MoonCow
                     {
                         // How do I get the enemies to surround the core without going through it?
                         // Answering this question will be post alpha
-                        target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                        if (prevPosition.X < nextPosition.X)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                        }
+                        else if (prevPosition.X > nextPosition.X)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
+                        }
+                        else if (prevPosition.Y < nextPosition.Y)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-10 + Utilities.nextFloat() * 20), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-14 + Utilities.nextFloat() * 3));
+                        }
+                        else if (prevPosition.Y > nextPosition.Y)
+                        {
+                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-10 + Utilities.nextFloat() * 20), 4.5f, makeCentreCoordinate(nextPosition.Y) + (14 + Utilities.nextFloat() * 3));
+                        }
                     }
                 }
                 else
@@ -245,7 +261,6 @@ namespace MoonCow
                     moveSpeed += Utilities.deltaTime * 6;
                 }
 
-                //checkCollision();
                 pos += frameDiff;
                 frameDiff = Vector3.Zero;
             }
@@ -280,38 +295,6 @@ namespace MoonCow
             game.enemyManager.toDelete.Add(this);
         }
 
-        /*
-        void checkCollision()
-        {
-            // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
-            // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
-            // be within tolerable limits for CPU time. This will only need to be done with the player
-            pos.Y += frameDiff.Y;
-
-            pos.X += frameDiff.X;
-
-            //## COLLISIONS WHOOO! ##
-            // Move the bounding box to new pos
-            boundingBox.Update(pos, direction);
-            foreach (CircleCollider c in cols)
-            {
-                c.Update(pos);
-            }
-            // Get current node co-ordinates
-            Vector2 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-
-            //For the current node check if your X component will make you collide with wall
-
-            pos.Z += frameDiff.Z;
-
-            boundingBox.Update(pos, direction);
-            foreach (CircleCollider c in cols)
-            {
-                c.Update(pos);
-            }
-            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-        }
-        */
         void updateMovement()
         {
             pos += frameDiff;
@@ -322,18 +305,17 @@ namespace MoonCow
                 {
                     Vector3 normalForce = Vector3.Zero;
                     // calculate how much to take off from movement here
-                    if (normals[i].Equals(Vector3.Zero))
+                    
+                    normalForce += normals[i] * Math.Abs(Vector3.Dot(frameDiff, normals[i]));
+
+                    pos += normalForce;
+
+                    List<Vector3> test = checkNormalCollision();
+                    if (test.Count() == 0)
                     {
-                        normalForce += normals[i] * Math.Abs(Vector3.Dot(frameDiff, normals[i]));
-
-                        pos += normalForce;
-
-                        List<Vector3> test = checkNormalCollision();
-                        if (test.Count() == 0)
-                        {
-                            break;
-                        }
+                        break;
                     }
+                    
                 }
             }
         }
@@ -379,14 +361,17 @@ namespace MoonCow
                 {
                     if (node.position.X == e.nodePos.X && node.position.Y == e.nodePos.Y)
                     {
-                        foreach (CircleCollider c in e.cols)
+                        if (!(e.Equals(this)))
                         {
-                            Vector3 normal = cols.ElementAt(0).circleCollide(c);
-                            if (!(normal.Equals(Vector3.Zero)))
+                            foreach (CircleCollider c in e.cols)
                             {
-                                normals.Add(normal);
-                                //c.push(moveSpeed, pos, 4.0f);
-                                //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                                Vector3 normal = cols.ElementAt(0).circleCollide(c);
+                                if (!(normal.Equals(Vector3.Zero)))
+                                {
+                                    normals.Add(normal);
+                                    //c.push(moveSpeed, pos, 4.0f);
+                                    //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                                }
                             }
                         }
                     }
@@ -409,6 +394,9 @@ namespace MoonCow
             {
                 path = pathfinder.findPath(new Point((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f)), coreLocation);
                 pathPosition = 0;
+
+                nextPosition = path[pathPosition];
+                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-5 + Utilities.nextFloat() * 10), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-5 + Utilities.nextFloat() * 10));
             }
         }
     }
