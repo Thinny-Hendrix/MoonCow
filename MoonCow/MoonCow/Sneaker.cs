@@ -245,7 +245,8 @@ namespace MoonCow
                     moveSpeed += Utilities.deltaTime * 6;
                 }
 
-                checkCollision();
+                //checkCollision();
+                pos += frameDiff;
                 frameDiff = Vector3.Zero;
             }
             else
@@ -279,6 +280,7 @@ namespace MoonCow
             game.enemyManager.toDelete.Add(this);
         }
 
+        /*
         void checkCollision()
         {
             // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
@@ -309,7 +311,7 @@ namespace MoonCow
             }
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
         }
-
+        */
         void updateMovement()
         {
             pos += frameDiff;
@@ -320,14 +322,17 @@ namespace MoonCow
                 {
                     Vector3 normalForce = Vector3.Zero;
                     // calculate how much to take off from movement here
-                    normalForce += normals[i] * Math.Abs(Vector3.Dot(frameDiff, normals[i]));
-
-                    pos += normalForce;
-
-                    List<Vector3> test = checkNormalCollision();
-                    if (test.Count() == 0)
+                    if (normals[i].Equals(Vector3.Zero))
                     {
-                        break;
+                        normalForce += normals[i] * Math.Abs(Vector3.Dot(frameDiff, normals[i]));
+
+                        pos += normalForce;
+
+                        List<Vector3> test = checkNormalCollision();
+                        if (test.Count() == 0)
+                        {
+                            break;
+                        }
                     }
                 }
             }
