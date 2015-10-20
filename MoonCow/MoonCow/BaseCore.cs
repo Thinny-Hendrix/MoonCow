@@ -16,10 +16,24 @@ namespace MoonCow
         public CircleCollider col;
         CoreSphereModel model;
         public Vector2 nodePos;
+        public List<BaseCoreSpot> spots;
+
         public BaseCore(Game1 game):base(game)
         {
             this.game = game;
             health = 1000;
+            setSpots();
+        }
+
+        void setSpots()
+        {
+            spots = new List<BaseCoreSpot>();
+            float angle = 0;
+            for(int i = 0; i < 30; i++)
+            {
+                spots.Add(new BaseCoreSpot(angle));
+                angle += MathHelper.Pi / 15;
+            }
         }
 
         public void setPos(Vector3 pos)

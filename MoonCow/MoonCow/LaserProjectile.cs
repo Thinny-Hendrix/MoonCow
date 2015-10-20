@@ -115,8 +115,15 @@ namespace MoonCow
                 {
                     if (nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
                     {
-                        //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if (col.checkOOBB(enemy.boundingBox))
+                        bool hit = false;
+                        foreach(CircleCollider c in enemy.cols)
+                        {
+                            if(c.checkCircle(col))
+                            {
+                                hit = true;
+                            }
+                        }
+                        if(hit)
                         {
                             enemy.health -= damage;
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));

@@ -101,6 +101,7 @@
     <Compile Include="GlowStreakCenter.cs" />
     <Compile Include="Gunner.cs" />
     <Compile Include="GunnerModel.cs" />
+    <Compile Include="GunnerProjectile.cs" />
     <Compile Include="HeavyModel.cs" />
     <Compile Include="HudMessage.cs" />
     <Compile Include="HudMg.cs" />

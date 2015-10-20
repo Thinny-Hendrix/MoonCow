@@ -8,8 +8,15 @@ namespace MoonCow
     /// <summary>
     /// used for enemies so they don't go on top of each other
     /// </summary>
-    class BaseCoreSpot
+    public class BaseCoreSpot
     {
-        float rot; //the rotation relative to the core
+        public float rot; //the rotation relative to the core
+        public bool taken;
+
+        public BaseCoreSpot(float rot)
+        {
+            taken = false;
+            this.rot = rot;
+        }
     }
 }

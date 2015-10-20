@@ -131,6 +131,7 @@ namespace MoonCow
                     //if passed the ship
                     if(!agroSphere.checkCircle(game.ship.circleCol) && cols.ElementAt(0).distFrom(game.ship.pos) > initDist+8)
                     {
+                        updatePath();
                         cooldown = 10;
                         updatePath();
                         // set next node pos

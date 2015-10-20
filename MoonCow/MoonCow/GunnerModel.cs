@@ -11,12 +11,14 @@ namespace MoonCow
     {
         //AnimationPlayer animPlayer;
         ModelBone bulletPos;
+        Gunner gun;
 
         public GunnerModel(Gunner enemy)
             : base(enemy)
         {
             model = ModelLibrary.gunner;
-            scale = new Vector3(.12f);
+            scale = new Vector3(.1f);
+            this.gun = enemy;
 
             bulletPos = model.Bones["bulletPos"];
         }
@@ -24,9 +26,12 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             pos = enemy.pos;
-            rot = enemy.rot;
+            pos.Y -= 0.6f;
+            rot.Y = (float)Math.Atan2(gun.modelDir.X, gun.modelDir.Z);
+            rot.Y -= MathHelper.PiOver2;
+            //rot = enemy.rot;
 
-            rot.Y -= MathHelper.Pi;
+            //rot.Y -= MathHelper.Pi;
             //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
         }
 

@@ -192,7 +192,7 @@ namespace MoonCow
 
             Viewport viewport = GraphicsDevice.Viewport;
 
-            DrawFullscreenQuad(renderTarget1,
+            DrawFullscreenQuad(game.worldRender,
                                viewport.Width, viewport.Height,
                                bloomCombineEffect,
                                IntermediateBuffer.FinalResult);

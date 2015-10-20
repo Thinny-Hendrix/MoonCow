@@ -15,8 +15,14 @@ namespace MoonCow
         protected Point coreLocation;
         protected Vector3 target;
         Vector3 frameDiff = new Vector3(0, 0, 0);
-        public enum State { goToBase, playerInRange, shooting, reload, melee, atBase, strongHit, knockBack, hitByDrill }
+        public enum State { goToBase, playerInRange, shooting, reload, melee,playerOutRange, atBase, strongHit, knockBack, hitByDrill }
         State state;
+        float waitTime;
+        float coolDown;
+        int shotCount;
+        float transitionTime;
+        public Vector3 modelDir;
+        CircleCollider meleeCol;
 
         public Gunner(Game1 game)
             : base(game)
@@ -92,13 +98,89 @@ namespace MoonCow
                 {
                     goToBase();
                     agroSphere.Update(pos);
-                }
-                else
-                {
-                    if(state == State.playerInRange)
+                    modelDir = direction;
+                    if(agroSphere.checkCircle(game.ship.circleCol))
                     {
-
+                        state = State.playerInRange;
+                        waitTime = 0.5f;
                     }
+                }
+                else if (state == State.playerInRange)
+                {
+                    goToBase();
+                    agroSphere.Update(pos);
+                    setDir();
+                    modelDir = Vector3.Lerp(direction, facingDir, 1-(waitTime / 0.5f));
+                    waitTime -= Utilities.deltaTime;
+                    if (waitTime <= 0)
+                    {
+                        state = State.shooting;
+                        shotCount = 0;
+                        coolDown = 0;
+                    }
+                        //play animation 
+                }
+                else if(state == State.shooting)
+                {
+                    goToBase();
+                    setDir();
+                    modelDir = facingDir;
+                    agroSphere.Update(pos);
+                    if (coolDown <= 0)
+                    {
+                        if (shotCount < 3)
+                        {
+                            game.enemyManager.projectiles.Add(new GunnerProjectile(pos+facingDir*2, facingDir, game));
+                            coolDown = 0.8f;
+                            shotCount++;
+                        }
+                        else
+                        {
+                            state = State.reload;
+                            waitTime = 0.8f;
+                        }
+                    }
+                    else
+                    {
+                        coolDown -= Utilities.deltaTime;
+                    }
+                }
+                else if(state == State.reload)
+                {
+                    goToBase();
+                    setDir();
+                    modelDir = facingDir;
+                    agroSphere.Update(pos);
+                    waitTime -= Utilities.deltaTime;
+                    if(waitTime <= 0)
+                    {
+                        if(agroSphere.checkCircle(game.ship.circleCol))
+                        {
+                            state = State.shooting;
+                            shotCount = 0;
+                            coolDown = 0;
+                        }
+                        else
+                        {
+                            state = State.playerOutRange;
+                            waitTime = 0.5f;
+                        }
+                    }
+                }
+                else if (state == State.playerOutRange)
+                {
+                    goToBase();
+                    agroSphere.Update(pos);
+                    setDir();
+                    modelDir = Vector3.Lerp(facingDir, direction, 1 - (waitTime / 0.5f));
+                    waitTime -= Utilities.deltaTime;
+                    if (waitTime <= 0)
+                    {
+                        state = State.goToBase;
+                        shotCount = 0;
+                        coolDown = 0;
+                    }
+                    //play animation 
                 }
 
 
@@ -119,6 +201,11 @@ namespace MoonCow
             {
                 death();
             }
+        }
+
+        void setDir()
+        {
+            facingDir = game.ship.circleCol.directionFrom(pos);
         }
 
         void goToBase()

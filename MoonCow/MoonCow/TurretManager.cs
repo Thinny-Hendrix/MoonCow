@@ -15,7 +15,6 @@ namespace MoonCow
         {
             this.game = game;
             turrets = new List<TurretBase>();
-            turrets.Add(new TurretBase(new Vector3(150,4.5f,400), Vector3.Left, game));
         }
 
         public override void Update(GameTime gameTime)
