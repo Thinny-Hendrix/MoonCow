@@ -115,6 +115,7 @@ namespace MoonCow
                     if (ship.moneyManager.canPurchase(gattPrice))
                     {
                         turret = new GattleTurret(pos, dir, game);
+                        game.levelStats.gatlings++;
                         turretType = TurretType.gattle;
                         baseModel.changeColor(turretType, game);
                         game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
@@ -127,6 +128,7 @@ namespace MoonCow
                     if (ship.moneyManager.canPurchase(pyroPrice))
                     {
                         turret = new PyroTurret(pos, dir, game);
+                        game.levelStats.flamers++;
                         turretType = TurretType.pyro;
                         baseModel.changeColor(turretType, game);
                         game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
@@ -139,6 +141,7 @@ namespace MoonCow
                     if (ship.moneyManager.canPurchase(elecPrice))
                     {
                         turret = new ElectroTurret(pos, dir, game);
+                        game.levelStats.electrics++;
                         turretType = TurretType.electro;
                         baseModel.changeColor(turretType, game);
                         game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 5;

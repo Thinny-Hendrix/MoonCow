@@ -71,6 +71,8 @@ namespace MoonCow
 
         void addProjectile(Vector3 pos, Vector3 dir)
         {
+            game.levelStats.laserShotsFired++;
+
             switch(level)
             {
                 default:

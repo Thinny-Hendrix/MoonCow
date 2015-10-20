@@ -120,6 +120,7 @@ namespace MoonCow
                         {
                             enemy.health -= damage;
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                            game.levelStats.laserShotsHit++;
                             wep.addExp(5);
                             collided = true;
                         }
@@ -141,6 +142,7 @@ namespace MoonCow
                         if (s.col.checkPoint(pos))
                         {
                             s.damage(damage, direction);
+                            game.levelStats.laserShotsHit++;
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
                         }

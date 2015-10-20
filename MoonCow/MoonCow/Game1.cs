@@ -36,6 +36,7 @@ namespace MoonCow
         private MapData layout;
         public Hud hud;
         public BaseCore core;
+        public StatTracker levelStats;
 
         //menu
         public MainMenu mainMenu;
@@ -164,6 +165,7 @@ namespace MoonCow
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera40"), spriteBatch, GraphicsDevice);
             audioManager = new AudioManager(this);
             minigame = new Minigame(this);
+            levelStats = new StatTracker();
 
             layout = new MapData(@"Content/MapXml/map1-revis.xml");
             //layout = new MapData(@"Content/MapXml/Level2.xml");
