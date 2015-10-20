@@ -30,6 +30,7 @@ namespace MoonCow
             this.model = ModelLibrary.core;
             this.game = game;
             this.pos = pos;
+            //this.pos.Y -= 4.5f;
             scale = new Vector3(100, 100, 100);
             offset = -2;
 

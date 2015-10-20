@@ -18,6 +18,11 @@ namespace MoonCow
         public Vector3 knockDir;
         public bool frozen;
         public Vector3 facingDir;
+        public BaseCoreSpot coreSpot;
+        public float distToCore;
+        public float currentDist;
+        public List<Vector3> posToCore = new List<Vector3>();
+        public int currentBaseIndex;
 
         public float moveSpeed;
         public float maxSpeed;

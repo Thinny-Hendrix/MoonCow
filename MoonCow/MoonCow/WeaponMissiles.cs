@@ -12,7 +12,7 @@ namespace MoonCow
         public WeaponMissiles(WeaponSystem wepSys, Ship ship, Game1 game):base(wepSys, ship, game)
         {
             icon = TextureManager.icoAst;
-            name = "Homing Spears";
+            name = "Asteroid sorter";
 
             damage = 0.6f;
             rateOfFire = 0.3f;

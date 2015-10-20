@@ -82,9 +82,9 @@ namespace MoonCow
         void testWave()
         {
             inAttack = 3;
-            waves.Add(new Wave(game, manager, attackNumber, 1, 1, 2));
-            waves.Add(new Wave(game, manager, attackNumber, 2, 3, 2));
-            waves.Add(new Wave(game, manager, attackNumber, 3, 3, 2));
+            waves.Add(new Wave(game, manager, attackNumber, 1, 1, 3));
+            waves.Add(new Wave(game, manager, attackNumber, 2, 3, 3));
+            waves.Add(new Wave(game, manager, attackNumber, 3, 3, 3));
         }
 
         private void tempWaveCreator()

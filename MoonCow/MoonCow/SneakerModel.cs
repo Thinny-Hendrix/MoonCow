@@ -15,13 +15,13 @@ namespace MoonCow
             : base(enemy)
         {
             model = ModelLibrary.sneaker;
-            scale = new Vector3(.15f);
+            scale = new Vector3(.1f);
         }
 
         public override void Update(GameTime gameTime)
         {
             pos = enemy.pos;
-            pos.Y -= 0.7f;
+            pos.Y -= 0.5f;
             rot = enemy.rot;
 
             rot.Y -= MathHelper.Pi;

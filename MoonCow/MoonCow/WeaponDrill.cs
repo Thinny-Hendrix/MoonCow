@@ -37,7 +37,7 @@ namespace MoonCow
 
             dome = new DrillDome(game, this);
             game.modelManager.addEffect(dome);
-            finishingRange = new OOBB(ship.pos + ship.direction * 15, ship.direction, 2, 35);
+            finishingRange = new OOBB(ship.pos + ship.direction * 15, ship.direction, 3, 30);
             spins = new DrillSpinControl(game, this);
         }
 
@@ -68,20 +68,27 @@ namespace MoonCow
         {
             if (active)
             {
+                col.Update(ship.pos + ship.direction);
                 if (ship.boosting)
                 {
                     game.hud.hudWeapon.Wake();
                     finishingRange.Update(ship.pos + ship.direction * 15, ship.direction);
                     checkFinishing();
+
+                    if(target != null)
+                    {
+                        updateDir();
+                    }
                 }
                 else
                 {
                     if (ship.finishingMove)
+                    {
+                        target = null;
                         game.hud.flashTime = 0;
                         ship.finishingMove = false;
+                    }
                 }
-
-                col.Update(ship.pos + ship.direction);
                 if (ship.moving && ship.colliding)
                     checkCollision();
                 else
@@ -95,7 +102,16 @@ namespace MoonCow
                 if (dome.active)
                     dome.disable();
             }
+            col.Update(ship.pos + ship.direction);
             base.Update();
+        }
+
+        void updateDir()
+        {
+            target.frozen = true;
+
+            ship.direction = -1 * ship.circleCol.directionFrom(target.pos);
+            ship.rot.Y = (float)Math.Atan2(ship.direction.X, ship.direction.Z) + MathHelper.Pi;
         }
 
         void checkFinishing()
@@ -124,11 +140,13 @@ namespace MoonCow
                 {
                     game.hud.flashTime = 0;
                     ship.finishingMove = true;
-                    setTarget(targets);
+                    if(target == null)
+                        setTarget(targets);
                 }
             }
             else
             {
+                target = null;
                 if (game.ship.finishingMove)
                 {
                     game.hud.flashTime = 0;
@@ -184,10 +202,15 @@ namespace MoonCow
             {
                 foreach(CircleCollider c in e.cols)
                 {
+                    bool ecol = false;
                     if(c.checkCircle(col))
                     {
-                        e.drillDamage(Utilities.deltaTime * 31.25f, ship.direction, ship.boosting);
+                        ecol = true;
                         colliding = true;
+                    }
+                    if(ecol)
+                    {
+                        e.drillDamage(Utilities.deltaTime * 31.25f, ship.direction, ship.boosting);
                     }
                 }
             }
@@ -195,7 +218,15 @@ namespace MoonCow
             if (colliding)
             {
                 drillColliding = true;
-                game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction*0.8f, 0.15f));
+                if (ship.boosting)
+                {
+                    game.modelManager.addEffect(new DirLineParticle(new Vector3(col.centre.X, 4.5f, col.centre.Y), game));
+                    game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction * 0.8f, 0.15f));
+                }
+                else
+                {
+                    game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction * 0.8f, 0.08f));
+                }
                 game.hud.hudWeapon.Wake();
                 if (!dome.active)
                     dome.activate();

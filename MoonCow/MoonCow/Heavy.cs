@@ -103,6 +103,12 @@ namespace MoonCow
                         state = State.travelAttack;
                         attackTime = 0;
                     }
+
+                    if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
+                    {
+                        state = State.atBase;
+                        getCoreSpot();
+                    }
                 }
                 else if (state == State.travelAttack)
                 {
@@ -122,9 +128,25 @@ namespace MoonCow
                         state = State.goToBase;
                     }
                 }
+                if (state == State.atBase)
+                {
+                    goToCore();
+
+                    atCore = true;
+                    //pos = target;
+                }
+                else if (state == State.atCore)
+                {
+                    state = State.attackCore;
+                    updateMovement();
+                }
+                else if (state == State.attackCore)
+                {
+                    game.core.damage(0.05f * Utilities.deltaTime);
+                    updateMovement();
+                }
 
                 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-                boundingBox.Update(pos, direction);
 
                 pos.Y = 4.5f + (float)Math.Sin(time) * 0.2f;
 
@@ -140,6 +162,56 @@ namespace MoonCow
             {
                 death();
             }
+        }
+
+        void getCoreSpot()
+        {
+            coreSpot = game.core.getSpot(pos);
+            if (coreSpot != null)
+            {
+                target = coreSpot.pos;
+                posToCore = game.core.coordsToSpot(coreSpot, pos);
+                currentBaseIndex = 0;
+                target = posToCore.ElementAt(currentBaseIndex);
+                resetDist();
+            }
+        }
+
+        void resetDist()
+        {
+            currentDist = 0;
+            Vector3 dist = target - pos;
+            distToCore = Utilities.hypotenuseOf(dist.X, dist.Z);
+        }
+
+        void goToCore()
+        {
+            frameDiff = Vector3.Zero;
+            Vector3 targetDir = target - pos;
+            targetDir.Normalize();
+            direction = targetDir;
+            frameDiff = targetDir * moveSpeed * Utilities.deltaTime;
+            currentDist += moveSpeed * Utilities.deltaTime;
+
+            if (currentDist > distToCore)
+            {
+                if (currentBaseIndex >= posToCore.Count() - 1)
+                {
+                    pos = target;
+                    state = State.atCore;
+                }
+                else
+                {
+                    currentBaseIndex++;
+                    target = posToCore.ElementAt(currentBaseIndex);
+                    resetDist();
+                }
+
+            }
+
+
+            updateMovement();
+            frameDiff = Vector3.Zero;
         }
 
         void goToBase()
@@ -231,11 +303,109 @@ namespace MoonCow
             game.modelManager.addEffect(new GlowStreakCenter(game, pos, 10, 2, 3));
 
             game.ship.moneyManager.makeMoney(500, 3, pos);
+
+            if (Utilities.random.Next(5) == 0)
+                game.ship.moneyManager.addAmmoGib(pos);
             
 
             game.modelManager.removeEnemy(enemyModel);
             game.enemyManager.toDelete.Add(this);
         }
+
+        void updateMovement()
+        {
+            pos += frameDiff;
+            List<Vector3> normals = checkNormalCollision();
+            if (normals.Count > 0)
+            {
+                for (int i = 0; i < normals.Count(); i++)
+                {
+                    Vector3 normalForce = Vector3.Zero;
+                    // calculate how much to take off from movement here
+
+                    normalForce += normals[i] * Math.Abs(Vector3.Dot(frameDiff, normals[i]));
+
+                    pos += normalForce;
+
+                    List<Vector3> test = checkNormalCollision();
+                    if (test.Count() == 0)
+                    {
+                        break;
+                    }
+
+                }
+            }
+        }
+
+        List<Vector3> checkNormalCollision()
+        {
+            // Move the bounding circle to new position
+            cols.ElementAt(0).Update(pos);
+            cols.ElementAt(1).Update(pos + Vector3.Cross(direction, Vector3.Up) * 3);
+            cols.ElementAt(2).Update(pos + Vector3.Cross(direction, Vector3.Up) * -3);
+
+            List<Vector3> normals = new List<Vector3>();
+
+            // Get current node co-ordinates
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+            // Make a list containing current node and all neighbor nodes
+            List<MapNode> currentNodes = new List<MapNode>();
+            currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y]);
+            for (int i = 0; i < 4; i++)
+            {
+                if (game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i] != null)
+                {
+                    currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i]);
+                }
+            }
+
+            //For the current node check if your X component will make you collide with wall
+            foreach (MapNode node in currentNodes)
+            {
+                // Check map collision boxes
+                foreach (OOBB box in node.collisionBoxes)
+                {
+                    Vector3 normal = cols.ElementAt(0).wallCollide(box);
+                    if (!(normal.Equals(Vector3.Zero)))
+                    {
+                        normals.Add(normal);
+                    }
+                }
+
+                // Check enemies within spatial partitioning
+                foreach (Enemy e in game.enemyManager.enemies)
+                {
+                    if (!(e.Equals(this)))
+                    {
+                        if (node.position.X == e.nodePos.X && node.position.Y == e.nodePos.Y)
+                        {
+                            foreach (CircleCollider c in e.cols)
+                            {
+                                Vector3 normal = cols.ElementAt(0).circleCollide(c);
+                                if (!(normal.Equals(Vector3.Zero)))
+                                {
+                                    normals.Add(normal);
+                                    //c.push(moveSpeed, pos, 4.0f);
+                                    //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Check collision with core
+            Vector3 coreNormal = cols.ElementAt(0).circleCollide(game.core.col);
+            if (!(coreNormal.Equals(Vector3.Zero)))
+            {
+                normals.Add(coreNormal);
+            }
+
+            return normals;
+        }
+
+
 
         void checkCollision()
         {
@@ -268,11 +438,35 @@ namespace MoonCow
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
         }
 
+        public override void drillDamage(float damage, Vector3 dir, bool boosting)
+        {
+            health -= damage;
+            if (health <= 0)
+                death();
+
+            if (boosting)
+            {
+                game.camera.setYShake(0.06f);
+                //state = State.hitByDrill;
+                knockDir = dir + cols.ElementAt(0).directionFrom(game.ship.pos);
+                knockDir.Normalize();
+            }
+            else
+            {
+                game.camera.setYShake(0.03f);
+            }
+        }
+
         public override void updatePath()
         {
-            path = pathfinder.findPath(new Point((int)makePointCoordinate(nextPosition.X), (int)makePointCoordinate(nextPosition.Y)), coreLocation);
-            pathPosition = 0;
-            atCore = false;
+            if (atCore == false)
+            {
+                path = pathfinder.findPath(new Point((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f)), coreLocation);
+                pathPosition = 0;
+
+                nextPosition = path[pathPosition];
+                target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-5 + Utilities.nextFloat() * 10), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-5 + Utilities.nextFloat() * 10));
+            }
         }
     }
 }

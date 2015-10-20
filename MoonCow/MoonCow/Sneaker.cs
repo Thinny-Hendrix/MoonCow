@@ -22,6 +22,7 @@ namespace MoonCow
         Vector3 chargeDir;
         float initDist;
         float cooldown;
+        float chargeTime;
 
         public Sneaker(Game1 game)
             : base(game)
@@ -106,7 +107,7 @@ namespace MoonCow
                     //if player in agro range
                     //if current node is base node
 
-                    if(game.map.getNodeType(nodePos) > 20 && game.map.getNodeType(nodePos) < 35)//base node
+                    if(game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
                     {
                         state = State.atBase;
                         getCoreSpot();
@@ -120,6 +121,7 @@ namespace MoonCow
                         state = State.chargePlayer;
                         setChargeDir();
                         facingDir = chargeDir;
+                        chargeTime = 0;
                     }
                 }
                 if (state == State.chargePlayer)
@@ -128,31 +130,45 @@ namespace MoonCow
                     frameDiff += chargeDir * Utilities.deltaTime * 30;
                     updateMovement();
                     agroSphere.Update(pos+direction*15);
+
+                    chargeTime += Utilities.deltaTime;
                     //if passed the ship
-                    if(!agroSphere.checkCircle(game.ship.circleCol) && cols.ElementAt(0).distFrom(game.ship.pos) > initDist+8)
+                    if(chargeTime > 2 || (!agroSphere.checkCircle(game.ship.circleCol) && cols.ElementAt(0).distFrom(game.ship.pos) > initDist+8))
                     {
-                        updatePath();
-                        cooldown = 10;
-                        updatePath();
-                        // set next node pos
-                        state = State.goToBase;
+                        if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
+                        {
+                            state = State.atBase;
+                            getCoreSpot();
+                        }
+                        else
+                        {
+                            updatePath();
+                            cooldown = 10;
+                            updatePath();
+                            state = State.goToBase;
+                        }
                     } 
                 }
-                if(state == State.atBase)
+                else if(state == State.atBase)
                 {
-
+                    goToCore();
+                    
+                    atCore = true;
+                    //pos = target;
                 }
-                if (state == State.atCore)
+                else if (state == State.atCore)
                 {
                     waitTime += Utilities.deltaTime;
                     if (waitTime > 0.5f)
                     {
                         state = State.attackCore;
                     }
+                    updateMovement();
                 }
-                if(state == State.attackCore)
+                else if(state == State.attackCore)
                 {
                     game.core.damage(0.05f*Utilities.deltaTime);
+                    updateMovement();
                 }
 
                 base.Update(gameTime);
@@ -177,12 +193,6 @@ namespace MoonCow
                 }
             }
         }
-
-        void getCoreSpot()
-        {
-
-        }
-
         void setChargeDir()
         {
             chargeDir = -1*cols.ElementAt(0).directionFrom(game.ship.pos);
@@ -190,17 +200,60 @@ namespace MoonCow
             initDist = cols.ElementAt(0).distFrom(game.ship.pos);
         }
 
+        void getCoreSpot()
+        {
+            coreSpot = game.core.getSpot(pos);
+            if (coreSpot != null)
+            {
+                target = coreSpot.pos;
+                posToCore = game.core.coordsToSpot(coreSpot, pos);
+                currentBaseIndex = 0;
+                target = posToCore.ElementAt(currentBaseIndex);
+                resetDist();
+            }
+        }
+
+        void resetDist()
+        {
+            currentDist = 0;
+            Vector3 dist = target - pos;
+            distToCore = Utilities.hypotenuseOf(dist.X, dist.Z);
+        }
+
+        void goToCore()
+        {
+            frameDiff = Vector3.Zero;
+            Vector3 targetDir = target-pos;
+            targetDir.Normalize();
+            direction = targetDir;
+            frameDiff = targetDir * moveSpeed*Utilities.deltaTime;
+            currentDist += moveSpeed * Utilities.deltaTime;
+
+            if (currentDist > distToCore)
+            {
+                if(currentBaseIndex >= posToCore.Count()-1)
+                {
+                    pos = target;
+                    state = State.atCore;
+                }
+                else
+                {
+                    currentBaseIndex++;
+                    target = posToCore.ElementAt(currentBaseIndex);
+                    resetDist();
+                }
+                
+            }
+
+
+            updateMovement();
+            frameDiff = Vector3.Zero;
+        }
+
         void goToBase()
         {
             float yAngle;
             Vector3 targetDirection = Vector3.Zero;
-
-            agroSphere.Update(pos);
-            if (agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))
-            {
-                //Agro mode active, begin doing collision checks on player and chase
-                //System.Diagnostics.Debug.WriteLine("Enemy now aggressive");
-            }
 
             if ((pos.X < target.X + 1 && pos.X > target.X - 1) && (pos.Z < target.Z + 1 && pos.Z > target.Z - 1))
             {
@@ -289,8 +342,17 @@ namespace MoonCow
 
         protected override void death()
         {
-            for (int i = 0; i < 4; i++)
-                game.ship.moneyManager.addGib(5, pos, 1);
+            for (int i = 0; i < 10; i++)
+                game.modelManager.addEffect(new GlowStreak(game, pos, new Vector2(2, 10), 2, Color.White, 0, 1));
+            game.modelManager.addEffect(new GlowStreakCenter(game, pos, 6, 2, 1));
+
+            game.ship.moneyManager.makeMoney(175, 1, pos);
+
+            if (coreSpot != null)
+                coreSpot.taken = false;
+
+            if (Utilities.random.Next(5) == 0)
+                game.ship.moneyManager.addAmmoGib(pos);
 
             game.modelManager.removeEnemy(enemyModel);
             game.enemyManager.toDelete.Add(this);
@@ -387,6 +449,25 @@ namespace MoonCow
             }
 
             return normals;
+        }
+
+        public override void drillDamage(float damage, Vector3 dir, bool boosting)
+        {
+            health -= damage;
+            if (health <= 0)
+                death();
+
+            if (boosting)
+            {
+                game.camera.setYShake(0.1f);
+                //state = State.hitByDrill;
+                knockDir = dir + cols.ElementAt(0).directionFrom(game.ship.pos);
+                knockDir.Normalize();
+            }
+            else
+            {
+                game.camera.setYShake(0.03f);
+            }
         }
 
         public override void updatePath()
