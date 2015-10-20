@@ -74,7 +74,7 @@ namespace MoonCow
         {
             XPathDocument file = new XPathDocument(@"Content/Settings/enemyBehaviours.xml");
             XPathNavigator nav = file.CreateNavigator(); 
-            XPathNodeIterator iterator = nav.Select("//swarmer"); // Look at the swarmer tag?
+            XPathNodeIterator iterator = nav.Select("//swarmer/pathing"); // Look at the swarmer tag?
             
             if (iterator.Count > 0)
             {
@@ -109,15 +109,54 @@ namespace MoonCow
                 Console.WriteLine("Swarmer Behaviour Settings Error");
             }
 
+            iterator = nav.Select("//swarmer/chasePlayer");
+            while (iterator.MoveNext())
+            {
+                swarmerPlayerChase = Boolean.Parse(iterator.Current.Value);
+            }
 
+            iterator = nav.Select("//swarmer/chargePlayer");
+            while (iterator.MoveNext())
+            {
+                swarmerPlayerCharge = Boolean.Parse(iterator.Current.Value);
+            }
 
+            iterator = nav.Select("//swarmer/attackPlayer");
+            while (iterator.MoveNext())
+            {
+                swarmerPlayerAttack = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//swarmer/followPath");
+            while (iterator.MoveNext())
+            {
+                swarmerFollowPath = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//swarmer/meleeAttack");
+            while (iterator.MoveNext())
+            {
+                swarmerMelee = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//swarmer/rangedAttack");
+            while (iterator.MoveNext())
+            {
+                swarmerRanged = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//swarmer/attackCore");
+            while (iterator.MoveNext())
+            {
+                swarmerAttackCore = Boolean.Parse(iterator.Current.Value);
+            }
 
             //Do the same for every other class
 
 
 
 
-            iterator = nav.Select("//gunner");
+            iterator = nav.Select("//gunner/pathing");
             if (iterator.Count > 0)
             {
                 String behaviour = "";
@@ -151,7 +190,50 @@ namespace MoonCow
                 Console.WriteLine("Gunner Behaviour Settings Error");
             }
 
-            iterator = nav.Select("//sneaker");
+            iterator = nav.Select("//gunner/chasePlayer");
+            while (iterator.MoveNext())
+            {
+                gunnerPlayerChase = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//gunner/chargePlayer");
+            while (iterator.MoveNext())
+            {
+                gunnerPlayerCharge = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//gunner/attackPlayer");
+            while (iterator.MoveNext())
+            {
+                gunnerPlayerAttack = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//gunner/followPath");
+            while (iterator.MoveNext())
+            {
+                gunnerFollowPath = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//gunner/meleeAttack");
+            while (iterator.MoveNext())
+            {
+                gunnerMelee = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//gunner/rangedAttack");
+            while (iterator.MoveNext())
+            {
+                gunnerRanged = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//gunner/attackCore");
+            while (iterator.MoveNext())
+            {
+                gunnerAttackCore = Boolean.Parse(iterator.Current.Value);
+            }
+
+
+            iterator = nav.Select("//sneaker/pathing");
             if (iterator.Count > 0)
             {
                 String behaviour = "";
@@ -185,7 +267,49 @@ namespace MoonCow
                 Console.WriteLine("Sneaker Behaviour Settings Error");
             }
 
-            iterator = nav.Select("//heavy");
+            iterator = nav.Select("//sneaker/chasePlayer");
+            while (iterator.MoveNext())
+            {
+                sneakerPlayerChase = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sneaker/chargePlayer");
+            while (iterator.MoveNext())
+            {
+                sneakerPlayerCharge = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sneaker/attackPlayer");
+            while (iterator.MoveNext())
+            {
+                sneakerPlayerAttack = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sneaker/followPath");
+            while (iterator.MoveNext())
+            {
+                sneakerFollowPath = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sneaker/meleeAttack");
+            while (iterator.MoveNext())
+            {
+                sneakerMelee = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sneaker/rangedAttack");
+            while (iterator.MoveNext())
+            {
+                sneakerRanged = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sneaker/attackCore");
+            while (iterator.MoveNext())
+            {
+                sneakerAttackCore = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//heavy/pathing");
             if (iterator.Count > 0)
             {
                 String behaviour = "";
@@ -219,55 +343,127 @@ namespace MoonCow
                 Console.WriteLine("Heavy Behaviour Settings Error");
             }
 
+            iterator = nav.Select("//heavy/chasePlayer");
+            while (iterator.MoveNext())
+            {
+                heavyPlayerChase = Boolean.Parse(iterator.Current.Value);
+            }
 
-            // This fucntions is going to be so fucking huge it makes me cry
-            // placeholder default hardcoded values
+            iterator = nav.Select("//heavy/chargePlayer");
+            while (iterator.MoveNext())
+            {
+                heavyPlayerCharge = Boolean.Parse(iterator.Current.Value);
+            }
 
-            swarmerBehaviour = Behaviour.ShortestPathFirst;
-            gunnerBehaviour = Behaviour.AvoidTurretDamage;
-            sneakerBehaviour = Behaviour.AvoidPlayerDamage;
-            heavyBehaviour = Behaviour.ShortestPathFirst;
-            sentryBehaviour = Behaviour.ShortestPathFirst;
+            iterator = nav.Select("//heavy/attackPlayer");
+            while (iterator.MoveNext())
+            {
+                heavyPlayerAttack = Boolean.Parse(iterator.Current.Value);
+            }
 
-            swarmerPlayerChase = true;
-            swarmerPlayerCharge = false;
-            swarmerPlayerAttack = true;
-            swarmerFollowPath = true;
-            swarmerMelee = true;
-            swarmerRanged = false;
-            swarmerAttackCore = true;
+            iterator = nav.Select("//heavy/followPath");
+            while (iterator.MoveNext())
+            {
+                heavyFollowPath = Boolean.Parse(iterator.Current.Value);
+            }
 
-            gunnerAttackCore = true;
-            gunnerFollowPath = true;
-            gunnerMelee = true;
-            gunnerPlayerAttack = true;
-            gunnerPlayerChase = false;
-            gunnerPlayerCharge = false;
-            gunnerRanged = true;
+            iterator = nav.Select("//heavy/meleeAttack");
+            while (iterator.MoveNext())
+            {
+                heavyMelee = Boolean.Parse(iterator.Current.Value);
+            }
 
-            sneakerAttackCore = true;
-            sneakerFollowPath = true;
-            sneakerMelee = true;
-            sneakerPlayerAttack = true;
-            sneakerPlayerChase = false;
-            sneakerPlayerCharge = true;
-            sneakerRanged = false;
+            iterator = nav.Select("//heavy/rangedAttack");
+            while (iterator.MoveNext())
+            {
+                heavyRanged = Boolean.Parse(iterator.Current.Value);
+            }
 
-            heavyAttackCore = true;
-            heavyFollowPath = true;
-            heavyMelee = true;
-            heavyPlayerAttack = true;
-            heavyPlayerChase = false;
-            heavyPlayerCharge = false;
-            heavyRanged = false;
+            iterator = nav.Select("//heavy/attackCore");
+            while (iterator.MoveNext())
+            {
+                heavyAttackCore = Boolean.Parse(iterator.Current.Value);
+            }
 
-            sentryAttackCore = false;
-            sentryFollowPath = false;
-            sentryMelee = false;
-            sentryPlayerAttack = true;
-            sentryPlayerChase = false;
-            sentryPlayerCharge = false;
-            sentryRanged = true;
+
+
+            //Sentry
+            iterator = nav.Select("//sentry/pathing");
+            if (iterator.Count > 0)
+            {
+                String behaviour = "";
+
+                while (iterator.MoveNext())
+                {
+                    behaviour = iterator.Current.Value;
+                }
+
+                System.Diagnostics.Debug.WriteLine("Sentry behaviour  = " + behaviour);
+
+                if (behaviour.Equals("AvoidTurretDamage"))
+                {
+                    sentryBehaviour = Behaviour.AvoidTurretDamage;
+                }
+                else
+                {
+                    if (behaviour.Equals("AvoidPlayerDamage"))
+                    {
+                        sentryBehaviour = Behaviour.AvoidPlayerDamage;
+                    }
+                    else
+                    {
+                        //shortest path
+                        sentryBehaviour = Behaviour.ShortestPathFirst;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Sentry Behaviour Settings Error");
+            }
+
+            iterator = nav.Select("//sentry/chasePlayer");
+            while (iterator.MoveNext())
+            {
+                sentryPlayerChase = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sentry/chargePlayer");
+            while (iterator.MoveNext())
+            {
+                sentryPlayerCharge = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sentry/attackPlayer");
+            while (iterator.MoveNext())
+            {
+                sentryPlayerAttack = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sentry/followPath");
+            while (iterator.MoveNext())
+            {
+                sentryFollowPath = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sentry/meleeAttack");
+            while (iterator.MoveNext())
+            {
+                sentryMelee = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sentry/rangedAttack");
+            while (iterator.MoveNext())
+            {
+                sentryRanged = Boolean.Parse(iterator.Current.Value);
+            }
+
+            iterator = nav.Select("//sentry/attackCore");
+            while (iterator.MoveNext())
+            {
+                sentryAttackCore = Boolean.Parse(iterator.Current.Value);
+            }
+
         }
 
     }
