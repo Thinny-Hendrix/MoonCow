@@ -74,6 +74,7 @@ namespace MoonCow
 
         //Money gibs
         public static Model oreGib1;
+        public static Model drillItem;
 
 
 
@@ -148,6 +149,7 @@ namespace MoonCow
 
             //money gibs
             oreGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/ore1");
+            drillItem = game.Content.Load<Model>(@"Models/Weapons/Drill/drillCollect");
         }
     }
 }

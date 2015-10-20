@@ -396,8 +396,8 @@ namespace MoonCow
             manager.sToDelete.Add(this);
             game.modelManager.removeEnemy(model);
             for(int i = 0; i < 10; i++)
-                game.modelManager.addEffect(new GlowStreak(game, pos, new Vector2(2,7), 2, Color.White, 0));
-            game.modelManager.addEffect(new GlowStreakCenter(game, pos, 3, 2));
+                game.modelManager.addEffect(new GlowStreak(game, pos, new Vector2(2,7), 2, Color.White, 0,-1));
+            game.modelManager.addEffect(new GlowStreakCenter(game, pos, 3, 2,-1));
             for (int i = 0; i < 3; i++)
                 ship.moneyManager.addGib(20, pos, -1);
         }

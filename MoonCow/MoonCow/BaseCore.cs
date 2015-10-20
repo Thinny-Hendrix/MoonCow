@@ -9,6 +9,7 @@ namespace MoonCow
 {
     public class BaseCore:GameComponent
     {
+
         public float health;
         Game1 game;
         Vector3 pos;

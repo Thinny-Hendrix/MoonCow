@@ -11,14 +11,14 @@ namespace MoonCow
     {
         List<SpriteParticle> toDeleteList;
         Color col;
-        public DrillLineParticle(List<SpriteParticle> toDeleteList):base()
+        public DrillLineParticle(Color col, List<SpriteParticle> toDeleteList):base()
         {
             this.toDeleteList = toDeleteList;
             pos = new Vector2(256, -32);
             setTex();
             scale = 1;
             alpha = 1;
-            col = Color.White;
+            this.col = col;
         }
 
         void setTex()

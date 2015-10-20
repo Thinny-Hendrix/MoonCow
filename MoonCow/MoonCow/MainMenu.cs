@@ -21,6 +21,7 @@ namespace MoonCow
         float holdTime;
 
         bool active;
+        bool loading;
 
         public MainMenu(Game1 game):base(game)
         {
@@ -48,6 +49,7 @@ namespace MoonCow
             switch(activeButton)
             {
                 default:
+                    loading = true;
                     game.runState = Game1.RunState.MainGame;
                     game.initializeGame();
                     game.Components.Remove(this);
@@ -120,14 +122,28 @@ namespace MoonCow
             }
         }
 
-        public override void Draw(GameTime gameTime)
+        void drawLoading()
         {
-            game.GraphicsDevice.SetRenderTarget(null);
-            sb.Begin();
+            sb.Draw(MenuAssets.pureWhite, Utilities.scaledRect(Utilities.scaledCoords(300,400),500*game.loadPercentage,40), Color.Red);
+            sb.Draw(MenuAssets.load, Utilities.scaledCoords(300, 700), Color.White);
+        }
+        void drawMenu()
+        {
             foreach (MenuButton b in buttons)
             {
                 b.Draw(sb);
             }
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            game.GraphicsDevice.SetRenderTarget(null);
+            sb.Begin();
+            if (!loading)
+                drawMenu();
+            else
+                drawLoading();
+            
             sb.End();
         }
 

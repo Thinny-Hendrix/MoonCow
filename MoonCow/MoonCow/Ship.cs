@@ -158,7 +158,7 @@ namespace MoonCow
                 //## BARREL ROLL ##
                 updateBarrelRoll();
 
-                checkFinishingMove();
+                //checkFinishingMove();
 
                 //########### Collision detection and final movement application #########
                 updateMovement();
@@ -172,10 +172,10 @@ namespace MoonCow
             if (Keyboard.GetState().IsKeyDown(Keys.J))
                 moneyManager.addMoney(-35);
             if (Keyboard.GetState().IsKeyDown(Keys.K))
-                moneyManager.addMoney(-1329);*/
+                moneyManager.addMoney(-1329);
 
             if (Keyboard.GetState().IsKeyDown(Keys.L))
-                shipHealth.onHit(3);
+                shipHealth.onHit(3);*/
 
             if (Keyboard.GetState().IsKeyDown(Keys.T))
                 respawn();
@@ -273,69 +273,76 @@ namespace MoonCow
 
             if (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.D))
                 keys = true;
-            if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.A) || stickX < -0.3f))
+            if (!finishingMove)
             {
-                turning = true;
-                if (boosting)
+                if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.A) || stickX < -0.3f))
                 {
-                    if(keys)
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed / 2, Utilities.deltaTime * 5);
+                    turning = true;
+                    if (boosting)
+                    {
+                        if (keys)
+                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed / 2, Utilities.deltaTime * 5);
+                        else
+                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
+                                                        MathHelper.Lerp(0, maxTurnSpeed / 2, -(stickX + 0.3f) * (1 / 0.4f)),
+                                                        Utilities.deltaTime * 5);
+                        tilt = MathHelper.Lerp(tilt, 10 * currentTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
+                    }
                     else
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
-                                                    MathHelper.Lerp(0, maxTurnSpeed/2, -(stickX + 0.3f) * (1 / 0.4f)),
-                                                    Utilities.deltaTime * 5);
-                    tilt = MathHelper.Lerp(tilt, 10 * currentTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
+                    {
+                        if (keys)
+                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed, Utilities.deltaTime * 5);
+                        else
+                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
+                                MathHelper.Lerp(0, maxTurnSpeed, -(stickX + 0.3f) * (1 / 0.4f)),
+                                Utilities.deltaTime * 5);
+                        tilt = MathHelper.Lerp(tilt, 20 * currentTurnSpeed, Utilities.deltaTime * 2);
+                    }
                 }
-                else
+                if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.D) || stickX > 0.3f))
                 {
-                    if(keys)
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, maxTurnSpeed, Utilities.deltaTime * 5);
+                    turning = true;
+                    if (boosting)
+                    {
+                        if (keys)
+                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed / 2, Utilities.deltaTime * 5);
+                        else
+                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
+                                MathHelper.Lerp(0, -maxTurnSpeed / 2, (stickX - 0.3f) * (1 / 0.4f)),
+                                Utilities.deltaTime * 5);
+                        tilt = MathHelper.Lerp(tilt, 10 * currentTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
+                    }
                     else
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, 
-                            MathHelper.Lerp(0, maxTurnSpeed, -(stickX + 0.3f) * (1 / 0.4f)), 
-                            Utilities.deltaTime * 5);
-                    tilt = MathHelper.Lerp(tilt, 20 * currentTurnSpeed, Utilities.deltaTime * 2);
-                }
-            }
-            if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.D) || stickX > 0.3f))
-            {
-                turning = true;
-                if (boosting)
-                {
-                    if(keys)
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed / 2, Utilities.deltaTime * 5);
-                    else
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
-                            MathHelper.Lerp(0, -maxTurnSpeed/2, (stickX - 0.3f) * (1 / 0.4f)),
-                            Utilities.deltaTime * 5);
-                    tilt = MathHelper.Lerp(tilt, 10 * currentTurnSpeed, Utilities.deltaTime * 2); //note -20*maxTurnSpeed is pi/6
-                }
-                else
-                {
-                    if(keys)
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed, Utilities.deltaTime * 5);
-                    else
-                        currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
-                            MathHelper.Lerp(0, -maxTurnSpeed, (stickX - 0.3f) * (1 / 0.4f)),
-                            Utilities.deltaTime * 5);
-                    tilt = MathHelper.Lerp(tilt, 20 * currentTurnSpeed, Utilities.deltaTime * 2);
+                    {
+                        if (keys)
+                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, -maxTurnSpeed, Utilities.deltaTime * 5);
+                        else
+                            currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed,
+                                MathHelper.Lerp(0, -maxTurnSpeed, (stickX - 0.3f) * (1 / 0.4f)),
+                                Utilities.deltaTime * 5);
+                        tilt = MathHelper.Lerp(tilt, 20 * currentTurnSpeed, Utilities.deltaTime * 2);
+                    }
+
                 }
 
-            }
+                if (!turning)
+                {
+                    currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, 0, Utilities.deltaTime * 5);
+                    tilt = MathHelper.Lerp(tilt, 0, Utilities.deltaTime * 2);
 
-            if (!turning)
+                }
+
+                rot.Z = tilt;
+
+                rot.Y += currentTurnSpeed;
+                direction.X = -(float)Math.Sin(rot.Y);
+                direction.Z = -(float)Math.Cos(rot.Y);
+                direction.Normalize();
+            }
+            else
             {
-                currentTurnSpeed = MathHelper.Lerp(currentTurnSpeed, 0, Utilities.deltaTime * 5);
                 tilt = MathHelper.Lerp(tilt, 0, Utilities.deltaTime * 2);
-
             }
-
-            rot.Z = tilt;
-
-            rot.Y += currentTurnSpeed;
-            direction.X = -(float)Math.Sin(rot.Y);
-            direction.Z = -(float)Math.Cos(rot.Y);
-            direction.Normalize();
         }
 
         void updateSpeed()
@@ -505,7 +512,14 @@ namespace MoonCow
                     // calculate how much to take off from movement here
                     normalForce += normals[i] * Math.Abs(Vector3.Dot(frameDiff, normals[i]));
 
-                    pos += normalForce;
+                    if (freezeCollide && weapons.drill.drillColliding)
+                    {
+                        pos -= frameDiff;
+                    }
+                    else
+                    {
+                        pos += normalForce;
+                    }
 
                     List<Vector3> test = checkCollision();
                     if (test.Count() == 0)
@@ -620,10 +634,7 @@ namespace MoonCow
                             Vector3 normal = circleCol.circleCollide(c);
                             if (!(normal.Equals(Vector3.Zero)))
                             {
-                                if ((((WeaponDrill)weapons.weapons.ElementAt(4)).active && moving))
-                                {
-                                    freezeCollide = true;
-                                }
+                                freezeCollide = true;
                                 normals.Add(normal);
                                 //c.push(moveSpeed, pos, 4.0f);
                                 //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
@@ -666,6 +677,7 @@ namespace MoonCow
                             //c.push(moveSpeed, pos, 4.0f);
                             //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             normals.Add(normal);
+                            freezeCollide = true;
                         }
                     }
                 }

@@ -58,6 +58,7 @@
     <Compile Include="AudioLibrary.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="BaseCore.cs" />
+    <Compile Include="BaseCoreSpot.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="BasicModel.cs" />
     <Compile Include="BloomComponent.cs" />
@@ -71,6 +72,8 @@
     <Compile Include="BombSpin.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CircleCollider.cs" />
+    <Compile Include="Collectable.cs" />
+    <Compile Include="CollectableDrill.cs" />
     <Compile Include="CoreRing.cs" />
     <Compile Include="CoreSphereModel.cs" />
     <Compile Include="DirLineParticle.cs" />
@@ -78,6 +81,8 @@
     <Compile Include="DotParticle.cs" />
     <Compile Include="DrillDome.cs" />
     <Compile Include="DrillLineParticle.cs" />
+    <Compile Include="DrillSpinControl.cs" />
+    <Compile Include="DrillSpinEffect.cs" />
     <Compile Include="ElecParticle.cs" />
     <Compile Include="ElectroDamage.cs" />
     <Compile Include="ElectroDir.cs" />
@@ -142,6 +147,7 @@
     <Compile Include="SneakerModel.cs" />
     <Compile Include="GlowStreak.cs" />
     <Compile Include="SpDot.cs" />
+    <Compile Include="SpinParticle.cs" />
     <Compile Include="SpRing.cs" />
     <Compile Include="SentryProjectile.cs" />
     <Compile Include="GattleProjectile.cs" />
@@ -356,6 +362,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Hud\hudWepO2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Hud\Menu\load.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Hud\mesFill.png">
@@ -860,6 +869,42 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\Electro\elecTrail64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\glowCent_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\glowCent_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\glowCent_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\glowCent_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\glowStreak-0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\glowStreak-1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\glowStreak-2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\glowStreak-3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\spinglow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\spinGlow256.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\spinGlowblue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Effects\Enemy\spinGlow_d.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\gibglow.png">
@@ -1810,6 +1855,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Weapons\shockWave.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\Drill\drillCollect.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Weapons\Drill\drillTex_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
