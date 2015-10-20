@@ -17,6 +17,7 @@ namespace MoonCow
         public Vector3 direction;
         public Vector3 knockDir;
         public bool frozen;
+        public Vector3 facingDir;
 
         public float moveSpeed;
         public float maxSpeed;

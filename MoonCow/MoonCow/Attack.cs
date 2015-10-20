@@ -28,7 +28,8 @@ namespace MoonCow
             currentWaveNumber = -1; 
             attackNumber = attackNo;
             active = true;
-            createWaves();
+            testWave();
+            //createWaves();
             //tempWaveCreator();
             //activeWave = waves[currentWaveNumber];
         }
@@ -76,6 +77,14 @@ namespace MoonCow
         void setWaitTime()
         {
             waitTime = (float)Math.Ceiling(activeWave.cDownThresh * activeWave.waveMax + 5);
+        }
+
+        void testWave()
+        {
+            inAttack = 3;
+            waves.Add(new Wave(game, manager, attackNumber, 1, 1, 1));
+            waves.Add(new Wave(game, manager, attackNumber, 2, 3, 1));
+            waves.Add(new Wave(game, manager, attackNumber, 3, 3, 1));
         }
 
         private void tempWaveCreator()

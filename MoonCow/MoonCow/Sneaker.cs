@@ -17,14 +17,18 @@ namespace MoonCow
         Vector3 frameDiff = new Vector3(0, 0, 0);
         float pathTimer;
         public enum State { goToBase, atBase, atCore, attackCore, noticedPlayer, chargePlayer, coolDown, strongHit, knockBack, hitByDrill }
-
+        State state;
+        float waitTime;
+        Vector3 chargeDir;
+        float initDist;
+        float cooldown;
 
         public Sneaker(Game1 game)
             : base(game)
         {
             this.game = game;
-            moveSpeed = 0;
             maxSpeed = 10 + Utilities.nextFloat();
+            moveSpeed = maxSpeed;
             direction = new Vector3(0, (float)Math.PI, 0);
             rot = direction;
             currentTurnSpeed = 0;
@@ -44,6 +48,8 @@ namespace MoonCow
             prevPosition = spawn;
 
             pos = new Vector3(makeCentreCoordinate(spawn.X), 4.5f, makeCentreCoordinate(spawn.Y));
+
+            state = State.goToBase;
 
             switch (EnemyBehaviour.sneakerBehaviour)
             {
@@ -70,7 +76,7 @@ namespace MoonCow
             //System.Diagnostics.Debug.WriteLine(path);
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
-            agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 4f);
+            agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 15);
 
             health = 15;
             pathTimer = 10;
@@ -82,104 +88,186 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            float yAngle;
-            Vector3 targetDirection = Vector3.Zero;
             //target = game.ship.pos;
             //target = new Vector3(makeCentreCoordinate(coreLocation.X), 4.5f, makeCentreCoordinate(coreLocation.Y));
 
             //Agro stuff and attacks
             if (!electroDamage.active)
             {
-                agroSphere.Update(pos);
-                if (agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))
+                if (state == State.goToBase)
                 {
-                    //Agro mode active, begin doing collision checks on player and chase
-                    //System.Diagnostics.Debug.WriteLine("Enemy now aggressive");
+                    goToBase();
+                    agroSphere.Update(pos+direction*15);
+                    if (cooldown == 0 && agroSphere.checkCircle(game.ship.circleCol))
+                    {
+                        state = State.noticedPlayer;
+                        waitTime = 0;
+                    }
+                    //if player in agro range
+                    //if current node is base node
+
+                    if(game.map.getNodeType(nodePos) > 20 && game.map.getNodeType(nodePos) < 35)//base node
+                    {
+                        state = State.atBase;
+                        getCoreSpot();
+                    }
+                }
+                if (state == State.noticedPlayer)
+                {
+                    waitTime += Utilities.deltaTime;
+                    if (waitTime > 0.5f)
+                    {
+                        state = State.chargePlayer;
+                        setChargeDir();
+                        facingDir = chargeDir;
+                    }
+                }
+                if (state == State.chargePlayer)
+                {
+                    frameDiff += chargeDir * Utilities.deltaTime * 30;
+                    //checkCollision();
+                    updateMovement();
+                    agroSphere.Update(pos+direction*15);
+                    //if passed the ship
+                    if(!agroSphere.checkCircle(game.ship.circleCol) && cols.ElementAt(0).distFrom(game.ship.pos) > initDist+8)
+                    {
+                        cooldown = 10;
+                        state = State.goToBase;
+                    }
+                    frameDiff = Vector3.Zero;
+                }
+                if(state == State.atBase)
+                {
+
+                }
+                if (state == State.atCore)
+                {
+                    waitTime += Utilities.deltaTime;
+                    if (waitTime > 0.5f)
+                    {
+                        state = State.attackCore;
+                    }
+                }
+                if(state == State.attackCore)
+                {
+                    game.core.damage(0.05f*Utilities.deltaTime);
                 }
 
-                if ((pos.X < target.X + 1 && pos.X > target.X - 1) && (pos.Z < target.Z + 1 && pos.Z > target.Z - 1))
+                base.Update(gameTime);
+
+                if (health <= 0)
                 {
+                    death();
+                }
+
+                pathTimer -= Utilities.deltaTime;
+                if (pathTimer <= 0)
+                {
+                    updatePath();
+                    pathTimer = 10;
+                }
+
+                if(cooldown != 0)
+                {
+                    cooldown -= Utilities.deltaTime;
+                    if (cooldown < 0)
+                        cooldown = 0;
+                }
+            }
+        }
+
+        void getCoreSpot()
+        {
+
+        }
+
+        void setChargeDir()
+        {
+            chargeDir = -1*cols.ElementAt(0).directionFrom(game.ship.pos);
+            chargeDir.Y = 0;
+            initDist = cols.ElementAt(0).distFrom(game.ship.pos);
+        }
+
+        void goToBase()
+        {
+            float yAngle;
+            Vector3 targetDirection = Vector3.Zero;
+
+            agroSphere.Update(pos);
+            if (agroSphere.checkPoint(new Vector2(game.ship.pos.X, game.ship.pos.Z)))
+            {
+                //Agro mode active, begin doing collision checks on player and chase
+                //System.Diagnostics.Debug.WriteLine("Enemy now aggressive");
+            }
+
+            if ((pos.X < target.X + 1 && pos.X > target.X - 1) && (pos.Z < target.Z + 1 && pos.Z > target.Z - 1))
+            {
+                if (path.Count > pathPosition)
+                {
+                    prevPosition = nextPosition;
+                    nextPosition = path[pathPosition];
+                    pathPosition += 1;
+
                     if (path.Count > pathPosition)
                     {
-                        prevPosition = nextPosition;
-                        nextPosition = path[pathPosition];
-                        pathPosition += 1;
-
-                        if (path.Count > pathPosition)
-                        {
-                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-5 + Utilities.nextFloat() * 10), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-5 + Utilities.nextFloat() * 10));
-                        }
-                        else if (path.Count == pathPosition)
-                        {
-                            // How do I get the enemies to surround the core without going through it?
-                            // Answering this question will be post alpha
-                            target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
-                        }
+                        target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-5 + Utilities.nextFloat() * 10), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-5 + Utilities.nextFloat() * 10));
                     }
-                    else
+                    else if (path.Count == pathPosition)
                     {
-                        atCore = true;
-                        target = new Vector3(makeCentreCoordinate(nextPosition.X), 4.5f, makeCentreCoordinate(nextPosition.Y));
+                        // How do I get the enemies to surround the core without going through it?
+                        // Answering this question will be post alpha
+                        target = new Vector3(makeCentreCoordinate(nextPosition.X) + (-14 + Utilities.nextFloat() * 3), 4.5f, makeCentreCoordinate(nextPosition.Y) + (-10 + Utilities.nextFloat() * 20));
                     }
-                }
-
-                //Turning Code
-                yAngle = (float)Math.Atan2(pos.X - target.X, pos.Z - target.Z);
-                targetDirection.X = -(float)Math.Sin(yAngle);
-                targetDirection.Z = -(float)Math.Cos(yAngle);
-                targetDirection.Normalize();
-
-                direction = Vector3.Lerp(direction, targetDirection, Utilities.deltaTime * 4.5f);
-                rot.Y = (float)Math.Atan2(direction.X, direction.Z) + MathHelper.Pi;
-
-                //Movement Code
-                if (!atCore)
-                {
-                    frameDiff += direction * moveSpeed * Utilities.deltaTime;
-
-                    if (moveSpeed < maxSpeed)
-                    {
-                        moveSpeed += Utilities.deltaTime * 6;
-                    }
-
-                    checkCollision();
-                    frameDiff = Vector3.Zero;
                 }
                 else
                 {
-                    //need slowdown code
-                    moveSpeed = 0;
-
+                    atCore = true;
+                    target = new Vector3(makeCentreCoordinate(nextPosition.X), 4.5f, makeCentreCoordinate(nextPosition.Y));
                 }
+            }
 
-                nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-                boundingBox.Update(pos, direction);
-                foreach (CircleCollider c in cols)
+            //Turning Code
+            yAngle = (float)Math.Atan2(pos.X - target.X, pos.Z - target.Z);
+            targetDirection.X = -(float)Math.Sin(yAngle);
+            targetDirection.Z = -(float)Math.Cos(yAngle);
+            targetDirection.Normalize();
+
+            direction = Vector3.Lerp(direction, targetDirection, Utilities.deltaTime * 4.5f);
+            rot.Y = (float)Math.Atan2(direction.X, direction.Z) + MathHelper.Pi;
+
+            //Movement Code
+            if (!atCore)
+            {
+                frameDiff += direction * moveSpeed * Utilities.deltaTime;
+
+                if (moveSpeed < maxSpeed)
                 {
-                    c.Update(pos);
+                    moveSpeed += Utilities.deltaTime * 6;
                 }
 
-                pos.Y = 4.5f + (float)Math.Sin(time) * 0.2f;
-
-                time += Utilities.deltaTime * MathHelper.Pi * 2.4f;
-
-                if (time > MathHelper.Pi * 2)
-                    time -= MathHelper.Pi * 2;
+                checkCollision();
+                frameDiff = Vector3.Zero;
             }
-
-            base.Update(gameTime);
-
-            if (health <= 0)
+            else
             {
-                death();
+                //need slowdown code
+                moveSpeed = 0;
+
             }
 
-            pathTimer -= Utilities.deltaTime;
-            if(pathTimer <= 0)
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+            boundingBox.Update(pos, direction);
+            foreach (CircleCollider c in cols)
             {
-                updatePath();
-                pathTimer = 10;
+                c.Update(pos);
             }
+
+            pos.Y = 4.5f + (float)Math.Sin(time) * 0.2f;
+
+            time += Utilities.deltaTime * MathHelper.Pi * 2.4f;
+
+            if (time > MathHelper.Pi * 2)
+                time -= MathHelper.Pi * 2;
         }
 
         protected override void death()
@@ -220,6 +308,94 @@ namespace MoonCow
                 c.Update(pos);
             }
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+        }
+
+        void updateMovement()
+        {
+            pos += frameDiff;
+            List<Vector3> normals = checkNormalCollision();
+            if (normals.Count > 0)
+            {
+                for (int i = 0; i < normals.Count(); i++)
+                {
+                    Vector3 normalForce = Vector3.Zero;
+                    // calculate how much to take off from movement here
+                    normalForce += normals[i] * Math.Abs(Vector3.Dot(frameDiff, normals[i]));
+
+                    pos += normalForce;
+
+                    List<Vector3> test = checkNormalCollision();
+                    if (test.Count() == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        List<Vector3> checkNormalCollision()
+        {
+            // Move the bounding circle to new position
+            foreach (CircleCollider c in cols)
+            {
+                c.Update(pos);
+            } 
+            List<Vector3> normals = new List<Vector3>();
+
+            // Get current node co-ordinates
+            nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+            // Make a list containing current node and all neighbor nodes
+            List<MapNode> currentNodes = new List<MapNode>();
+            currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y]);
+            for (int i = 0; i < 4; i++)
+            {
+                if (game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i] != null)
+                {
+                    currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i]);
+                }
+            }
+
+            //For the current node check if your X component will make you collide with wall
+            foreach (MapNode node in currentNodes)
+            {
+                // Check map collision boxes
+                foreach (OOBB box in node.collisionBoxes)
+                {
+                    Vector3 normal = cols.ElementAt(0).wallCollide(box);
+                    if (!(normal.Equals(Vector3.Zero)))
+                    {
+                        normals.Add(normal);
+                    }
+                }
+
+                // Check enemies within spatial partitioning
+                foreach (Enemy e in game.enemyManager.enemies)
+                {
+                    if (node.position.X == e.nodePos.X && node.position.Y == e.nodePos.Y)
+                    {
+                        foreach (CircleCollider c in e.cols)
+                        {
+                            Vector3 normal = cols.ElementAt(0).circleCollide(c);
+                            if (!(normal.Equals(Vector3.Zero)))
+                            {
+                                normals.Add(normal);
+                                //c.push(moveSpeed, pos, 4.0f);
+                                //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Check collision with core
+            Vector3 coreNormal = cols.ElementAt(0).circleCollide(game.core.col);
+            if (!(coreNormal.Equals(Vector3.Zero)))
+            {
+                normals.Add(coreNormal);
+            }
+
+            return normals;
         }
 
         public override void updatePath()

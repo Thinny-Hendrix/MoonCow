@@ -20,6 +20,8 @@ namespace MoonCow
 
         Game1 game;
 
+        public int agroSwarmers;
+
         public EnemyManager(Game1 game) : base(game)
         {
             this.game = game;

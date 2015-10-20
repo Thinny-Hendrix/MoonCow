@@ -18,6 +18,8 @@ namespace MoonCow
         Game1 game;
         public bool active;
         float timer;
+        Color col;
+        float time;
 
         public DrillDome(Game1 game, WeaponDrill drill)
         {
@@ -32,6 +34,7 @@ namespace MoonCow
 
             rTarg = new RenderTarget2D(game.GraphicsDevice, 512, 256);
             sb = new SpriteBatch(game.GraphicsDevice);
+            time = 0;
         }
 
         public void setShip(Ship ship)
@@ -63,8 +66,14 @@ namespace MoonCow
                     timer -= Utilities.deltaTime;
                     if (timer <= 0)
                     {
-                        particles.Add(new DrillLineParticle(toDelete));
+                        time -= MathHelper.Pi;
+                        if (time < -MathHelper.Pi * 2)
+                            time += MathHelper.Pi * 2;
+                        col = Color.Lerp(Color.White, Color.SeaGreen, (float)(Math.Cos(time) + 1) / 2);
+
+                        particles.Add(new DrillLineParticle(col,toDelete));
                         timer = 0.1f;
+
                     }
                 }
 

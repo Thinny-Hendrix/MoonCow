@@ -58,6 +58,7 @@
     <Compile Include="AudioLibrary.cs" />
     <Compile Include="AudioManager.cs" />
     <Compile Include="BaseCore.cs" />
+    <Compile Include="BaseCoreSpot.cs" />
     <Compile Include="BaseModel.cs" />
     <Compile Include="BasicModel.cs" />
     <Compile Include="BloomComponent.cs" />

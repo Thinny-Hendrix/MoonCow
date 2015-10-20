@@ -58,6 +58,11 @@ namespace MoonCow
             return (int)mapSize.Y;
         }
 
+        public int getNodeType(Vector2 nodePos)
+        {
+            return map[(int)nodePos.X, (int)nodePos.Y].type;
+        }
+
         public List<Vector2> getEnemySpawn()
         {
             return enemySpawn;
