@@ -96,9 +96,19 @@ namespace MoonCow
             }
 
             // If any of the circle points are inside the box
-            if(pointInside[0] || pointInside[1] || pointInside[2] || pointInside[3])
+            if (pointInside[0] || pointInside[1] || pointInside[2] || pointInside[3])
             {
                 return true;
+            }
+            else
+            {
+                foreach(Vector2 corner in box.corners)
+                {
+                    if(checkPoint(corner))
+                    {
+                        return true;
+                    }
+                }
             }
 
             return false;

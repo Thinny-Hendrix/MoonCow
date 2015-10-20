@@ -2,29 +2,84 @@
 <!--
     This XML script file is used to control the behaviour of the enemy classes in the game.
     Each enemy class is represented in a XML tag below (eg <swarmer>)
-    Each of these tags contains a keyword, this keyword is then used to determine which Pathfinding AI will be used
+    Each of these enemy type tags contain a list of behaviour tags
     
+    The first tage defines which Pathfinding Behaviour the enemy will exhibit
     The only recognised keywords are:
     
     ShortestPathFirst
     AvoidTurretDamage
     AvoidPlayerDamage
     
-    Bool for each enemy class for the following conditions:
-    Do they chase the player
-    Do they attack the player if in range of weapon
-    Do they follow pathfinding
-    Do they attack the core
+    The next series of tags define if that enemy class will transition into the following states:
+    Do they chase the player if close by
+    Do they charge past the player if player is in front of them
+    Do they attack the player if in range of weapon (melee or ranged)
+    Do they follow pathfinding (if false the enemy will remain stationary)
+    Do they attack the core if in range
     Do they have a ranged attack
     Do they have a melee attack
     
-    Also add the sentry turret in as an entity in the settings
+    These values can either be:
     
-    If the keyword is not recognised, the default value (ShortestPathFirst) will be used.
+    True
+    False
+    
+    If the keyword is not recognised, a default value will be used.
+    Defaults are:
+    
+    ShortestPathFirst
+    False
 -->
 <behaviour>
-  <swarmer>ShortestPathFirst</swarmer>
-  <gunner>AvoidTurretDamage</gunner>
-  <sneaker>AvoidPlayerDamage</sneaker>
-  <heavy>ShortestPathFirst</heavy>
+  <swarmer>
+    <pathing>ShortestPathFirst</pathing>
+    <chasePlayer>true</chasePlayer>
+    <chargePlayer>false</chargePlayer>
+    <attackPlayer>true</attackPlayer>
+    <followPath>true</followPath>
+    <meleeAttack>true</meleeAttack>
+    <rangedAttack>false</rangedAttack>
+    <attackCore>true</attackCore>
+  </swarmer>
+  <gunner>
+    <pathing>AvoidTurretDamage</pathing>
+    <chasePlayer>false</chasePlayer>
+    <chargePlayer>false</chargePlayer>
+    <attackPlayer>true</attackPlayer>
+    <followPath>true</followPath>
+    <meleeAttack>true</meleeAttack>
+    <rangedAttack>true</rangedAttack>
+    <attackCore>true</attackCore>
+  </gunner>
+  <sneaker>
+    <pathing>AvoidPlayerDamage</pathing>
+    <chasePlayer>false</chasePlayer>
+    <chargePlayer>true</chargePlayer>
+    <attackPlayer>true</attackPlayer>
+    <followPath>true</followPath>
+    <meleeAttack>true</meleeAttack>
+    <rangedAttack>false</rangedAttack>
+    <attackCore>true</attackCore>
+  </sneaker>
+  <heavy>
+    <pathing>ShortestPathFirst</pathing>
+    <chasePlayer>false</chasePlayer>
+    <chargePlaher>false</chargePlaher>
+    <attackPlayer>true</attackPlayer>
+    <followPath>true</followPath>
+    <meleeAttack>true</meleeAttack>
+    <rangedAttack>false</rangedAttack>
+    <attackCore>true</attackCore>
+  </heavy>
+  <sentry>
+    <pathing>ShortestPathFirst</pathing>
+    <chasePlayer>false</chasePlayer>
+    <chargePlayer>false</chargePlayer>
+    <attackPlayer>true</attackPlayer>
+    <followPath>false</followPath>
+    <meleeAttack>false</meleeAttack>
+    <rangedAttack>true</rangedAttack>
+    <attackCore>false</attackCore>
+  </sentry>
 </behaviour>

@@ -27,6 +27,13 @@ namespace MoonCow
         public static bool heavyPlayerChase;
         public static bool sentryPlayerChase;
 
+        //variables to holf the player charge bool
+        public static bool swarmerPlayerCharge;
+        public static bool gunnerPlayerCharge;
+        public static bool sneakerPlayerCharge;
+        public static bool heavyPlayerCharge;
+        public static bool sentryPlayerCharge;
+
         //variables to hold player damage bool
         public static bool swarmerPlayerAttack;
         public static bool gunnerPlayerAttack;
@@ -216,7 +223,14 @@ namespace MoonCow
             // This fucntions is going to be so fucking huge it makes me cry
             // placeholder default hardcoded values
 
+            swarmerBehaviour = Behaviour.ShortestPathFirst;
+            gunnerBehaviour = Behaviour.AvoidTurretDamage;
+            sneakerBehaviour = Behaviour.AvoidPlayerDamage;
+            heavyBehaviour = Behaviour.ShortestPathFirst;
+            sentryBehaviour = Behaviour.ShortestPathFirst;
+
             swarmerPlayerChase = true;
+            swarmerPlayerCharge = false;
             swarmerPlayerAttack = true;
             swarmerFollowPath = true;
             swarmerMelee = true;
@@ -228,6 +242,7 @@ namespace MoonCow
             gunnerMelee = true;
             gunnerPlayerAttack = true;
             gunnerPlayerChase = false;
+            gunnerPlayerCharge = false;
             gunnerRanged = true;
 
             sneakerAttackCore = true;
@@ -235,6 +250,7 @@ namespace MoonCow
             sneakerMelee = true;
             sneakerPlayerAttack = true;
             sneakerPlayerChase = false;
+            sneakerPlayerCharge = true;
             sneakerRanged = false;
 
             heavyAttackCore = true;
@@ -242,14 +258,15 @@ namespace MoonCow
             heavyMelee = true;
             heavyPlayerAttack = true;
             heavyPlayerChase = false;
+            heavyPlayerCharge = false;
             heavyRanged = false;
 
             sentryAttackCore = false;
-            sentryBehaviour = Behaviour.ShortestPathFirst;
             sentryFollowPath = false;
             sentryMelee = false;
             sentryPlayerAttack = true;
             sentryPlayerChase = false;
+            sentryPlayerCharge = false;
             sentryRanged = true;
         }
 
