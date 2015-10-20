@@ -22,6 +22,13 @@ namespace MoonCow
         public SoundEffectInstance shipMetallicWallScrape = AudioLibrary.shipMetallicWallScrape.CreateInstance();
         public SoundEffectInstance shipShootLaser = AudioLibrary.shipShootLaser.CreateInstance();
         public SoundEffectInstance shipShootLaser2 = AudioLibrary.shipShootLaser.CreateInstance();
+        public SoundEffectInstance shipShootBomb = AudioLibrary.shipShootBomb.CreateInstance();
+        public SoundEffectInstance shipCollectMoney = AudioLibrary.shipCollectMoney.CreateInstance();
+
+        //projectile FX
+        public SoundEffectInstance bombExplode = AudioLibrary.bombExplode.CreateInstance();
+        public SoundEffectInstance laserHit = AudioLibrary.laserHit.CreateInstance();
+        public SoundEffectInstance zap = AudioLibrary.zap.CreateInstance();
 
         WaveManager waveManager;
 
@@ -53,6 +60,11 @@ namespace MoonCow
             shipMetallicWallScrape.Volume = 0.1f;
             shipShootLaser.Volume = 0.1f;
             shipShootLaser2.Volume = 0.1f;
+            shipShootBomb.Volume = 0.1f;
+            shipCollectMoney.Volume = 0.1f;
+            bombExplode.Volume = 0.1f;
+            laserHit.Volume = 0.1f;
+            zap.Volume = 0.1f;
 
             base.Initialize();
         }

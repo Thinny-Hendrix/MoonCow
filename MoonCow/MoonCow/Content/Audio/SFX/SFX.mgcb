@@ -37,3 +37,33 @@
 /processorParam:Quality=Best
 /build:Space Engine.wav
 
+#begin Bomb Explode.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Bomb Explode.wav
+
+#begin Collect Money.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Collect Money.wav
+
+#begin LaserHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:LaserHit.wav
+
+#begin Shoot Bomb.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Shoot Bomb.wav
+
+#begin Zap.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Zap.wav
+
