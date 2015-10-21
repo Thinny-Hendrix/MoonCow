@@ -108,6 +108,7 @@ namespace MoonCow
                 }
                 else if (state == State.atCore)
                 {
+                    enemyModel.changeAnim(2);
                     state = State.attackCore;
                     updateMovement();
                 }

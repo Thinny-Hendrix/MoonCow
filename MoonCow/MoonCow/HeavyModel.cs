@@ -4,45 +4,122 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SkinnedModel;
 
 namespace MoonCow
 {
     class HeavyModel:EnemyModel
     {
+        Heavy heavy;
+        
+        AnimationPlayer animPlayer;
+        AnimationClip activeClip;
+        AnimationClip fly;
+        AnimationClip attack;
+        AnimationClip hit;
+        AnimationClip elec;
+        int activeIndex;
+
+        float knockSpin;
+
+
         public HeavyModel(Heavy enemy):base(enemy)
         {
-            scale = new Vector3(0.2f);
-            model = ModelLibrary.heavy;
+            this.heavy = enemy;
+            model = ModelLibrary.hevFly;
+            scale = new Vector3(.2f);
+
+            setAnims();
+
+            activeClip = fly;
+            animPlayer.StartClip(activeClip);
+
+            SetupEffects();
         }
+
+        protected void setAnims()
+        {
+            SkinningData skinningData = ModelLibrary.hevFly.Tag as SkinningData;
+
+            if (skinningData == null)
+                throw new InvalidOperationException
+                    ("This model does not contain a SkinningData tag.");
+
+            // Create an animation player, and start decoding an animation clip.
+            animPlayer = new AnimationPlayer(skinningData);
+
+            fly = skinningData.AnimationClips["Take 001"];
+
+            skinningData = ModelLibrary.hevAttack.Tag as SkinningData;
+            attack = skinningData.AnimationClips["Take 001"];
+
+            skinningData = ModelLibrary.hevHit.Tag as SkinningData;
+            hit = skinningData.AnimationClips["Take 001"];
+
+            skinningData = ModelLibrary.hevElec.Tag as SkinningData;
+            elec = skinningData.AnimationClips["Take 001"];
+        }
+
+        public override void changeAnim(int i)
+        {
+            switch(i)
+            {
+                default:
+                    activeClip = fly;
+                    break;
+                case 1:
+                    activeClip = attack;
+                    break;
+                case 2:
+                    activeClip = hit;
+                    break;
+                case 3:
+                    activeClip = elec;
+                    break;
+            }
+
+            animPlayer.StartClip(activeClip);
+        }
+
         public override void Update(GameTime gameTime)
         {
             pos = enemy.pos;
             pos.Y -= 0.7f;
             rot = enemy.rot;
-
             rot.Y -= MathHelper.Pi;
-            //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
+
+            /*if(swarmer.state == Swarmer.State.hitByDrill)
+            {
+                knockSpin -= Utilities.deltaTime * MathHelper.Pi * 3;
+                if (knockSpin < -MathHelper.Pi * 2)
+                    knockSpin += MathHelper.Pi * 2;
+            }*/
+
+
+            animPlayer.Update(gameTime.ElapsedGameTime, true, GetWorld());
+                //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
         }
 
-        public override void Draw(GraphicsDevice device, Camera camera)
+        protected override Matrix GetWorld()
         {
+            return base.GetWorld();
+        }
 
-            Matrix[] transforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(transforms);
+        public override void Dispose()
+        {
+        }
 
+        private void SetupEffects()
+        {
             foreach (ModelMesh mesh in model.Meshes)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+                foreach (SkinnedEffect effect in mesh.Effects)
                 {
-                    effect.World = mesh.ParentBone.Transform * GetWorld();
-                    effect.View = camera.view;
-                    effect.Projection = camera.projection;
-                    effect.TextureEnabled = true;
+                    //effect.World = mesh.ParentBone.Transform * GetWorld();
+                    effect.Texture = TextureManager.hevTex;
                     effect.Alpha = 1;
-
-                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
-                    //effect.EnableDefaultLighting(); //did not work
-                    effect.LightingEnabled = true;
+                    effect.WeightsPerVertex = 1;
+                    //effect.LightingEnabled = true;
 
                     if (mesh.Name.Contains("glow"))
                     {
@@ -52,13 +129,33 @@ namespace MoonCow
                     {
                         effect.DirectionalLight0.DiffuseColor = new Vector3(0.2f, 0.2f, 0.2f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
                         effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
-                        //effect.DirectionalLight0.SpecularColor = Vector3.One;
                         effect.AmbientLightColor = new Vector3(0.7f, 0.7f, 0.7f);
                         effect.SpecularColor = new Vector3(0.3f);
                         effect.EmissiveColor = new Vector3(.4f, .4f, .4f);
                     }
                     effect.PreferPerPixelLighting = true;
+                }
+            }
+        }
 
+        public override void Draw(GraphicsDevice device, Camera camera)
+        {
+
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(transforms);
+
+            Matrix[] bones = animPlayer.GetSkinTransforms();
+
+
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (SkinnedEffect effect in mesh.Effects)
+                {
+                    effect.SetBoneTransforms(bones);
+
+                    //effect.World = mesh.ParentBone.Transform * GetWorld();
+                    effect.View = camera.view;
+                    effect.Projection = camera.projection;
                 }
                 mesh.Draw();
             }

@@ -114,6 +114,7 @@ namespace MoonCow
                     waitTime -= Utilities.deltaTime;
                     if (waitTime <= 0)
                     {
+                        enemyModel.changeAnim(2);
                         state = State.shooting;
                         shotCount = 0;
                         coolDown = 0;
@@ -131,13 +132,14 @@ namespace MoonCow
                         if (shotCount < 3)
                         {
                             game.enemyManager.projectiles.Add(new GunnerProjectile(pos+facingDir*2, facingDir, game));
-                            coolDown = 0.8f;
+                            coolDown = 0.87f;
                             shotCount++;
                         }
                         else
                         {
                             state = State.reload;
-                            waitTime = 0.8f;
+                            enemyModel.changeAnim(3);
+                            waitTime = 1.5f;
                         }
                     }
                     else
@@ -156,6 +158,7 @@ namespace MoonCow
                     {
                         if(agroSphere.checkCircle(game.ship.circleCol))
                         {
+                            enemyModel.changeAnim(2);
                             state = State.shooting;
                             shotCount = 0;
                             coolDown = 0;

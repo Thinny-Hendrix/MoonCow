@@ -23,6 +23,7 @@ namespace MoonCow
         public float currentDist;
         public List<Vector3> posToCore = new List<Vector3>();
         public int currentBaseIndex;
+        public int animIndex;
 
         public float moveSpeed;
         public float maxSpeed;
@@ -80,6 +81,11 @@ namespace MoonCow
         {
             electroDamage.Update();
             pyroDamage.Update();
+        }
+
+        public virtual void damage(float damage)
+        {
+            health -= damage;
         }
 
         public virtual void drillDamage(float damage, Vector3 dir, bool boosting)

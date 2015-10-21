@@ -58,7 +58,43 @@ namespace MoonCow
         public static Model gunner;
         public static Model heavy;
 
+        //swa
         public static Model swarmerAnim;
+        public static Model swaFly1;
+        public static Model swaFly2;
+        public static Model swaNotice;
+        public static Model swaAttack;
+        public static Model swaHit;
+        public static Model swaElec;
+        public static Model swaIdle;
+
+        //sneaker
+        public static Model sneFly;
+        public static Model sneStart;
+        public static Model sneSpin;
+        public static Model sneEnd;
+        public static Model sneHit;
+        public static Model sneElec;
+
+        //gunner
+        public static Model gunFly1;
+        public static Model gunTrans;
+        public static Model gunShoot;
+        public static Model gunRel;
+        public static Model gunIdle;
+        public static Model gunHit1;
+        public static Model gunHit2;
+        public static Model gunElec1;
+        public static Model gunElec2;
+        public static Model gunAttack1;
+        public static Model gunAttack2;
+
+
+        //hev
+        public static Model hevFly;
+        public static Model hevAttack;
+        public static Model hevElec;
+        public static Model hevHit;
 
         //Asteroid field
         public static Model ast1;
@@ -132,7 +168,43 @@ namespace MoonCow
             gunner = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunProto");
             heavy = game.Content.Load<Model>(@"Models/Enemies/Heavy/hevProto3");
 
+            //swarmer
             swarmerAnim = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swarmAnimProto");
+            swaFly1 = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swaFly1");
+            swaFly2 = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swaFly2");
+            swaNotice = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swaNotice");
+            swaHit = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swaHit");
+            swaIdle = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swaIdle");
+            swaElec = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swaElec");
+            swaAttack = game.Content.Load<Model>(@"Models/Enemies/Swarmer/swaAttack");
+
+            //sneaker
+            sneFly = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneFly");
+            sneStart = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneStart");
+            sneSpin = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneSpin");
+            sneEnd = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneEnd");
+            sneHit = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneHit");
+            sneElec = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneElec");
+
+            //gunner
+            gunFly1 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunFly1");
+            gunTrans = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunTrans");
+            gunShoot = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunShoot");
+            gunRel = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunRel");
+            gunIdle = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunIdle");
+            gunHit1 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunHit1");
+            gunHit2 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunHit2");
+            gunElec1 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunElec1");
+            gunElec2 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunElec2");
+            gunAttack1 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunAttack1");
+            gunAttack2 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunAttack1");
+
+
+            //heavy
+            hevFly = game.Content.Load<Model>(@"Models/Enemies/Heavy/hevFly");
+            hevAttack = game.Content.Load<Model>(@"Models/Enemies/Heavy/hevAttack");
+            hevHit = game.Content.Load<Model>(@"Models/Enemies/Heavy/hevHit");
+            hevElec = game.Content.Load<Model>(@"Models/Enemies/Heavy/hevElec");
 
             //Asteroid field
             ast1 = game.Content.Load<Model>(@"Models/AstField/ast1");

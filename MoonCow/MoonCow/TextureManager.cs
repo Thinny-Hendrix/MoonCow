@@ -146,6 +146,9 @@ namespace MoonCow
 
         //enemies
         public static Texture2D swarmerTex;
+        public static Texture2D sneTex;
+        public static Texture2D gunTex;
+        public static Texture2D hevTex;
 
         //sentry
         public static Texture2D sentryBod;
@@ -300,6 +303,9 @@ namespace MoonCow
 
             //enemies
             swarmerTex = game.Content.Load<Texture2D>(@"Models/Enemies/Swarmer/swat_0");
+            sneTex = game.Content.Load<Texture2D>(@"Models/Enemies/Sneaker/sneakt_0");
+            gunTex = game.Content.Load<Texture2D>(@"Models/Enemies/Gunner/gunt_0");
+            hevTex = game.Content.Load<Texture2D>(@"Models/Enemies/Heavy/hev1t_0");
 
 
             //sentry

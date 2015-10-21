@@ -11,12 +11,16 @@ namespace MoonCow
     public class EnemyModel:BasicModel
     {
         public Enemy enemy;
-        //AnimationPlayer animPlayer;
+        public int activeIndex;
+        public float animSpeed;
 
         public EnemyModel(Enemy enemy):base()
         {
             this.enemy = enemy;
         }
+
+        public virtual void changeAnim(int i)
+        { }
 
         public override void Update(GameTime gameTime)
         {

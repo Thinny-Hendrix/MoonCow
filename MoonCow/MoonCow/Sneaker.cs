@@ -101,6 +101,7 @@ namespace MoonCow
                     agroSphere.Update(pos+direction*15);
                     if (cooldown == 0 && agroSphere.checkCircle(game.ship.circleCol))
                     {
+                        enemyModel.changeAnim(1);
                         state = State.noticedPlayer;
                         waitTime = 0;
                     }
@@ -113,11 +114,25 @@ namespace MoonCow
                         getCoreSpot();
                     }
                 }
+                else if(state == State.coolDown)
+                {
+                    goToBase();
+                    waitTime += Utilities.deltaTime;
+                    if (waitTime > 1f)
+                    {
+                        enemyModel.changeAnim(0);
+                        state = State.goToBase;
+                        setChargeDir();
+                        facingDir = chargeDir;
+                        chargeTime = 0;
+                    }
+                }
                 if (state == State.noticedPlayer)
                 {
                     waitTime += Utilities.deltaTime;
-                    if (waitTime > 0.5f)
+                    if (waitTime > 2f)
                     {
+                        enemyModel.changeAnim(2);
                         state = State.chargePlayer;
                         setChargeDir();
                         facingDir = chargeDir;
@@ -139,13 +154,16 @@ namespace MoonCow
                         {
                             state = State.atBase;
                             getCoreSpot();
+                            enemyModel.changeAnim(0);
                         }
                         else
                         {
                             updatePath();
                             cooldown = 10;
                             updatePath();
-                            state = State.goToBase;
+                            state = State.coolDown;
+                            enemyModel.changeAnim(3);
+
                         }
                     } 
                 }
@@ -159,9 +177,10 @@ namespace MoonCow
                 else if (state == State.atCore)
                 {
                     waitTime += Utilities.deltaTime;
-                    if (waitTime > 0.5f)
+                    if (waitTime > 2f)
                     {
                         state = State.attackCore;
+                        enemyModel.changeAnim(2);
                     }
                     updateMovement();
                 }
@@ -235,6 +254,7 @@ namespace MoonCow
                 {
                     pos = target;
                     state = State.atCore;
+                    enemyModel.changeAnim(1);
                 }
                 else
                 {

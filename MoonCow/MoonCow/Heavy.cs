@@ -17,8 +17,10 @@ namespace MoonCow
         Vector3 frameDiff = new Vector3(0, 0, 0);
         CircleCollider attackCol;
         float attackTime;
-        public enum State { goToBase, travelAttack, atBase, atCore, attackCore, strongHit, knockBack, hitByDrill }
+        float waitTime;
+        public enum State { goToBase, travelAttack, atBase, atCore, attackCore, strongHit, hitByDrill }
         State state;
+        State prevState;
 
         public Heavy(Game1 game)
             : base(game)
@@ -94,6 +96,15 @@ namespace MoonCow
             //Agro stuff and attacks
             if (!electroDamage.active)
             {
+                if(state == State.strongHit)
+                {
+                    waitTime -= Utilities.deltaTime;
+                    if(waitTime <= 0)
+                    {
+                        state = prevState;
+                        enemyModel.changeAnim(animIndex);
+                    }
+                }
                 if(state == State.goToBase)
                 {
                     goToBase();
@@ -137,6 +148,7 @@ namespace MoonCow
                 }
                 else if (state == State.atCore)
                 {
+                    enemyModel.changeAnim(1);
                     state = State.attackCore;
                     updateMovement();
                 }
@@ -147,13 +159,14 @@ namespace MoonCow
                 }
 
                 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-
+                pos.Y = 4.5f;
+                /*
                 pos.Y = 4.5f + (float)Math.Sin(time) * 0.2f;
 
                 time += Utilities.deltaTime * MathHelper.Pi * 2.4f;
 
                 if (time > MathHelper.Pi * 2)
-                    time -= MathHelper.Pi * 2;
+                    time -= MathHelper.Pi * 2;*/
             }
 
             base.Update(gameTime);
@@ -294,6 +307,19 @@ namespace MoonCow
                 moveSpeed = 0;
 
             }
+        }
+
+        public override void damage(float damage)
+        {
+            if(damage > 10)
+            {
+                animIndex = enemyModel.activeIndex;
+                prevState = state;
+                state = State.strongHit;
+                waitTime = 0.875f;
+                enemyModel.changeAnim(2);
+            }
+            base.damage(damage);
         }
 
         protected override void death()
