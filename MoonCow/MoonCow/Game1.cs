@@ -249,6 +249,10 @@ namespace MoonCow
             if(runState == RunState.MainGame)
             {
                 TextureManager.Update(this);
+                if(!Utilities.paused && !Utilities.softPaused)
+                {
+                    levelStats.timeInLevel += Utilities.deltaTime;
+                }
             }
 
             //hud.update(gameTime, spriteBatch);

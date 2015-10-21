@@ -123,6 +123,7 @@ namespace MoonCow
                             if (c.checkOOBB(boundBox))
                             {
                                 enemy.health -= damage;
+                                game.levelStats.wavesHit++;
                                 game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                                 wep.addExp(5);
                                 //collided = true;

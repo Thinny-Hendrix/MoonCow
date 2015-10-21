@@ -207,6 +207,7 @@ namespace MoonCow
                             if(hit)
                             {
                                 enemy.health -= damage;
+                                game.levelStats.bombsHit++;
                                 eHitList.Add(enemy);
                                 collided = true;
                                 wep.addExp(damage);

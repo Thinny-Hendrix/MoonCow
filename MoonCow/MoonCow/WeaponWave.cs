@@ -25,7 +25,7 @@ namespace MoonCow
             if(cooldown == 0)
             {
                 projectiles.Add(new WaveProjectile(ship.pos + ship.direction * 0.1f, ship.direction, game, this, 2));
-
+                game.levelStats.wavesFired++;
                 game.audioManager.addSoundEffect(AudioLibrary.shipShootLaser, 0.1f);
 
                 cooldown = coolMax;

@@ -91,6 +91,15 @@ namespace MoonCow
             displayTime = 0;
             prevMoney = displayNo;
 
+            if(amount > 0)
+            {
+                game.levelStats.moneyEarnt += amount;
+            }
+            else
+            {
+                game.levelStats.moneySpent += (amount * -1);
+            }
+
         }
 
         /// <summary>
