@@ -29,6 +29,7 @@ namespace MoonCow
         Color c1;
         Color c2;
         WeaponBomb wep;
+        bool hasHit;
 
         public BombExplosion(Vector3 pos, Game1 game, int type, WeaponBomb wep):base()
         {
@@ -206,8 +207,7 @@ namespace MoonCow
                             }
                             if(hit)
                             {
-                                enemy.health -= damage;
-                                game.levelStats.bombsHit++;
+                                enemy.damage(damage);
                                 eHitList.Add(enemy);
                                 collided = true;
                                 wep.addExp(damage);
@@ -257,6 +257,11 @@ namespace MoonCow
 
             if (collided)
             {
+                if(!hasHit)
+                {
+                    game.levelStats.bombsHit++;
+                    hasHit = true;
+                }
             }
         }
     }

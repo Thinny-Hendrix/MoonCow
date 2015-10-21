@@ -17,12 +17,25 @@ namespace MoonCow
         float maxTime;
         float damage;
 
-        public ElectroDamage(Enemy enemy, Game1 game)
+        public ElectroDamage(Enemy enemy, Game1 game, int type)
         {
             this.enemy = enemy;
             this.game = game;
-            maxTime = 0.5f;
-            enemy.frozen = true;
+            switch(type)
+            {
+                default:
+                    maxTime = 0.91f;
+                    break;
+                case 1:
+                    maxTime = 1.54f;
+                    break;
+                case 2:
+                    maxTime = 0.91f;
+                    break;
+                case 3:
+                    maxTime = 0.91f;
+                    break;
+            }
         }
 
         public void Update()
@@ -33,6 +46,7 @@ namespace MoonCow
                 time -= Utilities.deltaTime;
                 if(time <= 0)
                 {
+                    enemy.endElectro();
                     active = false;
                     enemy.health -= damage;
                     enemy.frozen = false;
@@ -46,9 +60,11 @@ namespace MoonCow
             this.damage += damage;
             if (!active)
             {
+                enemy.startElectro();
                 game.modelManager.addEffect(new LaserHitEffect(game, enemy.pos, Color.SeaGreen));
                 active = true;
                 time = maxTime;
+                enemy.frozen = true;
             }
         }
     }

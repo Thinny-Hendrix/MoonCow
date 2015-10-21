@@ -23,6 +23,7 @@ namespace MoonCow
         float initDist;
         float cooldown;
         float chargeTime;
+        State prevState;
 
         public Sneaker(Game1 game)
             : base(game)
@@ -38,6 +39,7 @@ namespace MoonCow
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             enemyModel = new SneakerModel(this);
             enemyType = 1;
+            electroDamage = new ElectroDamage(this, game, enemyType);
 
             game.modelManager.addEnemy(enemyModel);
 
@@ -79,7 +81,7 @@ namespace MoonCow
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
             agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 15);
 
-            health = 15;
+            health = 35;
             pathTimer = 10;
 
             cols.Add(new CircleCollider(pos, 0.7f));
@@ -95,6 +97,15 @@ namespace MoonCow
             //Agro stuff and attacks
             if (!electroDamage.active)
             {
+                if (state == State.strongHit)
+                {
+                    waitTime -= Utilities.deltaTime;
+                    if (waitTime <= 0)
+                    {
+                        state = prevState;
+                        enemyModel.changeAnim(animIndex);
+                    }
+                }
                 if (state == State.goToBase)
                 {
                     goToBase();
@@ -130,7 +141,7 @@ namespace MoonCow
                 if (state == State.noticedPlayer)
                 {
                     waitTime += Utilities.deltaTime;
-                    if (waitTime > 2f)
+                    if (waitTime > 2.1f)
                     {
                         enemyModel.changeAnim(2);
                         state = State.chargePlayer;
@@ -170,14 +181,13 @@ namespace MoonCow
                 else if(state == State.atBase)
                 {
                     goToCore();
-                    
                     atCore = true;
                     //pos = target;
                 }
                 else if (state == State.atCore)
                 {
                     waitTime += Utilities.deltaTime;
-                    if (waitTime > 2f)
+                    if (waitTime > 2.1f)
                     {
                         state = State.attackCore;
                         enemyModel.changeAnim(2);
@@ -189,8 +199,6 @@ namespace MoonCow
                     game.core.damage(0.05f*Utilities.deltaTime);
                     updateMovement();
                 }
-
-                base.Update(gameTime);
 
                 if (health <= 0)
                 {
@@ -211,6 +219,7 @@ namespace MoonCow
                         cooldown = 0;
                 }
             }
+            base.Update(gameTime);
         }
         void setChargeDir()
         {
@@ -255,6 +264,7 @@ namespace MoonCow
                     pos = target;
                     state = State.atCore;
                     enemyModel.changeAnim(1);
+                    waitTime = 0;
                 }
                 else
                 {
@@ -358,6 +368,55 @@ namespace MoonCow
 
             if (time > MathHelper.Pi * 2)
                 time -= MathHelper.Pi * 2;
+        }
+
+        public override void startElectro()
+        {
+            if (state != State.chargePlayer && state != State.attackCore)
+            {
+                animIndex = enemyModel.activeIndex;
+                prevState = state;
+            }
+            else
+            {
+                prevState = State.goToBase;
+                animIndex = 0;
+            }
+            enemyModel.changeAnim(5);
+        }
+
+        public override void endElectro()
+        {
+            enemyModel.changeAnim(animIndex);
+            if(state != prevState)
+            {
+                state = prevState;
+            }
+        }
+
+        public override void damage(float damage)
+        {
+            if (state != State.chargePlayer && state != State.attackCore)
+            {
+                if (damage > 5)
+                {
+                    if (state == State.chargePlayer || state == State.noticedPlayer || state == State.coolDown)
+                    {
+                        prevState = State.goToBase;
+                        animIndex = 0;
+                    }
+                    else
+                    {
+                        prevState = state;
+                        animIndex = enemyModel.activeIndex;
+                    }
+
+                    state = State.strongHit;
+                    waitTime = 0.875f;
+                    enemyModel.changeAnim(4);
+                }
+            }
+            base.damage(damage);
         }
 
         protected override void death()

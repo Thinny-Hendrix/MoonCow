@@ -18,7 +18,6 @@ namespace MoonCow
         AnimationClip attack;
         AnimationClip hit;
         AnimationClip elec;
-        int activeIndex;
 
         float knockSpin;
 
@@ -77,7 +76,7 @@ namespace MoonCow
                     activeClip = elec;
                     break;
             }
-
+            activeIndex = i;
             animPlayer.StartClip(activeClip);
         }
 
@@ -95,8 +94,8 @@ namespace MoonCow
                     knockSpin += MathHelper.Pi * 2;
             }*/
 
-
-            animPlayer.Update(gameTime.ElapsedGameTime, true, GetWorld());
+            if (!Utilities.paused && !Utilities.softPaused)
+                animPlayer.Update(gameTime.ElapsedGameTime, true, GetWorld());
                 //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
         }
 

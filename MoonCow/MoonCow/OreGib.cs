@@ -27,7 +27,7 @@ namespace MoonCow
 
             setColor(type);
 
-            glow = new MoneyGibGlow(this, game, 0.1f);
+            glow = new MoneyGibGlow(this, game, 0.05f);
             game.modelManager.addEffect(glow);
 
 
@@ -67,7 +67,6 @@ namespace MoonCow
 
         public override void Draw(GraphicsDevice device, Camera camera)
         {
-            /*
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -95,7 +94,7 @@ namespace MoonCow
 
                 }
                 mesh.Draw();
-            }*/
+            }
         }
 
         protected override void collectGib()
@@ -104,7 +103,7 @@ namespace MoonCow
             moneyManager.toDelete.Add(this);
             game.modelManager.removeEffect(glow);
             glow.Dispose();
-            for (int i = 0; i < 8; i++ )
+            for (int i = 0; i < 4; i++ )
                 ship.particles.addMoneyParticle(color);
             collected = true;
         }

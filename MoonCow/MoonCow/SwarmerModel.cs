@@ -19,7 +19,6 @@ namespace MoonCow
         AnimationClip idle;
         AnimationClip hit;
         AnimationClip elec;
-        int activeIndex;
 
         Swarmer swarmer;
         float knockSpin;
@@ -45,7 +44,7 @@ namespace MoonCow
 
             AnimationClip clip = skinningData.AnimationClips["Take 001"];
 
-            activeClip = notice;
+            activeClip = fly1;
             animPlayer.StartClip(activeClip);
 
             SetupEffects();
@@ -110,7 +109,7 @@ namespace MoonCow
                     activeClip = idle;
                     break;
             }
-
+            activeIndex = i;
             animPlayer.StartClip(activeClip);
         }
 
@@ -129,7 +128,8 @@ namespace MoonCow
 
             rot.Y -= MathHelper.Pi;
 
-            animPlayer.Update(gameTime.ElapsedGameTime, true, GetWorld());
+            if (!Utilities.paused && !Utilities.softPaused)
+                animPlayer.Update(gameTime.ElapsedGameTime, true, GetWorld());
                 //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
         }
 

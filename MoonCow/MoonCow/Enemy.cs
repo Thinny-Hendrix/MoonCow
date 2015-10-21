@@ -63,7 +63,6 @@ namespace MoonCow
 
         public Enemy(Game1 game)
         {
-            electroDamage = new ElectroDamage(this, game);
             pyroDamage = new PyroDamage(this, game);
         }
 
@@ -75,6 +74,16 @@ namespace MoonCow
         protected float makePointCoordinate(float c)
         {
             return (c)/30f;
+        }
+
+        public virtual void startElectro()
+        {
+
+        }
+
+        public virtual void endElectro()
+        {
+
         }
 
         public virtual void Update(GameTime gameTime)

@@ -24,7 +24,7 @@ namespace MoonCow
             game.modelManager.addObject(electroModel);
             cooldownMax = 0.25f;
             chargeState = ChargeState.idle;
-            chargeTime = 2;
+            chargeTime = 3;
             targets = new List<Enemy>();
             shotPos = pos;
             shotPos.Y += 5;
@@ -55,7 +55,7 @@ namespace MoonCow
                 if (chargeState == ChargeState.charging)
                 {
                     chargeTime += Utilities.deltaTime;
-                    if (chargeTime > 2)
+                    if (chargeTime > 4)
                     {
                         if (enemiesInRange(col))
                         {
@@ -67,7 +67,7 @@ namespace MoonCow
                     if (!enemiesInRange(wakeRange))
                     {
                         state = State.idle;
-                        chargeTime = 0;
+                        chargeTime = 3;
                         chargeState = ChargeState.idle;
                         cooldown = 2;
                     }

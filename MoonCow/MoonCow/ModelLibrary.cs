@@ -197,7 +197,7 @@ namespace MoonCow
             gunElec1 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunElec1");
             gunElec2 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunElec2");
             gunAttack1 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunAttack1");
-            gunAttack2 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunAttack1");
+            gunAttack2 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunAttack2");
 
 
             //heavy

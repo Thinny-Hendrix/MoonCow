@@ -36,6 +36,7 @@ namespace MoonCow
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             enemyModel = new HeavyModel(this);
             enemyType = 3;
+            electroDamage = new ElectroDamage(this, game, enemyType);
 
             state = State.goToBase;
 
@@ -78,7 +79,7 @@ namespace MoonCow
             agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 7f);
             attackCol = new CircleCollider(pos, 5f);
 
-            health = 50;
+            health = 100;
 
             cols.Add(new CircleCollider(pos, 2.5f));
             cols.Add(new CircleCollider(pos + Vector3.Cross(direction, Vector3.Up)*3, 2.5f));
@@ -111,6 +112,7 @@ namespace MoonCow
                     agroSphere.Update(pos);
                     if(agroSphere.checkCircle(game.ship.circleCol))
                     {
+                        enemyModel.changeAnim(1);
                         state = State.travelAttack;
                         attackTime = 0;
                     }
@@ -127,16 +129,25 @@ namespace MoonCow
                     agroSphere.Update(pos);
                     attackCol.Update(pos);
                     attackTime += Utilities.deltaTime;
-                    if(attackTime > 0.5f)
+                    if(attackTime > 1.375f && attackTime < 3)
                     {
                         if(attackCol.checkCircle(game.ship.circleCol))
                         {
+                            game.camera.setYShake(0.2f);
                             game.ship.shipHealth.onHit(Utilities.deltaTime * 20);
                         }
                     }
-                    if(attackTime > 2)
+                    if(attackTime > 3.77)
                     {
-                        state = State.goToBase;
+                        if (agroSphere.checkCircle(game.ship.circleCol))
+                        {
+                            attackTime = 0;
+                        }
+                        else
+                        {
+                            enemyModel.changeAnim(0);
+                            state = State.goToBase;
+                        }
                     }
                 }
                 if (state == State.atBase)
@@ -309,12 +320,34 @@ namespace MoonCow
             }
         }
 
+        public override void startElectro()
+        {
+            {
+                prevState = State.goToBase;
+                animIndex = 0;
+            }
+            enemyModel.changeAnim(3);
+        }
+
+        public override void endElectro()
+        {
+            enemyModel.changeAnim(animIndex);
+            if (state != prevState)
+            {
+                state = prevState;
+            }
+        }
         public override void damage(float damage)
         {
             if(damage > 10)
             {
                 animIndex = enemyModel.activeIndex;
                 prevState = state;
+                if(prevState == State.travelAttack)
+                {
+                    prevState = State.goToBase;
+                    animIndex = 0;
+                }
                 state = State.strongHit;
                 waitTime = 0.875f;
                 enemyModel.changeAnim(2);

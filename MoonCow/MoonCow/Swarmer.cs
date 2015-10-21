@@ -17,7 +17,8 @@ namespace MoonCow
         Vector3 frameDiff = new Vector3(0, 0, 0);
         public enum State { goToBase, atBase, atCore, attackCore, noticedPlayer, goToPlayer, atPlayer, attackPlayer, strongHit, knockBack, hitByDrill}
         public State state;
-        public State nextState;
+        public State prevState;
+        float waitTime;
 
         public Swarmer(Game1 game)
             : base(game)
@@ -34,6 +35,7 @@ namespace MoonCow
             //enemyModel = new EnemyModel(game.Content.Load<Model>(@"Models/Ship/shipBlock"), this);
             enemyModel = new SwarmerModel(this);
             enemyType = 0;
+            electroDamage = new ElectroDamage(this, game, enemyType);
 
             game.modelManager.addEnemy(enemyModel);
 
@@ -74,7 +76,7 @@ namespace MoonCow
             agroSphere = new CircleCollider(pos, 10f);
             cols.Add(new CircleCollider(pos, 0.6f));
 
-            health = 15;
+            health = 20;
 
             //weapons = new WeaponSystem(this);
         }
@@ -88,6 +90,15 @@ namespace MoonCow
             //Agro stuff and attacks
             if (!electroDamage.active)
             {
+                if(state == State.strongHit)
+                {
+                    waitTime -= Utilities.deltaTime;
+                    if(waitTime <= 0)
+                    {
+                        state = prevState;
+                        enemyModel.changeAnim(animIndex);
+                    }
+                }
                 if(state == State.goToBase)
                 {
                     goToBase();
@@ -376,6 +387,17 @@ namespace MoonCow
             return normals;
         }
 
+        public override void startElectro()
+        {
+            animIndex = enemyModel.activeIndex;
+            enemyModel.changeAnim(5);
+        }
+
+        public override void endElectro()
+        {
+            enemyModel.changeAnim(animIndex);
+        }
+
         public override void drillDamage(float damage, Vector3 dir, bool boosting)
         {
             health -= damage;
@@ -404,6 +426,19 @@ namespace MoonCow
             }
             triggeredTele = false;
             cooldownTime = 2;*/
+        }
+
+        public override void damage(float damage)
+        {
+            if (damage > 5)
+            {
+                animIndex = enemyModel.activeIndex;
+                prevState = state;
+                state = State.strongHit;
+                waitTime = 0.916f;
+                enemyModel.changeAnim(4);
+            }
+            base.damage(damage);
         }
 
         protected override void death()
