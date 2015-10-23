@@ -28,6 +28,8 @@ namespace MoonCow
             rateOfFire = 0;
             range = 0.1f;
 
+            level = 3;
+
             coolMax = 90;
             softCoolmax = 60;
             ammoMax = 16;
@@ -46,6 +48,11 @@ namespace MoonCow
             game.modelManager.addEffect(new SpinParticle(game, 1));
             for (int i = 0; i < 10; i++)
                 game.modelManager.addEffect(new DirLineParticle(ship.pos, game));
+        }
+
+        public override string formattedLevel()
+        {
+            return "vx";
         }
 
         public override void activate()

@@ -23,16 +23,28 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            rot.Y += Utilities.deltaTime * MathHelper.PiOver2;
-            if (rot.Y > MathHelper.Pi * 2)
-                rot.Y -= MathHelper.Pi * 2;
+            if (!Utilities.softPaused && !Utilities.paused)
+            {
+                rot.Y += Utilities.deltaTime * MathHelper.PiOver2;
+                if (rot.Y > MathHelper.Pi * 2)
+                    rot.Y -= MathHelper.Pi * 2;
 
-            checkCollision();
+                checkCollision();
+            }
         }
 
         public override void onCollect()
         {
             game.ship.weapons.gotDrill();
+
+            game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.SeaGreen));
+            game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.White, 3, BlendState.Additive));
+            game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+            for (int i = 0; i < 20; i++)
+            {
+                game.modelManager.addEffect(new DirLineParticle(pos, game));
+            }
+
             for (int i = 0; i < 10; i++ )
             {
                 game.modelManager.addEffect(new ElectroDir(pos, Color.White, Color.SeaGreen, game));

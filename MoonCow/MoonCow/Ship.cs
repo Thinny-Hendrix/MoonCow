@@ -624,6 +624,22 @@ namespace MoonCow
 
                 }
 
+                foreach (JunkShip j in game.asteroidManager.junkShips)
+                {
+                    if (node.position.X == j.nodePos.X && node.position.Y == j.nodePos.Y)
+                    {
+                        foreach (OOBB box in j.cols)
+                        {
+                            Vector3 normal = circleCol.wallCollide(box);
+                            if (!(normal.Equals(Vector3.Zero)))
+                            {
+                                normals.Add(normal);
+                            }
+                        }
+                    }
+
+                }
+
                 // Check enemies within spatial partitioning
                 foreach (Enemy e in game.enemyManager.enemies)
                 {

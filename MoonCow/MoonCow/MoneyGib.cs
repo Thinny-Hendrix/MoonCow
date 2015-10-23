@@ -32,12 +32,22 @@ namespace MoonCow
         public MoneyGib(float value, Model model, MoneyManager moneyManager, Ship ship, Vector3 pos, Game1 game, int type) : base()
         {
             this.value = value;
-            this.model = model;
+
+            if (type == 4)
+            {
+                this.model = ModelLibrary.polyGib;
+                scale = new Vector3(.15f, .15f, .15f);
+            }
+            else
+            {
+                this.model = model;
+                scale = new Vector3(.03f, .03f, .03f);
+            }
+
             this.pos = pos;
             this.moneyManager = moneyManager;
             this.ship = ship;
             this.game = game;
-            scale = new Vector3(.03f, .03f, .03f);
 
             setColor(type);
 
@@ -85,6 +95,13 @@ namespace MoonCow
                 case 3:
                     color = new Color(255,185,0);
                     tex = TextureManager.gib1_3;
+                    break;
+                case 4:
+                    if(Utilities.random.Next(2) == 0)
+                        color = new Color(0, 255, 255);
+                    else
+                        color = new Color(255,0,162);
+                    tex = TextureManager.polyGib;
                     break;
             }
         }

@@ -79,6 +79,7 @@ namespace MoonCow
         //gunner
         public static Model gunFly1;
         public static Model gunTrans;
+        public static Model gunTrans2;
         public static Model gunShoot;
         public static Model gunRel;
         public static Model gunIdle;
@@ -102,6 +103,7 @@ namespace MoonCow
 
         //Minigame
         public static Model mgBgPoly;
+        public static Model artefact;
 
         //Ships
         public static Model pewShip;
@@ -111,6 +113,8 @@ namespace MoonCow
         //Money gibs
         public static Model oreGib1;
         public static Model drillItem;
+        public static Model polyGib;
+        public static Model chip;
 
 
 
@@ -189,6 +193,7 @@ namespace MoonCow
             //gunner
             gunFly1 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunFly1");
             gunTrans = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunTrans");
+            gunTrans2 = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunTrans2");
             gunShoot = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunShoot");
             gunRel = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunRel");
             gunIdle = game.Content.Load<Model>(@"Models/Enemies/Gunner/gunIdle");
@@ -212,6 +217,7 @@ namespace MoonCow
 
             //minigame
             mgBgPoly = game.Content.Load<Model>(@"Minigame/mgBgModel");
+            artefact = game.Content.Load<Model>(@"Minigame/artefact");
 
             //ship
             pewShip = game.Content.Load<Model>(@"Models/Ship/PewProto/shipPewfbx");
@@ -222,6 +228,8 @@ namespace MoonCow
             //money gibs
             oreGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/ore1");
             drillItem = game.Content.Load<Model>(@"Models/Weapons/Drill/drillCollect");
+            polyGib = game.Content.Load<Model>(@"Models/MoneyGibs/polygib");
+            chip = game.Content.Load<Model>(@"Minigame/chip");
         }
     }
 }

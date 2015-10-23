@@ -11,6 +11,8 @@ namespace MoonCow
     {
         //stores a whole bunch of loaded textures that many things use, prevents needing to load it individually each time
 
+        public static Effect alphaMap;
+
         public static Texture2D particle1;
         public static Texture2D particle2;
         public static Texture2D particle3;
@@ -82,6 +84,8 @@ namespace MoonCow
         public static Texture2D mgPink;
         public static Texture2D mgMarkWhite;
         public static Texture2D mgBack;
+        public static Texture2D artefact;
+        public static Texture2D bpCloud;
 
 
         //weapon effects
@@ -117,6 +121,7 @@ namespace MoonCow
         public static Texture2D icoEle;
         public static Texture2D icoX;
         public static Texture2D icoMon;
+        public static Texture2D infinity;
 
 
         //electricity
@@ -143,6 +148,8 @@ namespace MoonCow
         public static Texture2D gib1_3;
         public static Texture2D gib1_s;
         public static Texture2D gibOre1;
+        public static Texture2D polyGib;
+        public static Texture2D chip;
 
         //enemies
         public static Texture2D swarmerTex;
@@ -166,6 +173,8 @@ namespace MoonCow
 
         public static void initialize(Game game)
         {
+            alphaMap = game.Content.Load<Effect>(@"Effects/AlphaMap");
+
             //station window
             pureWhite = new Texture2D(game.GraphicsDevice, 1, 1);
             pureWhite.SetData(new Color[] { Color.White });
@@ -236,6 +245,9 @@ namespace MoonCow
             mgPink = game.Content.Load<Texture2D>(@"Minigame/pinkPoly");
             mgMarkWhite = game.Content.Load<Texture2D>(@"Minigame/mgMarkerW");
             mgBack = game.Content.Load<Texture2D>(@"Minigame/mgBack");
+            artefact = game.Content.Load<Texture2D>(@"Minigame/polyt");
+            bpCloud = game.Content.Load<Texture2D>(@"Minigame/bpCloud");
+
 
             //weapon effects
             bombRing = game.Content.Load<Texture2D>(@"Models/Weapons/sploring");
@@ -275,6 +287,8 @@ namespace MoonCow
             icoX = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoX");
             icoMon = game.Content.Load<Texture2D>(@"Hud/QuickSelect/icoMon");
 
+            infinity = game.Content.Load<Texture2D>(@"Hud/inf");
+
 
             //electricity textures
             elecL1 = game.Content.Load<Texture2D>(@"Models/Effects/Electro/elecL1");
@@ -299,7 +313,10 @@ namespace MoonCow
             gib1_2 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-2");
             gib1_3 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-3");
             gib1_s = game.Content.Load<Texture2D>(@"Models/MoneyGibs/gib1-s");
+            chip = game.Content.Load<Texture2D>(@"Minigame/chipt_0");
+            polyGib = game.Content.Load<Texture2D>(@"Models/MoneyGibs/polygibt_0");
             gibOre1 = game.Content.Load<Texture2D>(@"Models/MoneyGibs/oreGold");
+
 
             //enemies
             swarmerTex = game.Content.Load<Texture2D>(@"Models/Enemies/Swarmer/swat_0");

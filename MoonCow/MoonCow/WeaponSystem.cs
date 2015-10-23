@@ -68,46 +68,55 @@ namespace MoonCow
 
                 //bool wake = false;
 
-                if (Keyboard.GetState().IsKeyDown(Keys.D1))
+                if(!game.minigame.active)
                 {
-                    activeWeapon = (Weapon)weapons.ElementAt(2);
-                    game.hud.hudWeapon.Wake();
-                    ship.shipModel.setShipModel(0);
-                    weapons.ElementAt(4).disable();
+                    checkKeyboard();
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.D2))
-                {
-                    activeWeapon = (Weapon)weapons.ElementAt(3);
-                    game.hud.hudWeapon.Wake();
-                    ship.shipModel.setShipModel(1);
-                    weapons.ElementAt(4).disable();
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.D3))
-                {
-                    activeWeapon = (Weapon)weapons.ElementAt(0);
-                    game.hud.hudWeapon.Wake();
-                    ship.shipModel.setShipModel(2);
-                    weapons.ElementAt(4).disable();
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.D4))
-                {
-                    activeWeapon = (Weapon)weapons.ElementAt(1);
-                    game.hud.hudWeapon.Wake();
-                    ship.shipModel.setShipModel(3);
-                    weapons.ElementAt(4).disable();
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.D5) && hasDrill)
-                {
-                    activeWeapon = (Weapon)weapons.ElementAt(4);
-                    activeWeapon.activate();
-                    game.hud.hudWeapon.Wake();
-                    ship.shipModel.setShipModel(4);
-                }
+
 
                 foreach (Weapon w in weapons)
                 {
                     w.Update();
                 }
+            }
+        }
+
+        void checkKeyboard()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.D1))
+            {
+                activeWeapon = (Weapon)weapons.ElementAt(2);
+                game.hud.hudWeapon.Wake();
+                ship.shipModel.setShipModel(0);
+                weapons.ElementAt(4).disable();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D2))
+            {
+                activeWeapon = (Weapon)weapons.ElementAt(3);
+                game.hud.hudWeapon.Wake();
+                ship.shipModel.setShipModel(1);
+                weapons.ElementAt(4).disable();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D3))
+            {
+                activeWeapon = (Weapon)weapons.ElementAt(0);
+                game.hud.hudWeapon.Wake();
+                ship.shipModel.setShipModel(2);
+                weapons.ElementAt(4).disable();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D4))
+            {
+                activeWeapon = (Weapon)weapons.ElementAt(1);
+                game.hud.hudWeapon.Wake();
+                ship.shipModel.setShipModel(3);
+                weapons.ElementAt(4).disable();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D5) && hasDrill)
+            {
+                activeWeapon = (Weapon)weapons.ElementAt(4);
+                activeWeapon.activate();
+                game.hud.hudWeapon.Wake();
+                ship.shipModel.setShipModel(4);
             }
         }
 

@@ -12,13 +12,20 @@ namespace MoonCow
         Game1 game;
         Minigame minigame;
         public Vector3 pos;
-        OOBB col;
+        public OOBB col;
         CircleCollider interactRange;
         public Vector3 dir;
         Ship ship;
         MgInstance instance;
         JunkShipModel model;
         int successAtActivate;
+        public Vector2 nodePos;
+        public bool destroying;
+        public float time;
+        float moneyVal;
+        bool triggeredMessage;
+        public List<OOBB> cols;
+
         public JunkShip(Game1 game, Vector3 pos)
         {
             this.game = game;
@@ -26,35 +33,94 @@ namespace MoonCow
             minigame = game.minigame;
             instance = new MgInstance(game, minigame);
             ship = game.ship;
-            interactRange = new CircleCollider(pos, 10);
             dir.X = Utilities.nextFloat() * 2 - 1;
             dir.Z = Utilities.nextFloat() * 2 - 1;
             dir.Normalize();
             successAtActivate = -1;
 
+            interactRange = new CircleCollider(this.pos + dir*4, 2);
+
+            cols = new List<OOBB>();
+            cols.Add(new OOBB(this.pos + dir * 1.5f, dir, 1, 4, dir));
+            cols.Add(new OOBB(this.pos + dir * -1.5f, dir, 1, 4, -dir));
+            cols.Add(new OOBB(this.pos + Vector3.Cross(dir, Vector3.Up) * -1.5f, dir, 1, 4, Vector3.Cross(-dir, Vector3.Up)));
+            cols.Add(new OOBB(this.pos + Vector3.Cross(-dir, Vector3.Up) * -1.5f, dir, 1, 4, Vector3.Cross(dir, Vector3.Up)));
+
+
+            col = new OOBB(this.pos+dir*1.5f, dir, 1, 4, dir);
+
             model = new JunkShipModel(this, game);
             game.modelManager.addObject(model);
+            nodePos = new Vector2((int)((this.pos.X / 30) + 0.5f), (int)((this.pos.Z / 30) + 0.5f));
+
+            destroying = false;
         }
+
+        public void beatMinigame(float money)
+        {
+            this.moneyVal = money;
+            destroying = true;
+        }
+
         public void Update()
         {
-            if(interactRange.checkPoint(ship.pos))
+            if (destroying)
             {
-                //display message
-                if (!minigame.active && !game.camera.transitioning)
+                time += Utilities.deltaTime;
+                if (time >= 1)
                 {
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    if (game.hud.hudCollectable.spawnedChips < 4)
                     {
-                        if (minigame.successCount > successAtActivate)
-                        {
-                            instance.generateNew();
-                            successAtActivate = minigame.successCount;
-                        }
-                        minigame.manager.loadInstance(instance);
-                        minigame.activate(pos, Vector3.Cross(dir, Vector3.Up));
-                        Vector3 camPos = pos+Vector3.Cross(dir, Vector3.Up)*10;
-                        camPos.Y += 5;
-                        game.camera.setStaticTarg(camPos, pos);
+                        game.hud.hudCollectable.spawnedChips++;
+                        game.modelManager.addObject(new CollectableChip(pos, game));
                     }
+
+                    for (int i = 0; i < 10; i++)
+                        game.modelManager.addEffect(new GlowStreak(game, pos, new Vector2(2, 7), 2, Color.White, 0, -1));
+                    game.modelManager.addEffect(new GlowStreakCenter(game, pos, 3, 2, -1));
+
+                    game.modelManager.addEffect(new ImpactParticleModel(game, pos, 0.5f));
+                    game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.White, 1, BlendState.Additive));
+
+                    game.ship.moneyManager.makeMoney(moneyVal, 4, pos);
+                    game.asteroidManager.jToDelete.Add(this);
+                    model.Dispose();
+                    game.modelManager.removeObject(model);
+                }
+            }
+            else
+            {
+                if (interactRange.checkPoint(ship.pos))
+                {
+                    //display message
+                    if (!minigame.active && !game.camera.transitioning)
+                    {
+                        game.hud.hudPrompt.activate("Unlock cache");
+                        triggeredMessage = true;
+                        if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
+                        {
+                            if (minigame.successCount > successAtActivate)
+                            {
+                                instance.generateNew();
+                                successAtActivate = minigame.successCount;
+                            }
+                            minigame.manager.loadInstance(instance);
+                            minigame.activate(pos, dir, this);
+                            Vector3 camPos = pos + dir * 10;
+                            camPos.Y += 5;
+                            game.camera.setStaticTarg(camPos, pos);
+                        }
+                    }
+                    else
+                    {
+                        if(triggeredMessage)
+                            game.hud.hudPrompt.close();
+                    }
+                }
+                else
+                {
+                    if (triggeredMessage)
+                        game.hud.hudPrompt.close();
                 }
             }
         }

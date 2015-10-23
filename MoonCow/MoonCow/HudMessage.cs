@@ -27,11 +27,35 @@ namespace MoonCow
         public void setAmmoMessage(Weapon wep, float count)
         {
             message = "Got " + count + " " + wep.name + " " + wep.ammoName;
-            if (count > 1)
+            if (count > 1 && !wep.name.Contains("bomb"))
                 message += "s";
             message += "!";
 
             wakeTime = 0;
+        }
+
+        public void setLevelUpMessage(Weapon wep)
+        {
+            message = "got the " + wep.formattedLevel() + " " + wep.name + "!";
+            wakeTime = -3;
+        }
+
+        public void setTextMessage(string s)
+        {
+            message = s;
+            wakeTime = -1;
+        }
+
+        public void drillDoorCheck()
+        {
+            message = "need " + (hud.hudCollectable.count - 4) + " more keys to unlock this door";
+            wakeTime = 0;
+        }
+
+        public void drillDoorUnlock()
+        {
+            message = "drill door now unlockable!";
+            wakeTime = -5;
         }
 
         public override void Draw(SpriteBatch sb)

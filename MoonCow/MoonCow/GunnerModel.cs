@@ -15,6 +15,7 @@ namespace MoonCow
         AnimationClip activeClip;
         AnimationClip fly;
         AnimationClip trans;
+        AnimationClip trans2;
         AnimationClip shoot;
         AnimationClip rel;
         AnimationClip idle;
@@ -57,6 +58,9 @@ namespace MoonCow
 
             skinningData = ModelLibrary.gunTrans.Tag as SkinningData;
             trans = skinningData.AnimationClips["Take 001"];
+
+            skinningData = ModelLibrary.gunTrans2.Tag as SkinningData;
+            trans2 = skinningData.AnimationClips["Take 001"];
 
             skinningData = ModelLibrary.gunShoot.Tag as SkinningData;
             shoot = skinningData.AnimationClips["Take 001"];
@@ -124,7 +128,7 @@ namespace MoonCow
                     activeClip = elec2;
                     break;
                 case 11:
-                    activeClip = trans;
+                    activeClip = trans2;
                     break;
             }
 

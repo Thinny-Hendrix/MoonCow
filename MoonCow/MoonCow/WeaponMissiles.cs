@@ -14,8 +14,8 @@ namespace MoonCow
             icon = TextureManager.icoAst;
             name = "Asteroid sorter";
 
-            damage = 0.6f;
-            rateOfFire = 0.3f;
+            damage = 0.25f;
+            rateOfFire = 0.9f;
             range = 0.9f;
 
             coolMax = 15;
@@ -91,6 +91,7 @@ namespace MoonCow
                     break;
             }
             ammo = ammoMax;
+            game.hud.hudMessage.setLevelUpMessage(this);
         }
         
     }

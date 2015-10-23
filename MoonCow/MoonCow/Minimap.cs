@@ -69,6 +69,7 @@ namespace MoonCow
                         sb.Draw(LcAssets.t1, mapPos * 30, Color.White);
                         break;
                     case 2:
+                    case 62:
                         sb.Draw(LcAssets.t1, new Rectangle((int)mapPos.X*30+15, (int)mapPos.Y*30+15, 30, 30), null, Color.White, MathHelper.PiOver2,new Vector2(15,15), SpriteEffects.None, 1);
                         break;
 

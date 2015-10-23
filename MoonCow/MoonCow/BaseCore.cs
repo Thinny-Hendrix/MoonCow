@@ -11,6 +11,7 @@ namespace MoonCow
     {
 
         public float health;
+        public float maxHealth;
         Game1 game;
         public Vector3 pos;
         public CircleCollider col;
@@ -21,7 +22,8 @@ namespace MoonCow
         public BaseCore(Game1 game):base(game)
         {
             this.game = game;
-            health = 1000;
+            maxHealth = 500;
+            health = maxHealth;
         }
 
         void setSpots()
@@ -84,11 +86,11 @@ namespace MoonCow
             return b;
         }
 
-        public List<Vector3> coordsToSpot(BaseCoreSpot b, Vector3 currentPos)
+        public List<Vector3> coordsToSpot(BaseCoreSpot b, Vector3 currentPos, Vector3 corePos)
         {
             List<Vector3> temp = new List<Vector3>();
 
-            if(b.rot <= MathHelper.PiOver4*0.5f || b.rot >= MathHelper.PiOver4*7.5f)
+            if(b.rot <= MathHelper.PiOver4*0.5f && b.rot >= MathHelper.PiOver4*7.5f)
             {
                 if(currentPos.X > pos.X)
                 {
@@ -99,9 +101,9 @@ namespace MoonCow
                     temp.Add(pos + new Vector3(-30, 0, -30));
                 }
                 temp.Add(pos + new Vector3(0, 0, -30));
-                temp.Add(b.pos);
+                temp.Add(corePos);
             }
-            else if (b.rot > MathHelper.PiOver4*0.5f || b.rot <= MathHelper.PiOver4*1.5f)
+            else if (b.rot > MathHelper.PiOver4*0.5f && b.rot <= MathHelper.PiOver4*1.5f)
             {
                 if (currentPos.X < pos.X)
                 {
@@ -113,24 +115,9 @@ namespace MoonCow
                     temp.Add(pos + new Vector3(0, 0, -30));
                     temp.Add(pos + new Vector3(-30, 0, -30));
                 }
-                temp.Add(b.pos);
+                temp.Add(corePos);
             }
-            else if (b.rot > MathHelper.PiOver4*1.5f || b.rot <= MathHelper.PiOver4*2.5f)
-            {
-                if (currentPos.X < pos.X)
-                {
-                    temp.Add(pos + new Vector3(-30, 0, -30));
-                }
-                else
-                {
-                    temp.Add(pos + new Vector3(30, 0, -30));
-                    temp.Add(pos + new Vector3(0, 0, -30));
-                    temp.Add(pos + new Vector3(-30, 0, -30));
-                }
-                temp.Add(pos + new Vector3(-30, 0, 0));
-                temp.Add(b.pos);
-            }
-            else if (b.rot > MathHelper.PiOver4 * 2.5f || b.rot <= MathHelper.PiOver4 * 3.5f)
+            else if (b.rot > MathHelper.PiOver4 * 1.5f && b.rot <= MathHelper.PiOver4 * 2.5f)
             {
                 if (currentPos.X < pos.X)
                 {
@@ -143,16 +130,31 @@ namespace MoonCow
                     temp.Add(pos + new Vector3(-30, 0, -30));
                 }
                 temp.Add(pos + new Vector3(-30, 0, 0));
-                temp.Add(pos + new Vector3(-30, 0, -30));
-                temp.Add(b.pos);
+                temp.Add(corePos);
             }
-            else if (b.rot > MathHelper.PiOver4 * 3.5f || b.rot <= MathHelper.PiOver4 * 4.5f)
+            else if (b.rot > MathHelper.PiOver4 * 2.5f && b.rot <= MathHelper.PiOver4 * 3.5f)
+            {
+                if (currentPos.X < pos.X)
+                {
+                    temp.Add(pos + new Vector3(-30, 0, -30));
+                }
+                else
+                {
+                    temp.Add(pos + new Vector3(30, 0, -30));
+                    temp.Add(pos + new Vector3(0, 0, -30));
+                    temp.Add(pos + new Vector3(-30, 0, -30));
+                }
+                temp.Add(pos + new Vector3(-30, 0, 0));
+                temp.Add(pos + new Vector3(-30, 0, 30));
+                temp.Add(corePos);
+            }
+            else if (b.rot > MathHelper.PiOver4 * 3.5f && b.rot <= MathHelper.PiOver4 * 4.5f)
             {
                 if (currentPos.X < pos.X)
                 {
                     temp.Add(pos + new Vector3(-30, 0, -30));
                     temp.Add(pos + new Vector3(-30, 0, 0));
-                    temp.Add(pos + new Vector3(-30, 0, -30));
+                    temp.Add(pos + new Vector3(-30, 0, 30));
                 }
                 else
                 {
@@ -160,33 +162,30 @@ namespace MoonCow
                     temp.Add(pos + new Vector3(30, 0, 0));
                     temp.Add(pos + new Vector3(30, 0, 30));
                 }
-                temp.Add(pos + new Vector3(0, 0, -30));
-                temp.Add(b.pos);
+                temp.Add(pos + new Vector3(0, 0, 30));
+                temp.Add(corePos);
             }
-            else if (b.rot > MathHelper.PiOver4 * 4.5f || b.rot <= MathHelper.PiOver4 * 5.5f)
+            else if (b.rot > MathHelper.PiOver4 * 4.5f && b.rot <= MathHelper.PiOver4 * 5.5f)
             {
                 if (currentPos.X < pos.X)
                 {
-                    temp.Add(pos + new Vector3(-30, 0, -30));
-                    temp.Add(pos + new Vector3(-30, 0, 0));
                     temp.Add(pos + new Vector3(-30, 0, -30));
                     temp.Add(pos + new Vector3(0, 0, -30));
                 }
                 else
                 {
-                    temp.Add(pos + new Vector3(30, 0, -30));
-                    temp.Add(pos + new Vector3(30, 0, 0));
                 }
+                temp.Add(pos + new Vector3(30, 0, -30));
+                temp.Add(pos + new Vector3(30, 0, 0));
                 temp.Add(pos + new Vector3(30, 0, 30));
-                temp.Add(b.pos);
+                temp.Add(corePos);
             }
-            else if (b.rot > MathHelper.PiOver4 * 5.5f || b.rot <= MathHelper.PiOver4 * 6.5f)
+            else if (b.rot > MathHelper.PiOver4 * 5.5f && b.rot <= MathHelper.PiOver4 * 6.5f)
             {
                 if (currentPos.X < pos.X)
                 {
                     temp.Add(pos + new Vector3(-30, 0, -30));
                     temp.Add(pos + new Vector3(0, 0, -30));
-                    temp.Add(pos + new Vector3(30, 0, -30));
                     temp.Add(pos + new Vector3(30, 0, -30));
                 }
                 else
@@ -194,7 +193,7 @@ namespace MoonCow
                     temp.Add(pos + new Vector3(30, 0, -30));
                 }
                 temp.Add(pos + new Vector3(30, 0, 0));
-                temp.Add(b.pos);
+                temp.Add(corePos);
             }
             else//above 4pi*6.5 and less than 4pi*7.5
             {
@@ -203,13 +202,12 @@ namespace MoonCow
                     temp.Add(pos + new Vector3(-30, 0, -30));
                     temp.Add(pos + new Vector3(0, 0, -30));
                     temp.Add(pos + new Vector3(30, 0, -30));
-                    temp.Add(pos + new Vector3(30, 0, -30));
                 }
                 else
                 {
                     temp.Add(pos + new Vector3(30, 0, -30));
                 }
-                temp.Add(b.pos);
+                temp.Add(corePos);
             }
 
             return temp;

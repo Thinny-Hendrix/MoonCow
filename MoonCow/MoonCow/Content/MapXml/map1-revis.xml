@@ -103,9 +103,9 @@
         <tile>42</tile>
         <tile>55</tile>
         <tile>60</tile>
-        <tile>2</tile>
-        <tile>61</tile>
-        <tile>2</tile>
+        <tile>62</tile>
+        <tile>60</tile>
+        <tile>62</tile>
         <tile>60</tile>
         <tile>51</tile>
         <tile>42</tile>
@@ -115,11 +115,11 @@
         <tile>59</tile>
         <tile>59</tile>
         <tile>41</tile>
-        <tile>61</tile>
+        <tile>60</tile>
         <tile>20</tile>
         <tile>21</tile>
         <tile>22</tile>
-        <tile>61</tile>
+        <tile>60</tile>
         <tile>39</tile>
         <tile>59</tile>
         <tile>59</tile>
@@ -128,11 +128,11 @@
         <tile>59</tile>
         <tile>59</tile>
         <tile>41</tile>
-        <tile>61</tile>
+        <tile>60</tile>
         <tile>23</tile>
         <tile>24</tile>
         <tile>25</tile>
-        <tile>61</tile>
+        <tile>60</tile>
         <tile>39</tile>
         <tile>59</tile>
         <tile>59</tile>
@@ -141,11 +141,11 @@
         <tile>59</tile>
         <tile>59</tile>
         <tile>41</tile>
-        <tile>61</tile>
+        <tile>60</tile>
         <tile>26</tile>
         <tile>27</tile>
         <tile>28</tile>
-        <tile>61</tile>
+        <tile>60</tile>
         <tile>39</tile>
         <tile>59</tile>
         <tile>59</tile>
@@ -154,11 +154,11 @@
         <tile>59</tile>
         <tile>59</tile>
         <tile>41</tile>
-        <tile>61</tile>
-        <tile>61</tile>
-        <tile>61</tile>
-        <tile>61</tile>
-        <tile>61</tile>
+        <tile>60</tile>
+        <tile>60</tile>
+        <tile>60</tile>
+        <tile>60</tile>
+        <tile>60</tile>
         <tile>39</tile>
         <tile>59</tile>
         <tile>59</tile>

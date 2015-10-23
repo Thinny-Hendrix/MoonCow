@@ -200,7 +200,7 @@ namespace MoonCow
             Components.Add(minigame);
 
             //make sure the post process effects go second last, and the hud is absolute last
-            Components.Add(bloom);
+            //Components.Add(bloom);
             Components.Add(hud);
 
             loadPercentage = 1f;

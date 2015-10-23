@@ -111,7 +111,7 @@ namespace MoonCow
             return ammo + "/" + ammoMax;
         }
 
-        public string formattedLevel()
+        public virtual string formattedLevel()
         {
             return "V" + level;
         }

@@ -102,6 +102,8 @@ namespace MoonCow
                     break;
             }
             ammo = ammoMax;
+
+            game.hud.hudMessage.setLevelUpMessage(this);
         }
         
     }

@@ -57,6 +57,11 @@ namespace MoonCow
         QsWheel qsWheel = QsWheel.Five;
 
         SpriteFont font;
+        RenderTarget2D targ1;
+        RenderTarget2D targ2;
+        SpriteBatch sb;
+        Effect alphaMap;
+        public Texture2D barMask;
 
         public QuickSelect(Hud hud, Game1 game, SpriteFont font)
         {
@@ -90,12 +95,48 @@ namespace MoonCow
             hi4 = game.Content.Load<Texture2D>(@"Hud/QuickSelect/qsHi4");
             hi5 = game.Content.Load<Texture2D>(@"Hud/QuickSelect/qsHi5");
 
+            barMask = game.Content.Load<Texture2D>(@"Hud/Masks/qsMask");
+
             imgW = out4.Bounds.Width;
             imgH = out4.Bounds.Height;
 
             currentFill = fill4;
             currentOut = out4;
             currentHi = hi1;
+
+            targ1 = new RenderTarget2D(game.GraphicsDevice, 123, 15);
+            targ2 = new RenderTarget2D(game.GraphicsDevice, 123, 15);
+            sb = new SpriteBatch(game.GraphicsDevice);
+            alphaMap = TextureManager.alphaMap;
+        }
+
+        void drawBar()
+        {
+
+            Weapon wep = wepSys.weapons.ElementAt(selectedWep);
+            float scale = 1;
+            if(wep.level != 3)
+             scale = wep.exp/ wep.EXPMAX;
+            game.GraphicsDevice.SetRenderTarget(targ1);
+            game.GraphicsDevice.Clear(Color.Transparent);
+            if (selecting)
+            {
+                sb.Begin();
+                sb.Draw(TextureManager.pureWhite, new Rectangle(0, 0, (int)Math.Ceiling(123 * scale), 15), null, hud.redBody, 0, Vector2.Zero, SpriteEffects.None, 1);
+                sb.End();
+
+                game.GraphicsDevice.SetRenderTarget(targ2);
+                game.GraphicsDevice.Clear(Color.Transparent);
+                alphaMap.Parameters["MaskTexture"].SetValue(barMask);
+                // start a spritebatch for our effect
+                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+                    null, null, null, alphaMap);
+                //spB.Begin();
+                sb.Draw((Texture2D)targ1, Vector2.Zero, Color.White);
+
+                sb.End();
+            }
+            game.GraphicsDevice.SetRenderTarget(null);
         }
 
         public void Update()
@@ -161,6 +202,8 @@ namespace MoonCow
                     currentRof = 0;
                     currentRan = 0;
                 }
+
+                drawBar();
 
             }
         }
@@ -253,10 +296,26 @@ namespace MoonCow
             else
                 c = hud.redBody;
 
-            sb.DrawString(font, name, hud.scaledCoords(960, 325), Color.White, 0,
-                new Vector2(font.MeasureString(name).X / 2, font.MeasureString(name).Y / 2), hud.scale*22.0f/40, SpriteEffects.None, 0);
-            sb.DrawString(font, ammo, hud.scaledCoords(960, 350), c, 0,
-                new Vector2(font.MeasureString(ammo).X / 2, font.MeasureString(ammo).Y / 2), hud.scale * 18.0f / 40, SpriteEffects.None, 0);
+            if (wep.name.Contains("rill"))
+            {
+                sb.DrawString(font, name, hud.scaledCoords(960, 340), Color.White, 0,
+                    new Vector2(font.MeasureString(name).X / 2, font.MeasureString(name).Y / 2), hud.scale * 24.0f / 40, SpriteEffects.None, 0);
+            }
+            else
+            {
+                sb.DrawString(font, name, hud.scaledCoords(960, 325), Color.White, 0,
+                    new Vector2(font.MeasureString(name).X / 2, font.MeasureString(name).Y / 2), hud.scale * 22.0f / 40, SpriteEffects.None, 0);
+            }
+
+            if(wep.name.Contains("ster"))
+            {
+                sb.Draw(TextureManager.infinity, hud.scaledRect(new Vector2(960, 347), 41, 18), null, hud.contSecondary, 0, new Vector2(41, 18), SpriteEffects.None, 0);
+            }
+            else if (!wep.name.Contains("rill"))
+            {
+                sb.DrawString(font, ammo, hud.scaledCoords(960, 350), c, 0,
+                    new Vector2(font.MeasureString(ammo).X / 2, font.MeasureString(ammo).Y / 2), hud.scale * 18.0f / 40, SpriteEffects.None, 0);
+            }
 
             //level
             sb.DrawString(font, level, hud.scaledCoords(960, 500), hud.contSecondary, 0,
@@ -286,6 +345,8 @@ namespace MoonCow
                     null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
             sb.Draw(solidWhite, hud.scaledRect(new Vector2(963, 417), 150 * currentRan, 16),
                     null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
+
+            sb.Draw((Texture2D)targ2, hud.scaledRect(new Vector2(960, 455), 123, 15), null, Color.White, 0, new Vector2(61, 0), SpriteEffects.None, 0);
 
         }
         public void Draw(SpriteBatch sb)

@@ -15,7 +15,8 @@ namespace MoonCow
         protected Point coreLocation;
         protected Vector3 target;
         Vector3 frameDiff = new Vector3(0, 0, 0);
-        public enum State { goToBase, playerInRange, shooting, reload, melee, playerOutRange, atBase, strongHit, knockBack, hitByDrill }
+        bool inCoreLoop;
+        public enum State { goToBase, playerInRange, shooting, reload, melee, playerOutRange, atBase, atCore, shootCore, reloadCore, strongHit, knockBack, hitByDrill }
         State state;
         float waitTime;
         float coolDown;
@@ -179,6 +180,12 @@ namespace MoonCow
                     {
                         coolDown -= Utilities.deltaTime;
                     }
+
+                    if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
+                    {
+                        state = State.atBase;
+                        getCoreSpot();
+                    }
                 }
                 else if(state == State.reload)
                 {
@@ -199,8 +206,8 @@ namespace MoonCow
                         else
                         {
                             state = State.playerOutRange;
-                            waitTime = 0.5f;
-                            enemyModel.changeAnim(1); ///##### change here
+                            waitTime = 0.85f;
+                            enemyModel.changeAnim(11);
                         }
                     }
                 }
@@ -211,7 +218,7 @@ namespace MoonCow
                     meleeRange.Update(pos);
                     meleeCol.Update(pos);
                     setDir();
-                    modelDir = Vector3.Lerp(facingDir, direction, 1 - (waitTime / 0.5f));
+                    modelDir = Vector3.Lerp(facingDir, direction, 1 - (waitTime / 0.86f));
                     waitTime -= Utilities.deltaTime;
                     if (waitTime <= 0)
                     {
@@ -256,6 +263,27 @@ namespace MoonCow
                             coolDown = 0;
                         }
                     }
+                }
+                else if (state == State.atBase)
+                {
+                    goToCore();
+                    atCore = true;
+                    //pos = target;
+                }
+                else if (state == State.atCore)
+                {
+                    waitTime += Utilities.deltaTime;
+                    if (waitTime > 2.1f)
+                    {
+                        state = State.shootCore;
+                        enemyModel.changeAnim(2);
+                    }
+                    updateMovement();
+                }
+                else if (state == State.shootCore)
+                {
+                    game.core.damage(0.05f * Utilities.deltaTime);
+                    updateMovement();
                 }
 
                 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
@@ -360,8 +388,17 @@ namespace MoonCow
         {
             coreSpot = game.core.getSpot(pos);
             if (coreSpot != null)
-                target = coreSpot.pos;
+            {
+                target = coreSpot.hevSpot;
+                posToCore = game.core.coordsToSpot(coreSpot, pos, target);
+                currentBaseIndex = 0;
+                target = posToCore.ElementAt(currentBaseIndex);
+                resetDist();
+            }
+        }
 
+        void resetDist()
+        {
             currentDist = 0;
             Vector3 dist = target - pos;
             distToCore = Utilities.hypotenuseOf(dist.X, dist.Z);
@@ -376,6 +413,25 @@ namespace MoonCow
             frameDiff = targetDir * moveSpeed * Utilities.deltaTime;
             currentDist += moveSpeed * Utilities.deltaTime;
 
+            if (currentDist > distToCore)
+            {
+                if (currentBaseIndex >= posToCore.Count() - 1)
+                {
+                    pos = target;
+                    state = State.atCore;
+                    enemyModel.changeAnim(1);
+                    waitTime = 0;
+                }
+                else
+                {
+                    currentBaseIndex++;
+                    target = posToCore.ElementAt(currentBaseIndex);
+                    resetDist();
+                }
+
+            }
+
+
             updateMovement();
             frameDiff = Vector3.Zero;
         }
@@ -386,13 +442,14 @@ namespace MoonCow
             {
                 animIndex = enemyModel.activeIndex;
                 prevState = State.shooting;
+                enemyModel.changeAnim(10);
             }
             else
             {
                 prevState = State.goToBase;
                 animIndex = 0;
+                enemyModel.changeAnim(9);
             }
-            enemyModel.changeAnim(5);
         }
 
         public override void endElectro()

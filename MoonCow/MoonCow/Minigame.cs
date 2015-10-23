@@ -28,6 +28,7 @@ namespace MoonCow
         public MgScreen screen;
         public MgModelManager models;
         public HudMg hudMg;
+        JunkShip activeSource;
 
         public float holdTime;
         public float holdThresh;
@@ -104,7 +105,9 @@ namespace MoonCow
         public void abort()
         {
             if (success)
-                game.ship.moneyManager.makeMoney(moneyEarned, -1, displayer.pos);
+            {
+                activeSource.beatMinigame(moneyEarned);
+            }
             active = false;
             game.camera.followShip();
             displayer.shut();
@@ -118,8 +121,9 @@ namespace MoonCow
             start = false;
         }
 
-        public void activate(Vector3 pos, Vector3 dir)
+        public void activate(Vector3 pos, Vector3 dir, JunkShip source)
         {
+            this.activeSource = source;
             displayer.wake(pos, dir);
             active = true;
             start = true;

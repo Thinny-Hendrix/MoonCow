@@ -96,6 +96,20 @@ namespace MoonCow
             wallNormal = Vector3.Zero;
         }
 
+        public OOBB(Vector3 pos, Vector3 direction, float width, float height, Vector3 normal)
+        {
+            corners = new Vector2[4];
+            originCorners = new Vector2[4];
+            //Set current corners
+            originCorners[0] = new Vector2(0 - (width / 2), 0 - (height / 2));
+            originCorners[1] = new Vector2(0 + (width / 2), 0 - (height / 2));
+            originCorners[2] = new Vector2(0 + (width / 2), 0 + (height / 2));
+            originCorners[3] = new Vector2(0 - (width / 2), 0 + (height / 2));
+
+            Update(pos, direction);
+            wallNormal = normal;
+        }
+
         /// <summary>
         /// Move the collision box to a new place and rotate accordingly
         /// currently has no rotation

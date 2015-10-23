@@ -13,8 +13,8 @@ namespace MoonCow
         public List<Asteroid> asteroids;
         List<Asteroid> toDelete;
         List<Asteroid> toAdd;
-        List<JunkShip> junkShips;
-        List<JunkShip> jToDelete;
+        public List<JunkShip> junkShips;
+        public List<JunkShip> jToDelete;
         List<MapNode> astNodes;
         AsteroidGenerator astGen;
         public AsteroidManager(Game1 game):base(game)
@@ -42,6 +42,9 @@ namespace MoonCow
 
                 foreach (JunkShip j in junkShips)
                     j.Update();
+                foreach (JunkShip j in jToDelete)
+                    junkShips.Remove(j);
+                jToDelete.Clear();
 
                 toDelete.Clear();
                 toAdd.Clear();

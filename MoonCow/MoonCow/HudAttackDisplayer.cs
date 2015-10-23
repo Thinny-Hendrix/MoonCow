@@ -35,6 +35,7 @@ namespace MoonCow
         public Texture2D gunSml;
         public Texture2D hevBig;
         public Texture2D hevSml;
+        public Texture2D barMask;
 
         public Attack activeAttack;
         List<HudWave> waveDisplays;
@@ -97,6 +98,8 @@ namespace MoonCow
             gunBig = game.Content.Load<Texture2D>(@"Hud/AttackDisplay/gunBig");
             hevSml = game.Content.Load<Texture2D>(@"Hud/AttackDisplay/hevSml");
             hevBig = game.Content.Load<Texture2D>(@"Hud/AttackDisplay/hevBig");
+
+            barMask = game.Content.Load<Texture2D>(@"Hud/Masks/waveMask");
 
             wavOut = game.Content.Load<Texture2D>(@"Hud/AttackDisplay/waveOut");
             wavOutW = game.Content.Load<Texture2D>(@"Hud/AttackDisplay/waveOutW");
@@ -182,7 +185,7 @@ namespace MoonCow
             flashChainCool -= Utilities.deltaTime;
             if (flashChainCool <= 0)
             {
-                waveDisplays.Add(new HudWave(hud, this, spawnPos, activeAttack.waves.ElementAt(displayedWaves)));
+                waveDisplays.Add(new HudWave(game, hud, this, spawnPos, activeAttack.waves.ElementAt(displayedWaves)));
                 spawnPos.Y += 86;
 
                 if(displayedWaves == 0)
@@ -241,7 +244,7 @@ namespace MoonCow
             {
                 if (displayedWaves < totalWaves)
                 {
-                    waveDisplays.Add(new HudWave(hud, this, new Vector2(60, 417 + 86 * 3), activeAttack.waves.ElementAt(displayedWaves)));
+                    waveDisplays.Add(new HudWave(game, hud, this, new Vector2(60, 417 + 86 * 3), activeAttack.waves.ElementAt(displayedWaves)));
                     displayedWaves++;
                 }
 
@@ -255,6 +258,7 @@ namespace MoonCow
         {
             if (waveDisplays.Count() != 0)
             {
+                waveDisplays.ElementAt(0).Dispose();
                 waveDisplays.RemoveAt(0);
                 if(waveDisplays.Count() != 0)
                     waveDisplays.ElementAt(0).firstInList = true;

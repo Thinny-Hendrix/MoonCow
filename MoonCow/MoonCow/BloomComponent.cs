@@ -179,7 +179,7 @@ namespace MoonCow
             // Pass 4: draw both rendertarget 1 and the original scene
             // image back into the main backbuffer, using a shader that
             // combines them to produce the final bloomed result.
-            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.SetRenderTarget(game.worldRender);
 
             EffectParameterCollection parameters = bloomCombineEffect.Parameters;
 
@@ -192,7 +192,7 @@ namespace MoonCow
 
             Viewport viewport = GraphicsDevice.Viewport;
 
-            DrawFullscreenQuad(game.worldRender,
+            DrawFullscreenQuad(renderTarget2,
                                viewport.Width, viewport.Height,
                                bloomCombineEffect,
                                IntermediateBuffer.FinalResult);

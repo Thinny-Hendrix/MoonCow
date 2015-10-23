@@ -11,6 +11,7 @@ namespace MoonCow
     {
         public CircleCollider col;
         public Game1 game;
+        public CollectableGlow glow;
 
         public Collectable() { }
         public Collectable(Vector3 pos, Game1 game)
@@ -41,6 +42,11 @@ namespace MoonCow
 
         public override void Dispose()
         {
+            if (glow != null)
+            {
+                glow.Dispose();
+                game.modelManager.removeEffect(glow);
+            }
             game.modelManager.toDeleteObject(this);
         }
 

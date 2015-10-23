@@ -17,7 +17,11 @@ namespace MoonCow
             rateOfFire = 0.4f;
             range = 0.3f;
 
-            coolMax = 15;
+            coolMax = 90;
+            ammoMax = 24;
+            ammo = ammoMax;
+
+            EXPMAX = 250;
         }
 
         public override void Fire()
@@ -31,6 +35,24 @@ namespace MoonCow
                 cooldown = coolMax;
             }
         }
-        
+
+        public override void levelUp()
+        {
+            switch (level)
+            {
+                default: //level 2
+                    coolMax = 75;
+                    EXPMAX = 500;
+                    ammoMax = 28;
+                    break;
+                case 3:
+                    coolMax = 60;
+                    ammoMax = 32;
+                    break;
+            }
+            ammo = ammoMax;
+
+            game.hud.hudMessage.setLevelUpMessage(this);
+        }        
     }
 }

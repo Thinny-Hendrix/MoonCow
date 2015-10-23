@@ -19,6 +19,9 @@ namespace MoonCow
         bool visible;
         Vector3 goalScale;
 
+        float yTime;
+        float xTime;
+
         SpriteBatch sb;
         RenderTarget2D rTarg;
 
@@ -56,6 +59,8 @@ namespace MoonCow
             this.pos += dir * 5;
             rot.Y = (float)Math.Atan2(dir.X, dir.Z);
             visible = true;
+            yTime = 0;
+            xTime = 0;
         }
 
         public void shut()
@@ -65,6 +70,24 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
+            if (visible)
+            {
+                if (yTime < MathHelper.Pi * 2)
+                {
+                    yTime += Utilities.deltaTime * MathHelper.Pi * 2;
+                    if(yTime < MathHelper.Pi)
+                        scale.Z = MathHelper.Lerp(0, 0.3f, (float)(-Math.Cos(yTime) + 1) / 2);
+                    else
+                        scale.Z = MathHelper.Lerp(0.3f, 0.25f, (float)(Math.Cos(yTime) + 1) / 2);
+                }
+                else
+                {
+                    scale.Y = 0.25f;
+                }
+            }
+
+
+
             linePos.Y += Utilities.deltaTime * manager.speed / 20;
             if (linePos.Y > 64)
                 linePos.Y -= 64;

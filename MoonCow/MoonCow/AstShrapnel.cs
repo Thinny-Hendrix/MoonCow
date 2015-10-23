@@ -15,6 +15,7 @@ namespace MoonCow
         float fScale;
         float initScale;
         float time;
+        Vector3 rotDir;
         public AstShrapnel(Vector3 pos, float scale, Vector3 dir, Game1 game)
         {
             model = ModelLibrary.ast1;
@@ -31,12 +32,30 @@ namespace MoonCow
             this.dir.Normalize();
 
             this.pos += this.dir * scale * 8;
+            rotDir = this.dir;
+        }
+
+        public AstShrapnel(Vector3 pos, float scale, Game1 game)
+        {
+            model = ModelLibrary.ast1;
+            this.pos = pos;
+            this.scale = new Vector3(scale);
+            this.game = game;
+            fScale = scale;
+            initScale = scale;
+            speed = 2;
+            time = 0;
+
+            rotDir = new Vector3(Utilities.nextFloat() * 2 - 1, Utilities.nextFloat() * 2 - 1, Utilities.nextFloat() * 2 - 1);
+            rotDir.Normalize();
+
+            this.dir = Vector3.Zero;
         }
 
         public override void Update(GameTime gameTime)
         {
             pos += dir * speed * Utilities.deltaTime;
-            rot += dir * 5 * Utilities.deltaTime;
+            rot += rotDir * 5 * Utilities.deltaTime;
 
             time += Utilities.deltaTime;
 

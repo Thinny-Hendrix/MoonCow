@@ -18,7 +18,7 @@ namespace MoonCow
             this.pos = pos;
             this.rot.Y = (float)Math.Atan2(direction.X, direction.Z);
 
-            speed = 50;
+            speed = 40;
             life = 120;
             delete = false;
             damage = 20;

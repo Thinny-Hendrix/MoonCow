@@ -233,8 +233,8 @@ namespace MoonCow
             coreSpot = game.core.getSpot(pos);
             if (coreSpot != null)
             {
-                target = coreSpot.pos;
-                posToCore = game.core.coordsToSpot(coreSpot, pos);
+                target = coreSpot.sneSpot;
+                posToCore = game.core.coordsToSpot(coreSpot, pos, target);
                 currentBaseIndex = 0;
                 target = posToCore.ElementAt(currentBaseIndex);
                 resetDist();

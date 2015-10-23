@@ -12,6 +12,7 @@ namespace MoonCow
     {
         Game1 game;
         public float waitTime;
+        public float maxWait;
         public List<Wave> waves = new List<Wave>();
         Wave activeWave;
         WaveManager manager;
@@ -25,11 +26,12 @@ namespace MoonCow
             this.game = game;
             this.manager = manager;
             waitTime = 5f;
+            maxWait = waitTime;
             currentWaveNumber = -1; 
             attackNumber = attackNo;
             active = true;
-            //testWave();
-            manualWaves(attackNo);
+            testWave();
+            //manualWaves(attackNo);
             //createWaves();
             //tempWaveCreator();
             //activeWave = waves[currentWaveNumber];
@@ -116,13 +118,14 @@ namespace MoonCow
         void setWaitTime()
         {
             waitTime = (float)Math.Ceiling(activeWave.cDownThresh * activeWave.waveMax + 8);
+            maxWait = waitTime;
         }
 
         void testWave()
         {
             inAttack = 2;
-            waves.Add(new Wave(game, manager, attackNumber, 1, 1, 3));
-            waves.Add(new Wave(game, manager, attackNumber, 2, 3, 3));
+            waves.Add(new Wave(game, manager, attackNumber, 1, 10, 0));
+            waves.Add(new Wave(game, manager, attackNumber, 2, 20, 0));
             //waves.Add(new Wave(game, manager, attackNumber, 3, 3, 3));
         }
 

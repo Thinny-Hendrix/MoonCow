@@ -31,6 +31,7 @@ namespace MoonCow
         public TurretSelect turSelect;
         public QuickSelect quickSelect;
         public HudPrompt hudPrompt;
+        public HudCollectable hudCollectable;
 
         Vector2 position;
         
@@ -68,6 +69,7 @@ namespace MoonCow
             hudMap = new HudMap(this, font, game);
             hudMessage = new HudMessage(this, font, game);
             hudMg = new HudMg(this, game.Content.Load<SpriteFont>(@"Hud/Venera900big"), game);
+            hudCollectable = new HudCollectable(this, font, game);
 
             viewportW = game.GraphicsDevice.Viewport.Width;
             viewportH = game.GraphicsDevice.Viewport.Height;
@@ -168,6 +170,7 @@ namespace MoonCow
             hudMg.Update();
             expSelect.Update();
             turSelect.Update();
+            hudCollectable.Update();
         }
 
         public void makeFlash()
@@ -182,6 +185,7 @@ namespace MoonCow
             hudHealth.Wake();
             hudState.Wake();
             hudMap.Wake();
+            hudCollectable.Wake();
         }
 
         public override void Draw(GameTime gameTime)
@@ -226,6 +230,7 @@ namespace MoonCow
             hudMessage.Draw(spriteBatch);
             hudMg.Draw(spriteBatch);
             hudPrompt.Draw(spriteBatch);
+            hudCollectable.Draw(spriteBatch);
             spriteBatch.End();
 
 

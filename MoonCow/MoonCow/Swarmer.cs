@@ -19,6 +19,8 @@ namespace MoonCow
         public State state;
         public State prevState;
         float waitTime;
+        CircleCollider meleeCol;
+        bool successHit;
 
         public Swarmer(Game1 game)
             : base(game)
@@ -73,7 +75,8 @@ namespace MoonCow
             //System.Diagnostics.Debug.WriteLine(path);
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
-            agroSphere = new CircleCollider(pos, 10f);
+            agroSphere = new CircleCollider(pos+direction*1.5f, 3);
+            meleeCol = new CircleCollider(pos + direction, 2);
             cols.Add(new CircleCollider(pos, 0.6f));
 
             health = 20;
@@ -102,11 +105,50 @@ namespace MoonCow
                 if(state == State.goToBase)
                 {
                     goToBase();
+                    agroSphere.Update(pos + direction * 1.5f);
+                    if(agroSphere.checkCircle(game.ship.circleCol))
+                    {
+                        state = State.attackPlayer;
+                        successHit = false;
+                        waitTime = 0;
+                        enemyModel.changeAnim(3);
+                    }
 
                     if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
                     {
                         state = State.atBase;
                         getCoreSpot();
+                    }
+                }
+                else if (state == State.attackPlayer)
+                {
+                    goToBase();
+                    agroSphere.Update(pos + direction * 1.5f);
+                    meleeCol.Update(pos + direction * 1f);
+                    waitTime += Utilities.deltaTime;
+                    if (!successHit && waitTime > 0.66f && waitTime < 0.875f)
+                    {
+                        meleeCol.Update(pos + facingDir);
+                        if (meleeCol.checkCircle(game.ship.circleCol))
+                        {
+                            game.camera.setYShake(0.2f);
+                            game.ship.shipHealth.onHit(15);
+                            successHit = true;
+                        }
+                    }
+                    if (waitTime > 1.16)
+                    {
+                        if (agroSphere.checkCircle(game.ship.circleCol))
+                        {
+                            waitTime = 0;
+                            successHit = false;
+                        }
+                        else
+                        {
+                            successHit = false;
+                            state = State.goToBase;
+                            enemyModel.changeAnim(0);
+                        }
                     }
                 }
 
@@ -119,7 +161,7 @@ namespace MoonCow
                 }
                 else if (state == State.atCore)
                 {
-                    enemyModel.changeAnim(2);
+                    enemyModel.changeAnim(3);
                     state = State.attackCore;
                     updateMovement();
                 }
@@ -249,8 +291,8 @@ namespace MoonCow
             coreSpot = game.core.getSpot(pos);
             if (coreSpot != null)
             {
-                target = coreSpot.pos;
-                posToCore = game.core.coordsToSpot(coreSpot, pos);
+                target = coreSpot.swaSpot;
+                posToCore = game.core.coordsToSpot(coreSpot, pos, target);
                 currentBaseIndex = 0;
                 target = posToCore.ElementAt(currentBaseIndex);
                 resetDist();
