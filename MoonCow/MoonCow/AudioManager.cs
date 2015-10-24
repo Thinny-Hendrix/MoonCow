@@ -24,6 +24,8 @@ namespace MoonCow
         public SoundEffectInstance shipShootLaser2 = AudioLibrary.shipShootLaser.CreateInstance();
         public SoundEffectInstance shipShootBomb = AudioLibrary.shipShootBomb.CreateInstance();
         public SoundEffectInstance shipCollectMoney = AudioLibrary.shipCollectMoney.CreateInstance();
+        public SoundEffectInstance shipShootShockwave = AudioLibrary.shipShootShockwave.CreateInstance();
+        public SoundEffectInstance shipDrill = AudioLibrary.shipDrill.CreateInstance();
 
         //projectile FX
         public SoundEffectInstance bombExplode = AudioLibrary.bombExplode.CreateInstance();
@@ -62,6 +64,9 @@ namespace MoonCow
             shipShootLaser2.Volume = 0.1f;
             shipShootBomb.Volume = 0.1f;
             shipCollectMoney.Volume = 0.1f;
+            shipShootShockwave.Volume = 0.1f;
+            shipDrill.Volume = 0.1f;
+
             bombExplode.Volume = 0.1f;
             laserHit.Volume = 0.1f;
             zap.Volume = 0.1f;
