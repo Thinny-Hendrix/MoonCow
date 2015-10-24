@@ -24,7 +24,7 @@ namespace MoonCow
         public SoundEffectInstance shipShootLaser2 = AudioLibrary.shipShootLaser.CreateInstance();
         public SoundEffectInstance shipShootBomb = AudioLibrary.shipShootBomb.CreateInstance();
         public SoundEffectInstance shipCollectMoney = AudioLibrary.shipCollectMoney.CreateInstance();
-        public SoundEffectInstance shipShootShockwave = AudioLibrary.shipShootShockwave.CreateInstance();
+        public SoundEffectInstance shipShootMissile = AudioLibrary.shipShootMissile.CreateInstance();
         public SoundEffectInstance shipDrill = AudioLibrary.shipDrill.CreateInstance();
 
         //projectile FX
@@ -33,10 +33,12 @@ namespace MoonCow
         public SoundEffectInstance zap = AudioLibrary.zap.CreateInstance();
 
         WaveManager waveManager;
+        Game1 game;
 
 
         public AudioManager(Game1 game) : base(game)
         {
+            this.game = game;
             waveManager = game.waveManager;
             soundEffects = new List<DisposableSoundEffect>();
             sToDelete = new List<DisposableSoundEffect>();
@@ -47,7 +49,7 @@ namespace MoonCow
             SoundEffect.MasterVolume = 0.4f;
 
             bgmSpacePanic_base.IsLooped = true;
-            bgmSpacePanic_base.Volume = 0.5f;
+            bgmSpacePanic_base.Volume = 1f;
             bgmSpacePanic_base.Play();
 
             bgmSpacePanic_spawn.IsLooped = true;
@@ -58,20 +60,32 @@ namespace MoonCow
             shipSpaceEngine.Volume = 0.1f;
             shipSpaceEngine.Play();
 
-            shipMetallicWallHit.Volume = 0.1f;
-            shipMetallicWallScrape.Volume = 0.1f;
+            shipMetallicWallHit.Volume = 0.5f;
+            shipMetallicWallScrape.Volume = 0.5f;
             shipShootLaser.Volume = 0.1f;
             shipShootLaser2.Volume = 0.1f;
-            shipShootBomb.Volume = 0.1f;
-            shipCollectMoney.Volume = 0.1f;
-            shipShootShockwave.Volume = 0.1f;
-            shipDrill.Volume = 0.1f;
+            shipShootBomb.Volume = 1f;
+            shipCollectMoney.Volume = 0.5f;
+            shipShootMissile.Volume = 0.1f;
+            shipDrill.IsLooped = true;
+            shipDrill.Volume = 1f;
 
-            bombExplode.Volume = 0.1f;
-            laserHit.Volume = 0.1f;
-            zap.Volume = 0.1f;
+            bombExplode.Volume = 1f;
+            laserHit.Volume = 0.5f;
+            zap.Volume = 0.5f;
 
             base.Initialize();
+        }
+
+        public void play3dSound(SoundEffectInstance sound, Vector3 soundPos)
+        {
+            AudioListener listener = new AudioListener();
+            listener.Position = game.ship.pos;
+            AudioEmitter emitter = new AudioEmitter();
+            emitter.Position = soundPos;
+            //sound.Apply3D(listener, emitter); throws An unhandled exception of type 'System.AccessViolationException' occurred in SharpDX.XAudio2.dll
+            sound.Stop();
+            sound.Play();
         }
 
         public void addSoundEffect(SoundEffect e, float vol)
@@ -81,9 +95,15 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if (waveManager.spawnState == Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume < 0.5f)
+            if (waveManager.spawnState == Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume < bgmSpacePanic_base.Volume)
             {
-                bgmSpacePanic_spawn.Volume += 0.001f;
+                try
+                {
+                    bgmSpacePanic_spawn.Volume += 0.001f;
+                } catch (ArgumentOutOfRangeException)
+                {
+                    bgmSpacePanic_spawn.Volume = 1f;
+                }
             }
 
             if (waveManager.spawnState != Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume > 0)

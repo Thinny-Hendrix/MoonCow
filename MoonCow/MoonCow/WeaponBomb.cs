@@ -71,8 +71,8 @@ namespace MoonCow
                 {
                     projectiles.Add(new BombProjectile(ship.pos + new Vector3(0, 0, ship.direction.Z * 0.25f), ship.direction, game, this));
                     game.levelStats.bombsFired++;
-                    game.audioManager.shipShootLaser2.Stop();
-                    game.audioManager.shipShootLaser2.Play();
+                    game.audioManager.shipShootBomb.Stop();
+                    game.audioManager.shipShootBomb.Play();
                     cooldown = coolMax;
                     softCooldown = softCoolmax;
                     base.Fire();

@@ -267,7 +267,7 @@
     <Content Include="Content\Audio\SFX\Shoot Laser.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Audio\SFX\Shoot Shockwave.wav">
+    <Content Include="Content\Audio\SFX\Shoot Missile.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Audio\SFX\Space Engine.wav">
@@ -1964,7 +1964,7 @@
     <Content Include="Content\Audio\SFX\Drill.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Audio\SFX\Shoot Shockwave.xnb">
+    <Content Include="Content\Audio\SFX\Shoot Missile.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Content\Models\Enemies\Swarmer\swarmerAlpha.fbx" />
