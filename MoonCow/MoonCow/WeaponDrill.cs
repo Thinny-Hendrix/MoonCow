@@ -229,11 +229,14 @@ namespace MoonCow
                 {
                     game.modelManager.addEffect(new DirLineParticle(new Vector3(col.centre.X, 4.5f, col.centre.Y), game));
                     game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction * 0.8f, 0.15f));
+                    game.audioManager.shipDrill.Pitch = 0f;
                 }
                 else
                 {
                     game.modelManager.addEffect(new ImpactParticleModel(game, ship.pos + ship.direction * 0.8f, 0.08f));
+                    game.audioManager.shipDrill.Pitch = -0.5f;
                 }
+                game.audioManager.shipDrill.Play();
                 game.hud.hudWeapon.Wake();
                 if (!dome.active)
                     dome.activate();
@@ -241,6 +244,7 @@ namespace MoonCow
             else
             {
                 drillColliding = false;
+                game.audioManager.shipDrill.Stop();
                 if (dome.active)
                     dome.disable();
             }

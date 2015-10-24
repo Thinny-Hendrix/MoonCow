@@ -30,9 +30,9 @@ namespace MoonCow
             currentWaveNumber = -1; 
             attackNumber = attackNo;
             active = true;
-            testWave();
+            //testWave();
             //manualWaves(attackNo);
-            //createWaves();
+            createWaves();
             //tempWaveCreator();
             //activeWave = waves[currentWaveNumber];
         }

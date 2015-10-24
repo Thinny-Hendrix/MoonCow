@@ -20,6 +20,8 @@ namespace MoonCow
         public static SoundEffect shipShootLaser;
         public static SoundEffect shipShootBomb;
         public static SoundEffect shipCollectMoney;
+        public static SoundEffect shipShootMissile;
+        public static SoundEffect shipDrill;
 
         //projectile FX
         public static SoundEffect bombExplode;
@@ -42,6 +44,8 @@ namespace MoonCow
             shipShootLaser = game.Content.Load<SoundEffect>(@"Audio/SFX/Shoot Laser");
             shipShootBomb = game.Content.Load<SoundEffect>(@"Audio/SFX/Shoot Bomb");
             shipCollectMoney = game.Content.Load<SoundEffect>(@"Audio/SFX/Collect Money");
+            shipShootMissile = game.Content.Load<SoundEffect>(@"Audio/SFX/Shoot Missile");
+            shipDrill = game.Content.Load<SoundEffect>(@"Audio/SFX/Drill");
 
             //projectile FX
             bombExplode = game.Content.Load<SoundEffect>(@"Audio/SFX/Bomb Explode");

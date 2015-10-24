@@ -15,6 +15,7 @@ namespace MoonCow
 
         public float displayNo;
         public float difference;
+        public float collected;
         public bool changing;
         public bool display;
 
@@ -33,6 +34,7 @@ namespace MoonCow
             changing = false;
             display = true;
             displayTime = 0;
+            collected = 0;
             this.game = (Game1)game;
 
             moneyGib1 = game.Content.Load<Model>(@"Models/MoneyGibs/gib1");
@@ -59,6 +61,7 @@ namespace MoonCow
                         displayNo = balance;
                         changing = false;
                         difference = 0;
+                        collected = 0;
                     }
                 }
                     /*

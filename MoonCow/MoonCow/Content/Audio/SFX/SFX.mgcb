@@ -67,3 +67,15 @@
 /processorParam:Quality=Best
 /build:Zap.wav
 
+#begin Drill.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Drill.wav
+
+#begin Shoot Shockwave.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Shoot Shockwave.wav
+

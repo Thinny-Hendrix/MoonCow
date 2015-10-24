@@ -148,6 +148,7 @@ namespace MoonCow
                   //  game.modelManager.addEffect(new DotParticle(game, pos));
 
                 wep.splos.Add(new BombExplosion(pos, game, wep.level, wep));
+                game.audioManager.play3dSound(game.audioManager.bombExplode, pos);
                 deleteProjectile();
             }
         }
