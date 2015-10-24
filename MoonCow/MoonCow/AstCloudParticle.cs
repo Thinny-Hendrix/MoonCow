@@ -18,32 +18,32 @@ namespace MoonCow
         Vector3 dir;
         int type;
 
-        public AstCloudParticle(Game1 game, Vector3 pos, Vector3 dir, int type)
+        public AstCloudParticle(Game1 game, Vector3 pos, Vector3 dir, float size, int type)
             : base()
         {
             this.game = game;
             this.pos = pos;
             this.type = type;
             alpha = 1;
-            fScale = 0.2f;
+            fScale = size;
             speed = Utilities.nextFloat() * 2 + 1;
 
             Vector3 tempDir = new Vector3(Utilities.nextFloat() * 2 - 1, Utilities.nextFloat() * 2 - 1, Utilities.nextFloat() * 2 - 1);
             this.dir = tempDir + dir;
             this.dir.Normalize();
 
-            this.pos += dir;
+            this.pos += this.dir * size/0.2f;
 
             rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
             tex = TextureManager.astCloud2;
             model = TextureManager.square;
         }
-        public AstCloudParticle(Game1 game, Vector3 pos):base()
+        public AstCloudParticle(Game1 game, Vector3 pos, float size):base()
         {
             this.game = game;
             this.pos = pos;
             alpha = 1;
-            fScale = 0.25f;
+            fScale = size;
 
             rot.Z = (float)Utilities.random.NextDouble() * MathHelper.Pi * 2;
             tex = TextureManager.astCloud2;

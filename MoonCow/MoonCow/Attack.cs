@@ -30,9 +30,9 @@ namespace MoonCow
             currentWaveNumber = -1; 
             attackNumber = attackNo;
             active = true;
-            //testWave();
+            testWave();
             //manualWaves(attackNo);
-            createWaves();
+            //createWaves();
             //tempWaveCreator();
             //activeWave = waves[currentWaveNumber];
         }
@@ -123,11 +123,11 @@ namespace MoonCow
 
         void testWave()
         {
-            inAttack = 4;
-            waves.Add(new Wave(game, manager, attackNumber, 1, 5, 0));
-            waves.Add(new Wave(game, manager, attackNumber, 2, 3, 2));
-            waves.Add(new Wave(game, manager, attackNumber, 3, 1, 3));
-            waves.Add(new Wave(game, manager, attackNumber, 3, 3, 0));
+            inAttack = 2;
+            waves.Add(new Wave(game, manager, attackNumber, 1, 1, 3));
+            waves.Add(new Wave(game, manager, attackNumber, 2, 1, 3));
+            //waves.Add(new Wave(game, manager, attackNumber, 3, 3, 0));
+            //waves.Add(new Wave(game, manager, attackNumber, 3, 1, 3));
         }
 
         private void tempWaveCreator()

@@ -40,10 +40,10 @@ namespace MoonCow
             for (int i = 0; i < 4; i++)
                 game.ship.moneyManager.addOreGib(20, pos, 0);
             base.onDeath();
-            game.modelManager.addEffect(new AstCloudParticle(game, pos));
+            game.modelManager.addEffect(new AstCloudParticle(game, pos, 0.25f));
             for(int i = 0; i < 10; i++)
             {
-                game.modelManager.addEffect(new AstCloudParticle(game, pos, dir, 1));
+                game.modelManager.addEffect(new AstCloudParticle(game, pos, dir, 0.2f, 1));
             }
             for (int i = 0; i < 3; i++)
             {

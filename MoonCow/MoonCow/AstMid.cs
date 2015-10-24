@@ -59,6 +59,22 @@ namespace MoonCow
                 }
             }
             base.onDeath();
+
+            game.modelManager.addEffect(new AstCloudParticle(game, pos, 0.5f));
+            for (int i = 0; i < 15; i++)
+            {
+                game.modelManager.addEffect(new AstCloudParticle(game, pos, dir, 0.4f, 1));
+            }
+
+            game.modelManager.addObject(new AstShrapnel(pos + new Vector3(0, 2, 0), 0.3f, game));
+            game.modelManager.addObject(new AstShrapnel(pos + new Vector3(0, -2, 0), 0.3f, game));
+
+            for (int i = 0; i < 3; i++)
+            {
+                game.modelManager.addObject(new AstShrapnel(pos, 0.2f, dir, game));
+            }
+
+            game.camera.setYShake(0.1f);
         }
     }
 }

@@ -185,7 +185,7 @@ namespace MoonCow
 
             //sneaker
             sneFly = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneFly");
-            sneStart = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneStart");
+            sneStart = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneStart2");
             sneSpin = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneSpin");
             sneEnd = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneEnd");
             sneHit = game.Content.Load<Model>(@"Models/Enemies/Sneaker/sneHit");

@@ -18,7 +18,9 @@ namespace MoonCow
         CircleCollider attackCol;
         float attackTime;
         float waitTime;
-        public enum State { goToBase, travelAttack, atBase, atCore, attackCore, strongHit, hitByDrill }
+        float turnTime;
+        Vector3 oldDir;
+        public enum State { goToBase, travelAttack, atBase, waiting, atCore, attackCore, strongHit, hitByDrill }
         State state;
         State prevState;
 
@@ -162,10 +164,25 @@ namespace MoonCow
                 {
                     enemyModel.changeAnim(1);
                     state = State.attackCore;
+                    oldDir = direction;
+                    turnTime = 0;
                     updateMovement();
                 }
                 else if (state == State.attackCore)
                 {
+                    if (turnTime != 1)
+                    {
+                        turnTime += Utilities.deltaTime;
+                        if (turnTime >= 1)
+                            turnTime = 1;
+
+                        Vector3 targetDir = game.core.col.directionFrom(pos);
+                        direction = Vector3.SmoothStep(oldDir, targetDir, turnTime); 
+                    }
+                    else
+                    {
+                        direction = game.core.col.directionFrom(pos);
+                    }
                     game.core.damage(0.05f * Utilities.deltaTime);
                     updateMovement();
                 }
@@ -191,7 +208,7 @@ namespace MoonCow
 
         void getCoreSpot()
         {
-            coreSpot = game.core.getSpot(pos);
+            coreSpot = game.core.getHeavySpot(pos);
             if (coreSpot != null)
             {
                 target = coreSpot.hevSpot;
@@ -200,6 +217,7 @@ namespace MoonCow
                 target = posToCore.ElementAt(currentBaseIndex);
                 resetDist();
             }
+            oldDir = direction;
         }
 
         void resetDist()
@@ -211,11 +229,22 @@ namespace MoonCow
 
         void goToCore()
         {
+            if(turnTime != 1)
+            {
+                turnTime += Utilities.deltaTime;
+                if (turnTime >= 1)
+                    turnTime = 1;
+            }
             frameDiff = Vector3.Zero;
             Vector3 targetDir = target - pos;
             targetDir.Normalize();
-            direction = targetDir;
-            frameDiff = targetDir * moveSpeed * Utilities.deltaTime;
+            direction = Vector3.SmoothStep(oldDir, targetDir, turnTime);
+//            direction = targetDir;
+            frameDiff = direction * moveSpeed * Utilities.deltaTime;
+            updateMovement();
+            Vector3 dif = pos - frameDiff;
+            float frameDist = Utilities.hypotenuseOf(dif.X, dif.Y);
+            //currentDist += frameDist;
             currentDist += moveSpeed * Utilities.deltaTime;
 
             if (currentDist > distToCore)
@@ -230,12 +259,14 @@ namespace MoonCow
                     currentBaseIndex++;
                     target = posToCore.ElementAt(currentBaseIndex);
                     resetDist();
+                    turnTime = 0;
+                    oldDir = targetDir;
                 }
 
             }
 
 
-            updateMovement();
+            //updateMovement();
             frameDiff = Vector3.Zero;
         }
 
@@ -366,6 +397,8 @@ namespace MoonCow
 
             if (Utilities.random.Next(5) == 0)
                 game.ship.moneyManager.addAmmoGib(pos);
+
+            game.core.releaseHeavySpot(coreSpot);
             
 
             game.modelManager.removeEnemy(enemyModel);

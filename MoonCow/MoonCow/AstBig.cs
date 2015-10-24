@@ -58,16 +58,16 @@ namespace MoonCow
             }
             base.onDeath();
 
-            game.modelManager.addEffect(new AstCloudParticle(game, pos));
-            for (int i = 0; i < 10; i++)
+            game.modelManager.addEffect(new AstCloudParticle(game, pos, 1.7f));
+            for (int i = 0; i < 20; i++)
             {
-                game.modelManager.addEffect(new AstCloudParticle(game, pos, dir, 1));
+                game.modelManager.addEffect(new AstCloudParticle(game, pos, dir, 1.4f, 1));
             }
 
             game.modelManager.addObject(new AstShrapnel(pos + new Vector3(0, 5, 0), 0.6f, game));
             game.modelManager.addObject(new AstShrapnel(pos+new Vector3(0,-5,0), 0.6f, game));
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 6; i++)
             {
                 game.modelManager.addObject(new AstShrapnel(pos, 0.5f, dir, game));
             }

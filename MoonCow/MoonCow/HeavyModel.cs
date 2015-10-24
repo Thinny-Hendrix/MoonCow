@@ -84,8 +84,9 @@ namespace MoonCow
         {
             pos = enemy.pos;
             pos.Y -= 0.7f;
-            rot = enemy.rot;
-            rot.Y -= MathHelper.Pi;
+            //rot = enemy.rot;
+            rot.Y = (float)Math.Atan2(enemy.direction.X, enemy.direction.Z);
+            //rot.Y -= MathHelper.Pi;
 
             /*if(swarmer.state == Swarmer.State.hitByDrill)
             {
