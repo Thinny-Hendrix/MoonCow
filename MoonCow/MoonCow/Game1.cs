@@ -69,25 +69,6 @@ namespace MoonCow
 
             loadPercentage = 0;
 
-            /*
-            int[,] listofnodes = new int[13,21] {
-            { 35,42,42,42,38,8,15,1,15,1,1,1,15,1,15,10,35,42,42,42,38},
-            { 39,59,59,59,41,60,2,60,2,60,60,60,2,60,2,60,39,59,59,59,41},
-            { 39,59,59,59,41,60,2,60,2,60,60,60,2,60,2,60,39,59,59,59,41},
-            { 39,59,59,59,41,16,13,15,18,60,60,60,17,15,13,19,39,59,59,59,41},
-            { 39,59,59,59,41,2,60,2,60,60,3,60,60,2,60,2,39,59,59,59,41},
-            { 39,59,59,59,45,14,60,17,15,1,13,1,15,18,60,12,43,59,59,59,41},
-            { 39,59,59,59,41,2,60,60,2,60,60,60,2,60,60,2,39,59,59,59,41},
-            { 39,59,59,59,41,17,1,15,13,19,60,16,13,15,1,18,39,59,59,59,41},
-            { 39,59,59,59,50,42,42,55,60,2,60,2,60,51,42,42,47,59,59,59,41},
-            { 39,59,59,59,59,59,59,41,60,20,21,22,60,39,59,59,59,59,59,59,41},
-            { 39,59,59,59,59,59,59,41,60,23,24,25,60,39,59,59,59,59,59,59,41},
-            { 39,59,59,59,59,59,59,41,60,26,27,28,60,39,59,59,59,59,59,59,41},
-            { 36,40,40,40,40,40,40,37,60,60,60,60,60,36,40,40,40,40,40,40,37},
-            };
-
-            testMap = new MapData(1, "Level2", "jason", 21, 13, listofnodes);
-            testMap.writeMap();*/
         }
 
         /// <summary>
@@ -115,10 +96,10 @@ namespace MoonCow
 
             LcAssets.initialize(this);
 
-            //initializeMenu();
-            initializeGame();
+            initializeMenu();
+            //initializeGame();
             //initializeLevelCreator();
-            runState = RunState.MainGame;
+            runState = RunState.MainMenu;
             //runState = RunState.LevelCreator;
 
             base.Initialize();
@@ -133,13 +114,13 @@ namespace MoonCow
             EnemyBehaviour.load();
         }
 
-        void initializeLevelCreator()
+        public void initializeLevelCreator()
         {
             levelCreator = new LevelCreator(this);
             Components.Add(levelCreator);
         }
 
-        void initializeMenu()
+        public void initializeMenu()
         {
             MenuAssets.Initialize(this);
             mainMenu = new MainMenu(this);
@@ -237,8 +218,30 @@ namespace MoonCow
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) && runState != RunState.MainMenu)
+            {
+                if(runState == RunState.LevelCreator)
+                {
+                    Components.Remove(levelCreator);
+                }
+                if(runState == RunState.MainGame)
+                {
+                    audioManager.shutup();
+                    Components.Remove(ship);
+                    Components.Remove(camera);
+                    Components.Remove(modelManager);
+                    Components.Remove(audioManager);
+                    Components.Remove(enemyManager);
+                    Components.Remove(waveManager);
+                    Components.Remove(core);
+                    Components.Remove(turretManager);
+                    Components.Remove(asteroidManager);
+                    Components.Remove(minigame);
+                    Components.Remove(hud);
+                }
+                initializeMenu();
+                runState = RunState.MainMenu;
+            }
 
             Utilities.Update(gameTime);
 

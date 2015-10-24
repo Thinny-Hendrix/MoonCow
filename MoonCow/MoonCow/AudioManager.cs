@@ -102,5 +102,13 @@ namespace MoonCow
             }
             sToDelete.Clear();
         }
+
+        public void shutup()
+        {
+            soundEffects.Clear();
+            bgmSpacePanic_base.Stop();
+            bgmSpacePanic_spawn.Stop();
+            shipSpaceEngine.Stop();
+        }
     }
 }

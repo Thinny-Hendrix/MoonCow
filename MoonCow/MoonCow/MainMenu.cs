@@ -48,6 +48,28 @@ namespace MoonCow
         {
             switch(activeButton)
             {
+                case 0:
+                    loading = true;
+                    //drawLoading(); // doesn't work
+                    game.runState = Game1.RunState.MainGame;
+                    game.initializeGame();
+                    game.Components.Remove(this);
+                    break;
+                case 1:
+                    // level select
+                    break;
+                case 2:
+                    loading = true;
+                    game.runState = Game1.RunState.LevelCreator;
+                    game.initializeLevelCreator();
+                    game.Components.Remove(this);
+                    break;
+                case 3:
+                    // options
+                    break;
+                case 4:
+                    game.Exit();
+                    break;
                 default:
                     loading = true;
                     game.runState = Game1.RunState.MainGame;
@@ -59,7 +81,10 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+
+            float stickY = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y;
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
             {
                 confirm();
             }
@@ -71,7 +96,7 @@ namespace MoonCow
 
             if (buttonSwitchCooldown <= 0)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                if (Keyboard.GetState().IsKeyDown(Keys.Down) || stickY < -0.3f)
                 {
                     buttonPressed = true;
                     currentButton.disable();
@@ -86,7 +111,7 @@ namespace MoonCow
                     currentButton = buttons.ElementAt(activeButton);
                     currentButton.activate();
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f)
                 {
                     buttonPressed = true;
                     currentButton.disable();
@@ -124,8 +149,10 @@ namespace MoonCow
 
         void drawLoading()
         {
+            sb.Begin();
             sb.Draw(MenuAssets.pureWhite, Utilities.scaledRect(Utilities.scaledCoords(300,400),500*game.loadPercentage,40), Color.Red);
             sb.Draw(MenuAssets.load, Utilities.scaledCoords(300, 700), Color.White);
+            sb.End();
         }
         void drawMenu()
         {
