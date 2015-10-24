@@ -104,6 +104,7 @@ namespace MoonCow
         //Minigame
         public static Model mgBgPoly;
         public static Model artefact;
+        public static Model mgConsole;
 
         //Ships
         public static Model pewShip;
@@ -218,10 +219,11 @@ namespace MoonCow
             //minigame
             mgBgPoly = game.Content.Load<Model>(@"Minigame/mgBgModel");
             artefact = game.Content.Load<Model>(@"Minigame/artefact");
+            mgConsole = game.Content.Load<Model>(@"Minigame/jsPanel");
 
             //ship
-            pewShip = game.Content.Load<Model>(@"Models/Ship/PewProto/shipPewfbx");
-            drillShip = game.Content.Load<Model>(@"Models/Ship/drillShipTEMP");
+            pewShip = game.Content.Load<Model>(@"Models/Ship/pewShipFinal");
+            drillShip = game.Content.Load<Model>(@"Models/Ship/drillShipFinal");
             drillDome = game.Content.Load<Model>(@"Models/Weapons/Drill/drillDome");
 
 

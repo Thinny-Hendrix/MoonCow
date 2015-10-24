@@ -38,6 +38,7 @@ namespace MoonCow
             enemyModel = new SwarmerModel(this);
             enemyType = 0;
             electroDamage = new ElectroDamage(this, game, enemyType);
+            pyroDamage = new PyroDamage(this, game, enemyType);
 
             game.modelManager.addEnemy(enemyModel);
 

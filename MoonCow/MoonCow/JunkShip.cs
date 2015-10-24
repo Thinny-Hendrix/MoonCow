@@ -9,23 +9,24 @@ namespace MoonCow
 {
     public class JunkShip
     {
-        Game1 game;
-        Minigame minigame;
+        protected Game1 game;
+        protected Minigame minigame;
         public Vector3 pos;
         public OOBB col;
-        CircleCollider interactRange;
+        protected CircleCollider interactRange;
         public Vector3 dir;
-        Ship ship;
-        MgInstance instance;
-        JunkShipModel model;
-        int successAtActivate;
+        protected Ship ship;
+        protected MgInstance instance;
+        protected JunkShipModel model;
+        protected int successAtActivate;
         public Vector2 nodePos;
         public bool destroying;
         public float time;
-        float moneyVal;
-        bool triggeredMessage;
+        protected float moneyVal;
+        protected bool triggeredMessage;
         public List<OOBB> cols;
 
+        public JunkShip() { }
         public JunkShip(Game1 game, Vector3 pos)
         {
             this.game = game;
@@ -56,13 +57,13 @@ namespace MoonCow
             destroying = false;
         }
 
-        public void beatMinigame(float money)
+        public virtual void beatMinigame(float money)
         {
             this.moneyVal = money;
             destroying = true;
         }
 
-        public void Update()
+        public virtual void Update()
         {
             if (destroying)
             {

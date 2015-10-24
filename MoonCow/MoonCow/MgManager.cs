@@ -24,6 +24,8 @@ namespace MoonCow
         
 
         public float speed;
+        public float hardSpeed;
+        public float normSpeed;
 
         public CircleCollider upGoal;
         public CircleCollider downGoal;
@@ -89,6 +91,8 @@ namespace MoonCow
             markerCount = 0;
             nextMarker = 1;
             speed = 650;
+            normSpeed = speed;
+            hardSpeed = speed * 1.2f;
             fail = false;
         }
 
@@ -307,6 +311,29 @@ namespace MoonCow
             markerMax = instance.markTypes.Count();
             missCount = 0;
             hitCount = 0;
+
+            speed = normSpeed;
+            minigame.models.setSpeed(speed / 650);
+
+            fail = false;
+        }
+
+        public void hardReset()
+        {
+            upMark.Clear();
+            downMark.Clear();
+            leftMark.Clear();
+            rightMark.Clear();
+            mToDelete.Clear();
+
+            markerCount = 0;
+            nextMarker = 1;
+            markerMax = instance.markTypes.Count();
+            missCount = 0;
+            hitCount = 0;
+
+            hardSpeed = normSpeed * 1.2f;
+            speed = hardSpeed;
 
             minigame.models.setSpeed(speed / 650);
 

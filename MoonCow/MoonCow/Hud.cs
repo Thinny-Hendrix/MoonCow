@@ -48,6 +48,10 @@ namespace MoonCow
         public Color redBody;
         public Color blueBody;
 
+        public Texture2D butA;
+        public Texture2D butB;        
+        public Texture2D butX;
+        public Texture2D butY;
         
 
         Texture2D whiteTex;
@@ -93,6 +97,12 @@ namespace MoonCow
             flashTime = 15;
 
             scale = (float)game.GraphicsDevice.Viewport.Bounds.Width / 1920.0f;
+
+            butA = game.Content.Load<Texture2D>(@"Hud/butA");
+            butB = game.Content.Load<Texture2D>(@"Hud/butB");
+            butX = game.Content.Load<Texture2D>(@"Hud/butX");
+            butY = game.Content.Load<Texture2D>(@"Hud/butY");
+
         }
 
         public Rectangle scaledRect(Vector2 pos, float x, float y)

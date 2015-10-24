@@ -15,6 +15,8 @@ namespace MoonCow
         Game1 game;
         float time;
         float fScale;
+        RenderTarget2D rTarg;
+        SpriteBatch sb;
         public FireStreamParticle(Vector3 pos, Vector3 dir, Game1 game):base()
         {
             this.pos = pos;
@@ -25,6 +27,15 @@ namespace MoonCow
             alpha = 1;
             fScale = 2;
             time = 0;
+
+            rTarg = new RenderTarget2D(game.GraphicsDevice, 128, 128);
+            sb = new SpriteBatch(game.GraphicsDevice);
+
+            game.GraphicsDevice.SetRenderTarget(rTarg);
+            sb.Begin();
+            sb.Draw(TextureManager.pyroFlame, Vector2.Zero, Color.Lerp(Color.Red, Color.White, Utilities.nextFloat()));
+            sb.End();
+            game.GraphicsDevice.SetRenderTarget(null);
         }
 
         public override void Update(GameTime gameTime)
@@ -34,16 +45,25 @@ namespace MoonCow
             //alpha = MathHelper.Lerp(0, 1, time / MathHelper.Pi*1.5f);
 
 
-            fScale = (float)(Math.Cos(time) + 1) * 1f;
+            fScale = (float)(Math.Cos(time) + 1) * 0.8f;
 
             time += Utilities.deltaTime * MathHelper.Pi * 1f;
 
             if (time > MathHelper.Pi * 0.5f)
                 alpha -= Utilities.deltaTime * 4;
-                
-            if(time > MathHelper.Pi)
-                game.modelManager.toDeleteModel(this);
 
+            if (time > MathHelper.Pi)
+            {
+                Dispose();
+                game.modelManager.toDeleteModel(this);
+            }
+
+        }
+
+        public override void Dispose()
+        {
+            sb.Dispose();
+            rTarg.Dispose();
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -62,7 +82,7 @@ namespace MoonCow
 
 
                     effect.TextureEnabled = true;
-                    effect.Texture = TextureManager.bombCenter;
+                    effect.Texture = (Texture2D)rTarg;
 
                     effect.Alpha = alpha;
 

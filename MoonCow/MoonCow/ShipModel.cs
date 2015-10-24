@@ -11,13 +11,22 @@ namespace MoonCow
     {
         Ship ship;
         int currentModel;
+        Game1 game;
 
-        public ShipModel(Ship ship):base()
+        RenderTarget2D rTarg;
+        SpriteBatch sb;
+        Vector2 texPos;
+
+        public ShipModel(Ship ship, Game1 game):base()
         {
             this.model = ModelLibrary.pewShip;
             this.ship = ship;
+            this.game = game;
             scale = new Vector3(.06f,.06f,.06f);
             currentModel = 0;
+
+            rTarg = new RenderTarget2D(game.GraphicsDevice, 512, 512);
+            sb = new SpriteBatch(game.GraphicsDevice);
         }
         public override void Update(GameTime gameTime)
         {
@@ -25,6 +34,17 @@ namespace MoonCow
             rot = ship.rot;
             //rot.Y = -rot.Y + MathHelper.PiOver2;
                 //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
+
+            texPos.Y += Utilities.deltaTime * 256;
+            if (texPos.Y > 1024)
+                texPos.Y -= 1024;
+
+            game.GraphicsDevice.SetRenderTarget(rTarg);
+            sb.Begin();
+            sb.Draw(TextureManager.screenPulse, new Rectangle((int)texPos.X, (int)texPos.Y, 512, 1024), Color.White);
+            sb.Draw(TextureManager.screenPulse, new Rectangle((int)texPos.X, (int)texPos.Y-1024, 512, 1024), Color.White);
+            sb.End();
+            game.GraphicsDevice.SetRenderTarget(null);
         }
 
         public void setShipModel(int i)
@@ -55,8 +75,14 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
-                    if(currentModel == 4)
-                        effect.Texture = TextureManager.gib1_s;
+                    if (mesh.Name.Contains("glass"))
+                    {
+                        effect.Texture = (Texture2D)rTarg;
+                    }/*
+                    else
+                    {
+
+                    }*/
                     effect.Alpha = 1;
 
                     //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader

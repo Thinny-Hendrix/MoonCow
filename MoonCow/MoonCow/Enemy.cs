@@ -63,7 +63,6 @@ namespace MoonCow
 
         public Enemy(Game1 game)
         {
-            pyroDamage = new PyroDamage(this, game);
         }
 
         protected float makeCentreCoordinate(float c)

@@ -43,6 +43,7 @@ namespace MoonCow
             enemyModel = new GunnerModel(this);
             enemyType = 2;
             electroDamage = new ElectroDamage(this, game, enemyType);
+            pyroDamage = new PyroDamage(this, game, enemyType);
 
             game.modelManager.addEnemy(enemyModel);
 

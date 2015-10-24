@@ -16,20 +16,36 @@ namespace MoonCow
         float time;
         float maxTime;
         float damage;
+        float dist;
 
-        public PyroDamage(Enemy enemy, Game1 game)
+        public PyroDamage(Enemy enemy, Game1 game, int enemyType)
         {
             this.enemy = enemy;
             this.game = game;
             maxTime = 3f;
-            damage = 2;
+            damage = 5;
+
+            switch(enemyType)
+            {
+                default:
+                    dist = 1;
+                    break;
+                case 3:
+                    dist = 5;
+                    break;
+            }
         }
 
         public void Update()
         {
             if (active)
             {
-                game.modelManager.addEffect(new FireParticle(enemy.pos, game, 1));
+                game.modelManager.addEffect(new FireParticle(enemy.pos, game, dist));
+                if(dist == 5)
+                {
+                    game.modelManager.addEffect(new FireParticle(enemy.pos, game, dist));
+                    game.modelManager.addEffect(new FireParticle(enemy.pos, game, dist));
+                }
                 time -= Utilities.deltaTime;
                 enemy.health -= Utilities.deltaTime * damage;
                 if(time <= 0)
@@ -45,8 +61,8 @@ namespace MoonCow
             {
                 game.modelManager.addEffect(new LaserHitEffect(game, enemy.pos, Color.Red));
                 active = true;
-                time = maxTime;
             }
+            time = maxTime;
         }
     }
 }

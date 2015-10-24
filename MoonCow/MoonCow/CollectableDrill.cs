@@ -36,6 +36,7 @@ namespace MoonCow
         public override void onCollect()
         {
             game.ship.weapons.gotDrill();
+            game.hud.hudMessage.setTextMessage("You got the omega drill!");
 
             game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.SeaGreen));
             game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.White, 3, BlendState.Additive));

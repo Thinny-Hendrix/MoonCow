@@ -45,13 +45,13 @@ namespace MoonCow
 
         public override void Draw(SpriteBatch sb)
         {
-            if (wakeTime < wakeThresh && count > 0)
+            if (wakeTime < wakeThresh && displayCount > 0)
             {
                 sb.Draw(boxF, hud.scaledRect(pos, boxF.Bounds.Width, boxF.Bounds.Height), null, Color.White, 0, new Vector2(boxF.Bounds.Width, boxF.Bounds.Height / 2), SpriteEffects.None, 0);
                 sb.Draw(boxO, hud.scaledRect(pos, boxF.Bounds.Width, boxF.Bounds.Height), null, Color.White, 0, new Vector2(boxF.Bounds.Width, boxF.Bounds.Height / 2), SpriteEffects.None, 0);
 
-                sb.DrawString(font, "" + count, hud.scaledCoords(pos + new Vector2(-45, 20)), Color.White, 0,
-                        new Vector2(font.MeasureString("" + count).X / 2, font.MeasureString("" + count).Y / 2), hud.scale * (20.0f / 40), SpriteEffects.None, 0);
+                sb.DrawString(font, "" + displayCount, hud.scaledCoords(pos + new Vector2(-45, 20)), Color.White, 0,
+                        new Vector2(font.MeasureString("" + displayCount).X / 2, font.MeasureString("" + displayCount).Y / 2), hud.scale * (20.0f / 40), SpriteEffects.None, 0);
             }
         }
     }

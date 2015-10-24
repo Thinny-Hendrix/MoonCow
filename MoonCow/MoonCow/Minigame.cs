@@ -35,6 +35,8 @@ namespace MoonCow
 
         public float moneyEarned;
 
+        bool drillGame;
+
         public Minigame(Game1 game):base(game)
         {
             this.game = game;
@@ -73,7 +75,7 @@ namespace MoonCow
                         manager.Update();
                     else
                     {
-                        if(success)
+                        if(success && !drillGame)
                         {
                             game.hud.expSelect.activate();
                         }
@@ -123,6 +125,22 @@ namespace MoonCow
 
         public void activate(Vector3 pos, Vector3 dir, JunkShip source)
         {
+            drillGame = false;
+            this.activeSource = source;
+            displayer.wake(pos, dir);
+            active = true;
+            start = true;
+            holdTime = 0;
+            holdThresh = 2;
+            hudMg.trigger(manager.speed);
+            manager.reset();
+            moneyEarned = 0;
+            success = false;
+        }
+
+        public void activateHard(Vector3 pos, Vector3 dir, JunkShip source)
+        {
+            drillGame = true;
             this.activeSource = source;
             displayer.wake(pos, dir);
             active = true;
@@ -148,13 +166,13 @@ namespace MoonCow
         {
             if(win)
             {
-                manager.speed += 100;
+                manager.normSpeed += 100;
                 maxBeats += 2;
                 maxDubs = (int)Math.Floor((float)maxBeats / 2);
             }
             if(!win)
             {
-                manager.speed -= 15;
+                manager.normSpeed -= 15;
             }
 
         }

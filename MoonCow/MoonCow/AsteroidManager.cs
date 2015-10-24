@@ -110,6 +110,11 @@ namespace MoonCow
             toAdd.Add(a);
         }
 
+        public void addShip(JunkShip j)
+        {
+            junkShips.Add(j);
+        }
+
         public void addShip(Vector3 pos)
         {
             junkShips.Add(new JunkShip(game, pos));

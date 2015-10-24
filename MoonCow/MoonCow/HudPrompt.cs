@@ -52,6 +52,8 @@ namespace MoonCow
                 sb.Draw(promptFill, hud.scaledRect(hud.scaledCoords(pos), promptFill.Bounds.Width, promptFill.Bounds.Height), Color.White);
                 sb.Draw(promptOut, hud.scaledRect(hud.scaledCoords(pos), promptFill.Bounds.Width, promptFill.Bounds.Height), Color.White);
 
+                sb.Draw(hud.butY, hud.scaledRect(hud.scaledCoords(pos + new Vector2(30,20)), hud.butY.Bounds.Width, hud.butY.Bounds.Height), Color.White);
+
                 sb.DrawString(font, text, hud.scaledCoords(pos + new Vector2(25, -85)), hud.contSecondary, 0,
                             new Vector2(font.MeasureString(text).X/2, 0), hud.scale * (24.0f / 40), SpriteEffects.None, 0);
             }

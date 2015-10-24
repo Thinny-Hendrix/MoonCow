@@ -15,6 +15,8 @@ namespace MoonCow
         float origY;
         float origZ;
         float lookTime;
+        OOBB fireRange;
+        float activeTime;
         public PyroTurret(Vector3 pos, Vector3 targetDir, Game1 game):base(pos, targetDir,game)
         {
             col = new CircleCollider(pos, 20);
@@ -24,6 +26,7 @@ namespace MoonCow
 
             origY = (float)Math.Atan2(targetDir.X, targetDir.Z);
             origZ = (float)Math.Atan2(targetDir.Y, targetDir.Z);
+            fireRange = new OOBB(pos + targetDir * 5, targetDir, 2,30);
         }
 
         void setRandomDir()
@@ -75,11 +78,28 @@ namespace MoonCow
                 targetDir.Z = pos.Z - target.pos.Z;
                 targetDir.Y = pos.Y+2 - target.pos.Y;
                 targetDir.Normalize();*/
-                currentDir = Vector3.Lerp(currentDir, targetDir, Utilities.deltaTime * 10);
-                game.modelManager.addEffect(new FireStreamParticle(pos, -currentDir, game));
+                currentDir = Vector3.Lerp(currentDir, targetDir, Utilities.deltaTime * 20);
+                fireRange.Update(pos + currentDir * -15, -currentDir);
 
-                if (cooldown == 0)
+                if(activeTime > 0)
+                {
+                    activeTime -= Utilities.deltaTime;
                     fire();
+                    game.modelManager.addEffect(new FireStreamParticle(pos + new Vector3(0, 2f, 0) + currentDir * -2, -currentDir, game));
+
+                    if(activeTime <= 0)
+                    {
+                        cooldown = cooldownMax;
+                    }
+                }
+                else
+                {
+                    cooldown -= Utilities.deltaTime;
+                    if(cooldown <= 0)
+                    {
+                        activeTime = 1;
+                    }
+                }
 
                 if (!enemiesInRange(col))
                 {
@@ -120,9 +140,29 @@ namespace MoonCow
 
         public override void fire()
         {
-            target.addPyroDamage(4);
+            bool collided = false;
+            Vector2 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
+
+            foreach(Enemy enemy in game.enemyManager.enemies)
+            {
+                collided = false;
+                if (enemy.nodePos.X >= nodePos.X - 1 && enemy.nodePos.X <= nodePos.X + 1 &&
+                        enemy.nodePos.Y >= nodePos.Y - 1 && enemy.nodePos.Y <= nodePos.Y + 1)
+                {
+                    foreach (CircleCollider c in enemy.cols)
+                    {
+                        if(c.checkOOBB(fireRange))
+                        {
+                            collided = true;
+                        }
+                    }
+                    if(collided)
+                        enemy.addPyroDamage(10*Utilities.deltaTime);
+                }
+            }
+            //target.addPyroDamage(4);
             turretModel.fire();
-            cooldown = cooldownMax;
+            //cooldown = cooldownMax;
             //projectiles.Add(new GattleProjectile(pos + new Vector3(targetDir.X * -4, 1.5f, targetDir.Z * -4), targetDir * -1, game, this));
         }
 

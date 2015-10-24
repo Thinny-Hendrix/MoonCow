@@ -10,20 +10,18 @@ namespace MoonCow
     class FireParticle:BasicModel
     {
         Game1 game;
-        Ship ship;
-        Texture2D tex;
-        Color col;
         Vector3 startPos;
         Vector3 goalPos;
         Vector3 direction;
-        float distance;
         float speed;
         float life;
         float alpha;
         float yFall;
         float scalef;
-        float zRot;
         float time;
+
+        RenderTarget2D rTarg;
+        SpriteBatch sb;
 
         public FireParticle(Vector3 pos, Game1 game, float dist)
         {
@@ -31,17 +29,26 @@ namespace MoonCow
             this.game = game;
             startPos = pos;
             scalef = Utilities.nextFloat() + .25f;
-            //zRot = Utilities.nextFloat() * MathHelper.PiOver2;
-            tex = TextureManager.pyroFlame;
 
             direction.X = (float)Utilities.random.NextDouble() * 2 - 1;
             direction.Y = (float)Utilities.random.NextDouble() * 1.5f - .5f;
             direction.Z = (float)Utilities.random.NextDouble() * 2 - 1;
             direction.Normalize();
 
+            startPos += direction * Utilities.nextFloat() / 2;
+
             goalPos = pos + direction * dist;
             speed = 4.5f + Utilities.nextFloat();
             alpha = 1;
+
+            rTarg = new RenderTarget2D(game.GraphicsDevice, 128, 128);
+            sb = new SpriteBatch(game.GraphicsDevice);
+
+            game.GraphicsDevice.SetRenderTarget(rTarg);
+            sb.Begin();
+            sb.Draw(TextureManager.pyroFlame, Vector2.Zero, Color.Lerp(Color.Red, Color.White, Utilities.nextFloat()));
+            sb.End();
+            game.GraphicsDevice.SetRenderTarget(null);
         }
         public override void Update(GameTime gameTime)
         {
@@ -80,9 +87,16 @@ namespace MoonCow
 
                 if (life > MathHelper.Pi * 15)
                 {
+                    Dispose();
                     game.modelManager.toDeleteModel(this);
                 }
             }
+        }
+
+        public override void Dispose()
+        {
+            sb.Dispose();
+            rTarg.Dispose();
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)
@@ -102,7 +116,7 @@ namespace MoonCow
                     effect.View = camera.view;
                     effect.Projection = camera.projection;
                     effect.TextureEnabled = true;
-                    effect.Texture = tex;
+                    effect.Texture = (Texture2D)rTarg;
                     effect.Alpha = alpha;
 
                     //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader

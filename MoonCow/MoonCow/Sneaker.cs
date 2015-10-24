@@ -24,6 +24,7 @@ namespace MoonCow
         float cooldown;
         float chargeTime;
         State prevState;
+        CircleCollider meleeCol;
 
         public Sneaker(Game1 game)
             : base(game)
@@ -40,6 +41,7 @@ namespace MoonCow
             enemyModel = new SneakerModel(this);
             enemyType = 1;
             electroDamage = new ElectroDamage(this, game, enemyType);
+            pyroDamage = new PyroDamage(this, game, enemyType);
 
             game.modelManager.addEnemy(enemyModel);
 
@@ -80,6 +82,7 @@ namespace MoonCow
 
             boundingBox = new OOBB(pos, direction, 1.5f, 1.5f);
             agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 15);
+            meleeCol = new CircleCollider(pos, 2);
 
             health = 35;
             pathTimer = 10;
@@ -156,6 +159,13 @@ namespace MoonCow
                     frameDiff += chargeDir * Utilities.deltaTime * 30;
                     updateMovement();
                     agroSphere.Update(pos+direction*15);
+                    meleeCol.Update(pos);
+
+                    if(meleeCol.checkCircle(game.ship.circleCol))
+                    {
+                        game.ship.shipHealth.onHit(200 * Utilities.deltaTime);
+                        game.camera.setYShake(0.2f);
+                    }
 
                     chargeTime += Utilities.deltaTime;
                     //if passed the ship

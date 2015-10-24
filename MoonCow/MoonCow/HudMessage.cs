@@ -48,7 +48,7 @@ namespace MoonCow
 
         public void drillDoorCheck()
         {
-            message = "need " + (hud.hudCollectable.count - 4) + " more keys to unlock this door";
+            message = (4-hud.hudCollectable.count) + " more keys to unlock door";
             wakeTime = 0;
         }
 

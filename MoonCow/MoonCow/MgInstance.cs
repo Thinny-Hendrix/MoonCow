@@ -97,5 +97,34 @@ namespace MoonCow
             }
             
         }
+
+        public void generateNewHard()
+        {
+            markTypes.Clear();
+            nextTimes.Clear();
+            dupeCount = 0;
+            prevNo = -1;
+            float maxBeats = minigame.maxBeats * 1.2f;
+            float maxDubs = maxBeats * 0.8f;
+
+            int dubCount = 0;
+
+            for (int i = 0; i < maxBeats; i++)
+            {
+                if (dubCount < maxDubs && Utilities.random.Next(2) == 0)
+                {
+                    addMarker(Utilities.random.Next(4));
+                    addMarker(Utilities.random.Next(4));
+                    nextTimes.Add(0.5f);
+                    nextTimes.Add(0.5f);
+                    dubCount++;
+                }
+                else
+                {
+                    addMarker(Utilities.random.Next(4));
+                    nextTimes.Add(1);
+                }
+            }
+        }
     }
 }

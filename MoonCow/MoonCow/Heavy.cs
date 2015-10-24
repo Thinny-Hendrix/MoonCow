@@ -37,6 +37,7 @@ namespace MoonCow
             enemyModel = new HeavyModel(this);
             enemyType = 3;
             electroDamage = new ElectroDamage(this, game, enemyType);
+            pyroDamage = new PyroDamage(this, game, enemyType);
 
             state = State.goToBase;
 

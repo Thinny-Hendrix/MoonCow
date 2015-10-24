@@ -86,6 +86,7 @@ namespace MoonCow
         public static Texture2D mgBack;
         public static Texture2D artefact;
         public static Texture2D bpCloud;
+        public static Texture2D panel;
 
 
         //weapon effects
@@ -167,6 +168,10 @@ namespace MoonCow
         public static Texture2D sEye5;
         public static Texture2D sEye6;
 
+        //ship
+        public static Texture2D ship;
+        public static Texture2D screenPulse;
+
 
 
         public static Texture2D pureWhite;
@@ -247,7 +252,7 @@ namespace MoonCow
             mgBack = game.Content.Load<Texture2D>(@"Minigame/mgBack");
             artefact = game.Content.Load<Texture2D>(@"Minigame/polyt");
             bpCloud = game.Content.Load<Texture2D>(@"Minigame/bpCloud");
-
+            panel = game.Content.Load<Texture2D>(@"Minigame/panelt");
 
             //weapon effects
             bombRing = game.Content.Load<Texture2D>(@"Models/Weapons/sploring");
@@ -335,7 +340,9 @@ namespace MoonCow
             sEye5 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes5");
             sEye6 = game.Content.Load<Texture2D>(@"Models/Enemies/Sentry/sentEyes6");
 
-
+            //ship
+            ship = game.Content.Load<Texture2D>(@"Models/Ship/shipDt");
+            screenPulse = game.Content.Load<Texture2D>(@"Models/Ship/screenpulse");
 
 
 
