@@ -79,7 +79,7 @@ namespace MoonCow
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    if(mesh.Name.Contains("pipe2"))
+                    if(mesh.Name.Contains("pole1"))
                         effect.World = mesh.ParentBone.Transform * GetWorld();
                     else
                     {

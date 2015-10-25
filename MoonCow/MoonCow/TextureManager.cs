@@ -176,6 +176,11 @@ namespace MoonCow
 
         public static Texture2D pureWhite;
 
+        public static Texture2D railMask;
+        public static Texture2D railHolo;
+        public static RenderTarget2D railTarg;
+        public static Vector2 holoPos;
+
         public static void initialize(Game game)
         {
             alphaMap = game.Content.Load<Effect>(@"Effects/AlphaMap");
@@ -350,7 +355,9 @@ namespace MoonCow
             flameSquare = game.Content.Load<Model>(@"Models/Effects/flameSquare");
             dirSquare = game.Content.Load<Model>(@"Models/Misc/dirSquare");
 
-
+            railMask = game.Content.Load<Texture2D>(@"Models/Rails/railMask2");
+            railHolo = game.Content.Load<Texture2D>(@"Models/Rails/railholo");
+            railTarg = new RenderTarget2D(game.GraphicsDevice, 512, 512);
         }
 
         public static void Update(Game1 game)
@@ -379,6 +386,17 @@ namespace MoonCow
                 }
                 spriteBatch.End();
 
+                holoPos.Y -= Utilities.deltaTime * 32;
+                if(holoPos.Y <= 0)
+                {
+                    holoPos.Y += 512;
+                }
+                game.GraphicsDevice.SetRenderTarget(railTarg);
+                spriteBatch.Begin();
+                spriteBatch.Draw(railHolo, holoPos, Color.White);
+                spriteBatch.Draw(railHolo, holoPos + new Vector2(0,-512), Color.White);
+                spriteBatch.Draw(railMask, Vector2.Zero, Color.White);
+                spriteBatch.End();
                 game.GraphicsDevice.SetRenderTarget(null);
             }
 

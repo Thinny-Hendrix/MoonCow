@@ -157,7 +157,7 @@ namespace MoonCow
             levelStats = new StatTracker();
             loadPercentage = 0.65f;
 
-            levelFileName = "small";
+            levelFileName = "dends";
             //levelFileName = "map1-revis";
             //levelFileName = "pac-man";
             layout = new MapData(level);

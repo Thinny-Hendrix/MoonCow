@@ -129,17 +129,17 @@ namespace MoonCow
             stationDend = game.Content.Load<Model>(@"Models/StationTiles/dendRb");
 
             //rails
-            railStraight = game.Content.Load<Model>(@"Models/Rails/straight");
-            railStraight1 = game.Content.Load<Model>(@"Models/Rails/straight1");
-            railCorner = game.Content.Load<Model>(@"Models/Rails/corner");
-            railTInt3 = game.Content.Load<Model>(@"Models/Rails/tInt3");
-            railTInt4 = game.Content.Load<Model>(@"Models/Rails/tInt4");
-            railCorner1big = game.Content.Load<Model>(@"Models/Rails/corner1big");
-            railCorner1small = game.Content.Load<Model>(@"Models/Rails/corner1small");
-            railCorner2small = game.Content.Load<Model>(@"Models/Rails/corner2small");
-            railCorst = game.Content.Load<Model>(@"Models/Rails/corst");
-            railCorstFlip = game.Content.Load<Model>(@"Models/Rails/corstflip");
-            railDend = game.Content.Load<Model>(@"Models/Rails/dend");
+            railStraight = game.Content.Load<Model>(@"Models/Rails/strF");
+            railStraight1 = game.Content.Load<Model>(@"Models/Rails/st1F");
+            railCorner = game.Content.Load<Model>(@"Models/Rails/corF");
+            railTInt3 = game.Content.Load<Model>(@"Models/Rails/tInt3F");
+            railTInt4 = game.Content.Load<Model>(@"Models/Rails/tInt4F");
+            railCorner1big = game.Content.Load<Model>(@"Models/Rails/cor1bF");
+            railCorner1small = game.Content.Load<Model>(@"Models/Rails/cor1sF");
+            railCorner2small = game.Content.Load<Model>(@"Models/Rails/cor2sF");
+            railCorst = game.Content.Load<Model>(@"Models/Rails/corstF");
+            railCorstFlip = game.Content.Load<Model>(@"Models/Rails/corstflF");
+            railDend = game.Content.Load<Model>(@"Models/Rails/dendF");
 
             //Base models
             core = game.Content.Load<Model>(@"Models/Base/coreSphere");

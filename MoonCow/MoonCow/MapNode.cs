@@ -205,7 +205,7 @@ namespace MoonCow
                     break;
                 case 11:
                     traversable = true;
-                    model = new TileModel(ModelLibrary.railTInt4, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 100);
+                    model = new TileModel(ModelLibrary.railTInt4, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
                     stationModel = new StationModel(ModelLibrary.stationTInt4, new Vector3(pos.X * 30, -3, pos.Y * 30), 0.0f, 1.0f);
 
                     //top left little corner
@@ -388,7 +388,7 @@ namespace MoonCow
                 case 24:
                     traversable = true;
                     game.core.setPos(new Vector3(pos.X * 30, 0, pos.Y * 30));
-                    model = new BaseModel(new Vector3(pos.X*30, 0, pos.Y*30));
+                    stationModel = new BaseModel(new Vector3(pos.X*30, 0, pos.Y*30));
                     coreCollider = new CircleCollider(pos, 7.38f);
                     break;
                 case 25:
@@ -781,7 +781,7 @@ namespace MoonCow
             neighbors = new MapNode[4];
             if (model != null)
             {
-                game.modelManager.add(model);
+                game.modelManager.addAdditive(model);
             }
 
             if (stationModel != null)
