@@ -21,6 +21,8 @@ namespace MoonCow
         float waitTime;
         CircleCollider meleeCol;
         bool successHit;
+        Vector3 oldDir;
+        float turnTime;
 
         public Swarmer(Game1 game)
             : base(game)
@@ -164,10 +166,25 @@ namespace MoonCow
                 {
                     enemyModel.changeAnim(3);
                     state = State.attackCore;
+                    turnTime = 0;
+                    oldDir = direction;
                     updateMovement();
                 }
                 else if(state == State.attackCore)
                 {
+                    if (turnTime != 1)
+                    {
+                        turnTime += Utilities.deltaTime;
+                        if (turnTime >= 1)
+                            turnTime = 1;
+
+                        Vector3 targetDir = game.core.col.directionFrom(pos);
+                        direction = Vector3.SmoothStep(oldDir, targetDir, turnTime);
+                    }
+                    else
+                    {
+                        direction = game.core.col.directionFrom(pos);
+                    }
                     game.core.damage(0.05f*Utilities.deltaTime);
                     updateMovement();
                 }
@@ -298,6 +315,7 @@ namespace MoonCow
                 target = posToCore.ElementAt(currentBaseIndex);
                 resetDist();
             }
+            oldDir = direction;
         }
 
         void resetDist()
@@ -309,11 +327,25 @@ namespace MoonCow
 
         void goToCore()
         {
+            if (turnTime != 1)
+            {
+                turnTime += Utilities.deltaTime;
+                if (turnTime >= 1)
+                {
+                    turnTime = 1;
+                    resetDist();
+                }
+            }
             frameDiff = Vector3.Zero;
             Vector3 targetDir = target - pos;
             targetDir.Normalize();
-            direction = targetDir;
-            frameDiff = targetDir * moveSpeed * Utilities.deltaTime;
+            direction = Vector3.SmoothStep(oldDir, targetDir, turnTime);
+            //            direction = targetDir;
+            frameDiff = direction * moveSpeed * Utilities.deltaTime;
+            updateMovement();
+            Vector3 dif = pos - frameDiff;
+            float frameDist = Utilities.hypotenuseOf(dif.X, dif.Y);
+            //currentDist += frameDist;
             currentDist += moveSpeed * Utilities.deltaTime;
 
             if (currentDist > distToCore)
@@ -328,12 +360,14 @@ namespace MoonCow
                     currentBaseIndex++;
                     target = posToCore.ElementAt(currentBaseIndex);
                     resetDist();
+                    turnTime = 0;
+                    oldDir = targetDir;
                 }
 
             }
 
 
-            updateMovement();
+            //updateMovement();
             frameDiff = Vector3.Zero;
         }
 

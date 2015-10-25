@@ -112,6 +112,13 @@ namespace MoonCow
                 deleteProjectile();
             }
 
+            if(game.core.col.checkCircle(col))
+            {
+                game.core.damage(1);
+                collided = true;
+                game.modelManager.addEffect(new ImpactParticleModel(game, pos));
+            }
+
             if (collided)
             {
                 for (int i = 0; i < 10; i++)

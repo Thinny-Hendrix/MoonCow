@@ -69,6 +69,19 @@ namespace MoonCow
             return s;
         }
 
+        public BaseCoreSpot getWaitSpot(Vector3 pos)
+        {
+            foreach (BaseCoreSpot s in waitSpots)
+            {
+                if(!s.taken)
+                {
+                    s.taken = true;
+                    return s;
+                }
+            }
+            return null;
+        }
+
         public BaseCoreSpot getHeavySpot(Vector3 pos)
         {
             for(int i = 0; i < spots.Count(); i++)
@@ -133,6 +146,11 @@ namespace MoonCow
             }
             b.taken = true;
             return b;
+        }
+
+        public List<Vector3> coordsToWait(BaseCoreSpot b, Vector3 currentPos, Vector3 corePos)
+        {
+            return null;
         }
 
         public List<Vector3> coordsToSpot(BaseCoreSpot b, Vector3 currentPos, Vector3 corePos)

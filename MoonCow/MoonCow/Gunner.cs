@@ -15,7 +15,6 @@ namespace MoonCow
         protected Point coreLocation;
         protected Vector3 target;
         Vector3 frameDiff = new Vector3(0, 0, 0);
-        bool inCoreLoop;
         public enum State { goToBase, playerInRange, shooting, reload, melee, playerOutRange, atBase, atCore, shootCore, reloadCore, strongHit, knockBack, hitByDrill }
         State state;
         float waitTime;
@@ -27,6 +26,8 @@ namespace MoonCow
         CircleCollider meleeRange;
         bool successHit;
         State prevState;
+        float turnTime;
+        Vector3 oldDir;
 
         public Gunner(Game1 game)
             : base(game)
@@ -130,6 +131,12 @@ namespace MoonCow
                         enemyModel.changeAnim(1);
                         waitTime = 0.86f;
                     }
+                    if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
+                    {
+                        state = State.atBase;
+                        getCoreSpot();
+                        oldDir = direction;
+                    }
                 }
                 else if (state == State.playerInRange)
                 {
@@ -149,18 +156,31 @@ namespace MoonCow
                 }
                 else if(state == State.shooting)
                 {
-                    goToBase();
-                    setDir();
-                    modelDir = facingDir;
-                    agroSphere.Update(pos);
-
-                    meleeRange.Update(pos+facingDir*2);
-                    if (meleeRange.checkCircle(game.ship.circleCol))
+                    if (!atCore)
                     {
-                        state = State.melee;
-                        enemyModel.changeAnim(6);
-                        waitTime = 0;
+                        goToBase();
+                        setDir();
+                        meleeRange.Update(pos + facingDir * 2);
+                        modelDir = facingDir;
+                        if (meleeRange.checkCircle(game.ship.circleCol))
+                        {
+                            state = State.melee;
+                            enemyModel.changeAnim(6);
+                            waitTime = 0;
+                        }
+                        if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
+                        {
+                            state = State.atBase;
+                            getCoreSpot();
+                            oldDir = direction;
+                        }
                     }
+                    else
+                    {
+                        modelDir = game.core.col.directionFrom(pos);
+                        facingDir = modelDir;
+                    }
+                    agroSphere.Update(pos);
 
                     if (coolDown <= 0)
                     {
@@ -181,19 +201,20 @@ namespace MoonCow
                     {
                         coolDown -= Utilities.deltaTime;
                     }
-
-                    if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
-                    {
-                        state = State.atBase;
-                        getCoreSpot();
-                    }
                 }
                 else if(state == State.reload)
                 {
-                    goToBase();
-                    setDir();
-                    modelDir = facingDir;
-                    agroSphere.Update(pos);
+                    if (!atCore)
+                    {
+                        goToBase();
+                        setDir();
+                        modelDir = facingDir;
+                        agroSphere.Update(pos);
+                    }
+                    else
+                    {
+                        modelDir = game.core.col.directionFrom(pos);
+                    }
                     waitTime -= Utilities.deltaTime;
                     if(waitTime <= 0)
                     {
@@ -276,8 +297,10 @@ namespace MoonCow
                     waitTime += Utilities.deltaTime;
                     if (waitTime > 2.1f)
                     {
-                        state = State.shootCore;
+                        state = State.shooting;
                         enemyModel.changeAnim(2);
+                        coolDown = 0;
+                        shotCount = 0;
                     }
                     updateMovement();
                 }
@@ -314,7 +337,12 @@ namespace MoonCow
             shotPos += Vector3.Cross(facingDir, Vector3.Up) * offset.X;
             shotPos.Y += offset.Y;
 
-            Vector3 shotDir = game.ship.circleCol.directionFrom(shotPos);
+            Vector3 shotDir;
+            if(!atCore)
+                shotDir = game.ship.circleCol.directionFrom(shotPos);
+            else
+                shotDir = game.core.col.directionFrom(shotPos);
+
 
             game.enemyManager.projectiles.Add(new GunnerProjectile(shotPos, shotDir, game));
         }
@@ -390,12 +418,13 @@ namespace MoonCow
             coreSpot = game.core.getSpot(pos);
             if (coreSpot != null)
             {
-                target = coreSpot.hevSpot;
+                target = coreSpot.gunSpot;
                 posToCore = game.core.coordsToSpot(coreSpot, pos, target);
                 currentBaseIndex = 0;
                 target = posToCore.ElementAt(currentBaseIndex);
                 resetDist();
             }
+            oldDir = direction;
         }
 
         void resetDist()

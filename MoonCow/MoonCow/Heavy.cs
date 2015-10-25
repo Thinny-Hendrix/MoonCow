@@ -172,7 +172,7 @@ namespace MoonCow
                 {
                     if (turnTime != 1)
                     {
-                        turnTime += Utilities.deltaTime;
+                        turnTime += Utilities.deltaTime/2;
                         if (turnTime >= 1)
                             turnTime = 1;
 
@@ -231,9 +231,12 @@ namespace MoonCow
         {
             if(turnTime != 1)
             {
-                turnTime += Utilities.deltaTime;
+                turnTime += Utilities.deltaTime/2;
                 if (turnTime >= 1)
+                {
                     turnTime = 1;
+                    resetDist();
+                }
             }
             frameDiff = Vector3.Zero;
             Vector3 targetDir = target - pos;

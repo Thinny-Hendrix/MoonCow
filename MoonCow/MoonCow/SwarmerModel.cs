@@ -118,6 +118,8 @@ namespace MoonCow
             pos = enemy.pos;
             //pos.Y -= 0.7f;
             rot = enemy.rot;
+            rot.Y = (float)Math.Atan2(enemy.direction.X, enemy.direction.Z);
+
 
             if(swarmer.state == Swarmer.State.hitByDrill)
             {
@@ -126,7 +128,6 @@ namespace MoonCow
                     knockSpin += MathHelper.Pi * 2;
             }
 
-            rot.Y -= MathHelper.Pi;
 
             if (!Utilities.paused && !Utilities.softPaused)
                 animPlayer.Update(gameTime.ElapsedGameTime, true, GetWorld());

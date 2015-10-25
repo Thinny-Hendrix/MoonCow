@@ -25,6 +25,8 @@ namespace MoonCow
         float chargeTime;
         State prevState;
         CircleCollider meleeCol;
+        float turnTime;
+        Vector3 oldDir;
 
         public Sneaker(Game1 game)
             : base(game)
@@ -196,6 +198,19 @@ namespace MoonCow
                 }
                 else if (state == State.atCore)
                 {
+                    if (turnTime != 1)
+                    {
+                        turnTime += Utilities.deltaTime;
+                        if (turnTime >= 1)
+                            turnTime = 1;
+
+                        Vector3 targetDir = game.core.col.directionFrom(pos);
+                        direction = Vector3.SmoothStep(oldDir, targetDir, turnTime);
+                    }
+                    else
+                    {
+                        direction = game.core.col.directionFrom(pos);
+                    }
                     waitTime += Utilities.deltaTime;
                     if (waitTime > 2.1f)
                     {
@@ -249,6 +264,7 @@ namespace MoonCow
                 target = posToCore.ElementAt(currentBaseIndex);
                 resetDist();
             }
+            oldDir = direction;
         }
 
         void resetDist()
@@ -260,34 +276,49 @@ namespace MoonCow
 
         void goToCore()
         {
+            if (turnTime != 1)
+            {
+                turnTime += Utilities.deltaTime;
+                if (turnTime >= 1)
+                {
+                    turnTime = 1;
+                    resetDist();
+                }
+            }
             frameDiff = Vector3.Zero;
-            Vector3 targetDir = target-pos;
+            Vector3 targetDir = target - pos;
             targetDir.Normalize();
-            direction = targetDir;
-            frameDiff = targetDir * moveSpeed*Utilities.deltaTime;
+            direction = Vector3.SmoothStep(oldDir, targetDir, turnTime);
+            //            direction = targetDir;
+            frameDiff = direction * moveSpeed * Utilities.deltaTime;
+            updateMovement();
+            Vector3 dif = pos - frameDiff;
+            float frameDist = Utilities.hypotenuseOf(dif.X, dif.Y);
+            //currentDist += frameDist;
             currentDist += moveSpeed * Utilities.deltaTime;
 
             if (currentDist > distToCore)
             {
-                if(currentBaseIndex >= posToCore.Count()-1)
+                if (currentBaseIndex >= posToCore.Count() - 1)
                 {
                     pos = target;
                     state = State.atCore;
+                    turnTime = 0;
+                    frameDiff = Vector3.Zero;
                     enemyModel.changeAnim(1);
                     waitTime = 0;
+                    oldDir = direction;
                 }
                 else
                 {
                     currentBaseIndex++;
                     target = posToCore.ElementAt(currentBaseIndex);
                     resetDist();
+                    turnTime = 0;
+                    oldDir = targetDir;
                 }
-                
+
             }
-
-
-            updateMovement();
-            frameDiff = Vector3.Zero;
         }
 
         void goToBase()

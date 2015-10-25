@@ -18,6 +18,7 @@ namespace MoonCow
         public Vector3 swaSpot;
         public Vector3 sneSpot;
         public Vector3 hevSpot;
+        public Vector3 gunSpot;
         protected BaseCore core;
 
         public BaseCoreSpot(BaseCore core, float rot)
@@ -30,8 +31,9 @@ namespace MoonCow
 
             pos = core.pos + dir * 9;
             swaSpot = core.pos + dir * 9;
-            sneSpot = core.pos + dir * 10.5f;
+            sneSpot = core.pos + dir * 9.5f;
             hevSpot = core.pos + dir * 12;
+            gunSpot = core.pos + dir * 14;
         }
 
         public BaseCoreSpot(BaseCore core, Vector3 pos, Vector3 dir)
