@@ -109,13 +109,13 @@ namespace MoonCow
                 {
                     goToBase();
                     agroSphere.Update(pos + direction * 1.5f);
-                    if(agroSphere.checkCircle(game.ship.circleCol))
+                    /*if(agroSphere.checkCircle(game.ship.circleCol))
                     {
                         state = State.attackPlayer;
                         successHit = false;
                         waitTime = 0;
                         enemyModel.changeAnim(3);
-                    }
+                    }*/
 
                     if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
                     {

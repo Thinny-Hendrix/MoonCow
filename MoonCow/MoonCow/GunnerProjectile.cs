@@ -68,7 +68,7 @@ namespace MoonCow
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
             //For the current node check if your X component will make you collide with wall
-            if(col.checkOOBB(game.ship.boundingBox))
+            if(game.ship.alive && col.checkOOBB(game.ship.boundingBox))
             {
                 game.ship.shipHealth.onHit(damage);
                 collided = true;

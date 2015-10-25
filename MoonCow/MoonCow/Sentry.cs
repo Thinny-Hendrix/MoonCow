@@ -92,7 +92,7 @@ namespace MoonCow
             {
                 //do a spin around thing
 
-                if (shipInRange() && wakeRange.checkPoint(ship.pos))
+                if (ship.alive && shipInRange() && wakeRange.checkPoint(ship.pos))
                 {
                     state = State.wake;
                     model.wake();
@@ -154,7 +154,7 @@ namespace MoonCow
                     triggeredTele = false;
                 }
 
-                if (!sleepRange.checkPoint(ship.pos))
+                if (!sleepRange.checkPoint(ship.pos) || !ship.alive)
                     state = State.idle;
             }
             if(state == State.agro)

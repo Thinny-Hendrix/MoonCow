@@ -23,6 +23,7 @@ namespace MoonCow
         public enum State { goToBase, travelAttack, atBase, waiting, atCore, attackCore, strongHit, hitByDrill }
         State state;
         State prevState;
+        public bool waiting;
 
         public Heavy(Game1 game)
             : base(game)
@@ -113,7 +114,7 @@ namespace MoonCow
                 {
                     goToBase();
                     agroSphere.Update(pos);
-                    if(agroSphere.checkCircle(game.ship.circleCol))
+                    if(game.ship.alive && agroSphere.checkCircle(game.ship.circleCol))
                     {
                         enemyModel.changeAnim(1);
                         state = State.travelAttack;
@@ -142,7 +143,13 @@ namespace MoonCow
                     }
                     if(attackTime > 3.77)
                     {
-                        if (agroSphere.checkCircle(game.ship.circleCol))
+                        if (game.map.getNodeType(nodePos) > 19 && game.map.getNodeType(nodePos) < 35)//base node
+                        {
+                            state = State.atBase;
+                            getCoreSpot();
+                            enemyModel.changeAnim(0);
+                        }
+                        else if (game.ship.alive && agroSphere.checkCircle(game.ship.circleCol))
                         {
                             attackTime = 0;
                         }
@@ -183,7 +190,23 @@ namespace MoonCow
                     {
                         direction = game.core.col.directionFrom(pos);
                     }
-                    game.core.damage(0.05f * Utilities.deltaTime);
+
+                    agroSphere.Update(pos);
+                    attackCol.Update(pos);
+                    attackTime += Utilities.deltaTime;
+                    if (attackTime > 1.375f && attackTime < 3)
+                    {
+                        game.core.damage(Utilities.deltaTime * 20);
+                        if (attackCol.checkCircle(game.ship.circleCol))
+                        {
+                            game.camera.setYShake(0.2f);
+                            game.ship.shipHealth.onHit(Utilities.deltaTime * 20);
+                        }
+                    }
+                    if (attackTime > 3.77)
+                    {
+                        attackTime = 0;
+                    }
                     updateMovement();
                 }
 
@@ -206,7 +229,7 @@ namespace MoonCow
             }
         }
 
-        void getCoreSpot()
+        public void getCoreSpot()
         {
             coreSpot = game.core.getHeavySpot(pos);
             if (coreSpot != null)
@@ -216,6 +239,22 @@ namespace MoonCow
                 currentBaseIndex = 0;
                 target = posToCore.ElementAt(currentBaseIndex);
                 resetDist();
+
+                if(waiting)
+                {
+                    waiting = false;
+                    game.enemyManager.waiting.Remove(this);
+                }
+            }
+            else
+            {
+                if(!waiting)
+                {
+                    game.enemyManager.waiting.Add(this);
+                    waiting = true;
+                }
+                coreSpot = game.core.getWaitSpot(pos);
+                posToCore = game.core.coordsToWait(coreSpot, pos, target);
             }
             oldDir = direction;
         }
@@ -401,7 +440,8 @@ namespace MoonCow
             if (Utilities.random.Next(5) == 0)
                 game.ship.moneyManager.addAmmoGib(pos);
 
-            game.core.releaseHeavySpot(coreSpot);
+            if(coreSpot != null)
+                game.core.releaseHeavySpot(coreSpot);
             
 
             game.modelManager.removeEnemy(enemyModel);

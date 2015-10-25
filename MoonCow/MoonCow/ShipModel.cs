@@ -63,41 +63,44 @@ namespace MoonCow
 
         public override void Draw(GraphicsDevice device, Camera camera)
         {
-
-            Matrix[] transforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(transforms);
-
-            foreach (ModelMesh mesh in model.Meshes)
+            if (ship.alive)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+
+                Matrix[] transforms = new Matrix[model.Bones.Count];
+                model.CopyAbsoluteBoneTransformsTo(transforms);
+
+                foreach (ModelMesh mesh in model.Meshes)
                 {
-                    effect.World = mesh.ParentBone.Transform * GetWorld();
-                    effect.View = camera.view;
-                    effect.Projection = camera.projection;
-                    effect.TextureEnabled = true;
-                    if (mesh.Name.Contains("glass"))
+                    foreach (BasicEffect effect in mesh.Effects)
                     {
-                        effect.Texture = (Texture2D)rTarg;
-                    }/*
+                        effect.World = mesh.ParentBone.Transform * GetWorld();
+                        effect.View = camera.view;
+                        effect.Projection = camera.projection;
+                        effect.TextureEnabled = true;
+                        if (mesh.Name.Contains("glass"))
+                        {
+                            effect.Texture = (Texture2D)rTarg;
+                        }/*
                     else
                     {
 
                     }*/
-                    effect.Alpha = 1;
+                        effect.Alpha = 1;
 
-                    //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
-                    //effect.EnableDefaultLighting(); //did not work
-                    effect.LightingEnabled = true;
+                        //trying to get lighting to work, but so far the model just shows up as pure black - it was exported with a green blinn shader
+                        //effect.EnableDefaultLighting(); //did not work
+                        effect.LightingEnabled = true;
 
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(0.3f, 0.3f, 0.3f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
-                    effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
-                    effect.DirectionalLight0.SpecularColor = Vector3.One;
-                    effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
-                    effect.EmissiveColor = new Vector3(0.3f,0.3f,0.3f);
-                    effect.PreferPerPixelLighting = true;
+                        effect.DirectionalLight0.DiffuseColor = new Vector3(0.3f, 0.3f, 0.3f); //RGB is treated as a vector3 with xyz being rgb - so vector3.one is white
+                        effect.DirectionalLight0.Direction = new Vector3(0, -1, 1);
+                        effect.DirectionalLight0.SpecularColor = Vector3.One;
+                        effect.AmbientLightColor = new Vector3(0.3f, 0.3f, 0.3f);
+                        effect.EmissiveColor = new Vector3(0.3f, 0.3f, 0.3f);
+                        effect.PreferPerPixelLighting = true;
 
+                    }
+                    mesh.Draw();
                 }
-                mesh.Draw();
             }
         }
 

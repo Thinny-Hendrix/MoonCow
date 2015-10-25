@@ -55,34 +55,37 @@ namespace MoonCow
 
         public void onHit(float damage)
         {
-            if (game.minigame.active)
-                game.minigame.abort();
-            if(damage < shieldVal)
+            if (ship.alive)
             {
-                shieldVal -= damage;
-            }
-            else if (shieldVal == 0)
-            {
-                hpVal -= damage;
-            }
-            else
-            {
-                damage -= shieldVal;
-                shieldVal = 0;
-                hpVal -= damage;
-            }
+                if (game.minigame.active)
+                    game.minigame.abort();
+                if (damage < shieldVal)
+                {
+                    shieldVal -= damage;
+                }
+                else if (shieldVal == 0)
+                {
+                    hpVal -= damage;
+                }
+                else
+                {
+                    damage -= shieldVal;
+                    shieldVal = 0;
+                    hpVal -= damage;
+                }
 
-            shieldState = ShieldState.idle;
-            shieldIdleTime = 3;
+                shieldState = ShieldState.idle;
+                shieldIdleTime = 3;
 
-            if(hpVal <= 0)
-            {
-                ship.onDeath();
-                reset();
+                if (hpVal <= 0)
+                {
+                    ship.onDeath();
+                    //reset();
+                }
             }
         }
 
-        void reset()
+        public void reset()
         {
             shieldMax = 100;
             shieldVal = 100;

@@ -124,8 +124,8 @@ namespace MoonCow
         void testWave()
         {
             inAttack = 2;
-            waves.Add(new Wave(game, manager, attackNumber, 1, 1, 2));
-            waves.Add(new Wave(game, manager, attackNumber, 2, 1, 2));
+            waves.Add(new Wave(game, manager, attackNumber, 1, 25, 0));
+            waves.Add(new Wave(game, manager, attackNumber, 2, 1, 3));
             //waves.Add(new Wave(game, manager, attackNumber, 3, 3, 0));
             //waves.Add(new Wave(game, manager, attackNumber, 3, 1, 3));
         }

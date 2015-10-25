@@ -261,7 +261,7 @@ namespace MoonCow
 
         public override void Draw(GraphicsDevice device, Camera camera)
         {
-            if (type == 0 && !Keyboard.GetState().IsKeyDown(Keys.W))
+            if (type == 0 && !ship.moving)
             { }
             else
             {

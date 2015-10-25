@@ -115,7 +115,7 @@ namespace MoonCow
                 {
                     goToBase();
                     agroSphere.Update(pos+direction*15);
-                    if (cooldown == 0 && agroSphere.checkCircle(game.ship.circleCol))
+                    if (game.ship.alive && cooldown == 0 && agroSphere.checkCircle(game.ship.circleCol))
                     {
                         enemyModel.changeAnim(1);
                         state = State.noticedPlayer;
@@ -163,7 +163,7 @@ namespace MoonCow
                     agroSphere.Update(pos+direction*15);
                     meleeCol.Update(pos);
 
-                    if(meleeCol.checkCircle(game.ship.circleCol))
+                    if(game.ship.alive && meleeCol.checkCircle(game.ship.circleCol))
                     {
                         game.ship.shipHealth.onHit(200 * Utilities.deltaTime);
                         game.camera.setYShake(0.2f);

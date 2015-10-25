@@ -57,6 +57,7 @@ namespace MoonCow
         bool justHitWall = false;
 
         float damagePotential;
+        public bool alive;
 
         
 
@@ -112,6 +113,7 @@ namespace MoonCow
             game.Components.Add(shipHealth);
 
             ((WeaponDrill)weapons.weapons.ElementAt(4)).dome.setShip(this);
+            alive = true;
 
         }
 
@@ -126,7 +128,7 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             frameDiff = Vector3.Zero;
-            if (!Utilities.paused && !Utilities.softPaused)
+            if (alive && !Utilities.paused && !Utilities.softPaused)
             {
                 if (inUTurn)
                 {
@@ -187,8 +189,9 @@ namespace MoonCow
 
         }
 
-        void respawn()
+        public void respawn()
         {
+            alive = true;
             pos = respawnPoint;
 
             //stop moving
@@ -215,6 +218,7 @@ namespace MoonCow
             uTurnYaw = 0;
             rot.X = 0;
 
+            shipHealth.reset();
             game.camera.reset();
         }
 
@@ -830,7 +834,24 @@ namespace MoonCow
 
         public void onDeath()
         {
-            respawn();
+            game.audioManager.play3dSound(game.audioManager.bombExplode, pos);
+            game.camera.makeShake();
+            alive = false;
+            moving = false;
+            for (int i = 0; i < 30; i++)
+            {
+                game.modelManager.addEffect(new DirLineParticle(pos, game));
+            }
+
+            for (int i = 0; i < 15; i++)
+            {
+                game.modelManager.addEffect(new ElectroDir(pos, Color.Red, Color.Blue, game));
+            }
+
+            game.modelManager.addEffect(new BombCenterParticle(game, pos, 1));
+
+            game.hud.respawn.startCountdown();
+            //respawn();
         }
 
     }

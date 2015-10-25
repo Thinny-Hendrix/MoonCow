@@ -107,7 +107,7 @@ namespace MoonCow
 
         public override void Draw(SpriteBatch sb)
         {
-            if (wakeTime < wakeThresh)
+            if (game.ship.alive && wakeTime < wakeThresh)
             {
                 game.GraphicsDevice.BlendState = BlendState.Additive;
                 sb.Draw(hudHealthB, hud.scaledRect(healthPos, 603, 104), Color.White);

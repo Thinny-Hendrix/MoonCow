@@ -61,10 +61,16 @@
     <ManifestKeyFile>MoonCow_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AABB.cs" />
@@ -137,6 +143,7 @@
     <Compile Include="HudMessage.cs" />
     <Compile Include="HudMg.cs" />
     <Compile Include="HudPrompt.cs" />
+    <Compile Include="HudRespawn.cs" />
     <Compile Include="HudWave.cs" />
     <Compile Include="JsConsole.cs" />
     <Compile Include="JsConsoleModel.cs" />
@@ -2312,6 +2319,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="MoonCow_TemporaryKey.pfx" />
+    <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

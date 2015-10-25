@@ -14,6 +14,8 @@ namespace MoonCow
         public List<Enemy> toDelete = new List<Enemy>();
         public List<Sentry> sentries = new List<Sentry>();
         public List<Sentry> sToDelete = new List<Sentry>();
+        public List<Enemy> waiting = new List<Enemy>();
+
 
         public List<Projectile> projectiles = new List<Projectile>();
         public List<Projectile> pToDelete = new List<Projectile>();
@@ -42,6 +44,11 @@ namespace MoonCow
 
                 foreach (Enemy enemy in toDelete)
                     enemies.Remove(enemy);
+                if(toDelete.Count > 0)
+                {
+                    if(waiting.Count > 0)
+                        ((Heavy)waiting.ElementAt(0)).getCoreSpot();
+                }
                 toDelete.Clear();
 
                 foreach (Sentry s in sentries)

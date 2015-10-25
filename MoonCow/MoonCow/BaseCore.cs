@@ -27,10 +27,16 @@ namespace MoonCow
             health = maxHealth;
         }
 
+        void setWaitSpots()
+        {
+            waitSpots = new List<BaseCoreSpot>();
+            waitSpots.Add(new BaseCoreSpot(this, pos + new Vector3(-10, 0, -35), Vector3.Backward));
+            waitSpots.Add(new BaseCoreSpot(this, pos + new Vector3(10, 0, -35), Vector3.Backward));
+        }
+
         void setSpots()
         {
             spots = new List<BaseCoreSpot>();
-            waitSpots = new List<BaseCoreSpot>();
             float angle = 0;
             for(int i = 0; i < 30; i++)
             {

@@ -54,7 +54,7 @@ namespace MoonCow
         {
             if (!Utilities.paused && !Utilities.softPaused)
             {
-                if(!game.minigame.active)
+                if(!game.minigame.active && ship.alive)
                     if ((Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed))
                       fire();
 
@@ -68,7 +68,7 @@ namespace MoonCow
 
                 //bool wake = false;
 
-                if(!game.minigame.active)
+                if(ship.alive && !game.minigame.active)
                 {
                     checkKeyboard();
                 }

@@ -78,9 +78,12 @@ namespace MoonCow
             //For the current node check if your X component will make you collide with wall
             if(col.checkOOBB(game.ship.boundingBox))
             {
-                game.ship.shipHealth.onHit(damage);
-                enemy.hitShip();
-                collided = true;
+                if (game.ship.alive)
+                {
+                    game.ship.shipHealth.onHit(damage);
+                    enemy.hitShip();
+                    collided = true;
+                }
             }
 
             try
@@ -131,7 +134,7 @@ namespace MoonCow
                     {
                         if (a.col.checkPoint(pos))
                         {
-                            a.damage(damage, pos);
+                            a.damage(damage/10, pos);
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
                             if (!sentFail)

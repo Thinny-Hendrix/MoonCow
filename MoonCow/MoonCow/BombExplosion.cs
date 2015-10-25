@@ -88,7 +88,7 @@ namespace MoonCow
                 if(!triggeredShake)
                 {
                     colEnabled = true;
-
+                    game.audioManager.play3dSound(game.audioManager.bombExplode, pos);
                     game.modelManager.addEffect(new BombCenterParticle(game, pos, type));
 
                     if(type == 1)

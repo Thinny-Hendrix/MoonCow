@@ -53,23 +53,25 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             //game.GraphicsDevice.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+            if (!Utilities.softPaused && !Utilities.paused)
+            {
+                yRot += Utilities.deltaTime * MathHelper.PiOver2 / 4;
+                if (yRot > MathHelper.Pi * 2)
+                    yRot -= MathHelper.Pi * 2;
 
-            yRot += Utilities.deltaTime * MathHelper.PiOver2/4;
-            if (yRot > MathHelper.Pi * 2)
-                yRot -= MathHelper.Pi * 2;
-
-            //direction 1
-            texPos3.Y += (int)(Utilities.deltaTime * 200);
-            if (texPos3.Y > 1024)
-                texPos3.Y -= 1024;
-            texPos1.Y = texPos3.Y - 2048;
-            texPos2.Y = texPos3.Y - 1024;
+                //direction 1
+                texPos3.Y += (int)(Utilities.deltaTime * 200);
+                if (texPos3.Y > 1024)
+                    texPos3.Y -= 1024;
+                texPos1.Y = texPos3.Y - 2048;
+                texPos2.Y = texPos3.Y - 1024;
 
 
-            texPos5.Y -= (int)(Utilities.deltaTime * 200);
-            if (texPos5.Y < 0)
-                texPos5.Y += 1024;
-            texPos4.Y = texPos5.Y - 1024;
+                texPos5.Y -= (int)(Utilities.deltaTime * 200);
+                if (texPos5.Y < 0)
+                    texPos5.Y += 1024;
+                texPos4.Y = texPos5.Y - 1024;
+            }
 
             //direction 2
             /*rot.Y = ship.rot.Y;
