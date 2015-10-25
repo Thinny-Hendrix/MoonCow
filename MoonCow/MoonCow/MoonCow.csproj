@@ -124,6 +124,7 @@
     <Compile Include="LcTextField.cs" />
     <Compile Include="LcTilePlace.cs" />
     <Compile Include="LevelCreator.cs" />
+    <Compile Include="LevelMenu.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuAssets.cs" />
     <Compile Include="MenuButton.cs" />
@@ -860,29 +861,29 @@
     <Content Include="Content\MapEditor\Tiles\softHi.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\MapXml\broktes.xml">
+    <Content Include="Content\MapXml\Custom\broktes.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\MapXml\dends.xml">
+    <Content Include="Content\MapXml\Custom\dends.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\MapXml\Level2.xml">
+    <Content Include="Content\MapXml\Campaign\Level2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\MapXml\map1-revis.xml">
+    <Content Include="Content\MapXml\Campaign\Level1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Content\MapXml\map1.xml">
+    <Content Include="Content\MapXml\Custom\map1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\MapXml\pac-man.xml">
+    <Content Include="Content\MapXml\Custom\pac-man.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\MapXml\small.xml">
+    <Content Include="Content\MapXml\Custom\small.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\MapXml\testaroo.xml">
+    <Content Include="Content\MapXml\Custom\testaroo.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Minigame\bluePoly.png">

@@ -1,40 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text;	
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace MoonCow
 {
-    public class MainMenu:DrawableGameComponent
+    class LevelMenu : DrawableGameComponent
     {
         Game1 game;
         public List<MenuButton> buttons;
         //start game, level editor, options, exit game
         MenuButton currentButton;
+        MenuButton campaignLabel;
+        MenuButton customLabel;
         float scale;
         SpriteBatch sb;
         int activeButton;
         float buttonSwitchCooldown;
         float holdTime;
+        float cooldown;
+        string[] campaignMaps;
 
         bool active;
         bool loading;
 
-        public MainMenu(Game1 game):base(game)
+        public LevelMenu(Game1 game):base(game)
         {
             this.game = game;
             sb = new SpriteBatch(game.GraphicsDevice);
             buttons = new List<MenuButton>();
+            campaignMaps = Directory.GetFiles(@"Content/MapXml/Campaign/", "*.xml");
 
-            //buttons.Add(new MenuButton("start game", new Vector2(200, 300)));
-            buttons.Add(new MenuButton("Select level", new Vector2(200, 350)));
-            buttons.Add(new MenuButton("level editor", new Vector2(200, 400)));
-            buttons.Add(new MenuButton("options", new Vector2(200, 450)));
-            buttons.Add(new MenuButton("exit game", new Vector2(200, 500)));
+            campaignLabel = new MenuButton("Campaign", new Vector2(150, 100));
+            customLabel = new MenuButton("Custom Maps", new Vector2(1200, 100));
 
+            int yPos = 250;
+
+            foreach(string file in campaignMaps)
+            {
+                string levelName = file.Substring(24, file.Length - 28);
+                buttons.Add(new MenuButton(levelName, new Vector2(200, yPos)));
+                yPos += 50;
+            }
 
             activeButton = 0;
             currentButton = buttons.ElementAt(activeButton);
@@ -42,45 +53,28 @@ namespace MoonCow
             scale = (float)game.GraphicsDevice.Viewport.Bounds.Width / 1920.0f;
             buttonSwitchCooldown = 0;
             holdTime = 0;
+            cooldown = 40;
         }
 
         void confirm()
         {
-            switch(activeButton)
-            {                  
-                case 0:
-                    // level select
-                    game.runState = Game1.RunState.LevelSelect;
-                    game.Components.Add(new LevelMenu(game));
-                    game.Components.Remove(this);
-                    break;
-                case 1:
-                    loading = true;
-                    game.runState = Game1.RunState.LevelCreator;
-                    game.initializeLevelCreator();
-                    game.Components.Remove(this);
-                    break;
-                case 2:
-                    // options
-                    break;
-                case 3:
-                    game.Exit();
-                    break;
-                default:
-                    loading = true;
-                    game.runState = Game1.RunState.MainGame;
-                    game.initializeGame(@"Content/MapXml/Campaign/Level1.xml");
-                    game.Components.Remove(this);
-                    break;
-            }
+            loading = true;
+            game.runState = Game1.RunState.MainGame;
+            game.initializeGame(@"" + campaignMaps[activeButton]);
+            game.Components.Remove(this);
         }
 
         public override void Update(GameTime gameTime)
         {
 
+            if(cooldown > 0)
+            {
+                cooldown--;
+            }
+
             float stickY = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
+            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed) && cooldown <= 0)
             {
                 confirm();
             }
@@ -154,6 +148,8 @@ namespace MoonCow
             {
                 b.Draw(sb);
             }
+            campaignLabel.Draw(sb);
+            customLabel.Draw(sb);
         }
 
         public override void Draw(GameTime gameTime)
@@ -167,6 +163,5 @@ namespace MoonCow
             
             sb.End();
         }
-
     }
 }

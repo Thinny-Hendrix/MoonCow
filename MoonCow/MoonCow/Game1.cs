@@ -44,7 +44,7 @@ namespace MoonCow
         BloomComponent bloom;
         int bloomSettingsIndex = 0;
 
-        public enum RunState { MainMenu, MainGame, StatScreen, LevelCreator }
+        public enum RunState { MainMenu, LevelSelect, Options, MainGame, StatScreen, LevelCreator }
         public RunState runState;
 
         MapData testMap;
@@ -128,7 +128,7 @@ namespace MoonCow
             Components.Add(mainMenu);
         }
 
-        public void initializeGame()
+        public void initializeGame(string level)
         {
             loadPercentage = 0;
             if (!loadedGameContent)
@@ -160,7 +160,7 @@ namespace MoonCow
             levelFileName = "small";
             //levelFileName = "map1-revis";
             //levelFileName = "pac-man";
-            layout = new MapData(@"Content/MapXml/" + levelFileName + ".xml");
+            layout = new MapData(level);
             //layout = new MapData(@"Content/MapXml/Level2.xml");
             //layout = new MapData(@"Content/MapXml/pac-man.xml");
             //layout = new MapData(@"Content/MapXml/broktes.xml");
@@ -239,8 +239,11 @@ namespace MoonCow
                     Components.Remove(minigame);
                     Components.Remove(hud);
                 }
-                initializeMenu();
-                runState = RunState.MainMenu;
+                if (runState != RunState.LevelSelect)
+                {
+                    initializeMenu();
+                    runState = RunState.MainMenu;
+                }
             }
 
             Utilities.Update(gameTime);
