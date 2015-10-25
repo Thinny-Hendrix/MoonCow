@@ -223,6 +223,7 @@ namespace MoonCow
                 if(runState == RunState.LevelCreator)
                 {
                     Components.Remove(levelCreator);
+                    IsMouseVisible = false;
                 }
                 if(runState == RunState.MainGame)
                 {
