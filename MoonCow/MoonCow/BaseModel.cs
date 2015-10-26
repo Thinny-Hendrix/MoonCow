@@ -14,7 +14,7 @@ namespace MoonCow
         public BaseModel(Vector3 pos):base()
         {
             this.pos = pos;
-            this.pos.Y -= 3;
+            this.pos.Y -= 1;
             this.scale = Vector3.One;
             model = ModelLibrary.stationBase;
         }

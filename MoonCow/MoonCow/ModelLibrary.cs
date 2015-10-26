@@ -144,6 +144,7 @@ namespace MoonCow
             //Base models
             core = game.Content.Load<Model>(@"Models/Base/coreSphere");
             stationBase = game.Content.Load<Model>(@"Models/Base/hullProto");
+            forceField = game.Content.Load<Model>(@"Models/Base/forcefield");
 
 
             //Deco Nodes

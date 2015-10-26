@@ -61,6 +61,7 @@ namespace MoonCow
         {
             this.model = model;
             this.pos = pos;
+            pos.Y = 0;
             this.rot = rot;
             this.scale = new Vector3(scale, scale, scale);
 
@@ -86,6 +87,7 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            pos.Y = -1;
 
             if (!Utilities.paused && !Utilities.softPaused)
                 cogRot += Utilities.deltaTime * MathHelper.PiOver4/2;

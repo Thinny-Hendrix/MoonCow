@@ -80,7 +80,7 @@ namespace MoonCow
                 {
                     game.hud.hudWeapon.Wake();
                     finishingRange.Update(ship.pos + ship.direction * 15, ship.direction);
-                    checkFinishing();
+                    //checkFinishing();
 
                     if(target != null)
                     {
@@ -115,7 +115,7 @@ namespace MoonCow
 
         void updateDir()
         {
-            target.frozen = true;
+            //target.frozen = true;
 
             ship.direction = -1 * ship.circleCol.directionFrom(target.pos);
             ship.rot.Y = (float)Math.Atan2(ship.direction.X, ship.direction.Z) + MathHelper.Pi;
@@ -178,7 +178,7 @@ namespace MoonCow
             }
 
             target = targets.ElementAt(closestIndex);
-            target.frozen = true;
+            //target.frozen = true;
 
             ship.direction = -1*ship.circleCol.directionFrom(target.pos);
             ship.rot.Y = (float)Math.Atan2(ship.direction.X, ship.direction.Z)+MathHelper.Pi;

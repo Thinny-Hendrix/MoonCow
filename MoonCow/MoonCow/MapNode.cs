@@ -558,6 +558,7 @@ namespace MoonCow
                     break;
                 case 43:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30-15.5f, 0, pos.Y * 30), 1));
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1.0f);
                     //top left little corner
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
@@ -572,6 +573,7 @@ namespace MoonCow
                     break;
                 case 44:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30, 0, pos.Y * 30+15.5f), 0));
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1.0f);
                     //bottom right little corner
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 13, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
@@ -586,6 +588,7 @@ namespace MoonCow
                     break;
                 case 45:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30+15.5f, 0, pos.Y * 30), 1));
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1.0f);
                     //top right little corner
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 13), new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 13), new Vector3(-1, 0, 0)));
@@ -600,6 +603,7 @@ namespace MoonCow
                     break;
                 case 46:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30, 0, pos.Y * 30 - 15.5f), 0));
                     model = new TileModel(ModelLibrary.railCorner2small, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1.0f);
                     //top left little corner
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 13, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
@@ -646,6 +650,7 @@ namespace MoonCow
                     break;
                 case 51:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30, 0, pos.Y * 30 - 15.5f), 0));
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
                     //Left long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
@@ -658,6 +663,7 @@ namespace MoonCow
                     break;
                 case 52:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30-15.5f, 0, pos.Y * 30), 1));
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
                     //Bottom long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));
@@ -670,6 +676,7 @@ namespace MoonCow
                     break;
                 case 53:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30, 0, pos.Y * 30 + 15.5f), 0));
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
                     //Top long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
@@ -682,6 +689,7 @@ namespace MoonCow
                     break;
                 case 54:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30+15.5f, 0, pos.Y * 30), 1));
                     model = new TileModel(ModelLibrary.railCorst, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
                     //Right long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
@@ -694,6 +702,7 @@ namespace MoonCow
                     break;
                 case 55:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30, 0, pos.Y * 30 - 15.5f), 0));
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), 0.0f, 1);
                     //Right long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) + 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) + 10, (pos.Y * 30) + 15), new Vector3(-1, 0, 0)));
@@ -706,6 +715,7 @@ namespace MoonCow
                     break;
                 case 56:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30-15.5f, 0, pos.Y * 30), 1));
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2, 1);
                     //Top long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) + 15, (pos.Y * 30) - 10), new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 10), new Vector3(0, 0, 1)));
@@ -718,6 +728,7 @@ namespace MoonCow
                     break;
                 case 57:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30, 0, pos.Y * 30 + 15.5f), 0));
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 2, 1);
                     //Left long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) - 15), new Vector2((pos.X * 30) - 10, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(1, 0, 0)));
@@ -730,6 +741,7 @@ namespace MoonCow
                     break;
                 case 58:
                     traversable = false;
+                    game.modelManager.addEffect(new Forcefield(game, new Vector3(pos.X * 30+15.5f, 0, pos.Y * 30), 1));
                     model = new TileModel(ModelLibrary.railCorstFlip, new Vector3(pos.X * 30, 0, pos.Y * 30), MathHelper.PiOver2 * 3, 1);
                     //Bottom long
                     collisionBoxes.Add(new OOBB(new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 10), new Vector2((pos.X * 30) + 15, (pos.Y * 30) + 15), new Vector2((pos.X * 30) - 15, (pos.Y * 30) + 15), new Vector3(0, 0, -1)));

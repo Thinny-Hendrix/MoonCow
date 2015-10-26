@@ -36,6 +36,7 @@ namespace MoonCow
         public float moneyEarned;
 
         bool drillGame;
+        bool triggeredHelp;
 
         public Minigame(Game1 game):base(game)
         {
@@ -63,11 +64,12 @@ namespace MoonCow
             manager.reset();
 
             game.hud.expSelect.setMinigame(this);
+            triggeredHelp = false;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if(active)
+            if (active)// && !Utilities.softPaused && !Utilities.paused)
             {
                 if (holdTime > holdThresh && !hudMg.active)
                 {
@@ -75,7 +77,7 @@ namespace MoonCow
                         manager.Update();
                     else
                     {
-                        if(success && !drillGame)
+                        if (success && !drillGame)
                         {
                             game.hud.expSelect.activate();
                         }
@@ -88,11 +90,11 @@ namespace MoonCow
                 else
                     holdTime += Utilities.deltaTime;
 
-                models.Update();
+            }
+            models.Update();
                 manager.Draw();
                 screen.Update();
                 screen.Draw();
-            }
         }
 
         void runGame()
@@ -125,6 +127,11 @@ namespace MoonCow
 
         public void activate(Vector3 pos, Vector3 dir, JunkShip source)
         {
+            if (!triggeredHelp)
+            {
+                game.hud.hudHelp.activate();
+                triggeredHelp = true;
+            }
             drillGame = false;
             this.activeSource = source;
             displayer.wake(pos, dir);

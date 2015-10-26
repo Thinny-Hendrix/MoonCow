@@ -326,7 +326,7 @@ namespace MoonCow
         {
             sb.Begin();
 
-            if (displayMessage && !hud.quickSelect.active)
+            if (displayMessage && !hud.quickSelect.active && !hud.expSelect.active && !hud.turSelect.active)
             {
                 if (messageType == MessageType.start)
                     drawStartMessage();

@@ -134,12 +134,14 @@
     <Compile Include="ExpSelect.cs" />
     <Compile Include="FireParticle.cs" />
     <Compile Include="FireStreamParticle.cs" />
+    <Compile Include="Forcefield.cs" />
     <Compile Include="GlowStreakCenter.cs" />
     <Compile Include="Gunner.cs" />
     <Compile Include="GunnerModel.cs" />
     <Compile Include="GunnerProjectile.cs" />
     <Compile Include="HeavyModel.cs" />
     <Compile Include="HudCollectable.cs" />
+    <Compile Include="HudHelp.cs" />
     <Compile Include="HudMessage.cs" />
     <Compile Include="HudMg.cs" />
     <Compile Include="HudPrompt.cs" />
@@ -602,6 +604,12 @@
     <Content Include="Content\Hud\promptOut.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Hud\qhelpF.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Hud\qhelpO.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Hud\QuickSelect\icoAst.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -909,6 +917,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Content\MapXml\Custom\forcefields.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\MapXml\Custom\map1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -976,6 +987,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\AstField\astCloud2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Base\drillHolo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Base\forceLines.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Base\forceVing.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Effects\boostFlame.png">

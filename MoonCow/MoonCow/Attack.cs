@@ -72,7 +72,7 @@ namespace MoonCow
                 case 1:
                     inAttack = 3;
                     waves.Add(new Wave(game, manager, attackNumber, 1, 4, 0));
-                    waves.Add(new Wave(game, manager, attackNumber, 2, 2, 2));
+                    waves.Add(new Wave(game, manager, attackNumber, 2, 2, 1));
                     waves.Add(new Wave(game, manager, attackNumber, 3, 8, 0));
                     break;
                 case 2:
@@ -124,7 +124,7 @@ namespace MoonCow
         void testWave()
         {
             inAttack = 2;
-            waves.Add(new Wave(game, manager, attackNumber, 1, 25, 0));
+            waves.Add(new Wave(game, manager, attackNumber, 1, 25, 2));
             waves.Add(new Wave(game, manager, attackNumber, 2, 1, 3));
             //waves.Add(new Wave(game, manager, attackNumber, 3, 3, 0));
             //waves.Add(new Wave(game, manager, attackNumber, 3, 1, 3));

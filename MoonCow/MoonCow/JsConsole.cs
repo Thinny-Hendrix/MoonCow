@@ -31,6 +31,7 @@ namespace MoonCow
         public CircleCollider interestRange;
         Vector3 consolePos;
         bool triggeredMoney;
+        BasicModel forcefield;
         public JsConsole(Game1 game, Vector3 pos, Vector3 dir):base()
         {
             this.game = game;
@@ -61,6 +62,16 @@ namespace MoonCow
             cols.Add(new OOBB(consolePos + Vector3.Cross(-dir, Vector3.Up) * -2f, dir, 2, 1, Vector3.Cross(dir, Vector3.Up)));
 
             cols.Add(new OOBB(pos + dir * 13, dir, 30, 1, dir));
+
+            if(dir.Equals(Vector3.Left) || dir.Equals(Vector3.Right))
+            {
+                forcefield = new Forcefield(game, pos + dir * 13, 1);
+            }
+            else
+            {
+                forcefield = new Forcefield(game, pos + dir * 13, 0);
+            }
+            game.modelManager.addEffect(forcefield);
 
         }
 
@@ -130,14 +141,20 @@ namespace MoonCow
                     }
                     else
                     {
-                        if(triggeredMessage)
+                        if (triggeredMessage)
+                        {
                             game.hud.hudPrompt.close();
+                            triggeredMessage = false;
+                        }
                     }
                 }
                 else
                 {
                     if (triggeredMessage)
+                    {
                         game.hud.hudPrompt.close();
+                        triggeredMessage = false;
+                    }
                 }
             }
         }

@@ -342,6 +342,15 @@ namespace MoonCow
                 if (selecting)
                     drawStats(sb);
 
+                sb.Draw(hud.butA, hud.scaledRect(new Vector2(910,940), 65, 65), null, Color.White, 0,new Vector2(30,30), SpriteEffects.None, 0);
+                sb.DrawString(font, "confirm", hud.scaledCoords(870, 950), Color.White, 0,
+                new Vector2(font.MeasureString("confirm").X, font.MeasureString("confirm").Y / 2), hud.scale * 22.0f / 40, SpriteEffects.None, 0);
+
+                sb.Draw(hud.butB, hud.scaledRect(new Vector2(1200, 940), 65, 65), null, Color.White, 0, new Vector2(30, 30), SpriteEffects.None, 0);
+                sb.DrawString(font, "cancel", hud.scaledCoords(1160, 950), Color.White, 0,
+                new Vector2(font.MeasureString("cancel").X, font.MeasureString("cancel").Y / 2), hud.scale * 22.0f / 40, SpriteEffects.None, 0);
+            
+
                 sb.End();
             }
         }

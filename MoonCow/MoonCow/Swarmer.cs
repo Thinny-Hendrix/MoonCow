@@ -166,6 +166,7 @@ namespace MoonCow
                 {
                     enemyModel.changeAnim(3);
                     state = State.attackCore;
+                    waitTime = 0;
                     turnTime = 0;
                     oldDir = direction;
                     updateMovement();
@@ -185,7 +186,19 @@ namespace MoonCow
                     {
                         direction = game.core.col.directionFrom(pos);
                     }
-                    game.core.damage(0.05f*Utilities.deltaTime);
+
+                    waitTime += Utilities.deltaTime;
+                    if(!successHit && waitTime > 1.125)
+                    {
+                        successHit = true;
+                        game.core.damage(1);
+                    }
+                    if(waitTime > 1.58f)
+                    {
+                        successHit = false;
+                        waitTime = 0;
+                    }
+
                     updateMovement();
                 }
 

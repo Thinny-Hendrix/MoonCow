@@ -135,7 +135,7 @@ namespace MoonCow
                     attackTime += Utilities.deltaTime;
                     if(attackTime > 1.375f && attackTime < 3)
                     {
-                        if(attackCol.checkCircle(game.ship.circleCol))
+                        if(game.ship.alive && attackCol.checkCircle(game.ship.circleCol))
                         {
                             game.camera.setYShake(0.2f);
                             game.ship.shipHealth.onHit(Utilities.deltaTime * 20);

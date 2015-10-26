@@ -60,6 +60,11 @@ namespace MoonCow
         static Vector2 linespos;
         static Color windowIdle1;
 
+        //forcefield
+        public static Texture2D forceLines;
+        public static Texture2D forceVing;
+        public static Texture2D drillHolo;
+
         //asteroid field
         public static Texture2D ast1;
         public static Texture2D skyBox2;
@@ -229,6 +234,11 @@ namespace MoonCow
             windowLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/screenlines");
             warnLines = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnLines");
             warnSign2 = game.Content.Load<Texture2D>(@"Models/StationTiles/Window/windowWarnSign");
+
+            //forcefield
+            forceLines = game.Content.Load<Texture2D>(@"Models/Base/forceLines");
+            forceVing = game.Content.Load<Texture2D>(@"Models/Base/forceVing");
+            drillHolo = game.Content.Load<Texture2D>(@"Models/Base/drillHolo");
 
             //ast field
             skyBox2 = game.Content.Load<Texture2D>(@"Models/Misc/Skybox/skybox6");

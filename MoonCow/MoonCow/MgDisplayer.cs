@@ -61,6 +61,8 @@ namespace MoonCow
             visible = true;
             yTime = 0;
             xTime = 0;
+            scale.X = 0;
+            scale.Z = 0;
         }
 
         public void shut()
@@ -70,27 +72,46 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if (visible)
+            if (!Utilities.softPaused && !Utilities.paused)
             {
-                if (yTime < MathHelper.Pi * 2)
+                if (visible)
                 {
-                    yTime += Utilities.deltaTime * MathHelper.Pi * 2;
-                    if(yTime < MathHelper.Pi)
-                        scale.Z = MathHelper.Lerp(0, 0.3f, (float)(-Math.Cos(yTime) + 1) / 2);
+                    if (yTime < MathHelper.Pi * 2)
+                    {
+                        yTime += Utilities.deltaTime * MathHelper.Pi * 2;
+                        if (yTime < MathHelper.Pi)
+                            scale.Z = MathHelper.Lerp(0, 0.3f, (float)(-Math.Cos(yTime) + 1) / 2);
+                        else
+                            scale.Z = MathHelper.Lerp(0.3f, 0.25f, (float)(Math.Cos(yTime) + 1) / 2);
+                    }
                     else
-                        scale.Z = MathHelper.Lerp(0.3f, 0.25f, (float)(Math.Cos(yTime) + 1) / 2);
+                    {
+                        scale.Z = 0.25f;
+                    }
+                    if (xTime < MathHelper.Pi * 2.5f)
+                    {
+                        xTime += Utilities.deltaTime * MathHelper.Pi * 2;
+                        if (xTime < MathHelper.PiOver2)
+                        {
+                            scale.X = MathHelper.SmoothStep(0, 0.03f, (float)(-Math.Sin(xTime) + 1) / 2);
+                        }
+                        else if (xTime < MathHelper.Pi * 1.5f)
+                            scale.X = MathHelper.Lerp(0, 0.3f, (float)(-Math.Sin(xTime) + 1) / 2);
+                        else
+                            scale.X = MathHelper.Lerp(0.3f, 0.25f, (float)(Math.Sin(xTime) + 1) / 2);
+                    }
+                    else
+                    {
+                        scale.X = 0.25f;
+                    }
                 }
-                else
-                {
-                    scale.Y = 0.25f;
-                }
+
+
+
+                linePos.Y += Utilities.deltaTime * manager.speed / 20;
+                if (linePos.Y > 64)
+                    linePos.Y -= 64;
             }
-
-
-
-            linePos.Y += Utilities.deltaTime * manager.speed / 20;
-            if (linePos.Y > 64)
-                linePos.Y -= 64;
             game.GraphicsDevice.SetRenderTarget(rTarg);
             game.GraphicsDevice.Clear(blue * 0.5f);
             sb.Begin();
@@ -99,6 +120,7 @@ namespace MoonCow
             sb.Draw(TextureManager.mgLines, new Vector2(0, linePos.Y-64), blue);
             sb.End();
             game.GraphicsDevice.SetRenderTarget(null);
+
         }
 
         public override void Draw(GraphicsDevice device, Camera camera)

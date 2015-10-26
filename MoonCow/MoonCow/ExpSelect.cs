@@ -22,6 +22,8 @@ namespace MoonCow
 
         Texture2D currentHi;
         Texture2D currentOut;
+        Texture2D helpO;
+        Texture2D helpF;
         bool selecting;
         int selectedWep;
 
@@ -46,6 +48,9 @@ namespace MoonCow
             imgH = qs.out4.Bounds.Height;
 
             currentHi = hud.quickSelect.hi1;
+
+            helpO = game.Content.Load<Texture2D>(@"Hud/qhelpO");
+            helpF = game.Content.Load<Texture2D>(@"Hud/qhelpF");
 
             targ1 = new RenderTarget2D(game.GraphicsDevice, 123, 15);
             targ2 = new RenderTarget2D(game.GraphicsDevice, 123, 15);
@@ -271,7 +276,22 @@ namespace MoonCow
                 if (selecting)
                     drawStats(sb);
 
+                /*
+                sb.Draw(hud.butA, hud.scaledRect(new Vector2(1000, 750), 65, 65), null, Color.White, 0, new Vector2(30, 30), SpriteEffects.None, 0);
+                sb.DrawString(font, "confirm", hud.scaledCoords(960, 750), Color.White, 0,
+                new Vector2(font.MeasureString("confirm").X, font.MeasureString("confirm").Y / 2), hud.scale * 22.0f / 40, SpriteEffects.None, 0);
+                */
+                sb.Draw(helpF, hud.scaledRect(new Vector2(960, 230), 514, 139), null, Color.White, 0, new Vector2(257, 69), SpriteEffects.None, 0);
+                sb.Draw(helpO, hud.scaledRect(new Vector2(960,230),514,139), null, Color.White, 0, new Vector2(257,69), SpriteEffects.None, 0);
+                sb.DrawString(font, "select a weapon", hud.scaledCoords(960, 200), Color.White, 0,
+                new Vector2(font.MeasureString("select a weapon").X / 2, 0), hud.scale * 22.0f / 40, SpriteEffects.None, 0);
+                
+                sb.DrawString(font, "to give exp!", hud.scaledCoords(960, 240), Color.White, 0,
+                new Vector2(font.MeasureString("to give exp!").X / 2, 0), hud.scale * 22.0f / 40, SpriteEffects.None, 0);
+
                 sb.End();
+
+
             }
         }
     }

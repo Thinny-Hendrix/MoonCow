@@ -33,6 +33,7 @@ namespace MoonCow
         public HudPrompt hudPrompt;
         public HudCollectable hudCollectable;
         public HudRespawn respawn;
+        public HudHelp hudHelp;
 
         Vector2 position;
         
@@ -53,6 +54,8 @@ namespace MoonCow
         public Texture2D butB;        
         public Texture2D butX;
         public Texture2D butY;
+        public Texture2D endO;
+        public Texture2D endF;
         
 
         Texture2D whiteTex;
@@ -85,6 +88,7 @@ namespace MoonCow
             turSelect = new TurretSelect(this, game, font);
             hudPrompt = new HudPrompt(this, game, font);
             respawn = new HudRespawn(this, hudMg.font, game);
+            hudHelp = new HudHelp(this, game, font);
 
             position = new Vector2(0, 0);
             contPrimary = Color.White;
@@ -104,6 +108,8 @@ namespace MoonCow
             butB = game.Content.Load<Texture2D>(@"Hud/butB");
             butX = game.Content.Load<Texture2D>(@"Hud/butX");
             butY = game.Content.Load<Texture2D>(@"Hud/butY");
+            endO = game.Content.Load<Texture2D>(@"Hud/endO");
+            endF = game.Content.Load<Texture2D>(@"Hud/endF");
 
         }
 
@@ -184,6 +190,7 @@ namespace MoonCow
             turSelect.Update();
             hudCollectable.Update();
             respawn.Update();
+            hudHelp.Update();
         }
 
         public void makeFlash()
@@ -244,6 +251,7 @@ namespace MoonCow
             hudMg.Draw(spriteBatch);
             hudPrompt.Draw(spriteBatch);
             hudCollectable.Draw(spriteBatch);
+            hudHelp.Draw(spriteBatch);
             spriteBatch.End();
 
 

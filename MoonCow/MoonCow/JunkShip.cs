@@ -98,7 +98,7 @@ namespace MoonCow
                     {
                         game.hud.hudPrompt.activate("Unlock cache");
                         triggeredMessage = true;
-                        if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
+                        if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
                         {
                             if (minigame.successCount > successAtActivate)
                             {
@@ -114,14 +114,20 @@ namespace MoonCow
                     }
                     else
                     {
-                        if(triggeredMessage)
+                        if (triggeredMessage)
+                        {
+                            triggeredMessage = false;
                             game.hud.hudPrompt.close();
+                        }
                     }
                 }
                 else
                 {
                     if (triggeredMessage)
+                    {
+                        triggeredMessage = false;
                         game.hud.hudPrompt.close();
+                    }
                 }
             }
         }

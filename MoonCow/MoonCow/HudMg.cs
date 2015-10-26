@@ -79,7 +79,7 @@ namespace MoonCow
 
         public override void Update()
         {
-            if (active)
+            if (!Utilities.softPaused && !Utilities.paused && active)
             {
                 if (state == 0)
                 {
@@ -130,7 +130,7 @@ namespace MoonCow
 
         public override void Draw(SpriteBatch sb)
         {
-            if (active)
+            if (!Utilities.paused && !Utilities.softPaused && active)
             {
                 sb.DrawString(font, text, hud.scaledCoords(965, 545), Color.Black * (alpha/2), 0,
                    new Vector2(font.MeasureString(text).X / 2, font.MeasureString(text).Y / 2-20), scale / 80, SpriteEffects.None, 0);
