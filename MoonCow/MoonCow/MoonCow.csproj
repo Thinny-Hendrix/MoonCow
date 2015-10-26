@@ -135,6 +135,7 @@
     <Compile Include="FireParticle.cs" />
     <Compile Include="FireStreamParticle.cs" />
     <Compile Include="Forcefield.cs" />
+    <Compile Include="ForcefieldDrill.cs" />
     <Compile Include="GlowStreakCenter.cs" />
     <Compile Include="Gunner.cs" />
     <Compile Include="GunnerModel.cs" />

@@ -583,6 +583,9 @@ namespace MoonCow
             if (Utilities.random.Next(5) == 0)
                 game.ship.moneyManager.addAmmoGib(pos);
 
+            if (coreSpot != null)
+                coreSpot.taken = false;
+
             game.modelManager.removeEnemy(enemyModel);
             game.enemyManager.toDelete.Add(this);
         }

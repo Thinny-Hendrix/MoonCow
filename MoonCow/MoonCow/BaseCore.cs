@@ -52,6 +52,7 @@ namespace MoonCow
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
 
             setSpots();
+            setWaitSpots();
             col = new CircleCollider(pos, 8);
             model = new CoreSphereModel(pos, game);
             game.modelManager.addAdditive(model);
@@ -156,7 +157,50 @@ namespace MoonCow
 
         public List<Vector3> coordsToWait(BaseCoreSpot b, Vector3 currentPos, Vector3 corePos)
         {
-            return null;
+            List<Vector3> temp = new List<Vector3>();
+
+            if(corePos.X < pos.X)
+            {
+                if(currentPos.X < pos.X)
+                {
+                    temp.Add(pos+new Vector3(-30,0,-35));
+                }
+                else
+                {
+                    if(waitSpots.ElementAt(1).taken)
+                    {
+                        temp.Add(pos + new Vector3(30, 0, -15));
+                        temp.Add(pos + new Vector3(0, 0, -15));
+                    }
+                    else
+                    {
+                        temp.Add(pos + new Vector3(30, 0, -35));
+                    }
+                }
+            }
+            else
+            {
+                if(currentPos.X > pos.X)
+                {
+                    temp.Add(pos + new Vector3(30, 0, -35));
+                }
+                else
+                {
+                    if (waitSpots.ElementAt(0).taken)
+                    {
+                        temp.Add(pos + new Vector3(-30, 0, -15));
+                        temp.Add(pos + new Vector3(0, 0, -15));
+                    }
+                    else
+                    {
+                        temp.Add(pos + new Vector3(-30, 0, -35));
+                    }
+                }
+            }
+
+            temp.Add(corePos);
+
+            return temp;
         }
 
         public List<Vector3> coordsToSpot(BaseCoreSpot b, Vector3 currentPos, Vector3 corePos)
@@ -165,11 +209,11 @@ namespace MoonCow
 
             if(b.rot <= MathHelper.PiOver4*0.5f || b.rot >= MathHelper.PiOver4*7.5f)
             {
-                if(currentPos.X > pos.X)
+                if(currentPos.X > pos.X+15)
                 {
                     temp.Add(pos + new Vector3(30, 0, -30));
                 }
-                else
+                else if(currentPos.X < pos.X-15)
                 {
                     temp.Add(pos + new Vector3(-30, 0, -30));
                 }

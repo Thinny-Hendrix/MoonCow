@@ -125,7 +125,10 @@ namespace MoonCow
                         }
                         if(hit)
                         {
-                            enemy.health -= damage;
+                            if (enemy.enemyType != 3)
+                                enemy.health -= damage;
+                            else
+                                enemy.health -= damage / 3;
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             game.levelStats.laserShotsHit++;
                             wep.addExp(5);

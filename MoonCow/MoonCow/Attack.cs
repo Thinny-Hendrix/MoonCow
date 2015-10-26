@@ -88,15 +88,15 @@ namespace MoonCow
                     waves.Add(new Wave(game, manager, attackNumber, 2, 2, 2));
                     waves.Add(new Wave(game, manager, attackNumber, 3, 8, 0));
                     waves.Add(new Wave(game, manager, attackNumber, 4, 2, 1));
-                    waves.Add(new Wave(game, manager, attackNumber, 5, 16, 0));
+                    waves.Add(new Wave(game, manager, attackNumber, 5, 12, 0));
                     break;
                 default:
                     inAttack = 6;
                     waves.Add(new Wave(game, manager, attackNumber, 1, 12, 0));
                     waves.Add(new Wave(game, manager, attackNumber, 2, 1, 3));
-                    waves.Add(new Wave(game, manager, attackNumber, 3, 3, 2));
+                    waves.Add(new Wave(game, manager, attackNumber, 3, 2, 2));
                     waves.Add(new Wave(game, manager, attackNumber, 4, 6, 1));
-                    waves.Add(new Wave(game, manager, attackNumber, 5, 6, 2));
+                    waves.Add(new Wave(game, manager, attackNumber, 5, 4, 2));
                     waves.Add(new Wave(game, manager, attackNumber, 6, 2, 3));
                     break;
             }
@@ -123,11 +123,19 @@ namespace MoonCow
 
         void testWave()
         {
+            inAttack = 6;
+            waves.Add(new Wave(game, manager, attackNumber, 1, 12, 0));
+            waves.Add(new Wave(game, manager, attackNumber, 2, 1, 3));
+            waves.Add(new Wave(game, manager, attackNumber, 3, 2, 2));
+            waves.Add(new Wave(game, manager, attackNumber, 4, 6, 1));
+            waves.Add(new Wave(game, manager, attackNumber, 5, 4, 2));
+            waves.Add(new Wave(game, manager, attackNumber, 6, 2, 3));
+            /*
             inAttack = 2;
-            waves.Add(new Wave(game, manager, attackNumber, 1, 25, 2));
+            waves.Add(new Wave(game, manager, attackNumber, 1, 26, 0));
             waves.Add(new Wave(game, manager, attackNumber, 2, 1, 3));
             //waves.Add(new Wave(game, manager, attackNumber, 3, 3, 0));
-            //waves.Add(new Wave(game, manager, attackNumber, 3, 1, 3));
+            //waves.Add(new Wave(game, manager, attackNumber, 3, 1, 3));*/
         }
 
         private void tempWaveCreator()

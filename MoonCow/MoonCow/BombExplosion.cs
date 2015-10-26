@@ -59,7 +59,7 @@ namespace MoonCow
                 case 3:
                     c1 = Color.Aqua;
                     c2 = Color.Purple;
-                    damage = 20;
+                    damage = 30;
                     break;
             }
 
@@ -210,7 +210,7 @@ namespace MoonCow
                                 enemy.damage(damage);
                                 eHitList.Add(enemy);
                                 collided = true;
-                                wep.addExp(damage);
+                                wep.addExp(10);
                             }
                         }
                     }

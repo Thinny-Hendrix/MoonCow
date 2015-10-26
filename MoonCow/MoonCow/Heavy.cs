@@ -209,6 +209,11 @@ namespace MoonCow
                     }
                     updateMovement();
                 }
+                else if (state == State.waiting)
+                {
+                    turnTime += Utilities.deltaTime/2;
+                    direction = Vector3.SmoothStep(oldDir, Vector3.Backward, turnTime);
+                }
 
                 nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
                 pos.Y = 4.5f;
@@ -243,6 +248,7 @@ namespace MoonCow
                 if(waiting)
                 {
                     waiting = false;
+                    state = State.atBase;
                     game.enemyManager.waiting.Remove(this);
                 }
             }
@@ -252,10 +258,12 @@ namespace MoonCow
                 {
                     game.enemyManager.waiting.Add(this);
                     waiting = true;
+                    coreSpot = game.core.getWaitSpot(pos);
+                    posToCore = game.core.coordsToWait(coreSpot, pos, coreSpot.pos);
                 }
-                coreSpot = game.core.getWaitSpot(pos);
-                posToCore = game.core.coordsToWait(coreSpot, pos, target);
             }
+
+            turnTime = 0;
             oldDir = direction;
         }
 
@@ -294,7 +302,14 @@ namespace MoonCow
                 if (currentBaseIndex >= posToCore.Count() - 1)
                 {
                     pos = target;
-                    state = State.atCore;
+                    if (!waiting)
+                        state = State.atCore;
+                    else
+                    {
+                        state = State.waiting;
+                        turnTime = 0;
+                        oldDir = targetDir;
+                    }
                 }
                 else
                 {
