@@ -211,6 +211,25 @@ namespace MoonCow
             Content.Unload();
         }
 
+        public void exitMainGame()
+        {
+            audioManager.shutup();
+            Components.Remove(ship);
+            Components.Remove(camera);
+            Components.Remove(modelManager);
+            Components.Remove(audioManager);
+            Components.Remove(enemyManager);
+            Components.Remove(waveManager);
+            Components.Remove(core);
+            Components.Remove(turretManager);
+            Components.Remove(asteroidManager);
+            Components.Remove(minigame);
+            Components.Remove(hud);
+
+            initializeMenu();
+            runState = RunState.MainMenu;
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -227,20 +246,9 @@ namespace MoonCow
                 }
                 if(runState == RunState.MainGame)
                 {
-                    audioManager.shutup();
-                    Components.Remove(ship);
-                    Components.Remove(camera);
-                    Components.Remove(modelManager);
-                    Components.Remove(audioManager);
-                    Components.Remove(enemyManager);
-                    Components.Remove(waveManager);
-                    Components.Remove(core);
-                    Components.Remove(turretManager);
-                    Components.Remove(asteroidManager);
-                    Components.Remove(minigame);
-                    Components.Remove(hud);
+                    exitMainGame();
                 }
-                if (runState != RunState.LevelSelect)
+                else if (runState != RunState.LevelSelect)
                 {
                     initializeMenu();
                     runState = RunState.MainMenu;

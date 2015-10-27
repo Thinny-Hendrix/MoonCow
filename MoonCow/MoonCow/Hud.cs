@@ -34,6 +34,7 @@ namespace MoonCow
         public HudCollectable hudCollectable;
         public HudRespawn respawn;
         public HudHelp hudHelp;
+        public HudEnd hudEnd;
 
         Vector2 position;
         
@@ -89,6 +90,7 @@ namespace MoonCow
             hudPrompt = new HudPrompt(this, game, font);
             respawn = new HudRespawn(this, hudMg.font, game);
             hudHelp = new HudHelp(this, game, font);
+            hudEnd = new HudEnd(this, game);
 
             position = new Vector2(0, 0);
             contPrimary = Color.White;
@@ -252,6 +254,7 @@ namespace MoonCow
             hudPrompt.Draw(spriteBatch);
             hudCollectable.Draw(spriteBatch);
             hudHelp.Draw(spriteBatch);
+            hudEnd.Draw(spriteBatch);
             spriteBatch.End();
 
 

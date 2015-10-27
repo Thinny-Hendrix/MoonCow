@@ -19,6 +19,10 @@ namespace MoonCow
         public Vector2 nodePos;
         public List<BaseCoreSpot> spots;
         public List<BaseCoreSpot> waitSpots;
+        bool triggeredEnd;
+        float time;
+        bool splode;
+        CoreRing ring;
 
         public BaseCore(Game1 game):base(game)
         {
@@ -56,12 +60,25 @@ namespace MoonCow
             col = new CircleCollider(pos, 8);
             model = new CoreSphereModel(pos, game);
             game.modelManager.addAdditive(model);
-            game.modelManager.addEffect(new CoreRing(pos, game));
+            ring = new CoreRing(pos, game);
+            game.modelManager.addEffect(ring);
+
+            game.camera.setEndData(pos);
         }
 
         public void damage(float amount)
         {
             health -= amount;
+
+            if(health <= 0)
+            {
+                if (!triggeredEnd)
+                {
+                    game.hud.hudEnd.activate(false);
+                    game.camera.triggerEnd();
+                    triggeredEnd = true;
+                }
+            }
         }
 
         List<BaseCoreSpot> hevNeighbors(int i)
@@ -332,7 +349,28 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            if(triggeredEnd)
+            {
+                if(!splode)
+                {
+                    time += Utilities.deltaTime;
+
+                    if(time > 2)
+                    {
+                        splode = true;
+                        model.visible = false;
+                        for(int i = 0; i < 50; i++)
+                        {
+                            game.modelManager.addEffect(new ElectroDir(pos, Color.White, Color.Aqua, game));
+                        }
+                        game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.White, 3, BlendState.Additive));
+                        game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.White, 5, BlendState.Additive));
+                        //game.modelManager.addEffect(new ImpactParticleModel(game, pos, 3));
+                        game.modelManager.removeEffect(ring);
+                        game.camera.makeShake();
+                    }
+                }
+            }
         }
     }
 }

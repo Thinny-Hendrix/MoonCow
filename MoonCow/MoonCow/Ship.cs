@@ -166,7 +166,7 @@ namespace MoonCow
                 updateMovement();
                 updateDamagePotential();
             }
-            
+            /*
             if(Keyboard.GetState().IsKeyDown(Keys.I))
                 moneyManager.addMoney(80);
             /*if (Keyboard.GetState().IsKeyDown(Keys.U))
@@ -177,10 +177,10 @@ namespace MoonCow
                 moneyManager.addMoney(-1329);
 
             if (Keyboard.GetState().IsKeyDown(Keys.L))
-                shipHealth.onHit(3);*/
+                shipHealth.onHit(3)
 
             if (Keyboard.GetState().IsKeyDown(Keys.T))
-                respawn();
+                respawn();*/
 
 
             //weapons.update();
@@ -279,7 +279,7 @@ namespace MoonCow
                 keys = true;
             if (!finishingMove)
             {
-                if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.A) || stickX < -0.3f))
+                if (!game.camera.endGame && !game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.A) || stickX < -0.3f))
                 {
                     turning = true;
                     if (boosting)
@@ -303,7 +303,7 @@ namespace MoonCow
                         tilt = MathHelper.Lerp(tilt, 20 * currentTurnSpeed, Utilities.deltaTime * 2);
                     }
                 }
-                if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.D) || stickX > 0.3f))
+                if (!game.camera.endGame && !game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.D) || stickX > 0.3f))
                 {
                     turning = true;
                     if (boosting)
@@ -351,7 +351,7 @@ namespace MoonCow
 
         void updateSpeed()
         {
-            if (!game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.1f))
+            if (!game.camera.endGame && !game.minigame.active && (Keyboard.GetState().IsKeyDown(Keys.W) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.1f))
             {
                 moving = true;
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) || GamePad.GetState(PlayerIndex.One).Triggers.Right > 0.3f)
@@ -386,7 +386,7 @@ namespace MoonCow
 
         void updateBarrelRoll()
         {
-            if (!game.minigame.active)
+            if (!game.camera.endGame && !game.minigame.active)
             {
                 if ((Keyboard.GetState().IsKeyDown(Keys.Q) || GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < -0.3f) && rollCooldown <= 0)
                 {

@@ -142,6 +142,7 @@
     <Compile Include="GunnerProjectile.cs" />
     <Compile Include="HeavyModel.cs" />
     <Compile Include="HudCollectable.cs" />
+    <Compile Include="HudEnd.cs" />
     <Compile Include="HudHelp.cs" />
     <Compile Include="HudMessage.cs" />
     <Compile Include="HudMg.cs" />
@@ -2078,6 +2079,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Enemies\Sneaker\sneStart2.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\SpawnPoint\vortexAnim.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\SpawnPoint\spiraltest_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Content\Models\Enemies\Swarmer\swarmerAlpha.fbx" />

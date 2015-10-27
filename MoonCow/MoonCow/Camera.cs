@@ -53,6 +53,13 @@ namespace MoonCow
         Vector3 currentPos;
         Vector3 currentLook;
 
+        //endgame camera movement
+        Vector3 endLook;
+        Vector3 endPos1;
+        Vector3 endPos2;
+        public float endTime;
+        public bool endGame;
+
         public Camera(Game1 game, Vector3 pos, Vector3 target, Vector3 up)
             : base(game)
         {
@@ -75,6 +82,19 @@ namespace MoonCow
             // Set mouse position
             Mouse.SetPosition(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             base.Initialize();
+        }
+
+        public void setEndData(Vector3 corePos)
+        {
+            endLook = corePos;
+            endPos1 = corePos + new Vector3(-38, 15, -42);
+            endPos2 = corePos + new Vector3(38, 15, -42);
+        }
+
+        public void triggerEnd()
+        {
+            endGame = true;
+            endTime = 0;
         }
 
         public void setStaticTarg(Vector3 pos, Vector3 look)
@@ -210,62 +230,93 @@ namespace MoonCow
             cameraPosition.Z = lookAt.Z - (currentDirection.Z * currentDist);
         }
 
+        public void updateEnd()
+        {
+            endTime += Utilities.deltaTime;
+            currentLook = endLook;
+            if(endTime < 2)
+            {
+                currentPos = endPos1;
+            }
+            else if(endTime < 8)
+            {
+                currentPos = Vector3.SmoothStep(endPos1, endPos2, (endTime - 2) / 6);
+            }
+            else
+            {
+                currentPos = endPos2;
+            }
+
+            if(endTime > 12)
+            {
+                game.exitMainGame();
+            }
+            cameraPosition = currentPos;
+        }
+
         public override void Update(GameTime gameTime)
         {
             /// camera angle is 8 degrees, positions derived from tan(8) - eg 10tan(8) gives 1.4 height and a distance of 10 between camera and target
 
             if (!Utilities.paused && !Utilities.softPaused)
             {
-                updateShipCam();
-
-                if (transitioning)
+                if(endGame)
                 {
-                    transitionTime += Utilities.deltaTime * MathHelper.Pi;
-                    if (useStatic)
-                    {
-                        currentPos = Vector3.Lerp(staticPos, cameraPosition, (float)(Math.Cos(transitionTime) + 1) / 2);
-                        currentLook = Vector3.Lerp(staticLook, lookAt, (float)(Math.Cos(transitionTime) + 1) / 2);
-                    }
-                    else
-                    {
-                        currentPos = Vector3.Lerp(cameraPosition, staticPos, (float)(Math.Cos(transitionTime) + 1) / 2);
-                        currentLook = Vector3.Lerp(lookAt, staticLook, (float)(Math.Cos(transitionTime) + 1) / 2);
-                    }
-                    if (transitionTime >= MathHelper.Pi)
-                        transitioning = false;
+                    updateEnd();
                 }
                 else
                 {
-                    if (useStatic)
+                    updateShipCam();
+
+                    if (transitioning)
                     {
-                        currentPos = staticPos;
-                        currentLook = staticLook;
+                        transitionTime += Utilities.deltaTime * MathHelper.Pi;
+                        if (useStatic)
+                        {
+                            currentPos = Vector3.Lerp(staticPos, cameraPosition, (float)(Math.Cos(transitionTime) + 1) / 2);
+                            currentLook = Vector3.Lerp(staticLook, lookAt, (float)(Math.Cos(transitionTime) + 1) / 2);
+                        }
+                        else
+                        {
+                            currentPos = Vector3.Lerp(cameraPosition, staticPos, (float)(Math.Cos(transitionTime) + 1) / 2);
+                            currentLook = Vector3.Lerp(lookAt, staticLook, (float)(Math.Cos(transitionTime) + 1) / 2);
+                        }
+                        if (transitionTime >= MathHelper.Pi)
+                            transitioning = false;
                     }
                     else
                     {
-                        currentPos = cameraPosition;
-                        currentLook = lookAt;
+                        if (useStatic)
+                        {
+                            currentPos = staticPos;
+                            currentLook = staticLook;
+                        }
+                        else
+                        {
+                            currentPos = cameraPosition;
+                            currentLook = lookAt;
+                        }
                     }
-                }
 
-                currentPos += shakeOffset;
+                    currentPos += shakeOffset;
 
 
                 
 
-                if (ship.boosting)
-                    currentFov = MathHelper.Lerp(currentFov, boostFov, Utilities.deltaTime * 2);
-                else
-                    currentFov = MathHelper.Lerp(currentFov, standardFov, Utilities.deltaTime * 2);
+                    if (ship.boosting)
+                        currentFov = MathHelper.Lerp(currentFov, boostFov, Utilities.deltaTime * 2);
+                    else
+                        currentFov = MathHelper.Lerp(currentFov, standardFov, Utilities.deltaTime * 2);
+                }
 
                 try
                 {
                     projection = Matrix.CreatePerspectiveFieldOfView(currentFov, (float)Game.Window.ClientBounds.Width / (float)Game.Window.ClientBounds.Height, 0.1f, 3000);
                 }
                 catch (NullReferenceException) { }
-
+                /*
                 if (Keyboard.GetState().IsKeyDown(Keys.O))
-                    makeShake();
+                    makeShake();*/
 
                 updateTilt();
                 updateYshake();

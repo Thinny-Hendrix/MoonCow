@@ -24,6 +24,7 @@ namespace MoonCow
         SpriteBatch sb;
         DepthStencilState depthStencilState;
         float yRot;
+        public bool visible;
 
         public CoreSphereModel(Vector3 pos, Game game):base()
         {
@@ -42,7 +43,7 @@ namespace MoonCow
             //rBow = game.Content.Load<Texture2D>(@"Hud/hudMapF");
             rBow = game.Content.Load<Texture2D>(@"Models/Base/electrosphere_0");
             //rBow = game.Content.Load<Texture2D>(@"Models/Misc/Rbow/rbowTunnelt");
-
+            visible = true;
             depthStencilState = new DepthStencilState();
             depthStencilState.DepthBufferEnable = true;
             depthStencilState.DepthBufferWriteEnable = true;
@@ -111,11 +112,12 @@ namespace MoonCow
 
         public override void Draw(GraphicsDevice device, Camera camera)
         {
-            
 
-            game.GraphicsDevice.DepthStencilState = depthStencilState;
-            game.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
-               
+            if (visible)
+            {
+                game.GraphicsDevice.DepthStencilState = depthStencilState;
+                game.GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
+
 
 
                 Matrix[] transforms = new Matrix[model.Bones.Count];
@@ -156,7 +158,8 @@ namespace MoonCow
                     }
                     mesh.Draw();
                 }
-            game.GraphicsDevice.BlendState = BlendState.Opaque;
+                game.GraphicsDevice.BlendState = BlendState.Opaque;
+            }
         }
 
         public void overrideDraw(GraphicsDevice device, Camera camera)
