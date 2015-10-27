@@ -75,6 +75,7 @@ namespace MoonCow
             if (campaign)
             {
                 loading = true;
+                game.audioManager.Initialize();
                 game.runState = Game1.RunState.MainGame;
                 game.initializeGame(@"" + campaignMaps[activeButton]);
                 game.Components.Remove(this);
@@ -82,6 +83,7 @@ namespace MoonCow
             else
             {
                 loading = true;
+                game.audioManager.Initialize();
                 game.runState = Game1.RunState.MainGame;
                 game.initializeGame(@"" + customMaps[activeButton]);
                 game.Components.Remove(this);

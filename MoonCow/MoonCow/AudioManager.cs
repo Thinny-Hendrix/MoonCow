@@ -32,14 +32,12 @@ namespace MoonCow
         public SoundEffectInstance laserHit = AudioLibrary.laserHit.CreateInstance();
         public SoundEffectInstance zap = AudioLibrary.zap.CreateInstance();
 
-        WaveManager waveManager;
         Game1 game;
 
 
         public AudioManager(Game1 game) : base(game)
         {
             this.game = game;
-            waveManager = game.waveManager;
             soundEffects = new List<DisposableSoundEffect>();
             sToDelete = new List<DisposableSoundEffect>();
         }
@@ -95,25 +93,30 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if (waveManager.spawnState == Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume < bgmSpacePanic_base.Volume)
+            if (game.runState == Game1.RunState.MainGame)
             {
-                try
+                if (game.waveManager.spawnState == Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume < bgmSpacePanic_base.Volume)
                 {
-                    bgmSpacePanic_spawn.Volume += 0.001f;
-                } catch (ArgumentOutOfRangeException)
-                {
-                    bgmSpacePanic_spawn.Volume = 1f;
+                    try
+                    {
+                        bgmSpacePanic_spawn.Volume += 0.001f;
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        bgmSpacePanic_spawn.Volume = 1f;
+                    }
                 }
-            }
 
-            if (waveManager.spawnState != Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume > 0)
-            {
-                try
+                if (game.waveManager.spawnState != Utilities.SpawnState.deploying && bgmSpacePanic_spawn.Volume > 0)
                 {
-                    bgmSpacePanic_spawn.Volume -= 0.001f;
-                } catch (ArgumentOutOfRangeException)
-                {
-                    bgmSpacePanic_spawn.Volume = 0;
+                    try
+                    {
+                        bgmSpacePanic_spawn.Volume -= 0.001f;
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        bgmSpacePanic_spawn.Volume = 0;
+                    }
                 }
             }
 
@@ -126,6 +129,7 @@ namespace MoonCow
                 soundEffects.Remove(e);
             }
             sToDelete.Clear();
+            
         }
 
         public void shutup()

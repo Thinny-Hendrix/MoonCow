@@ -96,6 +96,10 @@ namespace MoonCow
 
             LcAssets.initialize(this);
 
+            AudioLibrary.initialize(this);
+            audioManager = new AudioManager(this);
+            Components.Add(audioManager);
+
             initializeMenu();
             //initializeGame();
             //initializeLevelCreator();
@@ -137,7 +141,6 @@ namespace MoonCow
                 loadPercentage = 0.1f;
                 ModelLibrary.initialize(this);
                 loadPercentage = 0.2f;
-                AudioLibrary.initialize(this);
                 loadPercentage = 0.25f;
                 loadedGameContent = true;
             }
@@ -152,7 +155,7 @@ namespace MoonCow
             enemyManager = new EnemyManager(this);
             waveManager = new WaveManager(this);
             hud = new Hud(this, Content.Load<SpriteFont>(@"Hud/Venera40"), spriteBatch, GraphicsDevice);
-            audioManager = new AudioManager(this);
+            
             minigame = new Minigame(this);
             levelStats = new StatTracker();
             loadPercentage = 0.65f;
@@ -172,7 +175,6 @@ namespace MoonCow
             Components.Add(ship);
             Components.Add(camera);
             Components.Add(modelManager);
-            Components.Add(audioManager);
             Components.Add(enemyManager);
             Components.Add(waveManager);
             Components.Add(core);
@@ -231,7 +233,6 @@ namespace MoonCow
                     Components.Remove(ship);
                     Components.Remove(camera);
                     Components.Remove(modelManager);
-                    Components.Remove(audioManager);
                     Components.Remove(enemyManager);
                     Components.Remove(waveManager);
                     Components.Remove(core);

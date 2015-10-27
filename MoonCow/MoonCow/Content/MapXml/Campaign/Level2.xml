@@ -9,18 +9,18 @@
   </data>
   <tiles>
     <tile>35</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>39</tile>
-    <tile>36</tile>
+    <tile>42</tile>
+    <tile>42</tile>
+    <tile>42</tile>
+    <tile>38</tile>
+    <tile>8</tile>
+    <tile>15</tile>
+    <tile>1</tile>
+    <tile>15</tile>
+    <tile>1</tile>
+    <tile>1</tile>
+    <tile>1</tile>
+    <tile>15</tile>
     <tile>1</tile>
     <tile>15</tile>
     <tile>10</tile>
@@ -185,9 +185,9 @@
     <tile>42</tile>
     <tile>55</tile>
     <tile>60</tile>
-    <tile>2</tile>
+    <tile>62</tile>
     <tile>60</tile>
-    <tile>2</tile>
+    <tile>62</tile>
     <tile>60</tile>
     <tile>51</tile>
     <tile>42</tile>
