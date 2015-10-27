@@ -143,7 +143,7 @@ namespace MoonCow
         {
             if(!active)
             {
-                if (game.ship.alive && !hud.expSelect.active && !hud.turSelect.active && !game.minigame.active)
+                if (!game.camera.endGame && game.ship.alive && !hud.expSelect.active && !hud.turSelect.active && !game.minigame.active)
                 {
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
                     {

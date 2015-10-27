@@ -15,6 +15,7 @@ namespace MoonCow
         public static Model stationTInt3;
         public static Model stationTInt4;
         public static Model stationDend;
+        public static Model vortex;
 
         //rails
         public static Model railStraight;
@@ -127,6 +128,7 @@ namespace MoonCow
             stationTInt3 = game.Content.Load<Model>(@"Models/StationTiles/tint3Rb");
             stationTInt4 = game.Content.Load<Model>(@"Models/StationTiles/tint4Rb");
             stationDend = game.Content.Load<Model>(@"Models/StationTiles/dendRb");
+            vortex = game.Content.Load<Model>(@"Models/Enemies/SpawnPoint/vortexAnim");
 
             //rails
             railStraight = game.Content.Load<Model>(@"Models/Rails/strF");

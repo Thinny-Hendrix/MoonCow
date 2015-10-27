@@ -123,13 +123,8 @@ namespace MoonCow
 
         void testWave()
         {
-            inAttack = 6;
-            waves.Add(new Wave(game, manager, attackNumber, 1, 12, 0));
-            waves.Add(new Wave(game, manager, attackNumber, 2, 1, 3));
-            waves.Add(new Wave(game, manager, attackNumber, 3, 2, 2));
-            waves.Add(new Wave(game, manager, attackNumber, 4, 6, 1));
-            waves.Add(new Wave(game, manager, attackNumber, 5, 4, 2));
-            waves.Add(new Wave(game, manager, attackNumber, 6, 2, 3));
+            inAttack = 1;
+            waves.Add(new Wave(game, manager, attackNumber, 1, 4, 3));
             /*
             inAttack = 2;
             waves.Add(new Wave(game, manager, attackNumber, 1, 26, 0));
