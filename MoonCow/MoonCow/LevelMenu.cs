@@ -29,6 +29,7 @@ namespace MoonCow
 
         bool active;
         bool loading;
+        bool loadingDrawn;
 
         public LevelMenu(Game1 game):base(game)
         {
@@ -41,6 +42,7 @@ namespace MoonCow
 
             campaignLabel = new MenuButton("Campaign", new Vector2(150, 100));
             customLabel = new MenuButton("Custom Maps", new Vector2(1200, 100));
+            loadingDrawn = false;
 
             int yPos = 250;
 
@@ -72,6 +74,11 @@ namespace MoonCow
 
         void confirm()
         {
+            loading = true;
+        }
+
+        void loadMap()
+        {
             if (campaign)
             {
                 loading = true;
@@ -92,6 +99,10 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
+            if(loading && loadingDrawn)
+            {
+                loadMap();
+            }
 
             if(cooldown > 0)
             {
@@ -229,6 +240,8 @@ namespace MoonCow
             {
                 holdTime = 0;
             }
+
+            
         }
 
         void drawLoading()
@@ -262,9 +275,14 @@ namespace MoonCow
             game.GraphicsDevice.SetRenderTarget(null);
             sb.Begin();
             if (!loading)
+            {
                 drawMenu();
+            }
             else
+            {
                 drawLoading();
+                loadingDrawn = true;
+            }
             
             sb.End();
         }

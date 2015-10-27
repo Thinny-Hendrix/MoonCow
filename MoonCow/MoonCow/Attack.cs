@@ -56,7 +56,7 @@ namespace MoonCow
                 }
                 else
                 {
-                    if (game.enemyManager.enemies.Count() == 0)//once all waves have been activated, wait until all enemies have been killed before ending the attack         
+                    if (game.enemyManager.enemies.Count() == 0 && (activeWave.inWave >= activeWave.waveMax))//once all waves have been activated, wait until all enemies have been killed before ending the attack         
                     {
                         manager.endAttack();
                     }

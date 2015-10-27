@@ -13,7 +13,7 @@ namespace MoonCow
     {
         Game1 game;
         float countDown;
-        int inWave;
+        public int inWave;
         public int waveMax;
         public int waveNumber;
         int attackNumber;

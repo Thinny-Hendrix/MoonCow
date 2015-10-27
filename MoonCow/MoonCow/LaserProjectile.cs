@@ -184,7 +184,7 @@ namespace MoonCow
 
             if (collided)
             {
-                game.audioManager.play3dSound(game.audioManager.laserHit, pos);
+                //game.audioManager.play3dSound(game.audioManager.laserHit, pos);
                 onImpact();
                 deleteProjectile();
             }
