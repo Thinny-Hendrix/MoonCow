@@ -12,7 +12,7 @@ namespace MoonCow
     {
         Game1 game;
         public List<MenuButton> buttons;
-        //start game, level editor, options, exit game
+        //start game, how to play, level editor, options, exit game
         MenuButton currentButton;
         float scale;
         SpriteBatch sb;
@@ -22,19 +22,21 @@ namespace MoonCow
 
         bool active;
         bool loading;
+        bool tutorial;
 
         public MainMenu(Game1 game):base(game)
         {
             this.game = game;
+            tutorial = false;
             sb = new SpriteBatch(game.GraphicsDevice);
             buttons = new List<MenuButton>();
 
             //buttons.Add(new MenuButton("start game", new Vector2(200, 300)));
             buttons.Add(new MenuButton("Select level", new Vector2(200, 350)));
-            buttons.Add(new MenuButton("level editor", new Vector2(200, 400)));
-            buttons.Add(new MenuButton("options", new Vector2(200, 450)));
-            buttons.Add(new MenuButton("exit game", new Vector2(200, 500)));
-
+            buttons.Add(new MenuButton("How to Play", new Vector2(200, 400)));
+            buttons.Add(new MenuButton("level editor", new Vector2(200, 450)));
+            buttons.Add(new MenuButton("options", new Vector2(200, 500)));
+            buttons.Add(new MenuButton("exit game", new Vector2(200, 550)));
 
             activeButton = 0;
             currentButton = buttons.ElementAt(activeButton);
@@ -55,15 +57,18 @@ namespace MoonCow
                     game.Components.Remove(this);
                     break;
                 case 1:
+                    tutorial = true;
+                    break;
+                case 2:
                     loading = true;
                     game.runState = Game1.RunState.LevelCreator;
                     game.initializeLevelCreator();
                     game.Components.Remove(this);
                     break;
-                case 2:
+                case 3:
                     // options
                     break;
-                case 3:
+                case 4:
                     game.Exit();
                     break;
                 default:
@@ -83,6 +88,11 @@ namespace MoonCow
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
             {
                 confirm();
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape) && tutorial)
+            {
+                tutorial = false;
             }
 
             bool buttonPressed = false;
@@ -160,10 +170,21 @@ namespace MoonCow
         {
             game.GraphicsDevice.SetRenderTarget(null);
             sb.Begin();
-            if (!loading)
-                drawMenu();
+            if (!tutorial)
+            {
+                if (!loading)
+                {
+                    drawMenu();
+                }
+                else
+                {
+                    drawLoading();
+                }
+            }
             else
-                drawLoading();
+            {
+                //draw the tutorial.
+            }
             
             sb.End();
         }

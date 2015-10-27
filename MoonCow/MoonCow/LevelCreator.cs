@@ -166,7 +166,7 @@ namespace MoonCow
                 }
             }
 
-            MapData data = new MapData(88, textFields.ElementAt(0).text, textFields.ElementAt(1).text, width, height, intData);
+            MapData data = new MapData(88, "Custom/" + textFields.ElementAt(0).text, textFields.ElementAt(1).text, width, height, intData);
             data.writeMap();
         }
     }

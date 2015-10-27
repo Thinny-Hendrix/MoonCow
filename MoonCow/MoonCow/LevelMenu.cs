@@ -236,16 +236,23 @@ namespace MoonCow
         }
         void drawMenu()
         {
-            foreach (MenuButton b in campaignButtons)
+            if (!loading)
             {
-                b.Draw(sb);
+                foreach (MenuButton b in campaignButtons)
+                {
+                    b.Draw(sb);
+                }
+                foreach (MenuButton b in customButtons)
+                {
+                    b.Draw(sb);
+                }
+                campaignLabel.Draw(sb);
+                customLabel.Draw(sb);
             }
-            foreach (MenuButton b in customButtons)
+            else
             {
-                b.Draw(sb);
+                drawLoading();
             }
-            campaignLabel.Draw(sb);
-            customLabel.Draw(sb);
         }
 
         public override void Draw(GameTime gameTime)
