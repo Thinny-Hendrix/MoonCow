@@ -16,8 +16,9 @@ namespace MoonCow
         float ripplePos;
         float pulsePos;
         float alpha;
+        Color c1;
 
-        public WaveProjectileModel(WaveProjectile projectile, Game1 game):base()
+        public WaveProjectileModel(WaveProjectile projectile, Game1 game, int type):base()
         {
             this.projectile = projectile;
             this.game = game;
@@ -30,6 +31,19 @@ namespace MoonCow
             pulsePos = -64;
             ripplePos = 64;
             alpha = 1;
+
+            switch(type)
+            {
+                default:
+                    c1 = Color.White;
+                    break;
+                case 2:
+                    c1 = Color.SeaGreen;
+                    break;
+                case 3:
+                    c1 = Color.Red;
+                    break;
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -37,7 +51,7 @@ namespace MoonCow
             pos = projectile.pos;
             rot = projectile.rot;
             rot.Y += MathHelper.Pi;
-            scale = new Vector3(projectile.scale * 0.1f, 0.2f, projectile.scale*0.3f);
+            scale = new Vector3(projectile.scale * 0.07f, 0.2f, projectile.scale*0.15f);
 
             ripplePos -= Utilities.deltaTime * 64 * 6;
             if (ripplePos < 0)
@@ -64,7 +78,7 @@ namespace MoonCow
 
             game.GraphicsDevice.SetRenderTarget(rTarg);
             sb.Begin();
-            sb.Draw(TextureManager.mgPulse, new Rectangle(0, (int)pulsePos, 256, 128), Color.White * 0.5f);
+            sb.Draw(TextureManager.mgPulse, new Rectangle(0, (int)pulsePos, 256, 128), c1 * 0.5f);
             sb.Draw(TextureManager.bombRipple, new Rectangle(0, (int)ripplePos, 256, 64), Color.White);
             sb.Draw(TextureManager.bombRipple, new Rectangle(0, (int)ripplePos-64, 256, 64), Color.White);
             sb.End();

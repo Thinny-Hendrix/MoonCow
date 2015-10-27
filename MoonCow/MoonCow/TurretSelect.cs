@@ -46,6 +46,14 @@ namespace MoonCow
 
         bool newTurr;
 
+        RenderTarget2D rTarg;
+        SpriteBatch sb;
+        TsModelManager modelManager;
+
+        List<float> damage = new List<float>(){0.3f,0.5f,0.9f};
+        List<float> rof = new List<float>{0.8f,0.6f,0.2f};
+        List<float> range = new List<float>{0.7f,0.7f,0.5f};
+
         public TurretSelect(Hud hud, Game1 game, SpriteFont font)
         {
             this.hud = hud;
@@ -61,6 +69,10 @@ namespace MoonCow
             newTurr = true;
 
             loadImages();
+
+            rTarg = new RenderTarget2D(game.GraphicsDevice, 512, 512);
+            sb = new SpriteBatch(game.GraphicsDevice);
+            modelManager = new TsModelManager(game);
         }
 
         void loadImages()
@@ -105,6 +117,8 @@ namespace MoonCow
                 active = true;
                 Utilities.softPaused = true;
             }
+
+            modelManager.changeVisible(-1);
         }
 
         public void Update()
@@ -130,18 +144,21 @@ namespace MoonCow
                     {
                         selectedWep = 1;
                         selecting = true;
+                        modelManager.changeVisible(0);
                     }
 
                     if ((angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2) || Keyboard.GetState().IsKeyDown(Keys.D2))
                     {
                         selectedWep = 2;
                         selecting = true;
+                        modelManager.changeVisible(1);
                     }
 
                     if ((angle < 0 && angle > -MathHelper.Pi / 3) || Keyboard.GetState().IsKeyDown(Keys.D3))
                     {
                         selectedWep = 3;
                         selecting = true;
+                        modelManager.changeVisible(2);
                     }
                 }
                 else
@@ -150,6 +167,7 @@ namespace MoonCow
                     {
                         selectedWep = 0;
                         selecting = true;
+                        modelManager.changeVisible(0);
                     }
                 }
 
@@ -157,6 +175,14 @@ namespace MoonCow
                 {
                     abort();
                 }
+
+                modelManager.Update();
+                game.GraphicsDevice.SetRenderTarget(rTarg);
+                game.GraphicsDevice.Clear(Color.Transparent);
+                //game.GraphicsDevice.Clear(ClearOptions.DepthBuffer, Color.Transparent, 0, 0);
+                modelManager.Draw();
+                game.GraphicsDevice.SetRenderTarget(null);
+
             }
 
             changeImgs();
@@ -255,10 +281,6 @@ namespace MoonCow
 
             }
 
-            currentDam = MathHelper.Lerp(currentDam, wep.damage, Utilities.deltaTime * 8);
-            currentRof = MathHelper.Lerp(currentRof, wep.rateOfFire, Utilities.deltaTime * 8);
-            currentRan = MathHelper.Lerp(currentRan, wep.range, Utilities.deltaTime * 8);
-
             Color c;
             if (game.ship.moneyManager.checkPurchase(price))
                 c = hud.contSecondary;
@@ -267,36 +289,45 @@ namespace MoonCow
 
             sb.DrawString(font, name, hud.scaledCoords(960, 576), Color.White, 0,
                 new Vector2(font.MeasureString(name).X / 2, font.MeasureString(name).Y / 2), hud.scale * 22.0f / 40, SpriteEffects.None, 0);
-            sb.DrawString(font, "$"+price, hud.scaledCoords(960, 606), c, 0,
+            sb.DrawString(font, "$" + price, hud.scaledCoords(960, 606), c, 0,
                 new Vector2(font.MeasureString("$" + price).X / 2, font.MeasureString("$" + price).Y / 2), hud.scale * 18.0f / 40, SpriteEffects.None, 0);
 
-            //level
-            
-            //stencil'd exp bar
 
-            //statistics
-            sb.DrawString(font, "Damage", hud.scaledCoords(957, 390), Color.White, 0,
-                new Vector2(font.MeasureString("Damage").X, font.MeasureString("Damage").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
-            sb.DrawString(font, "rate of fire", hud.scaledCoords(957, 409), Color.White, 0,
-                new Vector2(font.MeasureString("rate of fire").X, font.MeasureString("rate of fire").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
-            sb.DrawString(font, "no. of targets", hud.scaledCoords(957, 428), Color.White, 0,
-                new Vector2(font.MeasureString("no. of targets").X, font.MeasureString("no. of targets").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
+            if (newTurr)
+            {
+                currentDam = MathHelper.Lerp(currentDam, damage.ElementAt(selectedWep-1), Utilities.deltaTime * 8);
+                currentRof = MathHelper.Lerp(currentRof, rof.ElementAt(selectedWep-1), Utilities.deltaTime * 8);
+                currentRan = MathHelper.Lerp(currentRan, range.ElementAt(selectedWep-1), Utilities.deltaTime * 8);
 
-            //rect backs
-            sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(963, 379), 150, 16),
-                    null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
-            sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(963, 398), 150, 16),
-                    null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
-            sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(963, 417), 150, 16),
-                    null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
 
-            //rect fills
-            sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(963, 379), 150 * currentDam, 16),
-                    null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
-            sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(963, 398), 150 * currentRof, 16),
-                    null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
-            sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(963, 417), 150 * currentRan, 16),
-                    null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
+                //level
+
+                //stencil'd exp bar
+
+                //statistics
+                sb.DrawString(font, "Damage", hud.scaledCoords(987, 651), Color.White, 0,
+                    new Vector2(font.MeasureString("Damage").X, font.MeasureString("Damage").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
+                sb.DrawString(font, "rate of fire", hud.scaledCoords(987, 670), Color.White, 0,
+                    new Vector2(font.MeasureString("rate of fire").X, font.MeasureString("rate of fire").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
+                sb.DrawString(font, "no. of targets", hud.scaledCoords(987, 689), Color.White, 0,
+                    new Vector2(font.MeasureString("no. of targets").X, font.MeasureString("no. of targets").Y / 2), hud.scale * 14.0f / 40, SpriteEffects.None, 0);
+
+                //rect backs
+                sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(993, 640), 150, 16),
+                        null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
+                sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(993, 659), 150, 16),
+                        null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
+                sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(993, 678), 150, 16),
+                        null, hud.blueBody, 0, Vector2.Zero, SpriteEffects.None, 0);
+
+                //rect fills
+                sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(993, 640), 150 * currentDam, 16),
+                        null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
+                sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(993, 659), 150 * currentRof, 16),
+                        null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
+                sb.Draw(TextureManager.pureWhite, hud.scaledRect(new Vector2(993, 678), 150 * currentRan, 16),
+                        null, hud.contSecondary, 0, Vector2.Zero, SpriteEffects.None, 1);
+            }
 
         }
         public void Draw(SpriteBatch sb)
@@ -341,6 +372,8 @@ namespace MoonCow
 
                 if (selecting)
                     drawStats(sb);
+
+                sb.Draw((Texture2D)rTarg, hud.scaledRect(new Vector2(960, 580), 512, 512), null, hud.contSecondary * (0.2f+Utilities.nextFloat()*0.5f), 0, new Vector2(256, 256), SpriteEffects.None, 0);
 
                 sb.Draw(hud.butA, hud.scaledRect(new Vector2(910,940), 65, 65), null, Color.White, 0,new Vector2(30,30), SpriteEffects.None, 0);
                 sb.DrawString(font, "confirm", hud.scaledCoords(870, 950), Color.White, 0,

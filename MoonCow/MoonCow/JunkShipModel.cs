@@ -37,23 +37,25 @@ namespace MoonCow
         public override void Update(GameTime gameTime)
         {
             //z rot sways on sin wave
-
-            if(junkShip.destroying)
+            if (!Utilities.softPaused && !Utilities.paused)
             {
-                scale = Vector3.SmoothStep(new Vector3(1f), new Vector3(.2f), junkShip.time);
-                rot.Y += Utilities.deltaTime * MathHelper.Pi * 6 * junkShip.time;
+                if (junkShip.destroying)
+                {
+                    scale = Vector3.SmoothStep(new Vector3(1f), new Vector3(.2f), junkShip.time);
+                    rot.Y += Utilities.deltaTime * MathHelper.Pi * 6 * junkShip.time;
+                }
+
+                texPos.Y -= Utilities.deltaTime * 128;
+                if (texPos.Y < -512)
+                    texPos.Y += 512;
+
+                game.GraphicsDevice.SetRenderTarget(rTarg);
+                sb.Begin();
+                sb.Draw(TextureManager.bpCloud, texPos, Color.White);
+                sb.Draw(TextureManager.bpCloud, texPos + new Vector2(0, 512), Color.White);
+                sb.End();
+                game.GraphicsDevice.SetRenderTarget(null);
             }
-
-            texPos.Y -= Utilities.deltaTime * 128;
-            if (texPos.Y < -512)
-                texPos.Y += 512;
-
-            game.GraphicsDevice.SetRenderTarget(rTarg);
-            sb.Begin();
-            sb.Draw(TextureManager.bpCloud, texPos, Color.White);
-            sb.Draw(TextureManager.bpCloud, texPos + new Vector2(0,512), Color.White);
-            sb.End();
-            game.GraphicsDevice.SetRenderTarget(null);
 
         }
 

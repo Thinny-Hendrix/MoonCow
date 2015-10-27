@@ -187,6 +187,23 @@ namespace MoonCow
             }
             catch (IndexOutOfRangeException) { }
 
+            foreach (JunkShip j in game.asteroidManager.junkShips)
+            {
+                bool checkCollide = false;
+                foreach (OOBB o in j.cols)
+                {
+                    if (col.checkOOBB(o))
+                    {
+                        checkCollide = true;
+                    }
+                }
+                if (checkCollide)
+                    collided = true;
+            }
+
+            if (col.checkCircle(game.core.col))
+                collided = true;
+
             if (collided)
             {
                 onImpact();

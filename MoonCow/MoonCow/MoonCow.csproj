@@ -149,6 +149,7 @@
     <Compile Include="HudPrompt.cs" />
     <Compile Include="HudRespawn.cs" />
     <Compile Include="HudWave.cs" />
+    <Compile Include="HudZoom.cs" />
     <Compile Include="JsConsole.cs" />
     <Compile Include="JsConsoleModel.cs" />
     <Compile Include="JunkShip.cs" />
@@ -249,6 +250,9 @@
     <Compile Include="Tester.cs" />
     <Compile Include="TextureManager.cs" />
     <Compile Include="TileModel.cs" />
+    <Compile Include="TsCamera.cs" />
+    <Compile Include="TsModel.cs" />
+    <Compile Include="TsModelManager.cs" />
     <Compile Include="Turret.cs" />
     <Compile Include="TurretBase.cs" />
     <Compile Include="TurretBaseModel.cs" />
@@ -1149,6 +1153,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Enemies\SpawnPoint\spiraltest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\SpawnPoint\vortBack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\SpawnPoint\vortFull.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Models\Enemies\SpawnPoint\vortLines.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Models\Enemies\Swarmer\swarmbodyt.png">

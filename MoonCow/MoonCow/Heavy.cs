@@ -83,12 +83,13 @@ namespace MoonCow
             agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 7f);
             attackCol = new CircleCollider(pos, 5f);
 
-            health = 100;
+            health = 200;
 
             cols.Add(new CircleCollider(pos, 2.5f));
             cols.Add(new CircleCollider(pos + Vector3.Cross(direction, Vector3.Up)*3, 2.5f));
             cols.Add(new CircleCollider(pos + Vector3.Cross(direction, Vector3.Up) * -3, 2.5f));
 
+            spawnEffect();
 
             //weapons = new WeaponSystem(this);
         }

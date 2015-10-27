@@ -134,6 +134,7 @@ namespace MoonCow
                         }
                         else
                         {
+                            game.hud.hudZoom.activate(0);
                             for (int i = 0; i < 30; i++)
                             {
                                 game.modelManager.addEffect(new ElectroDir(pos, c1, c2, game));
@@ -234,7 +235,7 @@ namespace MoonCow
                         if(type == 3)
                             s.drillDamage(2, dir * -1, true);
                         else
-                            s.damage(2, dir * -1);
+                            s.damage(damage, dir * -1);
 
                         wep.addExp(damage);
 

@@ -26,13 +26,35 @@ namespace MoonCow
 
         public override void Fire()
         {
-            if(cooldown == 0)
+            if (ammo > 0)
             {
-                projectiles.Add(new WaveProjectile(ship.pos + ship.direction * 0.1f, ship.direction, game, this, 2));
-                game.levelStats.wavesFired++;
-                game.audioManager.addSoundEffect(AudioLibrary.shipShootLaser, 0.1f);
+                if (cooldown == 0)
+                {
+                    if (level == 3)
+                    {
+                        game.hud.hudZoom.activate(level);
+                        for (int i = 0; i < 20; i++)
+                        {
+                            game.modelManager.addEffect(new ElectroDir(ship.pos, Color.White, Color.Red, game, ship.direction));
+                        }
+                    }
+                    else if (level == 2)
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            game.modelManager.addEffect(new ElectroDir(ship.pos, Color.White, Color.SeaGreen, game, ship.direction));
+                        }
+                    }
 
-                cooldown = coolMax;
+                    
+
+                    projectiles.Add(new WaveProjectile(ship.pos + ship.direction * 0.1f, ship.direction, game, this, level));
+                    game.levelStats.wavesFired++;
+                    game.audioManager.addSoundEffect(AudioLibrary.shipShootLaser, 0.1f);
+
+                    cooldown = coolMax;
+                    base.Fire();
+                }
             }
         }
 

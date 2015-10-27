@@ -18,6 +18,12 @@ namespace MoonCow
         float maxScale;
         public float time;
 
+        List<Enemy> eHitList; //once enemy is hit, added to the list so damage is only applied once
+        List<Sentry> sHitList;
+        List<Asteroid> aHitList;
+        bool hasHit;
+
+
         public WaveProjectile(Vector3 pos, Vector3 direction, Game1 game, WeaponWave wep, int type)
             : base()
         {
@@ -35,10 +41,27 @@ namespace MoonCow
             maxScale = 10;
             time = 0;
 
-            model = new WaveProjectileModel(this, game);
+            model = new WaveProjectileModel(this, game, type);
             boundBox = new OOBB(pos, this.direction, 0.1f, 10f);
 
+            eHitList = new List<Enemy>();
+            sHitList = new List<Sentry>();
+            aHitList = new List<Asteroid>();
+
             game.modelManager.addEffect(model);
+
+            switch(type)
+            {
+                default:
+                    damage = 10;
+                    break;
+                case 2:
+                    damage = 20;
+                    break;
+                case 3:
+                    damage = 30;
+                    break;
+            }
         }
 
         public override void Update()
@@ -53,7 +76,7 @@ namespace MoonCow
                 if (time > 1)
                     time = 1;
             }
-            scale = MathHelper.SmoothStep(1, maxScale, time);
+            scale = MathHelper.SmoothStep(1, maxScale*2, time);
 
             boundBox.resize(1, 1f * scale);
             boundBox.Update(pos, direction);
@@ -90,43 +113,38 @@ namespace MoonCow
             pos += frameDiff;
             bool collided = false;
 
+            // By moving each component of the vector one at a time and seeing what causes the collision we can eliminate only that component
+            // this means the ship will slide along walls rather than stick. Doing two collision checks per frame for the player seems to
+            // be within tolerable limits for CPU time. This will only need to be done with the player
             //## COLLISIONS WHOOO! ##
             // Move the bounding box to new pos
+            //circleCol.Update(pos, direction);
             // Get current node co-ordinates
             nodePos = new Vector2((int)((pos.X / 30) + 0.5f), (int)((pos.Z / 30) + 0.5f));
-
-            //For the current node check if your X component will make you collide with wall
-            try
-            {
-                foreach (OOBB box in game.map.map[(int)nodePos.X, (int)nodePos.Y].collisionBoxes)
-                {
-                    if (boundBox.intersects(box))
-                    {
-                        //collided = true;
-                    }
-                }
-            }
-            catch (IndexOutOfRangeException)
-            {
-                //deleteProjectile();
-            }
 
             try
             {
                 foreach (Enemy enemy in game.enemyManager.enemies)
                 {
-                    if (nodePos.X == enemy.nodePos.X && nodePos.Y == enemy.nodePos.Y)
+                    if (enemy.nodePos.X >= nodePos.X - 1 && enemy.nodePos.X <= nodePos.X + 1 &&
+                        enemy.nodePos.Y >= nodePos.Y - 1 && enemy.nodePos.Y <= nodePos.Y + 1)
                     {
-                        //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        foreach (CircleCollider c in enemy.cols)
+                        if (!eHitList.Contains(enemy))
                         {
-                            if (c.checkOOBB(boundBox))
+                            bool hit = false;
+                            foreach (CircleCollider c in enemy.cols)
                             {
-                                enemy.health -= damage;
-                                game.levelStats.wavesHit++;
-                                game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                                wep.addExp(5);
-                                //collided = true;
+                                if (c.checkOOBB(boundBox))
+                                {
+                                    hit = true;
+                                }
+                            }
+                            if (hit)
+                            {
+                                enemy.damage(damage);
+                                eHitList.Add(enemy);
+                                collided = true;
+                                wep.addExp(10);
                             }
                         }
                     }
@@ -134,52 +152,50 @@ namespace MoonCow
             }
             catch (IndexOutOfRangeException)
             {
-                //deleteProjectile();
             }
 
-            try
+            foreach (Sentry s in game.enemyManager.sentries)
             {
-                foreach (Sentry s in game.enemyManager.sentries)
+                if (!sHitList.Contains(s))
                 {
-                    if (nodePos.X == s.nodePos.X && nodePos.Y == s.nodePos.Y)
+                    if (s.col.checkOOBB(boundBox))
                     {
-                        //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if (s.col.checkOOBB(boundBox))
-                        {
-                            s.damage(damage, direction);
-                            game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                            //collided = true;
-                        }
+                        sHitList.Add(s);
+                        Vector3 dir = new Vector3();
+                        dir.X = pos.X - s.pos.X;
+                        dir.Z = pos.Z - s.pos.Z;
+                        dir.Normalize();
+                        if (type == 3)
+                            s.drillDamage(2, dir * -1, true);
+                        else
+                            s.damage(damage, dir * -1);
+
+                        wep.addExp(5);
+
                     }
                 }
             }
-            catch (IndexOutOfRangeException)
-            {
-                //deleteProjectile();
-            }
 
-            try
+            foreach (Asteroid a in game.asteroidManager.asteroids)
             {
-                foreach (Asteroid a in game.asteroidManager.asteroids)
+                if (!aHitList.Contains(a))
                 {
-                    if (nodePos.X == a.nodePos.X && nodePos.Y == a.nodePos.Y)
+                    if (a.col.checkOOBB(boundBox))
                     {
-                        //System.Diagnostics.Debug.WriteLine("Bullet in same node as enemy");
-                        if (a.col.checkOOBB(boundBox))
-                        {
-                            a.damage(damage, pos);
-                            game.modelManager.addEffect(new ImpactParticleModel(game, pos));
-                            //collided = true;
-                        }
+                        aHitList.Add(a);
+                        a.damage(damage, pos);
+                        wep.addExp(damage);
                     }
                 }
             }
-            catch (IndexOutOfRangeException) { }
 
             if (collided)
             {
-                onImpact();
-                deleteProjectile();
+                if (!hasHit)
+                {
+                    game.levelStats.wavesHit++;
+                    hasHit = true;
+                }
             }
         }
 

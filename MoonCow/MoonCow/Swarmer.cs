@@ -84,6 +84,8 @@ namespace MoonCow
 
             health = 20;
 
+            spawnEffect();
+
             //weapons = new WeaponSystem(this);
         }
 

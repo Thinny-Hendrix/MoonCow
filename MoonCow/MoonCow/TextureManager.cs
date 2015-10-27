@@ -29,6 +29,10 @@ namespace MoonCow
         public static Texture2D spinGlow;
         public static Texture2D spinGlow_d;
 
+        public static Texture2D vortLines;
+        public static Texture2D vortBack;
+        public static Texture2D vortSpir;
+
 
 
         public static Texture2D particle1small;
@@ -216,6 +220,9 @@ namespace MoonCow
             spinGlow = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/spinGlow256");
             spinGlow_d = game.Content.Load<Texture2D>(@"Models/Effects/Enemy/spinGlow_d");
 
+            vortLines = game.Content.Load<Texture2D>(@"Models/Enemies/SpawnPoint/vortLines");
+            vortSpir = game.Content.Load<Texture2D>(@"Models/Enemies/SpawnPoint/vortFull");
+            vortBack = game.Content.Load<Texture2D>(@"Models/Enemies/SpawnPoint/vortBack");
 
             particle1small = game.Content.Load<Texture2D>(@"Models/Effects/tex1-64");
             particle2small = game.Content.Load<Texture2D>(@"Models/Effects/tex2-64");

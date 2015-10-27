@@ -95,6 +95,7 @@ namespace MoonCow
             frozen = false;
 
             //weapons = new WeaponSystem(this);
+            spawnEffect();
         }
 
         public override void Update(GameTime gameTime)

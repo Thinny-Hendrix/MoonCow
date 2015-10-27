@@ -92,6 +92,8 @@ namespace MoonCow
             cols.Add(new CircleCollider(pos, 0.7f));
 
             //weapons = new WeaponSystem(this);
+
+            spawnEffect();
         }
 
         public override void Update(GameTime gameTime)

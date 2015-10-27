@@ -18,6 +18,27 @@ namespace MoonCow
         SpriteBatch sb;
         Game1 game;
         float time;
+        float timeMax;
+
+        public ElectroDir(Vector3 pos, Color c1, Color c2, Game1 game, Vector3 direction)
+        {
+            this.pos = pos;
+            this.game = game;
+            dir = new Vector3(Utilities.nextFloat() * 2 - 1, 0, Utilities.nextFloat() * 2 - 1);
+            dir *= 0.4f;
+            dir += direction;
+            dir.Normalize();
+            this.c1 = c1;
+            this.c2 = c2;
+            this.model = TextureManager.dirSquare;
+            speed = 44 + Utilities.nextFloat()*4;
+            scale = new Vector3(1, 4, 1);
+
+            timeMax = 0.5f;
+
+            rTarg = new RenderTarget2D(game.GraphicsDevice, 128, 512);
+            sb = new SpriteBatch(game.GraphicsDevice);
+        }
 
         public ElectroDir(Vector3 pos, Color c1, Color c2, Game1 game):base()
         {
@@ -27,8 +48,10 @@ namespace MoonCow
             this.c1 = c1;
             this.c2 = c2;
             this.model = TextureManager.dirSquare;
-            speed = 30;
+            speed = 28 + Utilities.nextFloat()*4;
             scale = new Vector3(1, 4, 1);
+
+            timeMax = 1f;
 
             rTarg = new RenderTarget2D(game.GraphicsDevice, 128, 512);
             sb = new SpriteBatch(game.GraphicsDevice);
@@ -67,11 +90,11 @@ namespace MoonCow
 
             time += Utilities.deltaTime;
 
-            if(time > 0.5f)
+            if(time > timeMax/2)
             {
-                scale.X = MathHelper.Lerp(1, 0, (time - 0.5f) * 2);
+                scale.X = MathHelper.Lerp(1, 0, (time - timeMax/2)/(timeMax/2));
             }
-            if (time > 1)
+            if (time > timeMax)
                 Dispose();
         }
 

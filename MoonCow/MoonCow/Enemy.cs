@@ -65,6 +65,16 @@ namespace MoonCow
         {
         }
 
+        public void spawnEffect()
+        {
+            game.modelManager.addEffect(new LaserHitEffect(game, pos, Color.White, 1, BlendState.Additive));
+            game.modelManager.addEffect(new ImpactParticleModel(game, pos, 1.5f));
+            for (int i = 0; i < 10; i++)
+            {
+                game.modelManager.addEffect(new DirLineParticle(pos, game));
+            }
+        }
+
         protected float makeCentreCoordinate(float c)
         {
             return (c) * 30f;

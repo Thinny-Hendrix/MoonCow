@@ -35,6 +35,7 @@ namespace MoonCow
         public HudRespawn respawn;
         public HudHelp hudHelp;
         public HudEnd hudEnd;
+        public HudZoom hudZoom;
 
         Vector2 position;
         
@@ -91,6 +92,7 @@ namespace MoonCow
             respawn = new HudRespawn(this, hudMg.font, game);
             hudHelp = new HudHelp(this, game, font);
             hudEnd = new HudEnd(this, game);
+            hudZoom = new HudZoom(this, game);
 
             position = new Vector2(0, 0);
             contPrimary = Color.White;
@@ -193,6 +195,7 @@ namespace MoonCow
             hudCollectable.Update();
             respawn.Update();
             hudHelp.Update();
+            hudZoom.Update();
         }
 
         public void makeFlash()
@@ -231,6 +234,8 @@ namespace MoonCow
                     startingBoost = false;
 
             }
+
+            hudZoom.Draw(spriteBatch);
 
             spriteBatch.End();
 
