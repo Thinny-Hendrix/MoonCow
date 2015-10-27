@@ -58,12 +58,15 @@ namespace MoonCow
                 if(spawnState == Utilities.SpawnState.idle) // An attack just ended, so transition into waiting state
                 {
                     spawnState = Utilities.SpawnState.waiting;
-                    if(attackCount > 4 && !game.camera.endGame)
+                    if (attackCount > 4 && !game.camera.endGame)
                     {
                         game.camera.triggerEnd();
                         game.hud.hudEnd.activate(true);
                     }
-                    game.hud.hudAttackDisplayer.endAttackMessage();
+                    else
+                    {
+                        game.hud.hudAttackDisplayer.endAttackMessage();
+                    }
                     waitTime = 120; // 150 seconds = 2.5 minutes between attacks
 
                     //contact difficulty manager
