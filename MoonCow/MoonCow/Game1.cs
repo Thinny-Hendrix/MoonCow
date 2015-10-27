@@ -40,6 +40,8 @@ namespace MoonCow
 
         //menu
         public MainMenu mainMenu;
+        public LevelMenu levelMenu;
+        public StatisticsMenu statMenu;
 
         BloomComponent bloom;
         int bloomSettingsIndex = 0;
@@ -130,6 +132,20 @@ namespace MoonCow
             mainMenu = new MainMenu(this);
 
             Components.Add(mainMenu);
+        }
+
+        public void initalizeLevelMenu()
+        {
+            levelMenu = new LevelMenu(this);
+
+            Components.Add(levelMenu);
+        }
+
+        public void initializeStatMenu()
+        {
+            statMenu = new StatisticsMenu(this);
+
+            Components.Add(statMenu);
         }
 
         public void initializeGame(string level)
@@ -227,8 +243,8 @@ namespace MoonCow
             Components.Remove(minigame);
             Components.Remove(hud);
 
-            initializeMenu();
-            runState = RunState.MainMenu;
+            initializeStatMenu();
+            runState = RunState.StatScreen;
         }
 
         /// <summary>
@@ -244,6 +260,14 @@ namespace MoonCow
                 {
                     Components.Remove(levelCreator);
                     IsMouseVisible = false;
+                }
+                if(runState == RunState.LevelSelect)
+                {
+                    Components.Remove(levelMenu);
+                }
+                if(runState == RunState.StatScreen)
+                {
+                    Components.Remove(statMenu);
                 }
                 if(runState == RunState.MainGame)
                 {
@@ -262,7 +286,7 @@ namespace MoonCow
 
                     exitMainGame();
                 }
-                else if (runState != RunState.LevelSelect)
+                else if (runState != RunState.MainMenu)
                 {
                     initializeMenu();
                     runState = RunState.MainMenu;

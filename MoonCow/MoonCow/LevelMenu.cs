@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MoonCow
 {
-    class LevelMenu : DrawableGameComponent
+    public class LevelMenu : DrawableGameComponent
     {
         Game1 game;
         public List<MenuButton> campaignButtons;

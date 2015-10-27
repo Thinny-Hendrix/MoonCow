@@ -242,6 +242,7 @@
     <Compile Include="SpeedCylModel.cs" />
     <Compile Include="SpriteParticle.cs" />
     <Compile Include="StationModel.cs" />
+    <Compile Include="StatisticsMenu.cs" />
     <Compile Include="StatTracker.cs" />
     <Compile Include="Swarmer.cs" />
     <Compile Include="SwarmerModel.cs" />

@@ -53,7 +53,7 @@ namespace MoonCow
                 case 0:
                     // level select
                     game.runState = Game1.RunState.LevelSelect;
-                    game.Components.Add(new LevelMenu(game));
+                    game.initalizeLevelMenu();
                     game.Components.Remove(this);
                     break;
                 case 1:
