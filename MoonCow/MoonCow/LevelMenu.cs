@@ -82,17 +82,19 @@ namespace MoonCow
             if (campaign)
             {
                 loading = true;
-                game.audioManager.Initialize();
                 game.runState = Game1.RunState.MainGame;
                 game.initializeGame(@"" + campaignMaps[activeButton]);
+                game.audioManager.shutup();
+                game.audioManager.Initialize();
                 game.Components.Remove(this);
             }
             else
             {
                 loading = true;
-                game.audioManager.Initialize();
                 game.runState = Game1.RunState.MainGame;
                 game.initializeGame(@"" + customMaps[activeButton]);
+                game.audioManager.shutup();
+                game.audioManager.Initialize();
                 game.Components.Remove(this);
             }
         }

@@ -13,6 +13,8 @@ namespace MoonCow
         public static SoundEffect bgmSpacePanic_base;
         public static SoundEffect bgmSpacePanic_spawn;
 
+        public static SoundEffect menuMusic;
+
         //ship
         public static SoundEffect shipSpaceEngine;
         public static SoundEffect shipMetallicWallHit;
@@ -36,6 +38,8 @@ namespace MoonCow
             //background music
             bgmSpacePanic_base = game.Content.Load<SoundEffect>(@"Audio/BGM/Space Panic (base)");
             bgmSpacePanic_spawn = game.Content.Load<SoundEffect>(@"Audio/BGM/Space Panic (spawn)");
+
+            menuMusic = game.Content.Load<SoundEffect>(@"Audio/BGM/Celestial_Intrusion");
 
             //ship
             shipSpaceEngine = game.Content.Load<SoundEffect>(@"Audio/SFX/Space Engine");

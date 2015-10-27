@@ -16,6 +16,8 @@ namespace MoonCow
         public SoundEffectInstance bgmSpacePanic_base = AudioLibrary.bgmSpacePanic_base.CreateInstance();
         public SoundEffectInstance bgmSpacePanic_spawn = AudioLibrary.bgmSpacePanic_spawn.CreateInstance();
 
+        public SoundEffectInstance menuMusic = AudioLibrary.menuMusic.CreateInstance();
+
         //ship
         public SoundEffectInstance shipSpaceEngine = AudioLibrary.shipSpaceEngine.CreateInstance();
         public SoundEffectInstance shipMetallicWallHit = AudioLibrary.shipMetallicWallHit.CreateInstance();
@@ -44,33 +46,42 @@ namespace MoonCow
 
         public override void Initialize()
         {
-            SoundEffect.MasterVolume = 0.4f;
+            if (game.runState == Game1.RunState.MainGame)
+            {
+                SoundEffect.MasterVolume = 0.4f;
 
-            bgmSpacePanic_base.IsLooped = true;
-            bgmSpacePanic_base.Volume = 1f;
-            bgmSpacePanic_base.Play();
+                bgmSpacePanic_base.IsLooped = true;
+                bgmSpacePanic_base.Volume = 1f;
+                bgmSpacePanic_base.Play();
 
-            bgmSpacePanic_spawn.IsLooped = true;
-            bgmSpacePanic_spawn.Volume = 0;
-            bgmSpacePanic_spawn.Play();
+                bgmSpacePanic_spawn.IsLooped = true;
+                bgmSpacePanic_spawn.Volume = 0;
+                bgmSpacePanic_spawn.Play();
 
-            shipSpaceEngine.IsLooped = true;
-            shipSpaceEngine.Volume = 0.1f;
-            shipSpaceEngine.Play();
+                shipSpaceEngine.IsLooped = true;
+                shipSpaceEngine.Volume = 0.1f;
+                shipSpaceEngine.Play();
 
-            shipMetallicWallHit.Volume = 0.5f;
-            shipMetallicWallScrape.Volume = 0.5f;
-            shipShootLaser.Volume = 0.1f;
-            shipShootLaser2.Volume = 0.1f;
-            shipShootBomb.Volume = 1f;
-            shipCollectMoney.Volume = 0.5f;
-            shipShootMissile.Volume = 0.1f;
-            shipDrill.IsLooped = true;
-            shipDrill.Volume = 1f;
+                shipMetallicWallHit.Volume = 0.5f;
+                shipMetallicWallScrape.Volume = 0.5f;
+                shipShootLaser.Volume = 0.1f;
+                shipShootLaser2.Volume = 0.1f;
+                shipShootBomb.Volume = 1f;
+                shipCollectMoney.Volume = 0.5f;
+                shipShootMissile.Volume = 0.1f;
+                shipDrill.IsLooped = true;
+                shipDrill.Volume = 1f;
 
-            bombExplode.Volume = 1f;
-            laserHit.Volume = 0.5f;
-            zap.Volume = 0.5f;
+                bombExplode.Volume = 1f;
+                laserHit.Volume = 0.5f;
+                zap.Volume = 0.5f;
+            }
+            else
+            {
+                menuMusic.IsLooped = true;
+                menuMusic.Volume = 0.7f;
+                menuMusic.Play();
+            }
 
             base.Initialize();
         }
@@ -137,6 +148,7 @@ namespace MoonCow
             soundEffects.Clear();
             bgmSpacePanic_base.Stop();
             bgmSpacePanic_spawn.Stop();
+            menuMusic.Stop();
             shipSpaceEngine.Stop();
         }
     }

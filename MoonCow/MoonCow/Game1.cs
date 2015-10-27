@@ -245,6 +245,7 @@ namespace MoonCow
 
             initializeStatMenu();
             runState = RunState.StatScreen;
+            audioManager.Initialize();
         }
 
         /// <summary>
