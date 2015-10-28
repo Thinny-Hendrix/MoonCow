@@ -43,6 +43,10 @@ namespace MoonCow
         public LevelMenu levelMenu;
         public StatisticsMenu statMenu;
 
+        //Debug Stuff
+        private Pathfinder shortestPath;
+        private PathfinderTurretAvoid turretAvoid;
+
         BloomComponent bloom;
         int bloomSettingsIndex = 0;
 
@@ -160,7 +164,6 @@ namespace MoonCow
                 loadPercentage = 0.25f;
                 loadedGameContent = true;
             }
-
             
             modelManager = new ModelManager(this);
             ship = new Ship(this);
@@ -207,7 +210,47 @@ namespace MoonCow
             modelManager.makeStarField();
             turretManager.Initialize();
 
+            //Debugging stuff for A*
+            shortestPath = new Pathfinder(map);
+            turretAvoid = new PathfinderTurretAvoid(map);
+
+            System.Diagnostics.Debug.WriteLine("A new map has been loaded, our pathfinding algorithm is now finding the shortest path from each enemy spawn to the core");
+            List<Vector2> spawns = map.getEnemySpawn();
+            System.Diagnostics.Debug.WriteLine("There are " + spawns.Count() + " enemy spawn point(s) in this map");
+            int count = 1;
+            foreach(Vector2 spawn in spawns)
+            {
+                List<Vector2> path = shortestPath.findPath(new Point((int)spawn.X, (int)spawn.Y), new Point((int)map.getCoreLocation().X, (int)map.getCoreLocation().Y));
+                System.Diagnostics.Debug.WriteLine("The path from spawn " + count + " is as follows:");
+                foreach(Vector2 nodePos in path)
+                {
+                    System.Diagnostics.Debug.WriteLine(nodePos);
+                }
+                count++;
+            }
+
             justLoadedContent = true;
+        }
+
+        /// <summary>
+        /// For debugging the A*
+        /// </summary>
+        public void printNewPath()
+        {
+            System.Diagnostics.Debug.WriteLine("A new turret has been placed. This changes the path of enemies that try to avoid turrets.");
+            List<Vector2> spawns = map.getEnemySpawn();
+            System.Diagnostics.Debug.WriteLine("There are " + spawns.Count() + " enemy spawn point(s) in this map. The new path for each spawn will now be calculated");
+            int count = 1;
+            foreach (Vector2 spawn in spawns)
+            {
+                List<Vector2> path = turretAvoid.findPath(new Point((int)spawn.X, (int)spawn.Y), new Point((int)map.getCoreLocation().X, (int)map.getCoreLocation().Y));
+                System.Diagnostics.Debug.WriteLine("The new path from spawn " + count + " is as follows:");
+                foreach (Vector2 nodePos in path)
+                {
+                    System.Diagnostics.Debug.WriteLine(nodePos);
+                }
+                count++;
+            }
         }
 
         /// <summary>
@@ -232,6 +275,7 @@ namespace MoonCow
         public void exitMainGame()
         {
             audioManager.shutup();
+            ship.dispose();
             Components.Remove(ship);
             Components.Remove(camera);
             Components.Remove(modelManager);
@@ -272,8 +316,8 @@ namespace MoonCow
                 }
                 if(runState == RunState.MainGame)
                 {
-
                     audioManager.shutup();
+                    ship.dispose();
                     Components.Remove(ship);
                     Components.Remove(camera);
                     Components.Remove(modelManager);

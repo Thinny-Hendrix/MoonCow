@@ -35,7 +35,7 @@ namespace MoonCow
 
 
 
-            System.Diagnostics.Debug.WriteLine(pos);
+            //System.Diagnostics.Debug.WriteLine(pos);
 
 
 

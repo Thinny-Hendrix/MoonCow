@@ -116,20 +116,23 @@ namespace MoonCow
                 }
                 if(state == State.goToBase)
                 {
-                    goToBase();
+                    if (EnemyBehaviour.gunnerFollowPath)
+                    {
+                        goToBase();
+                    }
                     agroSphere.Update(pos);
                     modelDir = direction;
 
                     meleeRange.Update(pos+modelDir*2);
-                    if (game.ship.alive)
+                    if (game.ship.alive && EnemyBehaviour.gunnerPlayerAttack)
                     {
-                        if (meleeRange.checkCircle(game.ship.circleCol))
+                        if (meleeRange.checkCircle(game.ship.circleCol) && EnemyBehaviour.gunnerMelee)
                         {
                             state = State.melee;
                             enemyModel.changeAnim(5);
                             waitTime = 0;
                         }
-                        if (agroSphere.checkCircle(game.ship.circleCol))
+                        if (agroSphere.checkCircle(game.ship.circleCol) && EnemyBehaviour.gunnerRanged)
                         {
                             state = State.playerInRange;
                             enemyModel.changeAnim(1);
@@ -335,7 +338,7 @@ namespace MoonCow
                         shotCount = 0;
                     updateMovement();
                 }
-                else if (state == State.shootCore)
+                else if (state == State.shootCore && EnemyBehaviour.gunnerAttackCore)
                 {
                     game.core.damage(0.05f * Utilities.deltaTime);
                     updateMovement();

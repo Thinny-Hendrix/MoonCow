@@ -113,9 +113,12 @@ namespace MoonCow
                 }
                 if(state == State.goToBase)
                 {
-                    goToBase();
+                    if (EnemyBehaviour.heavyFollowPath)
+                    {
+                        goToBase();
+                    }
                     agroSphere.Update(pos);
-                    if(game.ship.alive && agroSphere.checkCircle(game.ship.circleCol))
+                    if(game.ship.alive && agroSphere.checkCircle(game.ship.circleCol) && EnemyBehaviour.heavyPlayerAttack && EnemyBehaviour.heavyMelee)
                     {
                         enemyModel.changeAnim(1);
                         state = State.travelAttack;
@@ -176,7 +179,7 @@ namespace MoonCow
                     turnTime = 0;
                     updateMovement();
                 }
-                else if (state == State.attackCore)
+                else if (state == State.attackCore && EnemyBehaviour.heavyAttackCore)
                 {
                     if (turnTime != 1)
                     {

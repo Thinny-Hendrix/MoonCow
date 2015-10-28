@@ -59,6 +59,9 @@ namespace MoonCow
         float damagePotential;
         public bool alive;
 
+        //Debugging stuff
+        private Vector2 lastNodePos;
+
         
 
         enum RollDir { left, right };
@@ -79,6 +82,7 @@ namespace MoonCow
         {
             this.game = game;
 
+            lastNodePos = Vector2.Zero;
             pos = new Vector3(90, 4.5f, 0);
             moveSpeed = 0;
             accel = 0.5f;
@@ -115,6 +119,14 @@ namespace MoonCow
             ((WeaponDrill)weapons.weapons.ElementAt(4)).dome.setShip(this);
             alive = true;
 
+        }
+
+        public void dispose()
+        {
+            game.Components.Remove(weapons);
+            game.Components.Remove(moneyManager);
+            game.Components.Remove(particles);
+            game.Components.Remove(shipHealth);
         }
 
         public override void Initialize()
@@ -612,6 +624,18 @@ namespace MoonCow
                 {
                     currentNodes.Add(game.map.map[(int)nodePos.X, (int)nodePos.Y].neighbors[i]);
                 }
+            }
+
+            //Debugging for Spatial Hashing
+            if (!(nodePos.Equals(lastNodePos)))
+            {
+                System.Diagnostics.Debug.WriteLine("The player has moved from one node to the next");
+                System.Diagnostics.Debug.WriteLine("Spatial hashing now includes the following nodes");
+                foreach(MapNode node in currentNodes)
+                {
+                    System.Diagnostics.Debug.WriteLine(node.position);
+                }
+                lastNodePos = nodePos;
             }
 
             //For the current node check if your X component will make you collide with wall

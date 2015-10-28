@@ -109,7 +109,10 @@ namespace MoonCow
                 }
                 if(state == State.goToBase)
                 {
-                    goToBase();
+                    if (EnemyBehaviour.swarmerFollowPath)
+                    {
+                        goToBase();
+                    }
                     agroSphere.Update(pos + direction * 1.5f);
                     /*if(agroSphere.checkCircle(game.ship.circleCol))
                     {
@@ -173,7 +176,7 @@ namespace MoonCow
                     oldDir = direction;
                     updateMovement();
                 }
-                else if(state == State.attackCore)
+                else if(state == State.attackCore && EnemyBehaviour.swarmerAttackCore)
                 {
                     if (turnTime != 1)
                     {

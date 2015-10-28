@@ -118,10 +118,11 @@ namespace MoonCow
                         game.levelStats.gatlings++;
                         turretType = TurretType.gattle;
                         baseModel.changeColor(turretType, game);
-                        game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
+                        game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 5;
                         game.enemyManager.turretPlaced();
                         spawnEffect();
                         returnVal = true;
+                        game.printNewPath();
                     }
                     break;
                 case 2:
@@ -131,10 +132,11 @@ namespace MoonCow
                         game.levelStats.flamers++;
                         turretType = TurretType.pyro;
                         baseModel.changeColor(turretType, game);
-                        game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 3;
+                        game.map.map[(int)nodePos.X, (int)nodePos.Y].damage += 5;
                         game.enemyManager.turretPlaced();
                         spawnEffect();
                         returnVal = true;
+                        game.printNewPath();
                     }
                     break;
                 case 3:
@@ -148,6 +150,7 @@ namespace MoonCow
                         game.enemyManager.turretPlaced();
                         spawnEffect();
                         returnVal = true;
+                        game.printNewPath();
                     }
                     break;
             }

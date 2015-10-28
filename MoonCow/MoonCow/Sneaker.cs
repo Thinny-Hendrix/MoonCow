@@ -115,9 +115,12 @@ namespace MoonCow
                 }
                 if (state == State.goToBase)
                 {
-                    goToBase();
+                    if (EnemyBehaviour.sneakerFollowPath)
+                    {
+                        goToBase();
+                    }
                     agroSphere.Update(pos+direction*15);
-                    if (game.ship.alive && cooldown == 0 && agroSphere.checkCircle(game.ship.circleCol))
+                    if (game.ship.alive && cooldown == 0 && agroSphere.checkCircle(game.ship.circleCol) && EnemyBehaviour.sneakerPlayerCharge)
                     {
                         enemyModel.changeAnim(1);
                         state = State.noticedPlayer;
@@ -221,7 +224,7 @@ namespace MoonCow
                     }
                     updateMovement();
                 }
-                else if(state == State.attackCore)
+                else if(state == State.attackCore && EnemyBehaviour.sneakerAttackCore)
                 {
                     game.core.damage(0.05f*Utilities.deltaTime);
                     updateMovement();
