@@ -31,6 +31,8 @@ namespace MoonCow
         bool loading;
         bool loadingDrawn;
 
+        LsHeader lsHeader;
+
         public LevelMenu(Game1 game):base(game)
         {
             this.game = game;
@@ -40,25 +42,26 @@ namespace MoonCow
             campaignMaps = Directory.GetFiles(@"Content/MapXml/Campaign/", "*.xml");
             customMaps = Directory.GetFiles(@"Content/MapXml/Custom/", "*.xml");
 
-            campaignLabel = new MenuButton("Campaign", new Vector2(150, 100));
-            customLabel = new MenuButton("Custom Maps", new Vector2(1200, 100));
+            campaignLabel = new MenuButton("Campaign", new Vector2(560, 490), 0);
+            customLabel = new MenuButton("Custom", new Vector2(1100, 490), 0);
+            campaignLabel.activate();
             loadingDrawn = false;
 
-            int yPos = 250;
+            int yPos = 600;
 
             foreach(string file in campaignMaps)
             {
                 string levelName = file.Substring(24, file.Length - 28);
-                campaignButtons.Add(new MenuButton(levelName, new Vector2(200, yPos)));
+                campaignButtons.Add(new MenuButton(levelName, new Vector2(960, yPos), 1, true));
                 yPos += 50;
             }
 
-            yPos = 250;
+            yPos = 600;
 
             foreach (string file in customMaps)
             {
                 string levelName = file.Substring(22, file.Length - 26);
-                customButtons.Add(new MenuButton(levelName, new Vector2(1250, yPos)));
+                customButtons.Add(new MenuButton(levelName, new Vector2(960, yPos), 1, false));
                 yPos += 50;
             }
 
@@ -70,6 +73,8 @@ namespace MoonCow
             holdTime = 0;
             cooldown = 40;
             campaign = true;
+
+            lsHeader = new LsHeader();
         }
 
         void confirm()
@@ -110,16 +115,6 @@ namespace MoonCow
             {
                 cooldown--;
             }
-            if(campaign)
-            {
-                customLabel.disable();
-                campaignLabel.activate();
-            }
-            else
-            {
-                customLabel.activate();
-                campaignLabel.disable();
-            }
 
             float stickY = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y;
             float stickX = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X;
@@ -136,22 +131,53 @@ namespace MoonCow
 
             if(buttonSwitchCooldown <= 0)
             {
-                if(Keyboard.GetState().IsKeyDown(Keys.Left) || stickX < -0.3f)
+                if (Keyboard.GetState().IsKeyDown(Keys.Left) || stickX < -0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadLeft))
                 {
-                    campaign = true;
-                    activeButton = 0;
-                    currentButton.disable();
-                    currentButton = campaignButtons[activeButton];
-                    currentButton.activate();
+                    if(!campaign)
+                    {
+                        campaign = true;
+                        activeButton = 0;
+                        currentButton.disable();
+                        currentButton = campaignButtons[activeButton];
+                        currentButton.activate();
+                        lsHeader.push(true);
+                        customLabel.disable();
+                        campaignLabel.activate();
+
+                        foreach (MenuButton b in campaignButtons)
+                        {
+                            b.push(true, true, true);
+                        }
+                        foreach (MenuButton b in customButtons)
+                        {
+                            b.push(true, false, false);
+                        }
+                        
+                    }
                 }
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Right) || stickX > 0.3f)
+                if (Keyboard.GetState().IsKeyDown(Keys.Right) || stickX > 0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadRight))
                 {
-                    campaign = false;
-                    activeButton = 0;
-                    currentButton.disable();
-                    currentButton = customButtons[activeButton];
-                    currentButton.activate();
+                    if (campaign)
+                    {
+                        campaign = false;
+                        activeButton = 0;
+                        currentButton.disable();
+                        currentButton = customButtons[activeButton];
+                        currentButton.activate();
+                        lsHeader.push(false);
+                        customLabel.activate();
+                        campaignLabel.disable();
+
+                        foreach (MenuButton b in campaignButtons)
+                        {
+                            b.push(false, false, false);
+                        }
+                        foreach (MenuButton b in customButtons)
+                        {
+                            b.push(false, true, true);
+                        }
+                    }
                 }
             }
 
@@ -159,7 +185,7 @@ namespace MoonCow
             {
                 if (campaign)
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.Down) || stickY < -0.3f)
+                    if (Keyboard.GetState().IsKeyDown(Keys.Down) || stickY < -0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadDown))
                     {
                         buttonPressed = true;
                         currentButton.disable();
@@ -174,7 +200,7 @@ namespace MoonCow
                         currentButton = campaignButtons.ElementAt(activeButton);
                         currentButton.activate();
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f)
+                    if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadUp))
                     {
                         buttonPressed = true;
                         currentButton.disable();
@@ -192,7 +218,7 @@ namespace MoonCow
                 }
                 else
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.Down) || stickY < -0.3f)
+                    if (Keyboard.GetState().IsKeyDown(Keys.Down) || stickY < -0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadDown))
                     {
                         buttonPressed = true;
                         currentButton.disable();
@@ -207,7 +233,7 @@ namespace MoonCow
                         currentButton = customButtons.ElementAt(activeButton);
                         currentButton.activate();
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f)
+                    if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadUp))
                     {
                         buttonPressed = true;
                         currentButton.disable();
@@ -243,6 +269,19 @@ namespace MoonCow
                 holdTime = 0;
             }
 
+
+            foreach (MenuButton b in campaignButtons)
+            {
+                b.Update();
+            }
+            foreach (MenuButton b in customButtons)
+            {
+                b.Update();
+            }
+
+            lsHeader.Update();
+            MenuAssets.updateLinePos();
+
             
         }
 
@@ -255,6 +294,9 @@ namespace MoonCow
         {
             if (!loading)
             {
+                MenuAssets.drawMenuBackground(sb);
+                lsHeader.Draw(sb);
+
                 foreach (MenuButton b in campaignButtons)
                 {
                     b.Draw(sb);

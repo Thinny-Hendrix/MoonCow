@@ -24,6 +24,10 @@ namespace MoonCow
         bool loading;
         bool tutorial;
 
+        float time;
+
+        MenuCircle menuCircle;
+
         public MainMenu(Game1 game):base(game)
         {
             this.game = game;
@@ -32,11 +36,11 @@ namespace MoonCow
             buttons = new List<MenuButton>();
 
             //buttons.Add(new MenuButton("start game", new Vector2(200, 300)));
-            buttons.Add(new MenuButton("Select level", new Vector2(200, 350)));
-            buttons.Add(new MenuButton("How to Play", new Vector2(200, 400)));
-            buttons.Add(new MenuButton("level editor", new Vector2(200, 450)));
-            buttons.Add(new MenuButton("options", new Vector2(200, 500)));
-            buttons.Add(new MenuButton("exit game", new Vector2(200, 550)));
+            buttons.Add(new MenuButton("Select level", new Vector2(155, 800), 0, 38));
+            buttons.Add(new MenuButton("How to Play", new Vector2(190, 860), 0, 38));
+            buttons.Add(new MenuButton("level editor", new Vector2(225, 920), 0, 38));
+            buttons.Add(new MenuButton("exit game", new Vector2(260, 980), 0, 38));
+            //buttons.Add(new MenuButton("options", new Vector2(200, 500)));
 
             activeButton = 0;
             currentButton = buttons.ElementAt(activeButton);
@@ -44,6 +48,13 @@ namespace MoonCow
             scale = (float)game.GraphicsDevice.Viewport.Bounds.Width / 1920.0f;
             buttonSwitchCooldown = 0;
             holdTime = 0;
+            menuCircle = new MenuCircle();
+            time = 0;
+
+            foreach (MenuButton b in buttons)
+            {
+                b.push(true,true,true);
+            }
         }
 
         void confirm()
@@ -66,9 +77,6 @@ namespace MoonCow
                     game.Components.Remove(this);
                     break;
                 case 3:
-                    // options
-                    break;
-                case 4:
                     game.Exit();
                     break;
                 default:
@@ -78,6 +86,11 @@ namespace MoonCow
                     game.Components.Remove(this);
                     break;
             }
+        }
+
+        void updateBg()
+        {
+            MenuAssets.updateLinePos();
         }
 
         public override void Update(GameTime gameTime)
@@ -98,11 +111,12 @@ namespace MoonCow
             bool buttonPressed = false;
 
             if (buttonSwitchCooldown > 0)
+            {
                 buttonSwitchCooldown -= Utilities.deltaTime;
-
+            }
             if (buttonSwitchCooldown <= 0)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.Down) || stickY < -0.3f)
+                if (Keyboard.GetState().IsKeyDown(Keys.Down) || stickY < -0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadDown))
                 {
                     buttonPressed = true;
                     currentButton.disable();
@@ -116,8 +130,9 @@ namespace MoonCow
                     }
                     currentButton = buttons.ElementAt(activeButton);
                     currentButton.activate();
+                    menuCircle.downHit();
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f)
+                if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadUp))
                 {
                     buttonPressed = true;
                     currentButton.disable();
@@ -131,6 +146,7 @@ namespace MoonCow
                     }
                     currentButton = buttons.ElementAt(activeButton);
                     currentButton.activate();
+                    menuCircle.upHit();
                 }
             }
 
@@ -151,6 +167,21 @@ namespace MoonCow
             {
                 holdTime = 0;
             }
+
+            foreach(MenuButton b in buttons)
+            {
+                b.Update();
+            }
+
+            updateBg();
+            menuCircle.Update();
+
+            if(time != 1)
+            {
+                time += Utilities.deltaTime;
+                if (time > 1)
+                    time = 1;
+            }
         }
 
         void drawLoading()
@@ -160,6 +191,7 @@ namespace MoonCow
         }
         void drawMenu()
         {
+            
             foreach (MenuButton b in buttons)
             {
                 b.Draw(sb);
@@ -174,6 +206,10 @@ namespace MoonCow
             {
                 if (!loading)
                 {
+                    MenuAssets.drawMenuBackground(sb);
+                    menuCircle.Draw(sb);
+                    sb.Draw(MenuAssets.logo, Utilities.scaledRect(new Vector2(40, 40), 1138, 297), Color.White * MathHelper.SmoothStep(0,1,time));
+                    sb.Draw(MenuAssets.border, Utilities.scaledRect(new Vector2(40, 550), 900, 500), Color.White * MathHelper.SmoothStep(0, 1, time));
                     drawMenu();
                 }
                 else
@@ -183,6 +219,7 @@ namespace MoonCow
             }
             else
             {
+                MenuAssets.drawMenuBackground(sb);
                 //draw the tutorial.
             }
             

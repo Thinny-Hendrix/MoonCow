@@ -80,6 +80,7 @@ namespace MoonCow
             game.GraphicsDevice.SetRenderTarget(barTarg);
             game.GraphicsDevice.Clear(hud.blueBody);
             spB.Begin();
+            spB.Draw(TextureManager.pureWhite, new Rectangle(0, 0, 272, 16), hud.outline);
             spB.Draw(TextureManager.pureWhite, new Rectangle(0, 0, (int)Math.Ceiling(272*scale), 16), c);
             spB.End();
 
