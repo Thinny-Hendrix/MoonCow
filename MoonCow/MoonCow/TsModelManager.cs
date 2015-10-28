@@ -45,6 +45,7 @@ namespace MoonCow
             solid.Add(new TsModel(0));
             solid.Add(new TsModel(1));
             solid.Add(new TsModel(2));
+            solid.Add(new TsModel(3));
         }
 
         public void Update()

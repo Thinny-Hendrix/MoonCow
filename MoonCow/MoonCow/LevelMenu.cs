@@ -121,6 +121,8 @@ namespace MoonCow
 
             if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed) && cooldown <= 0)
             {
+                if(!loading)
+                    game.audioManager.addSoundEffect(AudioLibrary.select, 0.1f);
                 confirm();
             }
 
@@ -152,7 +154,7 @@ namespace MoonCow
                         {
                             b.push(true, false, false);
                         }
-                        
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     }
                 }
 
@@ -177,6 +179,7 @@ namespace MoonCow
                         {
                             b.push(false, true, true);
                         }
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     }
                 }
             }
@@ -199,6 +202,7 @@ namespace MoonCow
                         }
                         currentButton = campaignButtons.ElementAt(activeButton);
                         currentButton.activate();
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     }
                     if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadUp))
                     {
@@ -214,6 +218,7 @@ namespace MoonCow
                         }
                         currentButton = campaignButtons.ElementAt(activeButton);
                         currentButton.activate();
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     }
                 }
                 else
@@ -232,6 +237,7 @@ namespace MoonCow
                         }
                         currentButton = customButtons.ElementAt(activeButton);
                         currentButton.activate();
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     }
                     if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadUp))
                     {
@@ -247,6 +253,7 @@ namespace MoonCow
                         }
                         currentButton = customButtons.ElementAt(activeButton);
                         currentButton.activate();
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     }
                 }
             }
@@ -287,8 +294,7 @@ namespace MoonCow
 
         void drawLoading()
         {
-            sb.Draw(MenuAssets.pureWhite, Utilities.scaledRect(Utilities.scaledCoords(300,400),500*game.loadPercentage,40), Color.Red);
-            sb.Draw(MenuAssets.load, Utilities.scaledCoords(300, 700), Color.White);
+            sb.Draw(MenuAssets.load, Utilities.scaledRect(new Vector2(950,720), 900,300), Color.White);
         }
         void drawMenu()
         {

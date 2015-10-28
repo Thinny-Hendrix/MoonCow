@@ -47,7 +47,7 @@ namespace MoonCow
             activeAttack = new Attack(game, this, attackCount);
             attacks.Add(activeAttack);
 
-            waitTime = 30;
+            waitTime = 120;
         }
 
         //  The next wave is created when the wave before it is killed, in this way the wave data exists during the waiting time for statistics about upcoming wave to be accessed and displayed

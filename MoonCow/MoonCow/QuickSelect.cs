@@ -53,8 +53,8 @@ namespace MoonCow
 
         bool selecting;
         int selectedWep;
-        enum QsWheel { Four, Five}
-        QsWheel qsWheel = QsWheel.Five;
+        public enum QsWheel { Four, Five}
+        public QsWheel qsWheel = QsWheel.Four;
 
         SpriteFont font;
         RenderTarget2D targ1;

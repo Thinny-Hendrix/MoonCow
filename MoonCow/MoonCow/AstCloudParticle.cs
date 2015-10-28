@@ -52,26 +52,29 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            if (type == 1)
+            if (!Utilities.softPaused && !Utilities.paused)
             {
-                pos += dir * speed * Utilities.deltaTime;
-                speed *= 59 * Utilities.deltaTime;
-                fScale *= 59 * Utilities.deltaTime;
-            }
-            else
-            {
-                fScale -= Utilities.deltaTime / 10;
-            }
+                if (type == 1)
+                {
+                    pos += dir * speed * Utilities.deltaTime;
+                    speed *= 59 * Utilities.deltaTime;
+                    fScale *= 59 * Utilities.deltaTime;
+                }
+                else
+                {
+                    fScale -= Utilities.deltaTime / 10;
+                }
 
-            time += Utilities.deltaTime;
+                time += Utilities.deltaTime;
 
-            if(time > 0.5f)
-            {
-                alpha -= Utilities.deltaTime;
+                if (time > 0.5f)
+                {
+                    alpha -= Utilities.deltaTime;
+                }
+
+                if (alpha <= 0)
+                    game.modelManager.toDeleteModel(this);
             }
-
-            if (alpha <= 0)
-                game.modelManager.toDeleteModel(this);
 
         }
 

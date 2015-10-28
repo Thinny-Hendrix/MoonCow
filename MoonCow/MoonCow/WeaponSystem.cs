@@ -45,7 +45,7 @@ namespace MoonCow
 
             activeWeapon = (Weapon)weapons.ElementAt(2);
 
-            hasDrill = true;
+            hasDrill = false;
 
 
         }
@@ -124,6 +124,7 @@ namespace MoonCow
         {
             hasDrill = true;
             changeWeapons(4);
+            game.hud.quickSelect.qsWheel = QuickSelect.QsWheel.Five;
         }
 
         public void changeWeapons(int wep)

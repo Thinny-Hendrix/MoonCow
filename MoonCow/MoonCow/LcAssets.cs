@@ -11,12 +11,23 @@ namespace MoonCow
     {
         public static SpriteFont font;
 
+        public static Texture2D border;
+        public static Texture2D box;
+        public static Texture2D save0;
+        public static Texture2D save1;
+        public static Texture2D save2;
+        public static Texture2D saved;
+
         public static Texture2D t1;
         public static Texture2D t2;
         public static Texture2D t3;
         public static Texture2D t4;
         public static Texture2D t5;
         public static Texture2D t6;
+        public static Texture2D t7;
+        public static Texture2D t8;
+        public static Texture2D t9;
+        public static Texture2D t10;
         public static Texture2D t11;
         public static Texture2D t12;
         public static Texture2D t13;
@@ -78,12 +89,23 @@ namespace MoonCow
 
             font = game.Content.Load<SpriteFont>(@"Hud/Venera40");
 
+            border = game.Content.Load<Texture2D>(@"MapEditor/lcBorder");
+            box = game.Content.Load<Texture2D>(@"MapEditor/lcBox");
+            save0 = game.Content.Load<Texture2D>(@"MapEditor/lcSave0");
+            save1 = game.Content.Load<Texture2D>(@"MapEditor/lcSave1");
+            save2 = game.Content.Load<Texture2D>(@"MapEditor/lcSave2");
+            saved = game.Content.Load<Texture2D>(@"MapEditor/lcSaved");
+
             t1 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/1");
             t2 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/2");
             t3 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/3");
             t4 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/4");
             t5 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/5");
             t6 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/6");
+            t7 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/7");
+            t8 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/8");
+            t9 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/9");
+            t10 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/10");
             t11 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/11");
             t12 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/12");
             t13 = game.Content.Load<Texture2D>(@"MapEditor/Tiles/13");

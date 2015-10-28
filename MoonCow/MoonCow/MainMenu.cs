@@ -100,12 +100,17 @@ namespace MoonCow
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
             {
-                confirm();
+                if (!tutorial)
+                {
+                    confirm();
+                    game.audioManager.addSoundEffect(AudioLibrary.select, 0.1f);
+                }
             }
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Escape) && tutorial)
+            if(tutorial && (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.B)))
             {
                 tutorial = false;
+                game.audioManager.addSoundEffect(AudioLibrary.back, 0.1f);
             }
 
             bool buttonPressed = false;
@@ -114,7 +119,7 @@ namespace MoonCow
             {
                 buttonSwitchCooldown -= Utilities.deltaTime;
             }
-            if (buttonSwitchCooldown <= 0)
+            if (!tutorial && buttonSwitchCooldown <= 0)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Down) || stickY < -0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadDown))
                 {
@@ -131,6 +136,7 @@ namespace MoonCow
                     currentButton = buttons.ElementAt(activeButton);
                     currentButton.activate();
                     menuCircle.downHit();
+                    game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Up) || stickY > 0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadUp))
                 {
@@ -147,6 +153,7 @@ namespace MoonCow
                     currentButton = buttons.ElementAt(activeButton);
                     currentButton.activate();
                     menuCircle.upHit();
+                    game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                 }
             }
 

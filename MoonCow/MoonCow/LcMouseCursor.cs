@@ -489,8 +489,14 @@ namespace MoonCow
 
             if(levelCreator.saveButton.bounds.checkPoint(pos))
             {
+                levelCreator.saveButton.activate();
+
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     levelCreator.saveButton.onClick();
+            }
+            else
+            {
+                levelCreator.saveButton.disable();
             }
 
             collided = false;

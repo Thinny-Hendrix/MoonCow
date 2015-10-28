@@ -33,6 +33,11 @@ namespace MoonCow
         //sentry
         public static SoundEffect sentryHit0;
 
+        //menu sounds
+        public static SoundEffect back;
+        public static SoundEffect hover;
+        public static SoundEffect select;
+
         public static void initialize(Game game)
         {
             //background music
@@ -55,6 +60,11 @@ namespace MoonCow
             bombExplode = game.Content.Load<SoundEffect>(@"Audio/SFX/Bomb Explode");
             laserHit = game.Content.Load<SoundEffect>(@"Audio/SFX/LaserHit");
             zap = game.Content.Load<SoundEffect>(@"Audio/SFX/Zap");
+
+
+            back = game.Content.Load<SoundEffect>(@"Audio/Menu/Menu Back");
+            hover = game.Content.Load<SoundEffect>(@"Audio/Menu/Menu Hover");
+            select = game.Content.Load<SoundEffect>(@"Audio/Menu/Menu Select");
 
             //sentry
             //sentryHit0 = game.Content.Load<SoundEffect>(@"Audio/SFX/Enemies/Sentry/sentHit1");

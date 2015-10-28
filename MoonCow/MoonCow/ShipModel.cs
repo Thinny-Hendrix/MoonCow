@@ -30,21 +30,24 @@ namespace MoonCow
         }
         public override void Update(GameTime gameTime)
         {
+            
             pos = ship.pos;
             rot = ship.rot;
-            //rot.Y = -rot.Y + MathHelper.PiOver2;
+                //rot.Y = -rot.Y + MathHelper.PiOver2;
                 //rot = Vector3.Transform(ship.direction, Matrix.CreateFromAxisAngle(Vector3.Up, ship.rot.Y));
+            if (!Utilities.paused && !Utilities.softPaused)
+            {
+                texPos.Y += Utilities.deltaTime * 256;
+                if (texPos.Y > 1024)
+                    texPos.Y -= 1024;
 
-            texPos.Y += Utilities.deltaTime * 256;
-            if (texPos.Y > 1024)
-                texPos.Y -= 1024;
-
-            game.GraphicsDevice.SetRenderTarget(rTarg);
-            sb.Begin();
-            sb.Draw(TextureManager.screenPulse, new Rectangle((int)texPos.X, (int)texPos.Y, 512, 1024), Color.White);
-            sb.Draw(TextureManager.screenPulse, new Rectangle((int)texPos.X, (int)texPos.Y-1024, 512, 1024), Color.White);
-            sb.End();
-            game.GraphicsDevice.SetRenderTarget(null);
+                game.GraphicsDevice.SetRenderTarget(rTarg);
+                sb.Begin();
+                sb.Draw(TextureManager.screenPulse, new Rectangle((int)texPos.X, (int)texPos.Y, 512, 1024), Color.White);
+                sb.Draw(TextureManager.screenPulse, new Rectangle((int)texPos.X, (int)texPos.Y - 1024, 512, 1024), Color.White);
+                sb.End();
+                game.GraphicsDevice.SetRenderTarget(null);
+            }
         }
 
         public void setShipModel(int i)

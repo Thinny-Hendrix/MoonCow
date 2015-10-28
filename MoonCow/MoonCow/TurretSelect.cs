@@ -167,7 +167,7 @@ namespace MoonCow
                     {
                         selectedWep = 0;
                         selecting = true;
-                        modelManager.changeVisible(0);
+                        modelManager.changeVisible(3);
                     }
                 }
 

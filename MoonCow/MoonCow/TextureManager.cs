@@ -364,7 +364,7 @@ namespace MoonCow
 
             //ship
             ship = game.Content.Load<Texture2D>(@"Models/Ship/shipDt");
-            screenPulse = game.Content.Load<Texture2D>(@"Models/Ship/screenpulse2");
+            screenPulse = game.Content.Load<Texture2D>(@"Models/Ship/screenpulse3");
 
 
 

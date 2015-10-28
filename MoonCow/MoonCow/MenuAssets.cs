@@ -58,7 +58,7 @@ namespace MoonCow
             pureWhite.SetData(new Color[] { Color.White });
 
             font = game.Content.Load<SpriteFont>(@"Hud/Venera40");
-            load = game.Content.Load<Texture2D>(@"Hud/Menu/load");
+            load = game.Content.Load<Texture2D>(@"Hud/Menu/loading");
 
             bg = game.Content.Load<Texture2D>(@"Hud/Menu/bg1");
             bgHex = game.Content.Load<Texture2D>(@"Hud/Menu/hexbg50");

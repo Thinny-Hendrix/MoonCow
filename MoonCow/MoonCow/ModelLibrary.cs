@@ -51,6 +51,7 @@ namespace MoonCow
         public static Model turretPyro;
         public static Model turretElec;
         public static Model turretHolo;
+        public static Model xSymb;
 
         //Enemies
         public static Model swarmer;
@@ -166,6 +167,7 @@ namespace MoonCow
             turretPyro = game.Content.Load<Model>(@"Models/Turrets/pyroTurret");
             turretElec = game.Content.Load<Model>(@"Models/Turrets/electroTurret");
             turretHolo = game.Content.Load<Model>(@"Models/Turrets/turrHolo");
+            xSymb = game.Content.Load<Model>(@"Models/Turrets/xSymb");
 
 
 

@@ -30,10 +30,22 @@ namespace MoonCow
                 case 2:
                     model = ModelLibrary.turretElec;
                     break;
+                case 3:
+                    model = ModelLibrary.xSymb;
+                    break;
             }
             this.type = type;
-            pos = Vector3.Zero;
-            scale = new Vector3(1f);
+
+            if (type != 3)
+            {
+                pos = Vector3.Zero;
+                scale = new Vector3(1f);
+            }
+            else
+            {
+                pos = new Vector3(0,2.5f,0);
+                scale = new Vector3(0.3f);
+            }
             active = false;
         }
 

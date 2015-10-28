@@ -74,7 +74,7 @@ namespace MoonCow
                         for (int i = 0; i < lc.height; i++)
                         {
                             //tiles.Add(new List<LcTilePlace>());
-                            tempPos.X = 100;
+                            tempPos.X = 90;
                             for (int j = 0; j < lc.width; j++)
                             {
                                 if(j < oldWidth)
@@ -125,7 +125,7 @@ namespace MoonCow
                         for (int i = 0; i < lc.height; i++)
                         {
                             //tiles.Add(new List<LcTilePlace>());
-                            tempPos.X = 100;
+                            tempPos.X = 90;
                             for (int j = 0; j < lc.width; j++)
                             {
                                 if(i < oldHeight)

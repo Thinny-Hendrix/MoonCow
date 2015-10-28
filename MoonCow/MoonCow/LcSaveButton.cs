@@ -22,20 +22,35 @@ namespace MoonCow
             this.pos = pos;
             this.game = game;
             this.lc = lc;
-            bounds = new AABB(pos, 30, 30);
-            setTex();
+            bounds = new AABB(pos, 188, 71);
+            checkTex();
         }
 
         public void activate()
         {
             highlighted = true;
-            setHiTex();
+            //setHiTex();
         }
 
         public void disable()
         {
             highlighted = false;
-            setHiTex();
+            //setHiTex();
+        }
+
+        public void checkTex()
+        {
+            if(lc.textFields.ElementAt(0).text.Length > 0 && lc.textFields.ElementAt(1).text.Length > 0)
+            {
+                if (highlighted)
+                    tex = LcAssets.save2;
+                else
+                    tex = LcAssets.save1;
+            }
+            else
+            {
+                tex = LcAssets.save0;
+            }
         }
 
         void setHiTex()
@@ -56,8 +71,8 @@ namespace MoonCow
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(tex, pos, Color.White);
-            if (highlighted)
-                sb.Draw(hiTex, new Rectangle((int)pos.X, (int)pos.Y, tex.Bounds.Width, tex.Bounds.Height), Color.White);
+            /*if (highlighted)
+                sb.Draw(hiTex, new Rectangle((int)pos.X, (int)pos.Y, tex.Bounds.Width, tex.Bounds.Height), Color.White);*/
         }
     }
 }

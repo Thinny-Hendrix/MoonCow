@@ -54,16 +54,19 @@ namespace MoonCow
 
         public override void Update(GameTime gameTime)
         {
-            pos += dir * speed * Utilities.deltaTime;
-            rot += rotDir * 5 * Utilities.deltaTime;
-
-            time += Utilities.deltaTime;
-
-            fScale = MathHelper.Lerp(initScale, 0, time);
-
-            if(fScale <= 0)
+            if (!Utilities.paused && !Utilities.softPaused)
             {
-                game.modelManager.toDeleteObject(this);
+                pos += dir * speed * Utilities.deltaTime;
+                rot += rotDir * 5 * Utilities.deltaTime;
+
+                time += Utilities.deltaTime;
+
+                fScale = MathHelper.Lerp(initScale, 0, time);
+
+                if (fScale <= 0)
+                {
+                    game.modelManager.toDeleteObject(this);
+                }
             }
         }
 
