@@ -192,6 +192,7 @@ namespace MoonCow
 
             if (collided)
             {
+                game.camera.setYShake(type * 0.07f);
                 if (!hasHit)
                 {
                     game.levelStats.wavesHit++;

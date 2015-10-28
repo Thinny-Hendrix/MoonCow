@@ -554,9 +554,9 @@ namespace MoonCow
         {
             if (damage > 5)
             {
-                animIndex = enemyModel.activeIndex;
                 if (state != State.strongHit)
                 {
+                    animIndex = enemyModel.activeIndex;
                     prevState = state;
 
                     if (state != State.goToBase)

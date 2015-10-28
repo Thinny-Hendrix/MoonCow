@@ -63,7 +63,7 @@ namespace MoonCow
                 shipSpaceEngine.Play();
 
                 shipMetallicWallHit.Volume = 0.5f;
-                shipMetallicWallScrape.Volume = 0.5f;
+                shipMetallicWallScrape.Volume = 0.4f;
                 shipShootLaser.Volume = 0.1f;
                 shipShootLaser2.Volume = 0.1f;
                 shipShootBomb.Volume = 1f;
@@ -100,6 +100,11 @@ namespace MoonCow
         public void addSoundEffect(SoundEffect e, float vol)
         {
             soundEffects.Add(new DisposableSoundEffect(e.CreateInstance(), vol, sToDelete));
+        }
+
+        public void addSoundEffect(SoundEffect e, float vol, float pitch)
+        {
+            soundEffects.Add(new DisposableSoundEffect(e.CreateInstance(), vol, sToDelete, pitch));
         }
 
         public override void Update(GameTime gameTime)

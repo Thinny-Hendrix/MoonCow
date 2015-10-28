@@ -20,6 +20,16 @@ namespace MoonCow
             instance.Play();
         }
 
+        public DisposableSoundEffect(SoundEffectInstance instance, float volume, List<DisposableSoundEffect> toDelete, float pitch)
+        {
+            this.instance = instance;
+            this.toDelete = toDelete;
+            instance.IsLooped = false;
+            instance.Volume = volume;
+            instance.Pitch = pitch;
+            instance.Play();
+        }
+
         public void Update()
         {
             if(instance.State == SoundState.Stopped)

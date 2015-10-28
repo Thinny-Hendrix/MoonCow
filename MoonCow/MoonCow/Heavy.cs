@@ -434,9 +434,9 @@ namespace MoonCow
         {
             if(damage > 20)
             {
-                animIndex = enemyModel.activeIndex;
                 if (state != State.strongHit)
                 {
+                    animIndex = enemyModel.activeIndex;
                     prevState = state;
                     if (prevState == State.travelAttack)
                     {
@@ -459,8 +459,9 @@ namespace MoonCow
 
             game.ship.moneyManager.makeMoney(500, 3, pos);
 
-            if (Utilities.random.Next(5) == 0)
-                game.ship.moneyManager.addAmmoGib(pos);
+            game.ship.moneyManager.addAmmoGib(pos);
+            game.ship.moneyManager.addAmmoGib(pos);
+
 
             if(coreSpot != null)
                 game.core.releaseHeavySpot(coreSpot);

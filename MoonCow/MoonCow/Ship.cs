@@ -841,8 +841,13 @@ namespace MoonCow
             if (!justHitWall)  //plays the wallHit noise only if a collision is occurring
             {
                 justHitWall = true;
-                game.audioManager.shipMetallicWallHit.Stop();
-                game.audioManager.shipMetallicWallHit.Play();
+                if (moveSpeed > 0.1f)
+                {
+                    /*
+                    game.audioManager.shipMetallicWallHit.Stop();
+                    game.audioManager.shipMetallicWallHit.Play();*/
+                    game.audioManager.addSoundEffect(AudioLibrary.shipMetallicWallHit, 0.4f);
+                }
             }
             if (moveSpeed > 0.1f)
             {

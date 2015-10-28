@@ -525,11 +525,13 @@ namespace MoonCow
 
         public override void damage(float damage)
         {
-            if (damage > 5)
+            if (damage > 10)
             {
-                animIndex = enemyModel.activeIndex;
-                if(state != State.strongHit)
+                if (state != State.strongHit)
+                {
+                    animIndex = enemyModel.activeIndex;
                     prevState = state;
+                }
                 state = State.strongHit;
                 waitTime = 0.916f;
                 enemyModel.changeAnim(4);
@@ -548,7 +550,7 @@ namespace MoonCow
             if (coreSpot != null)
                 coreSpot.taken = false;
 
-            if (Utilities.random.Next(9) == 0)
+            if (Utilities.random.Next(6) == 0)
                 game.ship.moneyManager.addAmmoGib(pos);
 
             enemyModel.Dispose();

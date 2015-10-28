@@ -164,29 +164,57 @@ namespace MoonCow
                 if (!selecting && angle != 0)
                     selecting = true;
 
-                if(angle > MathHelper.PiOver2)
+                if (angle > MathHelper.PiOver2)
+                {
+                    if(selectedWep != 0)
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     selectedWep = 0;
+                }
 
                 if (angle > 0 && angle < MathHelper.PiOver2)
+                {
+                    if (selectedWep != 2)
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     selectedWep = 2;
+                }
 
                 if (qsWheel == QsWheel.Five)
                 {
                     if (angle < -(MathHelper.Pi / 3) * 2)
+                    {
+                        if (selectedWep != 1)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 1;
+                    }
                     if (angle < 0 && angle > -MathHelper.Pi / 3)
+                    {
+                        if (selectedWep != 3)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 3;
+                    }
 
                     if (angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2)
+                    {
+                        if (selectedWep != 4)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 4;
+                    }
                 }
                 else
                 {
                     if (angle < -MathHelper.PiOver2)
+                    {
+                        if (selectedWep != 1)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 1;
+                    }
 
                     if (angle < 0 && angle > -MathHelper.PiOver2)
+                    {
+                        if (selectedWep != 3)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 3;
+                    }
                 }
 
                 changeImgs();

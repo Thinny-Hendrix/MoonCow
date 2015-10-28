@@ -194,16 +194,20 @@ namespace MoonCow
         {
             moneyManager.addMoney(value);
             moneyManager.toDelete.Add(this);
+            float pitch = 0;
             if (moneyManager.collected <= 1)
             {
                 game.audioManager.shipCollectMoney.Pitch = moneyManager.collected;
+                pitch = moneyManager.collected;
             }
             else
             {
                 game.audioManager.shipCollectMoney.Pitch = 1f;
-            }
+                pitch = 1;
+            }/*
             game.audioManager.shipCollectMoney.Stop();
-            game.audioManager.shipCollectMoney.Play();
+            game.audioManager.shipCollectMoney.Play();*/
+            game.audioManager.addSoundEffect(AudioLibrary.shipCollectMoney, 0.5f, pitch);
             moneyManager.collected += 0.05f;
             game.modelManager.removeEffect(glow);
             glow.Dispose();

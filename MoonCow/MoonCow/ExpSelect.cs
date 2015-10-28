@@ -112,24 +112,32 @@ namespace MoonCow
 
                 if (angle > MathHelper.PiOver2 || Keyboard.GetState().IsKeyDown(Keys.D1))
                 {
+                    if (selectedWep != 0)
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     selectedWep = 0;
                     selecting = true;
                 }
 
                 if (angle > 0 && angle < MathHelper.PiOver2 || Keyboard.GetState().IsKeyDown(Keys.D2))
                 {
+                    if (selectedWep != 2)
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     selectedWep = 2;
                     selecting = true;
                 }
 
                 if (angle < -MathHelper.PiOver2 || Keyboard.GetState().IsKeyDown(Keys.D3))
                 {
+                    if (selectedWep != 1)
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     selectedWep = 1;
                     selecting = true;
                 }
 
                 if (angle < 0 && angle > -MathHelper.PiOver2 || Keyboard.GetState().IsKeyDown(Keys.D4))
                 {
+                    if (selectedWep != 3)
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                     selectedWep = 3;
                     selecting = true;
                 }
@@ -143,6 +151,7 @@ namespace MoonCow
                 if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
                     //yHold = 0;
+                    game.audioManager.addSoundEffect(AudioLibrary.select, 0.1f);
                     Utilities.softPaused = false;
                     active = false;
                     selecting = false;

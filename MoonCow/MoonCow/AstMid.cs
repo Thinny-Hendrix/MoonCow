@@ -41,7 +41,8 @@ namespace MoonCow
                 manager.addAsteroid(new AstSmall(pos + (dir * -2), game));
                 if (Utilities.random.Next(6) == 0)
                 {
-                    game.ship.moneyManager.addGib(20, pos);
+                    game.ship.moneyManager.addOreGib(20, pos, 0);
+                    game.ship.moneyManager.addOreGib(20, pos, 0);
                 }
             }
             else

@@ -142,6 +142,8 @@ namespace MoonCow
                 {
                     if (angle < -(MathHelper.Pi / 3) * 2 || Keyboard.GetState().IsKeyDown(Keys.D1))
                     {
+                        if (selectedWep != 1)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 1;
                         selecting = true;
                         modelManager.changeVisible(0);
@@ -149,6 +151,8 @@ namespace MoonCow
 
                     if ((angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2) || Keyboard.GetState().IsKeyDown(Keys.D2))
                     {
+                        if (selectedWep != 2)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 2;
                         selecting = true;
                         modelManager.changeVisible(1);
@@ -156,6 +160,8 @@ namespace MoonCow
 
                     if ((angle < 0 && angle > -MathHelper.Pi / 3) || Keyboard.GetState().IsKeyDown(Keys.D3))
                     {
+                        if (selectedWep != 3)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 3;
                         selecting = true;
                         modelManager.changeVisible(2);
@@ -165,6 +171,8 @@ namespace MoonCow
                 {
                     if ((angle < -MathHelper.Pi / 3 && angle > -(MathHelper.Pi / 3) * 2) || Keyboard.GetState().IsKeyDown(Keys.D1))
                     {
+                        if (selectedWep != 0)
+                            game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
                         selectedWep = 0;
                         selecting = true;
                         modelManager.changeVisible(3);
@@ -194,6 +202,7 @@ namespace MoonCow
                     //yHold = 0;
                     if (activeTurr.setTurret(selectedWep))
                     {
+                        game.audioManager.addSoundEffect(AudioLibrary.select, 0.1f);
                         Utilities.softPaused = false;
                         active = false;
                         selecting = false;
@@ -212,6 +221,7 @@ namespace MoonCow
 
         void abort()
         {
+            game.audioManager.addSoundEffect(AudioLibrary.back, 0.1f);
             active = false;
             Utilities.softPaused = false;
             selecting = false;
