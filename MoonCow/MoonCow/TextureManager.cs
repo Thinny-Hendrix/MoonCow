@@ -249,7 +249,7 @@ namespace MoonCow
 
             //ast field
             skyBox2 = game.Content.Load<Texture2D>(@"Models/Misc/Skybox/skybox6");
-            ast1 = game.Content.Load<Texture2D>(@"Models/AstField/ast1tex_0");
+            ast1 = game.Content.Load<Texture2D>(@"Models/AstField/ast1Tex_0");
             astCloud1 = game.Content.Load<Texture2D>(@"Models/AstField/astCloud");
             astCloud2 = game.Content.Load<Texture2D>(@"Models/AstField/astCloud2");
 

@@ -92,6 +92,7 @@ namespace MoonCow
                 {
                     manager.miss();
                     manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
+                    manager.playSound(0);
                 }
                 else if (dist > 100)
                 {
@@ -100,6 +101,7 @@ namespace MoonCow
                     manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
                     manager.hit(5);
                     manager.addMessage("okay");
+                    manager.playSound(1);
                 }
                 else if (dist > 75)
                 {
@@ -108,6 +110,7 @@ namespace MoonCow
                     manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
                     manager.hit(10);
                     manager.addMessage("good");
+                    manager.playSound(1);
                 }
                 else if (dist > 40)
                 {
@@ -116,6 +119,7 @@ namespace MoonCow
                     manager.addParticle(new SpDot(pos, manager.speed / 500, manager.screen.pToDelete), 1);
                     manager.hit(15);
                     manager.addMessage("great");
+                    manager.playSound(1);
                 }
                 else //dist <= 40
                 {
@@ -125,6 +129,7 @@ namespace MoonCow
                     manager.addParticle(new SpDot(goalCol.centre, manager.speed / 500, manager.screen.pToDelete), 1);
                     manager.hit(25);
                     manager.addMessage("perfect!");
+                    manager.playSound(2);
                 }
                 manager.mToDelete.Add(this);
             }

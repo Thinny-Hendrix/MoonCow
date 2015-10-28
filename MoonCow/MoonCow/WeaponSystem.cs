@@ -125,6 +125,7 @@ namespace MoonCow
             hasDrill = true;
             changeWeapons(4);
             game.hud.quickSelect.qsWheel = QuickSelect.QsWheel.Five;
+            game.levelStats.gotDrill = true;
         }
 
         public void changeWeapons(int wep)

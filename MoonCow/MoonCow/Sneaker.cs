@@ -86,7 +86,7 @@ namespace MoonCow
             agroSphere = new CircleCollider(new Vector2(pos.X, pos.Z), 15);
             meleeCol = new CircleCollider(pos, 2);
 
-            health = 35;
+            health = 60;
             pathTimer = 10;
 
             cols.Add(new CircleCollider(pos, 0.7f));
@@ -444,17 +444,20 @@ namespace MoonCow
         {
             if (state != State.chargePlayer && state != State.attackCore)
             {
-                if (damage > 5)
+                if (damage > 10)
                 {
-                    if (state == State.chargePlayer || state == State.noticedPlayer || state == State.coolDown)
+                    if (state != State.strongHit)
                     {
-                        prevState = State.goToBase;
-                        animIndex = 0;
-                    }
-                    else
-                    {
-                        prevState = state;
-                        animIndex = enemyModel.activeIndex;
+                        if (state == State.chargePlayer || state == State.noticedPlayer || state == State.coolDown)
+                        {
+                            prevState = State.goToBase;
+                            animIndex = 0;
+                        }
+                        else
+                        {
+                            prevState = state;
+                            animIndex = enemyModel.activeIndex;
+                        }
                     }
 
                     state = State.strongHit;

@@ -176,10 +176,14 @@ namespace MoonCow
                 manager.normSpeed += 100;
                 maxBeats += 2;
                 maxDubs = (int)Math.Floor((float)maxBeats / 2);
+                game.levelStats.mgAttempts++;
+                game.levelStats.mgSuccess++;
             }
             if(!win)
             {
-                manager.normSpeed -= 15;
+                game.levelStats.mgAttempts++;
+                if (manager.normSpeed > 400)
+                    manager.normSpeed -= 15;
             }
 
         }

@@ -171,7 +171,7 @@ namespace MoonCow
                             s.damage(damage, dir * -1);
 
                         wep.addExp(5);
-
+                        collided = true;
                     }
                 }
             }
@@ -185,6 +185,7 @@ namespace MoonCow
                         aHitList.Add(a);
                         a.damage(damage, pos);
                         wep.addExp(damage);
+                        collided = true;
                     }
                 }
             }

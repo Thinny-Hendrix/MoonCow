@@ -135,6 +135,28 @@ namespace MoonCow
             return closest;
         }
 
+        public void playSound(int type)
+        {
+            if(type == 0)
+            {
+                game.audioManager.addSoundEffect(AudioLibrary.miss, 1f);
+            }
+            else
+            {
+                if(markerCount != markerMax)
+                {
+                    if(type == 1)
+                        game.audioManager.addSoundEffect(AudioLibrary.okay, 1f);
+                    else
+                        game.audioManager.addSoundEffect(AudioLibrary.perfect, 1f);
+                }
+                else
+                {
+                    game.audioManager.addSoundEffect(AudioLibrary.end, 1f);
+                }
+            }
+        }
+
         public void Update()
         {
             if(markerCount < markerMax)

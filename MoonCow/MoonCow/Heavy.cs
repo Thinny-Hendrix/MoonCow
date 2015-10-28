@@ -432,14 +432,17 @@ namespace MoonCow
         }
         public override void damage(float damage)
         {
-            if(damage > 10)
+            if(damage > 20)
             {
                 animIndex = enemyModel.activeIndex;
-                prevState = state;
-                if(prevState == State.travelAttack)
+                if (state != State.strongHit)
                 {
-                    prevState = State.goToBase;
-                    animIndex = 0;
+                    prevState = state;
+                    if (prevState == State.travelAttack)
+                    {
+                        prevState = State.goToBase;
+                        animIndex = 0;
+                    }
                 }
                 state = State.strongHit;
                 waitTime = 0.875f;

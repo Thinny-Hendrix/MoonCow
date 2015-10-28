@@ -15,18 +15,28 @@ namespace MoonCow
         Hud hud;
         Game1 game;
         float time;
+        float maxScale;
         public HudZoom(Hud hud, Game1 game)
         {
             this.hud = hud;
             this.game = game;
             alpha = 0;
+            maxScale = 0.1f;
         }
 
+        public void activate(int type, float maxScale)
+        {
+            alpha = 0.5f;
+            active = true;
+            time = 0;
+            this.maxScale = maxScale;
+        }
         public void activate(int type)
         {
             alpha = 0.5f;
             active = true;
             time = 0;
+            maxScale = 0.1f;
         }
 
         public void Update()
@@ -38,7 +48,7 @@ namespace MoonCow
                 {
                     active = false;
                 }
-                scale = MathHelper.Lerp(.1f, 0, time);
+                scale = MathHelper.Lerp(maxScale, 0, time);
                 alpha = MathHelper.SmoothStep(0.5f, 0, time);
             }
         }

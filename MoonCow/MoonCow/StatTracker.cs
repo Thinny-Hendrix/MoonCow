@@ -10,6 +10,8 @@ namespace MoonCow
     {
         public float laserShotsFired { get; set; }
         public float laserShotsHit { get; set; }
+        public float astShotsFired { get; set; }
+        public float astShotsHit { get; set; }
         public float bombsFired { get; set; }
         public float bombsHit { get; set; }
         public float wavesFired { get; set; }
@@ -23,6 +25,10 @@ namespace MoonCow
         public int flamers { get; set; }
         public int electrics { get; set; }
 
+        public bool gotDrill;
+
+        public float mgAttempts;
+        public float mgSuccess;
 
         public StatTracker()
         {
@@ -33,6 +39,8 @@ namespace MoonCow
         {
             laserShotsFired = 0;
             laserShotsHit = 0;
+            astShotsFired = 0;
+            astShotsHit = 0;
             bombsFired = 0;
             bombsHit = 0;
             wavesFired = 0;
@@ -44,6 +52,8 @@ namespace MoonCow
             gatlings = 0;
             flamers = 0;
             electrics = 0;
+
+            gotDrill = false;
         }
     }
 }

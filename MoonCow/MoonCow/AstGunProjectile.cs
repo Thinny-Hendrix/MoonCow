@@ -137,6 +137,7 @@ namespace MoonCow
                             enemy.health -= damage*0.5f;
                             //game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
+                            game.levelStats.astShotsHit++;
                         }
                     }
                 }
@@ -159,6 +160,7 @@ namespace MoonCow
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
                             wep.addExp(damage);
+                            game.levelStats.astShotsHit++;
                         }
                     }
                 }
@@ -181,6 +183,7 @@ namespace MoonCow
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
                             wep.addExp(damage/4);
+                            game.levelStats.astShotsHit++;
                         }
                     }
                 }

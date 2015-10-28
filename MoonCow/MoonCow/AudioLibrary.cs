@@ -38,6 +38,12 @@ namespace MoonCow
         public static SoundEffect hover;
         public static SoundEffect select;
 
+        //minigame
+        public static SoundEffect miss;
+        public static SoundEffect okay;
+        public static SoundEffect perfect;
+        public static SoundEffect end;
+
         public static void initialize(Game game)
         {
             //background music
@@ -65,6 +71,12 @@ namespace MoonCow
             back = game.Content.Load<SoundEffect>(@"Audio/Menu/Menu Back");
             hover = game.Content.Load<SoundEffect>(@"Audio/Menu/Menu Hover");
             select = game.Content.Load<SoundEffect>(@"Audio/Menu/Menu Select");
+
+            //minigame
+            miss = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/miss");
+            okay = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/okay");
+            perfect = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/perfect");
+            end = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/end");
 
             //sentry
             //sentryHit0 = game.Content.Load<SoundEffect>(@"Audio/SFX/Enemies/Sentry/sentHit1");

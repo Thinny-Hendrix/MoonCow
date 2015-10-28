@@ -95,13 +95,13 @@ namespace MoonCow
                         default:
                             break;
                         case 1:
-                            game.ship.moneyManager.addMoney(gattPrice);
+                            game.ship.moneyManager.refund(gattPrice);
                             break;
                         case 2:
-                            game.ship.moneyManager.addMoney(pyroPrice);
+                            game.ship.moneyManager.refund(pyroPrice);
                             break;
                         case 3:
-                            game.ship.moneyManager.addMoney(elecPrice);
+                            game.ship.moneyManager.refund(elecPrice);
                             break;
                     }
 

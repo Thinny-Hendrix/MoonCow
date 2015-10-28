@@ -84,6 +84,19 @@ namespace MoonCow
                 display = false;
         }
 
+        public void refund(float amount)
+        {
+            difference += amount;
+            balance += amount;
+            changing = true;
+            game.hud.hudMoney.Wake();
+            moneyTransTime = 0;
+            displayTime = 0;
+            prevMoney = displayNo;
+
+            game.levelStats.moneySpent -= amount;
+        }
+
         public void addMoney(float amount)
         {
             difference += amount;

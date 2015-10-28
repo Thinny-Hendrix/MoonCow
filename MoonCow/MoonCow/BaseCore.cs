@@ -355,7 +355,7 @@ namespace MoonCow
                 {
                     time += Utilities.deltaTime;
 
-                    if(time > 2)
+                    if(time > 4.5f)
                     {
                         splode = true;
                         model.visible = false;

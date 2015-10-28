@@ -176,6 +176,7 @@ namespace MoonCow
                             a.damage(damage, pos);
                             game.modelManager.addEffect(new ImpactParticleModel(game, pos));
                             collided = true;
+                            game.levelStats.laserShotsHit++;
                         }
                     }
                 }

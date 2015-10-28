@@ -82,7 +82,7 @@ namespace MoonCow
             meleeCol = new CircleCollider(pos + direction, 2);
             cols.Add(new CircleCollider(pos, 0.6f));
 
-            health = 20;
+            health = 30;
 
             spawnEffect();
 
@@ -528,7 +528,8 @@ namespace MoonCow
             if (damage > 5)
             {
                 animIndex = enemyModel.activeIndex;
-                prevState = state;
+                if(state != State.strongHit)
+                    prevState = state;
                 state = State.strongHit;
                 waitTime = 0.916f;
                 enemyModel.changeAnim(4);

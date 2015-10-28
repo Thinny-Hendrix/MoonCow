@@ -134,7 +134,7 @@ namespace MoonCow
                         }
                         else
                         {
-                            game.hud.hudZoom.activate(0);
+                            game.hud.hudZoom.activate(0,0.2f);
                             for (int i = 0; i < 30; i++)
                             {
                                 game.modelManager.addEffect(new ElectroDir(pos, c1, c2, game));
@@ -239,6 +239,7 @@ namespace MoonCow
 
                         wep.addExp(damage);
 
+                        collided = true;
                     }
                 }
             }
@@ -252,6 +253,7 @@ namespace MoonCow
                         aHitList.Add(a);
                         a.damage(damage, pos);
                         wep.addExp(damage);
+                        collided = true;
                     }
                 }
             }
