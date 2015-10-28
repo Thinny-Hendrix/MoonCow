@@ -54,24 +54,34 @@ namespace MoonCow
                     tex = LcAssets.t1;
                     break;
                 case 2:
+                case 62:
                     tex = LcAssets.t2;
                     break;
 
                 case 3:
-                case 7:
                     tex = LcAssets.t3;
                     break;
                 case 4:
-                case 8:
                     tex = LcAssets.t4;
                     break;
                 case 5:
-                case 9:
                     tex = LcAssets.t5;
                     break;
                 case 6:
-                case 10:
                     tex = LcAssets.t6;
+                    break;
+
+                case 7:
+                    tex = LcAssets.t7;
+                    break;
+                case 8:
+                    tex = LcAssets.t8;
+                    break;
+                case 9:
+                    tex = LcAssets.t9;
+                    break;
+                case 10:
+                    tex = LcAssets.t10;
                     break;
 
                 case 11:

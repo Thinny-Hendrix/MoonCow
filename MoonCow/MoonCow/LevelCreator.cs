@@ -50,6 +50,8 @@ namespace MoonCow
 
             topPos = new Vector2(90, 140);
 
+            //loadFile();
+            
             Vector2 tempPos = topPos;
             for(int i = 0; i < height; i++)
             {
@@ -64,6 +66,28 @@ namespace MoonCow
                 tempPos.Y += 30;
             }
             game.IsMouseVisible = true;
+        }
+
+        void loadFile()
+        {
+            MapData m = new MapData(@"Content/MapXml/Custom/pac-man.xml");
+
+            width = m.getWidth();
+            height = m.getLength();
+            tileArray = new LcTilePlace[height, width];
+
+            Vector2 tempPos = topPos;
+            for (int i = 0; i < height; i++)
+            {
+                //tiles.Add(new List<LcTilePlace>());
+                tempPos.X = 90;
+                for (int j = 0; j < width; j++)
+                {
+                    tileArray[i, j] = new LcTilePlace(game, tempPos, new Vector2(j, i), m.map[j,i]);
+                    tempPos.X += 30;
+                }
+                tempPos.Y += 30;
+            }
         }
 
         void initTextFields()

@@ -21,6 +21,22 @@ namespace MoonCow
         public bool selected;
         public bool activeCol;
 
+        public LcTilePlace(Game1 game, Vector2 pos, Vector2 coord, int type)
+        {
+            this.pos = pos;
+            this.coord = coord;
+            tex = LcAssets.back;
+            bounds = new AABB(pos, 30, 30);
+
+
+            this.type = type;
+            //type = Utilities.random.Next(60);
+            setTex();
+            highlighted = false;
+            setHiTex();
+            activeCol = true;
+        }
+
         public LcTilePlace(Game1 game, Vector2 pos, Vector2 coord)
         {
             this.pos = pos;
@@ -158,24 +174,34 @@ namespace MoonCow
                     tex = LcAssets.t1;
                     break;
                 case 2:
+                case 62:
                     tex = LcAssets.t2;
                     break;
 
                 case 3:
-                case 7:
                     tex = LcAssets.t3;
                     break;
                 case 4:
-                case 8:
                     tex = LcAssets.t4;
                     break;
                 case 5:
-                case 9:
                     tex = LcAssets.t5;
                     break;
                 case 6:
-                case 10:
                     tex = LcAssets.t6;
+                    break;
+
+                case 7:
+                    tex = LcAssets.t7;
+                    break;
+                case 8:
+                    tex = LcAssets.t8;
+                    break;
+                case 9:
+                    tex = LcAssets.t9;
+                    break;
+                case 10:
+                    tex = LcAssets.t10;
                     break;
 
                 case 11:

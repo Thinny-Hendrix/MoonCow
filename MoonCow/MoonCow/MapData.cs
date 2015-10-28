@@ -15,7 +15,7 @@ namespace MoonCow
         String creator;
         int width;
         int length;
-        int[,] map;
+        public int[,] map;
         String fileName;
 
         public MapData(String fileName)
