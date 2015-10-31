@@ -46,22 +46,25 @@ namespace MoonCow
 
         public override void Draw(SpriteBatch sb)
         {
-            game.GraphicsDevice.BlendState = BlendState.Additive;
-            sb.Draw(hudStatB, hud.scaledRect(statPos, 276, 105), Color.White);
-            sb.Draw(hudStatF, hud.scaledRect(statPos, 276, 105), Color.White);
-
-            if (game.waveManager.spawnState != Utilities.SpawnState.deploying)
+            if (!game.camera.endGame)
             {
-                sb.DrawString(font, gameState, hud.scaledCoords(statNamePos), hud.contSecondary, 0,
-                    new Vector2(font.MeasureString(gameState).X / 2, font.MeasureString(gameState).Y / 2), hud.scale * (20.0f / 40), SpriteEffects.None, 0);
+                game.GraphicsDevice.BlendState = BlendState.Additive;
+                sb.Draw(hudStatB, hud.scaledRect(statPos, 276, 105), Color.White);
+                sb.Draw(hudStatF, hud.scaledRect(statPos, 276, 105), Color.White);
 
-                sb.DrawString(font, stateTimer, hud.scaledCoords(statTimePos), Color.White, 0,
-                    new Vector2(font.MeasureString(stateTimer).X / 2, font.MeasureString(stateTimer).Y / 2), hud.scale * (32.0f / 40), SpriteEffects.None, 0);
-            }
-            else
-            {
-                sb.DrawString(font, gameState, hud.scaledCoords(new Vector2(180,992)), Color.White, 0,
-                    new Vector2(font.MeasureString(gameState).X / 2, font.MeasureString(gameState).Y / 2), hud.scale * (24.0f / 40), SpriteEffects.None, 0);
+                if (game.waveManager.spawnState != Utilities.SpawnState.deploying)
+                {
+                    sb.DrawString(font, gameState, hud.scaledCoords(statNamePos), hud.contSecondary, 0,
+                        new Vector2(font.MeasureString(gameState).X / 2, font.MeasureString(gameState).Y / 2), hud.scale * (20.0f / 40), SpriteEffects.None, 0);
+
+                    sb.DrawString(font, stateTimer, hud.scaledCoords(statTimePos), Color.White, 0,
+                        new Vector2(font.MeasureString(stateTimer).X / 2, font.MeasureString(stateTimer).Y / 2), hud.scale * (32.0f / 40), SpriteEffects.None, 0);
+                }
+                else
+                {
+                    sb.DrawString(font, gameState, hud.scaledCoords(new Vector2(180, 992)), Color.White, 0,
+                        new Vector2(font.MeasureString(gameState).X / 2, font.MeasureString(gameState).Y / 2), hud.scale * (24.0f / 40), SpriteEffects.None, 0);
+                }
             }
         }
 

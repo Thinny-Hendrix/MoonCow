@@ -9,7 +9,7 @@ namespace MoonCow
     class MgKey
     {
         Buttons dPad;
-        Vector2 leftStick;
+        //Vector2 leftStick;
         float stickAxis;
         float stickThresh;
         Keys wasd;

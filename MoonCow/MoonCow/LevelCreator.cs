@@ -68,9 +68,12 @@ namespace MoonCow
             game.IsMouseVisible = true;
         }
 
+        /// <summary>
+        /// used for editing levels that are already made. Not a front end feature
+        /// </summary>
         void loadFile()
         {
-            MapData m = new MapData(@"Content/MapXml/Custom/pac-man.xml");
+            MapData m = new MapData(@"Content/MapXml/Custom/level 3.xml");
 
             width = m.getWidth();
             height = m.getLength();

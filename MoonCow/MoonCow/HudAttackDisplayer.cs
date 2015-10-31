@@ -324,26 +324,28 @@ namespace MoonCow
 
         public void Draw()
         {
-            sb.Begin();
-
-            if (displayMessage && !hud.quickSelect.active && !hud.expSelect.active && !hud.turSelect.active)
+            if (!game.camera.endGame)
             {
-                if (messageType == MessageType.start)
-                    drawStartMessage();
-                if (messageType == MessageType.end)
-                    drawEndMessage();
-            }
-
-            if (messageType == MessageType.start)//if the attack hasn't ended yet
-            {
-                if ((!hud.quickSelect.active && displayMessage) || !displayMessage)
+                sb.Begin();
+                if (displayMessage && !hud.quickSelect.active && !hud.expSelect.active && !hud.turSelect.active)
                 {
-                    drawWarn();
-                    foreach (HudWave w in waveDisplays)
-                        w.Draw(sb);
+                    if (messageType == MessageType.start)
+                        drawStartMessage();
+                    if (messageType == MessageType.end)
+                        drawEndMessage();
                 }
+
+                if (messageType == MessageType.start)//if the attack hasn't ended yet
+                {
+                    if ((!hud.quickSelect.active && displayMessage) || !displayMessage)
+                    {
+                        drawWarn();
+                        foreach (HudWave w in waveDisplays)
+                            w.Draw(sb);
+                    }
+                }
+                sb.End();
             }
-            sb.End();
         }
 
 

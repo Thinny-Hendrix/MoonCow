@@ -122,7 +122,7 @@ namespace MoonCow
 
         public void draw(SpriteBatch sb)
         {
-            if (active)
+            if (active && !game.camera.endGame)
             {
                 sb.Begin();
                 if (state < 5 && state > -1)

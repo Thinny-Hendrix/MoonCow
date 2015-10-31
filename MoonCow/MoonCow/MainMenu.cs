@@ -24,9 +24,12 @@ namespace MoonCow
         bool loading;
         bool tutorial;
 
+        bool prevSelectState;
+
         float time;
 
         MenuCircle menuCircle;
+        int htpIndex;
 
         public MainMenu(Game1 game):base(game)
         {
@@ -38,7 +41,7 @@ namespace MoonCow
             //buttons.Add(new MenuButton("start game", new Vector2(200, 300)));
             buttons.Add(new MenuButton("Select level", new Vector2(155, 800), 0, 38));
             buttons.Add(new MenuButton("How to Play", new Vector2(190, 860), 0, 38));
-            buttons.Add(new MenuButton("level editor", new Vector2(225, 920), 0, 38));
+            buttons.Add(new MenuButton("level creator", new Vector2(225, 920), 0, 38));
             buttons.Add(new MenuButton("exit game", new Vector2(260, 980), 0, 38));
             //buttons.Add(new MenuButton("options", new Vector2(200, 500)));
 
@@ -69,6 +72,8 @@ namespace MoonCow
                     break;
                 case 1:
                     tutorial = true;
+                    htpIndex = 0;
+                    buttonSwitchCooldown = 0.1f;
                     break;
                 case 2:
                     loading = true;
@@ -97,6 +102,7 @@ namespace MoonCow
         {
 
             float stickY = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y;
+            float stickX = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
             {
@@ -105,11 +111,45 @@ namespace MoonCow
                     confirm();
                     game.audioManager.addSoundEffect(AudioLibrary.select, 0.1f);
                 }
+                else
+                {/*
+                    if(buttonSwitchCooldown <= 0)
+                    {
+                        game.audioManager.addSoundEffect(AudioLibrary.select, 0.1f);
+                        htpIndex++;
+                        buttonSwitchCooldown = 0.5f;
+                        if(htpIndex >= 3)
+                        {
+                            tutorial = false;
+                        }
+                    }*/
+                }
+            }
+
+            if(tutorial)
+            {
+                if (buttonSwitchCooldown <= 0)
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.Left) || stickX < -0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadLeft))
+                    {
+                        htpIndex = (htpIndex - 1 + 3) % 3;
+                        buttonSwitchCooldown = 0.2f;
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Right) || stickX > 0.3f || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadRight))
+                    {
+                        htpIndex = (htpIndex + 1 + 3) % 3;
+                        buttonSwitchCooldown = 0.2f;
+                        game.audioManager.addSoundEffect(AudioLibrary.hover, 0.1f);
+                    }
+                    
+                }
             }
 
             if(tutorial && (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.B)))
             {
                 tutorial = false;
+                htpIndex = 0;
                 game.audioManager.addSoundEffect(AudioLibrary.back, 0.1f);
             }
 
@@ -227,6 +267,7 @@ namespace MoonCow
             else
             {
                 MenuAssets.drawMenuBackground(sb);
+                sb.Draw(MenuAssets.htp.ElementAt(htpIndex), Utilities.scaledRect(Vector2.Zero, 1920, 1080), Color.White);
                 //draw the tutorial.
             }
             

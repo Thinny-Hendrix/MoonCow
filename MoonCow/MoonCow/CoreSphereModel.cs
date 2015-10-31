@@ -12,7 +12,7 @@ namespace MoonCow
         Vector3 direction;
         float offset;
         Game game;
-        float time;
+        //float time;
         RenderTarget2D rTarg;
         RenderTarget2D rTarg2;
         Texture2D rBow;
@@ -33,6 +33,7 @@ namespace MoonCow
             this.pos = pos;
             //this.pos.Y -= 4.5f;
             scale = new Vector3(100, 100, 100);
+            direction = Vector3.Zero;
             offset = -2;
 
             texPos1 = new Vector2(0, 0);

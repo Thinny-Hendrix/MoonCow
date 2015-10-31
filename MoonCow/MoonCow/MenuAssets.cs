@@ -45,6 +45,7 @@ namespace MoonCow
         public static Texture2D statBack;
         public static Texture2D statHead;
         public static Texture2D statLoop;
+        public static List<Texture2D> htp = new List<Texture2D>();
 
 
         public static void Initialize(Game1 game)
@@ -88,6 +89,9 @@ namespace MoonCow
             statHead = game.Content.Load<Texture2D>(@"Hud/Menu/statHead");
             statLoop = game.Content.Load<Texture2D>(@"Hud/Menu/statLoop");
 
+            htp.Add(game.Content.Load<Texture2D>(@"Hud/Menu/htp1"));
+            htp.Add(game.Content.Load<Texture2D>(@"Hud/Menu/htp2"));
+            htp.Add(game.Content.Load<Texture2D>(@"Hud/Menu/htp3"));
         }
 
         public static void updateLinePos()

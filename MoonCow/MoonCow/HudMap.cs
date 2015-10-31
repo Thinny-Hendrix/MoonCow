@@ -111,21 +111,24 @@ namespace MoonCow
 
         public override void Draw(SpriteBatch sb)
         {
-            game.GraphicsDevice.BlendState = BlendState.Additive;
-            if (bigMap)
-                sb.Draw(minimap.displayMap, hud.scaledRect(new Vector2(960, 540), minimap.map.Bounds.Width, minimap.map.Bounds.Height),
-                    null, Color.White * 0.8f, 0, new Vector2(minimap.map.Bounds.Width / 2, minimap.map.Bounds.Height / 2), SpriteEffects.None, 0);
-            else
+            if (!game.camera.endGame)
             {
+                game.GraphicsDevice.BlendState = BlendState.Additive;
+                if (bigMap)
+                    sb.Draw(minimap.displayMap, hud.scaledRect(new Vector2(960, 540), minimap.map.Bounds.Width, minimap.map.Bounds.Height),
+                        null, Color.White * 0.8f, 0, new Vector2(minimap.map.Bounds.Width / 2, minimap.map.Bounds.Height / 2), SpriteEffects.None, 0);
+                else
+                {
 
 
-                sb.Draw(hudMapF, hud.scaledRect(mapPos, 402, 283), Color.White);
-                //sb.Draw((Texture2D)rTarg, hud.scaledRect(Vector2.Zero, 402, 283), Color.White);
-                sb.Draw((Texture2D)rTarg, hud.scaledRect(mapPos,402,283), Color.White);
-                //sb.Draw(minimap.displayMap, hud.scaledRect(new Vector2(1675, 930), minimap.map.Bounds.Width, minimap.map.Bounds.Height), null, Color.White, -minimap.shipRot, minimap.shipPos, SpriteEffects.None, 1);
-                sb.Draw(hudMapB, hud.scaledRect(mapPos, 402, 283), Color.White);
-                /*sb.DrawString(font, coreHealth, hud.scaledCoords(new Vector2(1750, 1030)), hud.redBody, 0,
-                    new Vector2(font.MeasureString(coreHealth).X, font.MeasureString(coreHealth).Y / 2), hud.scale * (16.0f / 40), SpriteEffects.None, 0);*/
+                    sb.Draw(hudMapF, hud.scaledRect(mapPos, 402, 283), Color.White);
+                    //sb.Draw((Texture2D)rTarg, hud.scaledRect(Vector2.Zero, 402, 283), Color.White);
+                    sb.Draw((Texture2D)rTarg, hud.scaledRect(mapPos, 402, 283), Color.White);
+                    //sb.Draw(minimap.displayMap, hud.scaledRect(new Vector2(1675, 930), minimap.map.Bounds.Width, minimap.map.Bounds.Height), null, Color.White, -minimap.shipRot, minimap.shipPos, SpriteEffects.None, 1);
+                    sb.Draw(hudMapB, hud.scaledRect(mapPos, 402, 283), Color.White);
+                    /*sb.DrawString(font, coreHealth, hud.scaledCoords(new Vector2(1750, 1030)), hud.redBody, 0,
+                        new Vector2(font.MeasureString(coreHealth).X, font.MeasureString(coreHealth).Y / 2), hud.scale * (16.0f / 40), SpriteEffects.None, 0);*/
+                }
             }
 
         }

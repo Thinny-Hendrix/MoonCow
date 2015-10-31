@@ -26,9 +26,13 @@ namespace MoonCow
 
         public void setAmmoMessage(Weapon wep, float count)
         {
-            message = "Got " + count + " " + wep.name + " " + wep.ammoName;
-            if (count > 1 && !wep.name.Contains("bomb"))
-                message += "s";
+            message = "Got " + count + " " + wep.name;
+            if(!wep.name.Contains("bomb"))
+            {
+                message += " " + wep.ammoName;
+                if (count > 1)
+                    message += "s";
+            }
             message += "!";
 
             wakeTime = 0;

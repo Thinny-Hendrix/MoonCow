@@ -10,7 +10,7 @@ namespace MoonCow
     class DotParticle:BasicModel
     {
         Vector3 direction;
-        float distance;
+        //float distance;
         float fScale;
         Texture2D tex;
         Game1 game;

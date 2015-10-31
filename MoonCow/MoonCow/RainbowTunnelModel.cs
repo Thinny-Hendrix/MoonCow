@@ -14,7 +14,7 @@ namespace MoonCow
         Ship ship;
         float offset;
         Game game;
-        float time;
+        //float time;
         RenderTarget2D rTarg;
         Texture2D rBow;
         Vector2 texPos1;

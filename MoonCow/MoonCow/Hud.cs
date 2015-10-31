@@ -175,9 +175,9 @@ namespace MoonCow
                     flashTime = 15;
             }
 
-
+            /*
             if (Keyboard.GetState().IsKeyDown(Keys.Y))
-                makeFlash();
+                makeFlash();*/
 
             quickSelect.Update();
 

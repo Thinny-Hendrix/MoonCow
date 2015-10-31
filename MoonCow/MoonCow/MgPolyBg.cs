@@ -9,7 +9,7 @@ namespace MoonCow
 {
     public class MgPolyBg:MgModel
     {
-        float time;
+        //float time;
         public MgPolyBg():base()
         {
             model = ModelLibrary.mgBgPoly;
