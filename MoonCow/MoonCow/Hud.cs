@@ -281,6 +281,7 @@ namespace MoonCow
             backgroundRectangle.X = (int)position.X - 5;
             backgroundRectangle.Y = (int)position.Y - 5;
 
+            /*
             Texture2D dummyTexture = new Texture2D(graphicsDevice, 1, 1);
             dummyTexture.SetData(new Color[] { myTransparentColor });
             graphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -300,11 +301,12 @@ namespace MoonCow
                // spriteBatch.Draw((Texture2D)game.minigame.manager.rTarg, scaledRect(new Vector2(960, 540), 1024, 1024), null, Color.White, 0, new Vector2(512), SpriteEffects.None, 0);
 
             spriteBatch.End();
+            */
 
             graphicsDevice.BlendState = BlendState.Opaque;
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-            dummyTexture.Dispose();
+            //dummyTexture.Dispose();
         }
 
         public void startBoost()
