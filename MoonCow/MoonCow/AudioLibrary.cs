@@ -31,12 +31,20 @@ namespace MoonCow
         public static SoundEffect zap;
 
         //sentry
-        public static SoundEffect sentryHit0;
+        public static SoundEffect sentHit;
+        public static SoundEffect sentShock;
+        public static SoundEffect sentScream;
 
         //menu sounds
         public static SoundEffect back;
         public static SoundEffect hover;
         public static SoundEffect select;
+        public static SoundEffect placeChip;
+        public static SoundEffect itemCollect;
+        public static SoundEffect mgGo;
+        public static SoundEffect mgCount;
+        public static SoundEffect consoleActivate;
+        public static SoundEffect pyroTurret;
 
         //minigame
         public static SoundEffect miss;
@@ -77,9 +85,18 @@ namespace MoonCow
             okay = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/okay");
             perfect = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/perfect");
             end = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/end");
+            itemCollect = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/itemCollect");
+            placeChip = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/placeChip");
+            mgCount = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/mgCount");
+            mgGo = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/mgGo");
+            consoleActivate = game.Content.Load<SoundEffect>(@"Audio/SFX/Minigame/activate");
+            pyroTurret = game.Content.Load<SoundEffect>(@"Audio/SFX/fireSound");
+
 
             //sentry
-            //sentryHit0 = game.Content.Load<SoundEffect>(@"Audio/SFX/Enemies/Sentry/sentHit1");
+            sentHit = game.Content.Load<SoundEffect>(@"Audio/SFX/Enemies/Sentry/sentHit");
+            sentScream = game.Content.Load<SoundEffect>(@"Audio/SFX/Enemies/Sentry/sentScream");
+            sentShock = game.Content.Load<SoundEffect>(@"Audio/SFX/Enemies/Sentry/sentShock");
 
         }
     }

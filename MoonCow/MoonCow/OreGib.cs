@@ -101,6 +101,7 @@ namespace MoonCow
         {
             moneyManager.addMoney(value);
             moneyManager.toDelete.Add(this);
+            game.modelManager.toDeleteObject(this);
             float pitch = 0;
             if (moneyManager.collected <= 1)
             {
@@ -116,8 +117,8 @@ namespace MoonCow
             game.audioManager.shipCollectMoney.Play();*/
             game.audioManager.addSoundEffect(AudioLibrary.shipCollectMoney, 0.5f, pitch);
             moneyManager.collected += 0.05f;
-            game.modelManager.removeEffect(glow);
             glow.Dispose();
+            game.modelManager.removeEffect(glow);
             for (int i = 0; i < 4; i++ )
                 ship.particles.addMoneyParticle(color);
             collected = true;

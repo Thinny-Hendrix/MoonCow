@@ -70,8 +70,9 @@ namespace MoonCow
             {
                 setTarget();
 
+                xAngle = Utilities.tdTan(pos+new Vector3(0,1,0), target.pos);
                 yAngle = (float)Math.Atan2(pos.X - target.pos.X, pos.Z - target.pos.Z);
-                xAngle = (float)Math.Atan2(pos.Y - target.pos.Y, pos.Z - target.pos.Z);
+                //xAngle = (float)Math.Atan2(pos.Y - target.pos.Y, pos.Z - target.pos.Z);
                 setTargetDir();
                 /*
                 targetDir.X = pos.X - target.pos.X;
@@ -98,6 +99,14 @@ namespace MoonCow
                     if(cooldown <= 0)
                     {
                         activeTime = 1;
+                        float vol = Vector3.Distance(pos, game.ship.pos) / 90f;
+                        float sendVol = MathHelper.Lerp(1f, 0, vol);
+                        if (sendVol < 0)
+                            sendVol = 0;
+                        else if (sendVol > 1f)
+                            sendVol = 1f;
+
+                        game.audioManager.addSoundEffect(AudioLibrary.pyroTurret, sendVol);
                     }
                 }
 
@@ -115,7 +124,7 @@ namespace MoonCow
         {
             targetDir.X = (float)Math.Sin(yAngle);
             targetDir.Z = (float)Math.Cos(yAngle);
-            targetDir.Y = -(float)Math.Sin(xAngle);
+            targetDir.Y = (float)Math.Sin(xAngle);
             targetDir.Normalize();
         }
 

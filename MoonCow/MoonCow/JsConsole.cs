@@ -116,6 +116,10 @@ namespace MoonCow
                         {
                             cardCount += game.hud.hudCollectable.displayCount;
                             game.hud.hudCollectable.releaseCards();
+                            game.audioManager.addSoundEffect(AudioLibrary.placeChip, 1);
+                            game.audioManager.addSoundEffect(AudioLibrary.placeChip, 1);
+                            if (cardCount == 4)
+                                game.audioManager.addSoundEffect(AudioLibrary.consoleActivate, 1);
                         }
                         else
                         {

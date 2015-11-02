@@ -118,6 +118,12 @@ namespace MoonCow
                 game.hud.hudWeapon.Wake();
                 ship.shipModel.setShipModel(4);
             }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && !hasDrill)
+            {
+                gotDrill();
+                game.hud.hudMessage.setTextMessage("cheating is a shallow victory");
+            }
         }
 
         public void gotDrill()
@@ -135,9 +141,13 @@ namespace MoonCow
             ship.shipModel.setShipModel(wep);
 
             if (wep == 4)
+            {
                 activeWeapon.activate();
+            }
             else
+            {
                 weapons.ElementAt(4).disable();
+            }
         }
 
         public void addExp(int i, float exp)

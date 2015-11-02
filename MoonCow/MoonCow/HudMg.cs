@@ -89,6 +89,7 @@ namespace MoonCow
                         alpha = MathHelper.Lerp(1, 0, (time - 0.5f) * 2);
                     if (time >= 1)
                     {
+                        game.audioManager.addSoundEffect(AudioLibrary.mgCount, 1);
                         alpha = 1;
                         state++;
                         updateText();
@@ -115,6 +116,10 @@ namespace MoonCow
                             state++;
                             updateText();
                             time = 0;
+                            if (state == 4)
+                                game.audioManager.addSoundEffect(AudioLibrary.mgGo, 1);
+                            else
+                                game.audioManager.addSoundEffect(AudioLibrary.mgCount, 1);
                         }
                         else
                             reset();

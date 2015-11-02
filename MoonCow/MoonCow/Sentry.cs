@@ -94,6 +94,7 @@ namespace MoonCow
 
                 if (ship.alive && shipInRange() && wakeRange.checkPoint(ship.pos))
                 {
+                    game.audioManager.addSoundEffect(AudioLibrary.sentShock, 1f);
                     state = State.wake;
                     model.wake();
                     prevCannon = cannonDir;
@@ -276,6 +277,10 @@ namespace MoonCow
         void fire()
         {
             manager.projectiles.Add(new SentryProjectile(pos, targetDir*-1, game, this));
+            if (sleepRange.checkCircle(game.ship.circleCol))
+            {
+                game.audioManager.addSoundEffect(AudioLibrary.laserHit, 0.4f);
+            }
         }
 
         bool shipInRange()
@@ -296,6 +301,8 @@ namespace MoonCow
                 state = State.knockBack;
                 knockDir = dir + col.directionFrom(game.ship.pos);
                 knockDir.Normalize();
+                game.audioManager.addSoundEffect(AudioLibrary.sentScream, 1f);
+                game.audioManager.addSoundEffect(AudioLibrary.shipMetallicWallHit, 0.4f);
             }
             else
             {
@@ -309,6 +316,7 @@ namespace MoonCow
                 model.hit(dir);
                 shockTime = 0;
                 model.wake();
+                game.audioManager.addSoundEffect(AudioLibrary.sentHit, 1f);
             }
             triggeredTele = false;
             cooldownTime = 2;
@@ -327,7 +335,7 @@ namespace MoonCow
             triggeredTele = false;
             cooldownTime = 2;
 
-            game.audioManager.addSoundEffect(AudioLibrary.shipMetallicWallHit, 0.1f);
+            game.audioManager.addSoundEffect(AudioLibrary.sentHit, 1f);
         }
 
         void checkCollisions()
@@ -402,6 +410,7 @@ namespace MoonCow
                 ship.moneyManager.addGib(20, pos, -1);
 
             game.ship.moneyManager.addAmmoGib(pos);
+            game.audioManager.addSoundEffect(AudioLibrary.bombExplode, 0.9f);
         }
     }
 }

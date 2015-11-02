@@ -58,6 +58,7 @@ namespace MoonCow
 
         float damagePotential;
         public bool alive;
+        float timeSinceHit;
 
         //Debugging stuff
         private Vector2 lastNodePos;
@@ -174,6 +175,8 @@ namespace MoonCow
 
                 //checkFinishingMove();
 
+                if (timeSinceHit > 0)
+                    timeSinceHit -= Utilities.deltaTime;
                 //########### Collision detection and final movement application #########
                 updateMovement();
                 updateDamagePotential();
@@ -841,12 +844,16 @@ namespace MoonCow
             if (!justHitWall)  //plays the wallHit noise only if a collision is occurring
             {
                 justHitWall = true;
-                if (moveSpeed > 0.1f)
+                if ((!weapons.drill.active && moving && moveSpeed > 0.1f) || (!moving && moveSpeed > 0.15f))
                 {
                     /*
                     game.audioManager.shipMetallicWallHit.Stop();
                     game.audioManager.shipMetallicWallHit.Play();*/
-                    game.audioManager.addSoundEffect(AudioLibrary.shipMetallicWallHit, 0.4f);
+                    if (timeSinceHit <= 0)
+                    {
+                        game.audioManager.addSoundEffect(AudioLibrary.shipMetallicWallHit, 0.4f);
+                        timeSinceHit = 0.5f;
+                    }
                 }
             }
             if (moveSpeed > 0.1f)

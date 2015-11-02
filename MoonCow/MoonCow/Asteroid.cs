@@ -176,6 +176,7 @@ namespace MoonCow
             //either create new asteroids, create money or both
             game.modelManager.removeObject(model);
             manager.addToDelete(this);
+            game.audioManager.addSoundEffect(AudioLibrary.bombExplode, 0.9f);
         }
 
         public virtual void updateNodePos()

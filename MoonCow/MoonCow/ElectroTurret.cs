@@ -103,6 +103,15 @@ namespace MoonCow
                 //electroshot needs starting position and enemy
             }
             targets.Clear();
+
+
+            float vol = Vector3.Distance(pos,game.ship.pos) / 90f;
+            float sendVol = MathHelper.Lerp(1f, 0, vol);
+            if (sendVol < 0)
+                sendVol = 0;
+            else if (sendVol > 1f)
+                sendVol = 1f;
+            game.audioManager.addSoundEffect(AudioLibrary.zap, sendVol);
             //projectiles.Add(new GattleProjectile(pos + new Vector3(targetDir.X * -4, 1.5f, targetDir.Z * -4), targetDir*-1, game, this));
         }
 

@@ -377,6 +377,17 @@ namespace MoonCow
             else
                 shotDir = game.core.col.directionFrom(shotPos);
 
+            //if(agroSphere.checkCircle(game.ship.circleCol))
+            {
+                float vol = agroSphere.distFrom(game.ship.pos) / 90f;
+                float sendVol = MathHelper.Lerp(0.4f,0,vol);
+                if (sendVol < 0)
+                    sendVol = 0;
+                else if (sendVol > 0.4f)
+                    sendVol = 0.4f;
+                game.audioManager.addSoundEffect(AudioLibrary.laserHit, sendVol);
+            }
+
 
             game.enemyManager.projectiles.Add(new GunnerProjectile(shotPos, shotDir, game));
         }
@@ -595,6 +606,15 @@ namespace MoonCow
 
             game.modelManager.removeEnemy(enemyModel);
             game.enemyManager.toDelete.Add(this);
+
+            float vol = Vector3.Distance(pos, game.ship.pos) / 90f;
+            float sendVol = MathHelper.Lerp(1f, 0, vol);
+            if (sendVol < 0)
+                sendVol = 0;
+            else if (sendVol > 1f)
+                sendVol = 1f;
+
+            game.audioManager.addSoundEffect(AudioLibrary.bombExplode, sendVol);
         }
 
         void updateMovement()

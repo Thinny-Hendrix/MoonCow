@@ -68,8 +68,9 @@ namespace MoonCow
             {
                 setTarget();
 
+                xAngle = Utilities.tdTan(pos+new Vector3(0,1,0), target.pos);
                 yAngle = (float)Math.Atan2(pos.X - target.pos.X, pos.Z - target.pos.Z);
-                xAngle = (float)Math.Atan2(pos.Y - target.pos.Y, pos.Z - target.pos.Z);
+                //xAngle = (float)Math.Atan2(pos.Y - target.pos.Y, pos.Z - target.pos.Z);
                 setTargetDir();
                 /*
                 targetDir.X = pos.X - target.pos.X;
@@ -95,7 +96,7 @@ namespace MoonCow
         {
             targetDir.X = (float)Math.Sin(yAngle);
             targetDir.Z = (float)Math.Cos(yAngle);
-            targetDir.Y = -(float)Math.Sin(xAngle);
+            targetDir.Y = (float)Math.Sin(xAngle);
             targetDir.Normalize();
         }
 
@@ -123,6 +124,14 @@ namespace MoonCow
             turretModel.fire();
             cooldown = cooldownMax;
             projectiles.Add(new GattleProjectile(pos + new Vector3(targetDir.X * -4, 1.5f, targetDir.Z * -4), targetDir*-1, game, this));
+
+            float vol = Vector3.Distance(pos, game.ship.pos) / 60f;
+            float sendVol = MathHelper.Lerp(0.1f, 0, vol);
+            if (sendVol < 0)
+                sendVol = 0;
+            else if (sendVol > 0.1f)
+                sendVol = 0.1f;
+            game.audioManager.addSoundEffect(AudioLibrary.shipShootLaser, sendVol);
         }
 
         public override void setTarget()

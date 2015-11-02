@@ -37,6 +37,7 @@ namespace MoonCow
 
         public virtual void onCollect()
         {
+            game.audioManager.addSoundEffect(AudioLibrary.itemCollect, 1);
             Dispose();
         }
 

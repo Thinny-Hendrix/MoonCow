@@ -505,6 +505,7 @@ namespace MoonCow
                 state = State.hitByDrill;
                 knockDir = dir + cols.ElementAt(0).directionFrom(game.ship.pos);
                 knockDir.Normalize();
+                game.audioManager.addSoundEffect(AudioLibrary.shipMetallicWallHit, 0.4f);
             }
             else
             {
@@ -556,6 +557,14 @@ namespace MoonCow
             enemyModel.Dispose();
             game.modelManager.removeEnemy(enemyModel);
             game.enemyManager.toDelete.Add(this);
+            float vol = Vector3.Distance(pos, game.ship.pos) / 90f;
+            float sendVol = MathHelper.Lerp(1f, 0, vol);
+            if (sendVol < 0)
+                sendVol = 0;
+            else if (sendVol > 1f)
+                sendVol = 1f;
+
+            game.audioManager.addSoundEffect(AudioLibrary.bombExplode, sendVol);
         }
 
         void checkCollision()

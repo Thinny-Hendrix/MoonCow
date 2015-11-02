@@ -58,7 +58,10 @@ namespace MoonCow
         public override void activate()
         {
             if (!active)
+            {
                 drillSpawnEffect();
+                game.audioManager.addSoundEffect(AudioLibrary.shipShootMissile, 1);
+            }
             active = true;
 
         }
@@ -66,7 +69,10 @@ namespace MoonCow
         public override void disable()
         {
             if (active)
+            {
+                game.audioManager.addSoundEffect(AudioLibrary.shipShootMissile, 1);
                 drillSpawnEffect();
+            }
             active = false;
             drillColliding = false;
         }
@@ -100,12 +106,14 @@ namespace MoonCow
                     checkCollision();
                 else
                 {
+                    game.audioManager.shipDrill.Stop();
                     if (dome.active)
                         dome.disable();
                 }
             }
             else
             {
+                game.audioManager.shipDrill.Stop();
                 if (dome.active)
                     dome.disable();
             }
@@ -258,7 +266,7 @@ namespace MoonCow
                 {
                     cooldown = coolMax;
                     softCooldown = softCoolmax;
-                    base.Fire();
+                    //base.Fire();
                 }
             }
         }
